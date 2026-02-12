@@ -57,8 +57,8 @@ for (const article of articles) {
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Header -->
       <div class="text-center mb-12">
-        <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Help & Documentation</h1>
-        <p class="text-lg text-gray-500 max-w-2xl mx-auto">
+        <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">Help & Documentation</h1>
+        <p class="text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
           Everything you need to know about Old World Rankings — from getting started to advanced features.
         </p>
       </div>
@@ -69,7 +69,7 @@ for (const article of articles) {
           {categories.map((cat) => (
             <a
               href={`#${cat.fields.slug}`}
-              class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gray-200 bg-white text-sm font-medium text-gray-700 hover:border-gray-400 hover:text-gray-900 transition-colors"
+              class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gray-200 bg-white text-sm font-medium text-gray-700 hover:border-gray-400 hover:text-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300 dark:hover:border-gray-500 dark:hover:text-white transition-colors"
             >
               {cat.fields.icon && (
                 <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -90,9 +90,9 @@ for (const article of articles) {
             return (
               <section id={cat.fields.slug} class="scroll-mt-24">
                 <div class="mb-6">
-                  <h2 class="text-2xl font-bold text-gray-900 mb-2">{cat.fields.title}</h2>
+                  <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">{cat.fields.title}</h2>
                   {cat.fields.description && (
-                    <p class="text-gray-500">{cat.fields.description}</p>
+                    <p class="text-gray-500 dark:text-gray-400">{cat.fields.description}</p>
                   )}
                 </div>
 

@@ -21,7 +21,7 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
     'fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b transition-colors',
     transparent
       ? 'bg-black/30 border-white/10'
-      : 'bg-white/80 border-gray-200',
+      : 'bg-white/80 border-gray-200 dark:bg-gray-900/80 dark:border-gray-700',
   ]}
 >
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -33,13 +33,13 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
           alt="Old World Rankings"
           class:list={[
             'w-10 h-10',
-            transparent ? '' : 'invert',
+            transparent ? '' : 'invert dark:invert-0',
           ]}
         />
         <span
           class:list={[
             'font-semibold hidden sm:block',
-            transparent ? 'text-white' : 'text-gray-900',
+            transparent ? 'text-white' : 'text-gray-900 dark:text-white',
           ]}
         >
           Old World Rankings
@@ -55,7 +55,7 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
               'text-sm transition-colors',
               transparent
                 ? 'text-white/70 hover:text-white'
-                : 'text-gray-600 hover:text-gray-900',
+                : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white',
             ]}
           >
             {link.label}
@@ -65,6 +65,28 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
 
       <!-- Desktop right side -->
       <div class="flex items-center gap-4">
+        <!-- Theme toggle -->
+        <button
+          id="theme-toggle"
+          type="button"
+          class:list={[
+            'hidden md:flex items-center justify-center w-9 h-9 rounded-lg transition-colors cursor-pointer',
+            transparent
+              ? 'text-owr-gold hover:bg-white/10'
+              : 'text-owr-gold hover:bg-gray-100 dark:hover:bg-gray-800',
+          ]}
+          aria-label="Toggle theme"
+        >
+          <!-- Sun icon (shown in dark mode) -->
+          <svg id="theme-sun" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+          </svg>
+          <!-- Moon icon (shown in light mode) -->
+          <svg id="theme-moon" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+          </svg>
+        </button>
+
         <!-- Anonymous state (default) -->
         <div id="nav-anonymous" class="hidden md:flex items-center gap-4">
           <a
@@ -73,7 +95,7 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
               'text-sm font-medium transition-colors',
               transparent
                 ? 'text-white/80 hover:text-white'
-                : 'text-gray-600 hover:text-gray-900',
+                : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white',
             ]}
           >
             Sign In
@@ -174,7 +196,7 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
             'md:hidden p-2 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-owr-gold/50',
             transparent
               ? 'text-white hover:bg-white/10'
-              : 'text-gray-700 hover:bg-gray-100',
+              : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800',
           ]}
           aria-label="Open menu"
           aria-expanded="false"
@@ -199,7 +221,7 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
       'hidden md:hidden border-t',
       transparent
         ? 'bg-black/80 border-white/10'
-        : 'bg-white border-gray-200',
+        : 'bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700',
     ]}
   >
     <div class="px-4 py-4 space-y-2">
@@ -210,12 +232,32 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
             'block px-3 py-2 rounded-md text-base font-medium transition-colors',
             transparent
               ? 'text-white/80 hover:text-white hover:bg-white/10'
-              : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50',
+              : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800',
           ]}
         >
           {link.label}
         </a>
       ))}
+
+      <!-- Mobile theme toggle -->
+      <button
+        id="mobile-theme-toggle"
+        type="button"
+        class:list={[
+          'flex items-center gap-3 w-full px-3 py-2 rounded-md text-base font-medium transition-colors cursor-pointer',
+          transparent
+            ? 'text-owr-gold hover:bg-white/10'
+            : 'text-owr-gold hover:bg-gray-50 dark:hover:bg-gray-800',
+        ]}
+      >
+        <svg id="mobile-theme-sun" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+        </svg>
+        <svg id="mobile-theme-moon" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+        </svg>
+        <span id="mobile-theme-label">Toggle theme</span>
+      </button>
 
       <!-- Mobile anonymous -->
       <div id="mobile-anonymous" class="pt-3 border-t border-gray-200/20 space-y-2">
@@ -225,7 +267,7 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
             'block px-3 py-2 rounded-md text-base font-medium transition-colors',
             transparent
               ? 'text-white/80 hover:text-white hover:bg-white/10'
-              : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50',
+              : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800',
           ]}
         >
           Sign In
@@ -246,7 +288,7 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
       <!-- Mobile authenticated (hidden until JS personalises) -->
       <div id="mobile-authenticated" class="hidden pt-3 border-t border-gray-200/20 space-y-1">
         <div class="px-3 py-2">
-          <p id="mobile-user-name" class:list={['text-sm font-semibold', transparent ? 'text-owr-gold' : 'text-gray-900']}></p>
+          <p id="mobile-user-name" class:list={['text-sm font-semibold', transparent ? 'text-owr-gold' : 'text-gray-900 dark:text-white']}></p>
           <p id="mobile-user-email" class="text-xs text-gray-500"></p>
         </div>
         <a
@@ -256,7 +298,7 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
             'block px-3 py-2 rounded-md text-base font-medium transition-colors',
             transparent
               ? 'text-white/80 hover:text-white hover:bg-white/10'
-              : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50',
+              : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800',
           ]}
         >
           Dashboard
@@ -268,7 +310,7 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
             'block px-3 py-2 rounded-md text-base font-medium transition-colors',
             transparent
               ? 'text-white/80 hover:text-white hover:bg-white/10'
-              : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50',
+              : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800',
           ]}
         >
           My Player Profile
@@ -279,7 +321,7 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
             'block px-3 py-2 rounded-md text-base font-medium transition-colors',
             transparent
               ? 'text-white/80 hover:text-white hover:bg-white/10'
-              : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50',
+              : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800',
           ]}
         >
           Profile Settings
@@ -290,7 +332,7 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
             'block px-3 py-2 rounded-md text-base font-medium transition-colors border-t border-gray-200/20 mt-2 pt-2',
             transparent
               ? 'text-white/80 hover:text-white hover:bg-white/10'
-              : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50',
+              : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800',
           ]}
         >
           Log out
@@ -302,6 +344,39 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
 
 <script>
   import { apiFetch, APP_URL, type LandingMe } from '../lib/api';
+
+  // ── Theme toggle ───────────────────────────────────────────────
+  const THEME_KEY = 'owr-theme-preference';
+  const sunIcon = document.getElementById('theme-sun');
+  const moonIcon = document.getElementById('theme-moon');
+  const themeBtn = document.getElementById('theme-toggle');
+  const mobileSunIcon = document.getElementById('mobile-theme-sun');
+  const mobileMoonIcon = document.getElementById('mobile-theme-moon');
+  const mobileThemeBtn = document.getElementById('mobile-theme-toggle');
+  const mobileThemeLabel = document.getElementById('mobile-theme-label');
+
+  function updateThemeIcons() {
+    const isDark = document.documentElement.classList.contains('dark');
+    sunIcon?.classList.toggle('hidden', !isDark);
+    moonIcon?.classList.toggle('hidden', isDark);
+    mobileSunIcon?.classList.toggle('hidden', !isDark);
+    mobileMoonIcon?.classList.toggle('hidden', isDark);
+    if (mobileThemeLabel) mobileThemeLabel.textContent = isDark ? 'Light mode' : 'Dark mode';
+  }
+
+  updateThemeIcons();
+
+  function toggleTheme() {
+    const isDark = document.documentElement.classList.contains('dark');
+    const newTheme = isDark ? 'light' : 'dark';
+    document.documentElement.classList.remove('light', 'dark');
+    document.documentElement.classList.add(newTheme);
+    localStorage.setItem(THEME_KEY, newTheme);
+    updateThemeIcons();
+  }
+
+  themeBtn?.addEventListener('click', toggleTheme);
+  mobileThemeBtn?.addEventListener('click', toggleTheme);
 
   // ── Mobile menu toggle ──────────────────────────────────────────
   const menuBtn = document.getElementById('mobile-menu-btn');

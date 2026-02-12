@@ -46,8 +46,8 @@ for (const entry of entries) {
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Header -->
       <div class="text-center mb-12">
-        <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">What's New</h1>
-        <p class="text-lg text-gray-500 max-w-2xl mx-auto">
+        <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">What's New</h1>
+        <p class="text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
           The latest updates, improvements, and fixes to Old World Rankings.
         </p>
       </div>
@@ -56,7 +56,7 @@ for (const entry of entries) {
         <div class="space-y-12">
           {[...grouped.entries()].map(([monthYear, monthEntries]) => (
             <section>
-              <h2 class="text-lg font-semibold text-gray-900 mb-6 sticky top-20 bg-white py-2 z-10">
+              <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-6 sticky top-20 bg-white dark:bg-gray-900 py-2 z-10">
                 {monthYear}
               </h2>
               <div>

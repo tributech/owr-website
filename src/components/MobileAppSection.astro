@@ -6,40 +6,40 @@ const mobileFeatures = [
 ];
 ---
 
-<section id="mobile" class="bg-white py-16 sm:py-24 scroll-mt-20">
+<section id="mobile" class="bg-white py-16 sm:py-24 scroll-mt-20 dark:bg-gray-900">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
       <!-- Phone mockup -->
       <div class="mb-12 lg:mb-0 flex justify-center">
         <div class="relative">
           <div class="w-64 h-[512px] bg-gray-900 rounded-[3rem] p-3 shadow-2xl">
-            <div class="w-full h-full bg-gray-100 rounded-[2.5rem] overflow-hidden flex flex-col">
+            <div class="w-full h-full bg-gray-100 dark:bg-gray-800 rounded-[2.5rem] overflow-hidden flex flex-col">
               <div class="h-8 bg-gray-900 flex items-center justify-center">
                 <div class="w-20 h-5 bg-gray-800 rounded-full"></div>
               </div>
               <div class="flex-1 p-4 space-y-4">
-                <div class="h-8 bg-gray-200 rounded-lg w-3/4"></div>
+                <div class="h-8 bg-gray-200 dark:bg-gray-600 rounded-lg w-3/4"></div>
                 <div class="space-y-2">
-                  <div class="h-16 bg-gray-200 rounded-lg"></div>
-                  <div class="h-16 bg-gray-200 rounded-lg"></div>
-                  <div class="h-16 bg-gray-200 rounded-lg"></div>
+                  <div class="h-16 bg-gray-200 dark:bg-gray-600 rounded-lg"></div>
+                  <div class="h-16 bg-gray-200 dark:bg-gray-600 rounded-lg"></div>
+                  <div class="h-16 bg-gray-200 dark:bg-gray-600 rounded-lg"></div>
                 </div>
                 <div class="h-8 bg-owr-gold/30 rounded-lg w-1/2 mx-auto"></div>
                 <div class="space-y-2">
-                  <div class="h-12 bg-gray-200 rounded-lg"></div>
-                  <div class="h-12 bg-gray-200 rounded-lg"></div>
+                  <div class="h-12 bg-gray-200 dark:bg-gray-600 rounded-lg"></div>
+                  <div class="h-12 bg-gray-200 dark:bg-gray-600 rounded-lg"></div>
                 </div>
               </div>
-              <div class="h-16 bg-white border-t border-gray-200 flex items-center justify-around px-4">
-                <div class="w-8 h-8 bg-gray-200 rounded-full"></div>
-                <div class="w-8 h-8 bg-gray-900 rounded-full"></div>
-                <div class="w-8 h-8 bg-gray-200 rounded-full"></div>
-                <div class="w-8 h-8 bg-gray-200 rounded-full"></div>
+              <div class="h-16 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 flex items-center justify-around px-4">
+                <div class="w-8 h-8 bg-gray-200 dark:bg-gray-600 rounded-full"></div>
+                <div class="w-8 h-8 bg-gray-900 dark:bg-gray-300 rounded-full"></div>
+                <div class="w-8 h-8 bg-gray-200 dark:bg-gray-600 rounded-full"></div>
+                <div class="w-8 h-8 bg-gray-200 dark:bg-gray-600 rounded-full"></div>
               </div>
             </div>
           </div>
           <div class="absolute -top-4 -right-4 w-24 h-24 bg-owr-gold/20 rounded-full blur-2xl"></div>
-          <div class="absolute -bottom-4 -left-4 w-32 h-32 bg-gray-200 rounded-full blur-2xl"></div>
+          <div class="absolute -bottom-4 -left-4 w-32 h-32 bg-gray-200 dark:bg-gray-700 rounded-full blur-2xl"></div>
         </div>
       </div>
 
@@ -48,10 +48,10 @@ const mobileFeatures = [
         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-owr-gold text-gray-900 text-sm font-medium mb-4">
           OWR Pro
         </span>
-        <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
+        <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4">
           Take OWR With You
         </h2>
-        <p class="text-gray-500 mb-8">
+        <p class="text-gray-500 dark:text-gray-400 mb-8">
           The OWR mobile app puts everything you need in your pocket. Build and manage army lists,
           check tournament schedules, and stay connected with your local scene.
         </p>
@@ -59,14 +59,14 @@ const mobileFeatures = [
         <div class="space-y-6 mb-8">
           {mobileFeatures.map((feature) => (
             <div class="flex items-start gap-4">
-              <div class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center shrink-0">
-                <svg class="h-5 w-5 text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <div class="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center shrink-0">
+                <svg class="h-5 w-5 text-gray-900 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
               </div>
               <div>
-                <h3 class="font-semibold text-gray-900 mb-1">{feature.title}</h3>
-                <p class="text-sm text-gray-500">{feature.description}</p>
+                <h3 class="font-semibold text-gray-900 dark:text-white mb-1">{feature.title}</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">{feature.description}</p>
               </div>
             </div>
           ))}

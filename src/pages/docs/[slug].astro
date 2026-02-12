@@ -105,7 +105,7 @@ const bodyHtml = renderRichText(article.fields.body as unknown as Document);
         <!-- Article content -->
         <article class="flex-1 min-w-0">
           <header class="mb-8">
-            <h1 class="text-3xl font-bold text-gray-900 mb-3">
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-3">
               {article.fields.title}
             </h1>
             {article.fields.tags && article.fields.tags.length > 0 && (
@@ -123,8 +123,8 @@ const bodyHtml = renderRichText(article.fields.body as unknown as Document);
 
           {/* Related articles */}
           {relatedArticles.length > 0 && (
-            <div class="mt-12 pt-8 border-t border-gray-200">
-              <h2 class="text-lg font-semibold text-gray-900 mb-4">Related articles</h2>
+            <div class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
+              <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Related articles</h2>
               <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {relatedArticles.map((related) => {
                   const relCat = related.fields.category as DocCategoryEntry;

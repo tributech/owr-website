@@ -1,0 +1,68 @@
+---
+/**
+ * Regions grid — fetched client-side from the API.
+ * Each region links to the app dashboard for that region.
+ */
+const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com';
+---
+
+<section id="regions" class="bg-white py-16 sm:py-24 scroll-mt-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-12">
+      <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">Find Your Region</h2>
+      <p class="text-gray-500 max-w-2xl mx-auto">
+        Join your local Old World community. Find tournaments, track rankings, and connect with players near you.
+      </p>
+    </div>
+
+    <div id="regions-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+      <!-- Skeleton loading states -->
+      {Array.from({ length: 8 }).map(() => (
+        <div class="region-skeleton p-4 rounded-xl border border-gray-200 bg-gray-50 animate-pulse">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-8 h-6 bg-gray-200 rounded"></div>
+            <div class="h-5 bg-gray-200 rounded w-24"></div>
+          </div>
+          <div class="h-4 bg-gray-200 rounded w-20"></div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script define:vars={{ APP_URL }}>
+  async function loadRegions() {
+    try {
+      const res = await fetch('/api/landing/regions');
+      if (!res.ok) return;
+      const regions = await res.json();
+
+      const grid = document.getElementById('regions-grid');
+      if (!grid) return;
+
+      grid.innerHTML = regions
+        .map(
+          (region) => `
+          <a
+            href="${APP_URL}/${region.slug}/dashboard"
+            class="p-4 rounded-xl border border-gray-200 bg-gray-50 hover:border-gray-400 hover:bg-white transition-all group"
+          >
+            <div class="flex items-center gap-3 mb-2">
+              <span class="text-2xl">${region.country_flag || ''}</span>
+              <h3 class="font-semibold text-gray-900 group-hover:text-gray-700">${region.name}</h3>
+            </div>
+            <p class="text-sm text-gray-500">
+              ${region.player_count?.toLocaleString() || 0} players &middot; ${region.total_tournaments?.toLocaleString() || 0} events
+            </p>
+            ${region.coming_soon ? '<span class="inline-block mt-2 px-2 py-0.5 text-xs font-medium bg-gray-200 text-gray-600 rounded-full">Coming Soon</span>' : ''}
+          </a>
+        `,
+        )
+        .join('');
+    } catch {
+      // Keep skeleton or show fallback
+    }
+  }
+
+  loadRegions();
+</script>

@@ -1,0 +1,71 @@
+---
+/**
+ * Stats bar showing platform numbers.
+ * In future these will be fetched from the API at build time or via client-side JS.
+ * For now, placeholder values — will be replaced by API data.
+ */
+interface Props {
+  players?: number;
+  tournaments?: number;
+  armyLists?: number;
+  regions?: number;
+}
+
+const {
+  players = 0,
+  tournaments = 0,
+  armyLists = 0,
+  regions = 0,
+} = Astro.props;
+
+const stats = [
+  { label: 'Active Players', value: players, icon: 'users' },
+  { label: 'Tournaments', value: tournaments, icon: 'trophy' },
+  { label: 'Army Lists', value: armyLists, icon: 'swords' },
+  { label: 'Regions', value: regions, icon: 'map-pin' },
+];
+---
+
+<section id="stats" class="bg-white border-y border-gray-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8" id="stats-bar">
+      {stats.map((stat) => (
+        <div class="text-center">
+          <div class="flex items-center justify-center mb-2">
+            <span class="text-2xl sm:text-3xl font-bold text-gray-900" data-stat={stat.icon}>
+              {stat.value > 0 ? stat.value.toLocaleString() : '—'}
+            </span>
+          </div>
+          <p class="text-sm text-gray-500">{stat.label}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  // Fetch live stats from API
+  async function loadStats() {
+    try {
+      const res = await fetch('/api/landing/stats');
+      if (!res.ok) return;
+      const data = await res.json();
+
+      const mapping = {
+        users: data.player_count,
+        trophy: data.tournament_count,
+        swords: data.army_list_count,
+        'map-pin': data.region_count,
+      };
+
+      Object.entries(mapping).forEach(([key, value]) => {
+        const el = document.querySelector(`[data-stat="${key}"]`);
+        if (el && value) el.textContent = Number(value).toLocaleString();
+      });
+    } catch {
+      // Stats are non-critical, keep placeholders
+    }
+  }
+
+  loadStats();
+</script>

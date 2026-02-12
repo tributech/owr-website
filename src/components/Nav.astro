@@ -1,0 +1,94 @@
+---
+interface Props {
+  transparent?: boolean;
+}
+const { transparent = false } = Astro.props;
+const currentPath = Astro.url.pathname;
+
+const navLinks = [
+  { label: 'Regions', href: '/#regions' },
+  { label: 'Rankings', href: '/#rankings' },
+  { label: 'Features', href: '/#features' },
+  { label: 'Pricing', href: '/pricing' },
+];
+
+const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com';
+---
+
+<header
+  class:list={[
+    'fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b transition-colors',
+    transparent
+      ? 'bg-black/30 border-white/10'
+      : 'bg-white/80 border-gray-200',
+  ]}
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <a href="/" class="flex items-center gap-3">
+        <img
+          src="/images/owr_logo_white.png"
+          alt="Old World Rankings"
+          class:list={[
+            'w-10 h-10',
+            transparent ? '' : 'invert',
+          ]}
+        />
+        <span
+          class:list={[
+            'font-semibold hidden sm:block',
+            transparent ? 'text-white' : 'text-gray-900',
+          ]}
+        >
+          Old World Rankings
+        </span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-8">
+        {navLinks.map((link) => (
+          <a
+            href={link.href}
+            class:list={[
+              'text-sm transition-colors',
+              transparent
+                ? 'text-white/70 hover:text-white'
+                : 'text-gray-600 hover:text-gray-900',
+            ]}
+          >
+            {link.label}
+          </a>
+        ))}
+      </nav>
+
+      <div class="flex items-center gap-4">
+        <a
+          href={`${APP_URL}/login`}
+          class:list={[
+            'text-sm font-medium transition-colors',
+            transparent
+              ? 'text-white/80 hover:text-white'
+              : 'text-gray-600 hover:text-gray-900',
+          ]}
+        >
+          Sign In
+        </a>
+        <a
+          href={`${APP_URL}/register`}
+          class:list={[
+            'px-4 py-2 rounded-md text-sm font-medium transition-colors',
+            transparent
+              ? 'bg-white text-gray-900 hover:bg-gray-100'
+              : 'bg-gray-900 text-white hover:bg-gray-800',
+          ]}
+        >
+          Get Started
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile menu toggle (JS) -->
+<script>
+  // Future: hamburger menu for mobile
+</script>

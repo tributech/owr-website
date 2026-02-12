@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+@theme {
+  /* OWR Brand — Warhammer-inspired palette */
+  --color-owr-gold: #FFD700;
+  --color-owr-gold-dark: #DAA520;
+  --color-owr-red: #800000;
+  --color-owr-red-dark: #660000;
+  --color-owr-black: #1C1C1C;
+  --color-owr-silver: #C0C0C0;
+  --color-owr-bronze: #B87333;
+
+  /* Semantic surface colors */
+  --color-surface: #ffffff;
+  --color-surface-soft: #f9fafb;
+  --color-surface-dark: #111827;
+  --color-surface-dark-soft: #1f2937;
+
+  /* Text */
+  --color-text-primary: #111827;
+  --color-text-secondary: #6b7280;
+  --color-text-muted: #9ca3af;
+  --color-text-on-dark: #f3f4f6;
+  --color-text-on-dark-muted: #9ca3af;
+
+  /* Typography */
+  --font-sans: "Montserrat", system-ui, sans-serif;
+
+  /* Breakpoints (extending defaults) */
+  --breakpoint-xs: 480px;
+  --breakpoint-3xl: 1550px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+}

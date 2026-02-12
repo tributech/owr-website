@@ -1,0 +1,103 @@
+---
+const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com';
+
+const freeFeatures = [
+  'View rankings & tournament results',
+  'Browse army lists & galleries',
+  'Register for tournaments',
+  'Basic tournament hosting',
+  'OWR payment processing',
+];
+
+const proFeatures = [
+  'Advanced army list search',
+  'Custom notifications',
+  'Full Army Builder access',
+  'Your own payment processing',
+  'Mobile app with list sync',
+];
+---
+
+<section id="pricing" class="relative py-16 sm:py-24 overflow-hidden scroll-mt-20">
+  <!-- Dark background with crosshatch pattern -->
+  <div class="absolute inset-0 bg-gray-900">
+    <div class="absolute inset-0 opacity-5 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+CjxyZWN0IHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgZmlsbD0iIzAwMCIvPgo8cGF0aCBkPSJNMCAwTDQwIDQwTTQwIDBMMCA0MCIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjEiLz4KPC9zdmc+')]"></div>
+  </div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-12">
+      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-white text-sm font-medium mb-4">
+        &#10024; Unlock More
+      </span>
+      <h2 class="text-2xl sm:text-3xl font-bold text-white mb-4">Take Your Game Further</h2>
+      <p class="text-white/70 max-w-2xl mx-auto">
+        OWR is free for players. Upgrade to Pro for tournament organizers and power users.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+      <!-- Free tier -->
+      <div class="p-6 sm:p-8 rounded-xl bg-white/5 backdrop-blur border border-white/10 flex flex-col">
+        <h3 class="text-xl font-bold text-white mb-2">OWR Free</h3>
+        <p class="text-white/60 mb-6">Everything you need to compete</p>
+        <p class="text-3xl font-bold text-white mb-6">
+          $0<span class="text-lg font-normal text-white/60">/month</span>
+        </p>
+        <ul class="space-y-3 flex-grow">
+          {freeFeatures.map((feature) => (
+            <li class="flex items-center gap-3 text-white/80">
+              <svg class="h-5 w-5 text-white/60 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+              <span>{feature}</span>
+            </li>
+          ))}
+        </ul>
+        <a
+          href={`${APP_URL}/register`}
+          class="block w-full py-3 text-center bg-transparent border border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-colors mt-8"
+        >
+          Get Started Free
+        </a>
+      </div>
+
+      <!-- Pro tier -->
+      <div class="p-6 sm:p-8 rounded-xl bg-white border border-gray-200 relative flex flex-col">
+        <div class="absolute -top-3 left-1/2 -translate-x-1/2">
+          <span class="px-3 py-1 rounded-full bg-owr-gold text-gray-900 text-xs font-semibold">
+            RECOMMENDED
+          </span>
+        </div>
+        <h3 class="text-xl font-bold text-gray-900 mb-2">OWR Pro</h3>
+        <p class="text-gray-500 mb-6">For tournament organizers &amp; power users</p>
+        <p class="text-3xl font-bold text-gray-900 mb-6">
+          $5<span class="text-lg font-normal text-gray-500">/month</span>
+        </p>
+        <p class="text-sm text-gray-500 mb-4">Everything in Free, plus:</p>
+        <ul class="space-y-3 flex-grow">
+          {proFeatures.map((feature) => (
+            <li class="flex items-center gap-3 text-gray-900">
+              <svg class="h-5 w-5 text-gray-900 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+              <span>{feature}</span>
+            </li>
+          ))}
+        </ul>
+        <a
+          href="/pricing"
+          class="block w-full py-3 text-center bg-gray-900 text-white font-medium rounded-lg hover:bg-gray-800 transition-colors mt-8"
+        >
+          Upgrade to Pro
+        </a>
+      </div>
+    </div>
+
+    <p class="text-center mt-8 text-white/60 text-sm">
+      * Platform fees apply when using OWR payment processing.
+      <a href="/pricing" class="text-white underline underline-offset-4 hover:text-white/80">
+        View full pricing details
+      </a>
+    </p>
+  </div>
+</section>

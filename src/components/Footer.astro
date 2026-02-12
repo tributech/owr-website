@@ -1,0 +1,101 @@
+---
+const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com';
+const currentYear = new Date().getFullYear();
+
+const platformLinks = [
+  { label: 'Rankings', href: `${APP_URL}/global_rankings` },
+  { label: 'Tournaments', href: '/#regions' },
+  { label: 'Army Lists', href: `${APP_URL}/army_lists` },
+  { label: 'Galleries', href: `${APP_URL}/galleries` },
+  { label: 'Pricing', href: '/pricing' },
+];
+
+const communityLinks = [
+  { label: 'Find Local Scene', href: '/#regions' },
+  { label: 'Become a Patreon', href: 'https://patreon.com/oldworldrankings', external: true },
+  { label: 'Discord', href: 'https://discord.gg/oldworldrankings', external: true },
+];
+
+const legalLinks = [
+  { label: 'Terms of Service', href: '/terms' },
+  { label: 'Privacy Policy', href: '/privacy' },
+];
+---
+
+<footer class="bg-gray-900 text-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+      <!-- Brand -->
+      <div class="col-span-2 md:col-span-1">
+        <a href="/" class="flex items-center gap-3 mb-4">
+          <img src="/images/owr_logo_white.png" alt="Old World Rankings" class="w-10 h-10" />
+          <span class="font-semibold text-white">OWR</span>
+        </a>
+        <p class="text-sm text-gray-400 mb-4">
+          The complete companion for Warhammer: The Old World.
+        </p>
+        <p class="text-xs text-gray-500">Powered by HammerHub</p>
+      </div>
+
+      <!-- Platform -->
+      <div>
+        <h3 class="font-semibold text-white mb-4">Platform</h3>
+        <ul class="space-y-3">
+          {platformLinks.map((link) => (
+            <li>
+              <a href={link.href} class="text-sm text-gray-400 hover:text-white transition-colors">
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Community -->
+      <div>
+        <h3 class="font-semibold text-white mb-4">Community</h3>
+        <ul class="space-y-3">
+          {communityLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class="text-sm text-gray-400 hover:text-white transition-colors"
+                {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Legal -->
+      <div>
+        <h3 class="font-semibold text-white mb-4">Legal</h3>
+        <ul class="space-y-3">
+          {legalLinks.map((link) => (
+            <li>
+              <a href={link.href} class="text-sm text-gray-400 hover:text-white transition-colors">
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <div class="pt-8 border-t border-gray-800 flex flex-col gap-4">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p class="text-sm text-gray-400">
+          &copy; {currentYear} Old World Rankings. All rights reserved.
+        </p>
+        <p class="text-xs text-gray-500 text-center sm:text-right">
+          Army Builder powered by Old World Builder.
+        </p>
+      </div>
+      <p class="text-xs text-gray-500 text-center">
+        Not affiliated with Games Workshop. Warhammer: The Old World is a trademark of Games Workshop.
+      </p>
+    </div>
+  </div>
+</footer>

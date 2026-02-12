@@ -1,0 +1,40 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import HeroSection from '../components/HeroSection.astro';
+import StatsBar from '../components/StatsBar.astro';
+import RegionsSection from '../components/RegionsSection.astro';
+import FeaturesSection from '../components/FeaturesSection.astro';
+import TournamentHostingSection from '../components/TournamentHostingSection.astro';
+import PricingSection from '../components/PricingSection.astro';
+import MobileAppSection from '../components/MobileAppSection.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="Old World Rankings — The Complete Companion to The Old World">
+  <Nav transparent={true} />
+
+  <!-- Hero with dark battle background -->
+  <HeroSection />
+
+  <!-- Stats Bar -->
+  <StatsBar />
+
+  <!-- Regions -->
+  <RegionsSection />
+
+  <!-- Features -->
+  <FeaturesSection />
+
+  <!-- Tournament Hosting -->
+  <TournamentHostingSection />
+
+  <!-- Pricing -->
+  <PricingSection />
+
+  <!-- Mobile App -->
+  <MobileAppSection />
+
+  <!-- Footer -->
+  <Footer />
+</Layout>

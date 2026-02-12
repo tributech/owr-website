@@ -1,0 +1,57 @@
+---
+const benefits = [
+  { title: 'Easy Setup', description: 'Create your tournament in minutes with our guided setup wizard', icon: 'M12 4v16m8-8H4' },
+  { title: 'Player Registration', description: 'Built-in registration with waitlists and attendee management', icon: 'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 7a4 4 0 100-8 4 4 0 000 8zm10 4l2 2 4-4' },
+  { title: 'Payment Processing', description: 'Accept payments via OWR or connect your own Stripe account', icon: 'M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z' },
+  { title: 'Live Scoring', description: 'Real-time results, rankings, and battle boards for players', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z' },
+  { title: 'Army List Collection', description: 'Collect and validate army lists before the event', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' },
+  { title: 'Auto Pairings', description: 'Swiss and other pairing systems with manual override options', icon: 'M13 10V3L4 14h7v7l9-11h-7z' },
+];
+---
+
+<section id="hosting" class="bg-gray-50 py-16 sm:py-24 scroll-mt-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
+      <!-- Left content -->
+      <div class="mb-12 lg:mb-0">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gray-900 text-white text-sm font-medium mb-4">
+          For Tournament Organizers
+        </span>
+        <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
+          Host Your Tournament with OWR
+        </h2>
+        <p class="text-gray-500 mb-8">
+          Everything you need to run a successful tournament, from registration to final standings.
+          Free for small events, Pro features for larger tournaments.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a
+            href="/pricing"
+            class="px-6 py-3 bg-gray-900 text-white font-medium rounded-lg hover:bg-gray-800 transition-colors text-center"
+          >
+            Start Hosting
+          </a>
+          <a
+            href="/pricing#hosting"
+            class="px-6 py-3 border border-gray-300 text-gray-900 font-medium rounded-lg hover:border-gray-400 transition-colors text-center"
+          >
+            Learn More
+          </a>
+        </div>
+      </div>
+
+      <!-- Right - Benefits grid -->
+      <div class="grid grid-cols-2 gap-4">
+        {benefits.map((benefit) => (
+          <div class="p-4 rounded-lg border border-gray-200 bg-white">
+            <svg class="h-6 w-6 text-gray-900 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d={benefit.icon} />
+            </svg>
+            <h3 class="font-semibold text-gray-900 text-sm mb-1">{benefit.title}</h3>
+            <p class="text-xs text-gray-500 leading-relaxed">{benefit.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

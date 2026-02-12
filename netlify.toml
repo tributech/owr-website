@@ -1,0 +1,38 @@
+[build]
+  command = "pnpm build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Canonical www redirect — Netlify handles this at CDN level
+# The Rails app will also 301 redirect www paths to this site
+
+# Static pages hosted here
+[[redirects]]
+  from = "/pricing"
+  to = "/pricing/"
+  status = 200
+
+[[redirects]]
+  from = "/privacy"
+  to = "/privacy/"
+  status = 200
+
+[[redirects]]
+  from = "/terms"
+  to = "/terms/"
+  status = 200
+
+# API proxy to Rails backend for search, stats, etc.
+[[redirects]]
+  from = "/api/*"
+  to = "https://oldworldrankings.com/api/:splat"
+  status = 200
+  force = true
+
+# SPA fallback for any unmatched routes
+[[redirects]]
+  from = "/*"
+  to = "/404/"
+  status = 404

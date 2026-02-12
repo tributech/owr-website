@@ -1,0 +1,127 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import DocArticleCard from '../../components/docs/DocArticleCard.astro';
+import { getClient } from '../../lib/contentful';
+import type {
+  DocCategorySkeleton,
+  DocArticleSkeleton,
+  DocCategoryEntry,
+  DocArticleEntry,
+} from '../../lib/contentful-types';
+
+const client = getClient();
+
+let categories: DocCategoryEntry[] = [];
+let articles: DocArticleEntry[] = [];
+
+if (client) {
+  try {
+    const [categoryResponse, articleResponse] = await Promise.all([
+      client.getEntries<DocCategorySkeleton>({
+        content_type: 'docCategory',
+        order: ['fields.order'],
+      }),
+      client.getEntries<DocArticleSkeleton>({
+        content_type: 'docArticle',
+        order: ['fields.order'],
+        include: 1,
+      }),
+    ]);
+    categories = categoryResponse.items;
+    articles = articleResponse.items;
+  } catch {
+    // Content types may not exist yet — render empty state
+  }
+}
+
+// Group articles by category ID
+const articlesByCategory = new Map<string, DocArticleEntry[]>();
+for (const article of articles) {
+  const catId = (article.fields.category as DocCategoryEntry)?.sys?.id;
+  if (!catId) continue;
+  const list = articlesByCategory.get(catId) || [];
+  list.push(article);
+  articlesByCategory.set(catId, list);
+}
+---
+
+<Layout
+  title="Help & Documentation — Old World Rankings"
+  description="Guides and help articles for Old World Rankings — rankings, tournaments, army lists, and more."
+>
+  <Nav />
+
+  <main class="pt-24 pb-16">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Header -->
+      <div class="text-center mb-12">
+        <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Help & Documentation</h1>
+        <p class="text-lg text-gray-500 max-w-2xl mx-auto">
+          Everything you need to know about Old World Rankings — from getting started to advanced features.
+        </p>
+      </div>
+
+      <!-- Category quick links -->
+      {categories.length > 0 && (
+        <div class="flex flex-wrap justify-center gap-3 mb-12">
+          {categories.map((cat) => (
+            <a
+              href={`#${cat.fields.slug}`}
+              class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gray-200 bg-white text-sm font-medium text-gray-700 hover:border-gray-400 hover:text-gray-900 transition-colors"
+            >
+              {cat.fields.icon && (
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d={cat.fields.icon} />
+                </svg>
+              )}
+              {cat.fields.title}
+            </a>
+          ))}
+        </div>
+      )}
+
+      <!-- Category sections -->
+      {categories.length > 0 ? (
+        <div class="space-y-16">
+          {categories.map((cat) => {
+            const catArticles = articlesByCategory.get(cat.sys.id) || [];
+            return (
+              <section id={cat.fields.slug} class="scroll-mt-24">
+                <div class="mb-6">
+                  <h2 class="text-2xl font-bold text-gray-900 mb-2">{cat.fields.title}</h2>
+                  {cat.fields.description && (
+                    <p class="text-gray-500">{cat.fields.description}</p>
+                  )}
+                </div>
+
+                {catArticles.length > 0 ? (
+                  <div class="grid gap-4 sm:grid-cols-2">
+                    {catArticles.map((article) => (
+                      <DocArticleCard
+                        title={article.fields.title}
+                        slug={article.fields.slug}
+                        excerpt={article.fields.excerpt}
+                        tags={article.fields.tags}
+                        categoryName={cat.fields.title}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <p class="text-gray-400 text-sm italic">Articles coming soon.</p>
+                )}
+              </section>
+            );
+          })}
+        </div>
+      ) : (
+        <div class="text-center py-16">
+          <p class="text-gray-500 text-lg">Documentation is being prepared. Check back soon!</p>
+        </div>
+      )}
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

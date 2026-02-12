@@ -24,6 +24,23 @@
   to = "/terms/"
   status = 200
 
+# Docs pages
+[[redirects]]
+  from = "/docs"
+  to = "/docs/"
+  status = 200
+
+[[redirects]]
+  from = "/docs/*"
+  to = "/docs/:splat"
+  status = 200
+
+# What's New
+[[redirects]]
+  from = "/whatsnew"
+  to = "/whatsnew/"
+  status = 200
+
 # API proxy to Rails backend for search, stats, etc.
 [[redirects]]
   from = "/api/*"

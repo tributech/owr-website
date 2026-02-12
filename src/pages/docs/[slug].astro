@@ -1,0 +1,150 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import DocSidebar from '../../components/docs/DocSidebar.astro';
+import DocBreadcrumb from '../../components/docs/DocBreadcrumb.astro';
+import DocArticleCard from '../../components/docs/DocArticleCard.astro';
+import { getClient } from '../../lib/contentful';
+import { renderRichText } from '../../lib/rich-text';
+import type {
+  DocCategorySkeleton,
+  DocArticleSkeleton,
+  DocCategoryEntry,
+  DocArticleEntry,
+} from '../../lib/contentful-types';
+import type { Document } from '@contentful/rich-text-types';
+
+export async function getStaticPaths() {
+  const client = getClient();
+  if (!client) return [];
+
+  let categories: DocCategoryEntry[] = [];
+  let articles: DocArticleEntry[] = [];
+
+  try {
+    const [categoryResponse, articleResponse] = await Promise.all([
+      client.getEntries<DocCategorySkeleton>({
+        content_type: 'docCategory',
+        order: ['fields.order'],
+      }),
+      client.getEntries<DocArticleSkeleton>({
+        content_type: 'docArticle',
+        order: ['fields.order'],
+        include: 2,
+      }),
+    ]);
+    categories = categoryResponse.items;
+    articles = articleResponse.items;
+  } catch {
+    return [];
+  }
+
+  // Build sidebar data: categories with their articles
+  const sidebarCategories = categories.map((cat) => ({
+    title: cat.fields.title,
+    slug: cat.fields.slug,
+    articles: articles
+      .filter(
+        (a) => (a.fields.category as DocCategoryEntry)?.sys?.id === cat.sys.id,
+      )
+      .map((a) => ({ title: a.fields.title, slug: a.fields.slug })),
+  }));
+
+  return articles.map((article) => {
+    const category = article.fields.category as DocCategoryEntry;
+    const related = (article.fields.relatedArticles || []) as DocArticleEntry[];
+
+    return {
+      params: { slug: article.fields.slug },
+      props: {
+        article,
+        category,
+        sidebarCategories,
+        relatedArticles: related,
+      },
+    };
+  });
+}
+
+interface Props {
+  article: DocArticleEntry;
+  category: DocCategoryEntry;
+  sidebarCategories: { title: string; slug: string; articles: { title: string; slug: string }[] }[];
+  relatedArticles: DocArticleEntry[];
+}
+
+const { article, category, sidebarCategories, relatedArticles } = Astro.props;
+
+const bodyHtml = renderRichText(article.fields.body as unknown as Document);
+---
+
+<Layout
+  title={`${article.fields.title} — Help — Old World Rankings`}
+  description={article.fields.excerpt || `Help article: ${article.fields.title}`}
+>
+  <Nav />
+
+  <main class="pt-24 pb-16">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <DocBreadcrumb
+        items={[
+          { label: 'Docs', href: '/docs' },
+          { label: category.fields.title, href: `/docs#${category.fields.slug}` },
+          { label: article.fields.title },
+        ]}
+      />
+
+      <div class="flex flex-col lg:flex-row gap-10">
+        <!-- Sidebar -->
+        <DocSidebar
+          categories={sidebarCategories}
+          currentSlug={article.fields.slug}
+        />
+
+        <!-- Article content -->
+        <article class="flex-1 min-w-0">
+          <header class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-900 mb-3">
+              {article.fields.title}
+            </h1>
+            {article.fields.tags && article.fields.tags.length > 0 && (
+              <div class="flex flex-wrap gap-2">
+                {article.fields.tags.map((tag) => (
+                  <span class="inline-block rounded-full bg-owr-gold/10 px-2.5 py-0.5 text-xs font-medium text-owr-gold-dark">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+          </header>
+
+          <div class="prose prose-gray max-w-none" set:html={bodyHtml} />
+
+          {/* Related articles */}
+          {relatedArticles.length > 0 && (
+            <div class="mt-12 pt-8 border-t border-gray-200">
+              <h2 class="text-lg font-semibold text-gray-900 mb-4">Related articles</h2>
+              <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {relatedArticles.map((related) => {
+                  const relCat = related.fields.category as DocCategoryEntry;
+                  return (
+                    <DocArticleCard
+                      title={related.fields.title}
+                      slug={related.fields.slug}
+                      excerpt={related.fields.excerpt}
+                      tags={related.fields.tags}
+                      categoryName={relCat?.fields?.title || ''}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </article>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

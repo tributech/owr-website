@@ -13,7 +13,7 @@ The main **Rails app** (`oldworldrankings` repo) serves the authenticated app ex
 - **Package Manager:** pnpm
 - **Hosting:** Netlify (static, published from `dist/`)
 - **Node:** v20
-- **Future CMS:** Contentful (for blog/content pages)
+- **CMS:** Contentful (help docs, changelog, future blog)
 
 ## Project Structure
 
@@ -30,7 +30,10 @@ src/
 │   ├── PricingSection.astro     # Free/Pro comparison
 │   └── MobileAppSection.astro   # Mobile app promo
 ├── lib/
-│   └── api.ts           # Shared API client + TypeScript types
+│   ├── api.ts           # Shared API client + TypeScript types
+│   ├── contentful.ts    # Contentful SDK client (returns null if unconfigured)
+│   ├── contentful-types.ts  # TypeScript skeletons for Contentful content types
+│   └── rich-text.ts     # Rich text → HTML renderer with OWR Tailwind classes
 ├── layouts/
 │   └── Layout.astro     # Base HTML layout (meta, fonts, GA)
 ├── pages/
@@ -38,7 +41,11 @@ src/
 │   ├── pricing.astro    # Full pricing page
 │   ├── privacy.astro    # Privacy policy
 │   ├── terms.astro      # Terms of service
-│   └── 404.astro        # Not found page
+│   ├── 404.astro        # Not found page
+│   ├── whatsnew.astro   # Changelog feed (Contentful changelogEntry)
+│   └── docs/
+│       ├── index.astro  # Help docs category index (Contentful docCategory + docArticle)
+│       └── [slug].astro # Individual doc article with sidebar nav
 └── styles/
     └── global.css       # Tailwind imports + OWR theme (@theme block)
 ```
@@ -115,8 +122,11 @@ Public endpoints should include `Cache-Control` headers.
 |----------|---------|----------|
 | `PUBLIC_APP_URL` | Rails app URL (default: `https://oldworldrankings.com`) | No |
 | `PUBLIC_GA_ID` | Google Analytics ID | No |
+| `CONTENTFUL_SPACE_ID` | Contentful space (`ry0ysk99xuno`) | Yes (for docs/changelog) |
+| `CONTENTFUL_DELIVERY_TOKEN` | Contentful Delivery API token | Yes (for production builds) |
+| `CONTENTFUL_PREVIEW_TOKEN` | Contentful Preview API token | No (used in dev for draft content) |
 
-Prefix with `PUBLIC_` for client-side access in Astro. Configure in Netlify dashboard for production.
+Prefix with `PUBLIC_` for client-side access in Astro. Contentful vars are **server-side only** (no `PUBLIC_` prefix) — used at build time. Configure in Netlify dashboard for production.
 
 ### Local Development Setup
 
@@ -194,17 +204,85 @@ The nav renders an **anonymous state** by default (Sign In / Get Started). When 
 - External links: `target="_blank" rel="noopener noreferrer"`
 - Scroll targets: `id="section-name"` + `scroll-mt-20` class
 
-## Future Work
+## Contentful CMS Integration
 
-### Contentful Blog Integration
-- Will use Astro content collections or Contentful SDK
-- Blog at `/blog/` with individual post pages
-- SEO-optimized with structured data
+### Overview
+
+Content for `/docs` and `/whatsnew` is managed in Contentful (space `ry0ysk99xuno`, environment `master`). Pages fetch content at **build time** via the Contentful Delivery/Preview API — no client-side fetching.
+
+- `src/lib/contentful.ts` — Client singleton. Returns `null` when env vars are missing (pages render empty state).
+- `src/lib/contentful-types.ts` — TypeScript skeletons for all content types.
+- `src/lib/rich-text.ts` — Converts Contentful Rich Text documents to styled HTML using `@contentful/rich-text-html-renderer`. Output uses OWR Tailwind classes matching `privacy.astro`/`terms.astro` styling.
+
+### Content Types
+
+#### `docCategory` — Help doc categories
+| Field | Type | Required | Notes |
+|-------|------|----------|-------|
+| `title` | Symbol | Yes | Unique |
+| `slug` | Symbol | Yes | Unique, kebab-case (`^[a-z0-9]+(?:-[a-z0-9]+)*$`) |
+| `description` | Text | No | Max 300 chars |
+| `icon` | Symbol | No | SVG path data for inline icon |
+| `order` | Integer | Yes | 0–100, controls sort order |
+
+#### `docArticle` — Help doc articles
+| Field | Type | Required | Notes |
+|-------|------|----------|-------|
+| `title` | Symbol | Yes | — |
+| `slug` | Symbol | Yes | Unique, kebab-case |
+| `category` | Link → `docCategory` | Yes | Single reference |
+| `tags` | Array of Symbols | No | Predefined: `players`, `tournament-organizers`, `pro`, `army-lists`, `rankings`, `getting-started`, `regions`, `galleries` |
+| `excerpt` | Symbol | No | Max 200 chars, shown on card |
+| `body` | Rich Text | Yes | Headings 2–4, lists, blockquote, hr, table, embedded-asset, hyperlink |
+| `order` | Integer | Yes | 0–100, sort within category |
+| `relatedArticles` | Array of Links → `docArticle` | No | Max 3 |
+
+#### `changelogEntry` — What's New entries
+| Field | Type | Required | Notes |
+|-------|------|----------|-------|
+| `title` | Symbol | Yes | — |
+| `date` | Date | Yes | Used for grouping by month/year and sort order |
+| `category` | Symbol | Yes | One of: `New`, `Improvement`, `Fix` |
+| `description` | Rich Text | Yes | Headings 3–4, lists, blockquote, embedded-asset, hyperlink |
+
+### Managing Content via Contentful MCP
+
+The Contentful MCP server (`mcp__contentful-mcp__*`) is configured and can manage content directly from Claude Code. Common workflows:
+
+**Create a changelog entry:**
+1. Upload any images first: `mcp__contentful-mcp__upload_asset` (pass image URL in `file.upload`)
+2. Publish the asset: `mcp__contentful-mcp__publish_asset`
+3. Create entry: `mcp__contentful-mcp__create_entry` with `contentTypeId: "changelogEntry"`
+4. Publish entry: `mcp__contentful-mcp__publish_entry`
+
+**Important MCP conventions:**
+- All field values **must** include a locale key: `{ "title": { "en-US": "My Title" } }`
+- Rich text fields use Contentful's document format with `nodeType`, `content`, `data`, `marks` structure
+- Text nodes need `"marks": []` even when no formatting is applied
+- Embedded assets in rich text use `nodeType: "embedded-asset-block"` with `data.target.sys` linking to the asset
+- Hyperlinks use `nodeType: "hyperlink"` with `data.uri`
+- Space ID: `ry0ysk99xuno`, Environment: `master`
+
+**Useful MCP tools:**
+- `mcp__contentful-mcp__create_entry` / `update_entry` / `publish_entry`
+- `mcp__contentful-mcp__upload_asset` / `publish_asset`
+- `mcp__contentful-mcp__search_entries` — find existing content
+- `mcp__contentful-mcp__list_content_types` — verify schema
+- `mcp__contentful-mcp__create_content_type` / `publish_content_type` — schema changes
+
+### Build & Deploy
+
+This is a **static site** — content changes in Contentful require a site rebuild.
+
+- **Local:** `pnpm build` fetches from Contentful Delivery API (or Preview API in dev)
+- **Production:** Netlify build hook triggered by Contentful webhook on entry publish/unpublish
+- **Graceful degradation:** If Contentful is unconfigured or content types don't exist, pages render empty states (no build failures)
+
+## Future Work
 
 ### Additional Pages Planned
 - `/about` — Team/project story
 - `/blog` — Content marketing (Contentful)
-- `/changelog` — Platform updates
 - `/contact` — Contact form
 
 ### Rails API Enhancements

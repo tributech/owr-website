@@ -59,13 +59,23 @@ export interface LandingRegionsResponse {
   regions: LandingRegion[];
 }
 
-export interface SearchItem {
+export interface SearchPlayer {
+  id: number;
   name: string;
+  nickname: string | null;
+  region: string | null;
   url: string;
-  type: string;
+}
+
+export interface SearchTournament {
+  id: number;
+  name: string;
+  date: string;
+  region: string | null;
+  url: string;
 }
 
 export interface SearchResults {
-  players: SearchItem[];
-  tournaments: SearchItem[];
+  players: SearchPlayer[];
+  tournaments: SearchTournament[];
 }

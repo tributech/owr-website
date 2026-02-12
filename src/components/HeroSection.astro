@@ -2,8 +2,9 @@
 /**
  * Hero section with rotating battle backgrounds and global search.
  * Background images rotate client-side every 8 seconds.
- * Search hits the Rails API via /api/v1/search.
  */
+import GlobalSearch from './GlobalSearch';
+
 const heroImages = Array.from({ length: 16 }, (_, i) => `/images/landing/image${i + 1}.jpg`);
 ---
 
@@ -55,32 +56,11 @@ const heroImages = Array.from({ length: 16 }, (_, i) => `/images/landing/image${
       </a>
     </div>
 
-    <!-- Global Search -->
-    <div class="max-w-xl mx-auto">
-      <div class="relative">
-        <svg class="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
-        <input
-          type="text"
-          id="hero-search"
-          placeholder="Search players, tournaments..."
-          class="w-full pl-12 pr-4 py-3 bg-white border border-gray-200 rounded-xl text-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-owr-gold/50 focus:border-owr-gold"
-        />
-        <div
-          id="hero-search-results"
-          class="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden hidden z-50"
-        >
-          <!-- Results populated by JS -->
-        </div>
-      </div>
-    </div>
+    <GlobalSearch client:load />
   </div>
 </section>
 
 <script>
-  import { apiFetch, APP_URL, type SearchResults } from '../lib/api';
-
   // ── Hero image rotation ───────────────────────────────────────────
   const slides = document.querySelectorAll('.hero-slide');
   let current = 0;
@@ -92,54 +72,5 @@ const heroImages = Array.from({ length: 16 }, (_, i) => `/images/landing/image${
       slides[current].classList.remove('opacity-0');
       slides[current].classList.add('opacity-40');
     }, 8000);
-  }
-
-  // ── Search with debounce ──────────────────────────────────────────
-  const searchInput = document.getElementById('hero-search') as HTMLInputElement | null;
-  const searchResults = document.getElementById('hero-search-results');
-  let debounceTimer: ReturnType<typeof setTimeout>;
-
-  searchInput?.addEventListener('input', (e) => {
-    clearTimeout(debounceTimer);
-    const query = (e.target as HTMLInputElement).value.trim();
-
-    if (query.length < 2) {
-      searchResults?.classList.add('hidden');
-      return;
-    }
-
-    debounceTimer = setTimeout(async () => {
-      const data = await apiFetch<SearchResults>(`/api/v1/search?q=${encodeURIComponent(query)}`);
-      if (!data) return;
-      renderSearchResults(data);
-    }, 300);
-  });
-
-  searchInput?.addEventListener('blur', () => {
-    setTimeout(() => searchResults?.classList.add('hidden'), 200);
-  });
-
-  function renderSearchResults(data: SearchResults) {
-    if (!searchResults) return;
-    const items = [...(data.players || []), ...(data.tournaments || [])];
-
-    if (items.length === 0) {
-      searchResults.innerHTML =
-        '<p class="px-4 py-3 text-sm text-gray-500">No results found</p>';
-      searchResults.classList.remove('hidden');
-      return;
-    }
-
-    searchResults.innerHTML = items
-      .slice(0, 8)
-      .map(
-        (item) =>
-          `<a href="${APP_URL}${item.url}" class="block px-4 py-3 hover:bg-gray-50 text-left border-b border-gray-100 last:border-0">
-            <p class="text-sm font-medium text-gray-900">${item.name}</p>
-            <p class="text-xs text-gray-500">${item.type || ''}</p>
-          </a>`,
-      )
-      .join('');
-    searchResults.classList.remove('hidden');
   }
 </script>

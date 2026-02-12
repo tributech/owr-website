@@ -1,28 +1,13 @@
 ---
 /**
  * Stats bar showing platform numbers.
- * In future these will be fetched from the API at build time or via client-side JS.
- * For now, placeholder values — will be replaced by API data.
+ * Fetched client-side from the Rails API — falls back to placeholder dashes.
  */
-interface Props {
-  players?: number;
-  tournaments?: number;
-  armyLists?: number;
-  regions?: number;
-}
-
-const {
-  players = 0,
-  tournaments = 0,
-  armyLists = 0,
-  regions = 0,
-} = Astro.props;
-
 const stats = [
-  { label: 'Active Players', value: players, icon: 'users' },
-  { label: 'Tournaments', value: tournaments, icon: 'trophy' },
-  { label: 'Army Lists', value: armyLists, icon: 'swords' },
-  { label: 'Regions', value: regions, icon: 'map-pin' },
+  { label: 'Active Players', icon: 'users' },
+  { label: 'Tournaments', icon: 'trophy' },
+  { label: 'Army Lists', icon: 'swords' },
+  { label: 'Regions', icon: 'map-pin' },
 ];
 ---
 
@@ -33,7 +18,7 @@ const stats = [
         <div class="text-center">
           <div class="flex items-center justify-center mb-2">
             <span class="text-2xl sm:text-3xl font-bold text-gray-900" data-stat={stat.icon}>
-              {stat.value > 0 ? stat.value.toLocaleString() : '—'}
+              &mdash;
             </span>
           </div>
           <p class="text-sm text-gray-500">{stat.label}</p>
@@ -44,27 +29,23 @@ const stats = [
 </section>
 
 <script>
-  // Fetch live stats from API
+  import { apiFetch, type LandingStats } from '../lib/api';
+
   async function loadStats() {
-    try {
-      const res = await fetch('/api/landing/stats');
-      if (!res.ok) return;
-      const data = await res.json();
+    const data = await apiFetch<LandingStats>('/api/v1/landing/stats');
+    if (!data) return;
 
-      const mapping = {
-        users: data.player_count,
-        trophy: data.tournament_count,
-        swords: data.army_list_count,
-        'map-pin': data.region_count,
-      };
+    const mapping: Record<string, number> = {
+      users: data.player_count,
+      trophy: data.tournament_count,
+      swords: data.army_list_count,
+      'map-pin': data.region_count,
+    };
 
-      Object.entries(mapping).forEach(([key, value]) => {
-        const el = document.querySelector(`[data-stat="${key}"]`);
-        if (el && value) el.textContent = Number(value).toLocaleString();
-      });
-    } catch {
-      // Stats are non-critical, keep placeholders
-    }
+    Object.entries(mapping).forEach(([key, value]) => {
+      const el = document.querySelector(`[data-stat="${key}"]`);
+      if (el && value) el.textContent = Number(value).toLocaleString();
+    });
   }
 
   loadStats();

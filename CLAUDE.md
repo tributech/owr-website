@@ -20,15 +20,17 @@ The main **Rails app** (`oldworldrankings` repo) serves the authenticated app ex
 ```
 src/
 ├── components/          # Astro components (.astro files)
-│   ├── Nav.astro        # Fixed header navigation
+│   ├── Nav.astro        # Fixed header with mobile menu + user personalisation
 │   ├── Footer.astro     # Site footer
-│   ├── HeroSection.astro        # Hero with rotating battle backgrounds + search
+│   ├── HeroSection.astro        # Hero with rotating backgrounds + search
 │   ├── StatsBar.astro           # Live platform stats (API-driven)
 │   ├── RegionsSection.astro     # Region grid (API-driven)
 │   ├── FeaturesSection.astro    # Feature cards grid
 │   ├── TournamentHostingSection.astro  # TO benefits
 │   ├── PricingSection.astro     # Free/Pro comparison
 │   └── MobileAppSection.astro   # Mobile app promo
+├── lib/
+│   └── api.ts           # Shared API client + TypeScript types
 ├── layouts/
 │   └── Layout.astro     # Base HTML layout (meta, fonts, GA)
 ├── pages/
@@ -44,10 +46,13 @@ src/
 ## Commands
 
 ```bash
-pnpm dev       # Dev server at localhost:4321
+pnpm dev       # Astro dev server on localhost:5091 (internal)
 pnpm build     # Production build to dist/
 pnpm preview   # Preview production build locally
 ```
+
+Caddy terminates HTTPS — access the site at `https://www.owr-local.site:5090`.
+Caddy config lives in the **Rails repo** (`oldworldrankings/Caddyfile`) and is started via the Rails Procfile.dev.
 
 ## Architecture & Key Decisions
 
@@ -57,19 +62,52 @@ pnpm preview   # Preview production build locally
 - The Rails app 301 redirects `www` paths (`/`, `/pricing`, `/privacy`, `/terms`) to this site
 - This site links back to the Rails app for authenticated features (login, register, dashboards)
 
-### API Integration
-Dynamic data (stats, regions, search) is fetched **client-side** from the Rails API, proxied through Netlify redirects:
+### Cross-Domain Session Cookie
 
+The Rails session cookie (`_owr_session`) is scoped to `.oldworldrankings.com` (production) / `.owr-local.site` (development), making it available to both the apex Rails app and this `www` subdomain.
+
+This means:
+- **This site can detect logged-in users** by calling the Rails API with `credentials: 'include'`
+- **The cookie is httpOnly** — JavaScript cannot read it directly, but it is sent automatically with fetch requests to the Rails API
+- **No JWT needed** — the existing Grape API (`/api/v1/`) already falls back to Devise session auth via warden when no Bearer token is present
+
+**How to use it from client-side JS:**
+```ts
+// All components use the shared client in src/lib/api.ts
+import { apiFetch, APP_URL, type LandingMe } from '../lib/api';
+
+// Cookie is sent automatically — if user is logged in, this returns their profile
+const user = await apiFetch<LandingMe>('/api/v1/landing/me');
+if (user) {
+  // user.full_name, user.region_flag, user.region_slug, etc.
+}
+// null = 401 (not logged in) or network error — render anonymous state
+```
+
+**CORS is configured** on the Rails side to allow `https://www.oldworldrankings.com` (prod) and `https://www.owr-local.site:5090` (dev) with `credentials: true`.
+
+### API Integration
+
+Dynamic data (stats, regions, search, user state) is fetched **client-side** from the Rails Grape API via the shared client in `src/lib/api.ts`.
+
+All API calls use `apiFetch<T>(path)` which prepends `APP_URL`, sets `credentials: 'include'` + `Accept: application/json`, and returns `T | null` (catches all errors gracefully).
+
+In development, fetches go directly to `https://owr-local.site:5100/api/v1/...`. In production, consider Netlify proxy redirects:
 ```
 /api/* → https://oldworldrankings.com/api/:splat
 ```
 
-**API endpoints needed on the Rails side:**
-- `GET /api/landing/stats` — player_count, tournament_count, army_list_count, region_count
-- `GET /api/landing/regions` — region list with player_count, total_tournaments, slug, country_flag
-- `GET /api/search?q=...` — global search (players + tournaments), returns `{ players: [...], tournaments: [...] }`
+**Active Rails API endpoints (Grape, `/api/v1/`):**
+- `GET /api/v1/landing/stats` — player_count, tournament_count, army_list_count, region_count (public, cached)
+- `GET /api/v1/landing/regions` — region list with slug, country_flag, player_count, has_masters (public, cached). Response wrapped in `{ regions: [...] }`
+- `GET /api/v1/landing/me` — full_name, avatar_url, region_flag, region_name, region_slug (authenticated, 401 if anonymous)
+- `GET /api/v1/search?q=...` — global search returning `{ players: [...], tournaments: [...] }` (public)
 
-These should be public, cacheable endpoints. Consider adding Cache-Control headers.
+**Pending additions to `/api/v1/landing/me`:**
+- `email` — user's email (shown under name in nav dropdown)
+- `player_slug` — for "My Player Profile" link (to construct `/players/:slug` URL)
+
+Public endpoints should include `Cache-Control` headers.
 
 ### Environment Variables
 
@@ -79,6 +117,19 @@ These should be public, cacheable endpoints. Consider adding Cache-Control heade
 | `PUBLIC_GA_ID` | Google Analytics ID | No |
 
 Prefix with `PUBLIC_` for client-side access in Astro. Configure in Netlify dashboard for production.
+
+### Local Development Setup
+
+Both apps run behind Caddy for HTTPS so cookies and OAuth work across subdomains.
+
+| Service | External URL (HTTPS) | Internal port |
+|---------|---------------------|---------------|
+| Rails app | `https://owr-local.site:5100` | `localhost:5101` |
+| Astro (this site) | `https://www.owr-local.site:5090` | `localhost:5091` |
+| Cookie domain | `.owr-local.site` | — |
+
+DNS is managed in Namecheap — `@` and `www` A records point to `127.0.0.1`.
+Caddy and Rails processes are started from the **Rails repo** via `Procfile.dev`. Start Astro separately with `pnpm dev` in this repo.
 
 ## Theme & Design System
 
@@ -106,7 +157,7 @@ Usage: `bg-owr-gold`, `text-owr-gold-dark`, `border-owr-red`, etc.
 - **Section spacing:** `py-16 sm:py-24`
 - **Content containers:** `max-w-7xl mx-auto px-4 sm:px-6 lg:px-8`
 - **Cards:** `rounded-xl border border-gray-200 bg-gray-50 hover:border-gray-400`
-- **Buttons:** Primary = `bg-gray-900 text-white`, Secondary = `border border-gray-300`
+- **Buttons:** Primary = `bg-gray-900 text-white`, Gold CTA = `bg-owr-gold text-gray-900 font-semibold hover:bg-owr-gold-dark`, Secondary = `border border-gray-300`
 - **Badges:** `rounded-full bg-owr-gold text-gray-900 text-xs font-semibold`
 - **Fixed nav:** `backdrop-blur-md` with transparent option for hero overlay
 
@@ -120,9 +171,16 @@ Usage: `bg-owr-gold`, `text-owr-gold-dark`, `border-owr-red`, etc.
 ### Component Patterns
 - All components are `.astro` files (no React/Vue — keep it static)
 - Use TypeScript interfaces for props in component frontmatter
-- Client-side interactivity via `<script>` tags with `define:vars` for server data
+- Client-side interactivity via module `<script>` tags importing from `../lib/api`
 - API data fetched client-side (progressive enhancement — page works without API)
 - Use `class:list` for conditional classes
+
+### Nav Personalisation
+The nav renders an **anonymous state** by default (Sign In / Get Started). When JS runs, it calls `/api/v1/landing/me` — if authenticated, it swaps to:
+- **Desktop:** Dark "Dashboard" pill button (with region flag) + avatar with gold ring + dropdown menu
+- **Mobile:** Dashboard, Profile, Settings, Log out links in the hamburger menu
+- **Dropdown:** Dark theme (`bg-owr-black`, `border-owr-gold/30`, gold text) matching the Rails app's user menu — includes My Player Profile, My Events, Profile Settings, What's new on OWR?, Log out
+- If the API returns 401 or fails, the anonymous state stays (no visible change)
 
 ### Styling
 - Tailwind utility-first, custom colors via `@theme` directive (Tailwind 4 pattern)
@@ -149,13 +207,10 @@ Usage: `bg-owr-gold`, `text-owr-gold-dark`, `border-owr-red`, etc.
 - `/changelog` — Platform updates
 - `/contact` — Contact form
 
-### Rails API Endpoints to Build
-Priority endpoints for this site to consume:
-1. `GET /api/landing/stats` — aggregate platform statistics
-2. `GET /api/landing/regions` — region listing with counts
-3. `GET /api/search` — global player/tournament search
-4. Consider: `GET /api/landing/top-players` — for rankings section
-5. Consider: `GET /api/landing/faction-popularity` — for meta section
+### Rails API Enhancements
+See `docs/project-plan.md` for the full implementation plan. Remaining work:
+1. Add `email` and `player_slug` fields to `GET /api/v1/landing/me` response
+2. Consider: `GET /api/v1/landing/live` — live/upcoming tournaments for hero section
 
 ### SEO & Performance
 - Canonical URLs via `<link rel="canonical">` in Layout

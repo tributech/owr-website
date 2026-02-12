@@ -2,10 +2,9 @@
 /**
  * Hero section with rotating battle backgrounds and global search.
  * Background images rotate client-side every 8 seconds.
- * Search will hit the Rails API via /api/search proxy.
+ * Search hits the Rails API via /api/v1/search.
  */
 const heroImages = Array.from({ length: 16 }, (_, i) => `/images/landing/image${i + 1}.jpg`);
-const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com';
 ---
 
 <section class="relative min-h-[70vh] flex items-center justify-center pt-16 pb-12">
@@ -38,13 +37,13 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
     </h1>
 
     <p class="text-lg sm:text-xl text-white/80 mb-8">
-      Host, Find &amp; Play Events &middot; Create Army Lists &middot; Faction Meta &amp; Rankings
+      Host, Find &amp; Play Events &middot; Create Army Lists &middot; Track Faction Meta &amp; Rankings
     </p>
 
     <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
       <a
         href="#regions"
-        class="w-full sm:w-auto px-8 py-3 bg-white text-gray-900 font-medium rounded-lg hover:bg-gray-100 transition-colors text-center"
+        class="w-full sm:w-auto px-8 py-3 bg-owr-gold text-gray-900 font-semibold rounded-lg hover:bg-owr-gold-dark transition-colors text-center"
       >
         Find Your Region
       </a>
@@ -66,7 +65,7 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
           type="text"
           id="hero-search"
           placeholder="Search players, tournaments..."
-          class="w-full pl-12 pr-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-owr-gold/50 focus:border-owr-gold"
+          class="w-full pl-12 pr-4 py-3 bg-white border border-gray-200 rounded-xl text-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-owr-gold/50 focus:border-owr-gold"
         />
         <div
           id="hero-search-results"
@@ -79,8 +78,10 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
   </div>
 </section>
 
-<script define:vars={{ APP_URL }}>
-  // Hero image rotation
+<script>
+  import { apiFetch, APP_URL, type SearchResults } from '../lib/api';
+
+  // ── Hero image rotation ───────────────────────────────────────────
   const slides = document.querySelectorAll('.hero-slide');
   let current = 0;
   if (slides.length > 1) {
@@ -93,14 +94,14 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
     }, 8000);
   }
 
-  // Search with debounce
-  const searchInput = document.getElementById('hero-search');
+  // ── Search with debounce ──────────────────────────────────────────
+  const searchInput = document.getElementById('hero-search') as HTMLInputElement | null;
   const searchResults = document.getElementById('hero-search-results');
-  let debounceTimer;
+  let debounceTimer: ReturnType<typeof setTimeout>;
 
   searchInput?.addEventListener('input', (e) => {
     clearTimeout(debounceTimer);
-    const query = e.target.value.trim();
+    const query = (e.target as HTMLInputElement).value.trim();
 
     if (query.length < 2) {
       searchResults?.classList.add('hidden');
@@ -108,14 +109,9 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
     }
 
     debounceTimer = setTimeout(async () => {
-      try {
-        const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
-        if (!res.ok) return;
-        const data = await res.json();
-        renderSearchResults(data);
-      } catch {
-        // Silently fail — search is a progressive enhancement
-      }
+      const data = await apiFetch<SearchResults>(`/api/v1/search?q=${encodeURIComponent(query)}`);
+      if (!data) return;
+      renderSearchResults(data);
     }, 300);
   });
 
@@ -123,11 +119,14 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
     setTimeout(() => searchResults?.classList.add('hidden'), 200);
   });
 
-  function renderSearchResults(data) {
+  function renderSearchResults(data: SearchResults) {
     if (!searchResults) return;
     const items = [...(data.players || []), ...(data.tournaments || [])];
+
     if (items.length === 0) {
-      searchResults.classList.add('hidden');
+      searchResults.innerHTML =
+        '<p class="px-4 py-3 text-sm text-gray-500">No results found</p>';
+      searchResults.classList.remove('hidden');
       return;
     }
 

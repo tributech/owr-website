@@ -1,67 +1,92 @@
 ---
 /**
  * Regions grid — fetched client-side from the API.
+ * Compact card style matching the Rails landing page.
  * Each region links to the app dashboard for that region.
  */
 const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com';
 ---
 
-<section id="regions" class="bg-white py-16 sm:py-24 scroll-mt-20">
+<section id="regions" class="bg-gray-50 py-16 sm:py-24 scroll-mt-20">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-12">
-      <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">Find Your Region</h2>
-      <p class="text-gray-500 max-w-2xl mx-auto">
-        Join your local Old World community. Find tournaments, track rankings, and connect with players near you.
-      </p>
+    <div class="flex items-center justify-between mb-12">
+      <div>
+        <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Find Your Region</h2>
+        <p class="text-gray-500">Connect with your local scene and track regional rankings</p>
+      </div>
+      <a
+        href={`${APP_URL}/global_rankings`}
+        class="hidden sm:flex items-center text-sm font-medium text-gray-900 hover:text-gray-600 transition-colors"
+      >
+        View global rankings
+        <svg class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m9 18 6-6-6-6" />
+        </svg>
+      </a>
     </div>
 
-    <div id="regions-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div id="regions-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2">
       <!-- Skeleton loading states -->
-      {Array.from({ length: 8 }).map(() => (
-        <div class="region-skeleton p-4 rounded-xl border border-gray-200 bg-gray-50 animate-pulse">
-          <div class="flex items-center gap-3 mb-3">
-            <div class="w-8 h-6 bg-gray-200 rounded"></div>
-            <div class="h-5 bg-gray-200 rounded w-24"></div>
+      {Array.from({ length: 12 }).map(() => (
+        <div class="rounded-md border border-gray-200 bg-white overflow-hidden animate-pulse">
+          <div class="px-2.5 py-2 flex items-center gap-2">
+            <div class="w-5 h-4 bg-gray-200 rounded shrink-0"></div>
+            <div class="h-4 bg-gray-200 rounded w-16"></div>
+            <div class="h-3 bg-gray-200 rounded w-12 ml-auto"></div>
           </div>
-          <div class="h-4 bg-gray-200 rounded w-20"></div>
         </div>
       ))}
     </div>
+
+    <a
+      href={`${APP_URL}/global_rankings`}
+      class="flex sm:hidden items-center justify-center mt-6 text-sm font-medium text-gray-900 hover:text-gray-600 transition-colors"
+    >
+      View global rankings
+      <svg class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m9 18 6-6-6-6" />
+      </svg>
+    </a>
   </div>
 </section>
 
-<script define:vars={{ APP_URL }}>
+<script>
+  import { apiFetch, APP_URL, type LandingRegionsResponse } from '../lib/api';
+
+  const trophySvg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3 mr-1"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path></svg>`;
+
   async function loadRegions() {
-    try {
-      const res = await fetch('/api/landing/regions');
-      if (!res.ok) return;
-      const regions = await res.json();
+    const data = await apiFetch<LandingRegionsResponse>('/api/v1/landing/regions');
+    if (!data?.regions) return;
 
-      const grid = document.getElementById('regions-grid');
-      if (!grid) return;
+    const grid = document.getElementById('regions-grid');
+    if (!grid) return;
 
-      grid.innerHTML = regions
-        .map(
-          (region) => `
+    // Sort alphabetically by name
+    const sorted = [...data.regions].sort((a, b) => a.name.localeCompare(b.name));
+
+    grid.innerHTML = sorted
+      .map(
+        (region) => `
+        <div class="rounded-md border border-gray-200 bg-white overflow-hidden">
           <a
             href="${APP_URL}/${region.slug}/dashboard"
-            class="p-4 rounded-xl border border-gray-200 bg-gray-50 hover:border-gray-400 hover:bg-white transition-all group"
+            class="group block px-3 py-2.5 hover:bg-gray-50 transition-all"
           >
-            <div class="flex items-center gap-3 mb-2">
-              <span class="text-2xl">${region.country_flag || ''}</span>
-              <h3 class="font-semibold text-gray-900 group-hover:text-gray-700">${region.name}</h3>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="text-base shrink-0">${region.country_flag || ''}</span>
+              <span class="font-medium text-sm text-gray-900 group-hover:text-gray-700 transition-colors">${region.name}</span>
             </div>
-            <p class="text-sm text-gray-500">
-              ${region.player_count?.toLocaleString() || 0} players &middot; ${region.total_tournaments?.toLocaleString() || 0} events
-            </p>
-            ${region.coming_soon ? '<span class="inline-block mt-2 px-2 py-0.5 text-xs font-medium bg-gray-200 text-gray-600 rounded-full">Coming Soon</span>' : ''}
-          </a>
-        `,
-        )
-        .join('');
-    } catch {
-      // Keep skeleton or show fallback
-    }
+            <span class="text-xs text-gray-400">${region.player_count?.toLocaleString() || 0} <span class="text-[10px]">players</span></span>
+          </a>${region.has_masters ? `
+          <a
+            href="${APP_URL}/${region.slug}/rankings"
+            class="flex items-center justify-center text-xs text-owr-gold hover:text-owr-gold-dark transition-colors py-1 border-t border-gray-200"
+          >${trophySvg}Masters</a>` : ''}
+        </div>
+      `,
+      )
+      .join('');
   }
 
   loadRegions();

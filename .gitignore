@@ -23,3 +23,7 @@ pnpm-debug.log*
 # IDE
 .idea/
 .vscode/
+
+# MCP
+.mcp.json
+.claude/settings.local.json

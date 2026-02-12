@@ -3,7 +3,6 @@ interface Props {
   transparent?: boolean;
 }
 const { transparent = false } = Astro.props;
-const currentPath = Astro.url.pathname;
 
 const navLinks = [
   { label: 'Regions', href: '/#regions' },
@@ -25,6 +24,7 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
 >
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16">
+      <!-- Logo -->
       <a href="/" class="flex items-center gap-3">
         <img
           src="/images/owr_logo_white.png"
@@ -44,6 +44,7 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
         </span>
       </a>
 
+      <!-- Desktop nav links -->
       <nav class="hidden md:flex items-center gap-8">
         {navLinks.map((link) => (
           <a
@@ -60,14 +61,169 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
         ))}
       </nav>
 
+      <!-- Desktop right side -->
       <div class="flex items-center gap-4">
+        <!-- Anonymous state (default) -->
+        <div id="nav-anonymous" class="hidden md:flex items-center gap-4">
+          <a
+            href={`${APP_URL}/login`}
+            class:list={[
+              'text-sm font-medium transition-colors',
+              transparent
+                ? 'text-white/80 hover:text-white'
+                : 'text-gray-600 hover:text-gray-900',
+            ]}
+          >
+            Sign In
+          </a>
+          <a
+            href={`${APP_URL}/register`}
+            class:list={[
+              'px-4 py-2 rounded-md text-sm font-medium transition-colors',
+              transparent
+                ? 'bg-white text-gray-900 hover:bg-gray-100'
+                : 'bg-gray-900 text-white hover:bg-gray-800',
+            ]}
+          >
+            Get Started
+          </a>
+        </div>
+
+        <!-- Authenticated state (hidden until JS personalises) -->
+        <div id="nav-authenticated" class="hidden items-center gap-3">
+          <!-- Dashboard pill button -->
+          <a
+            id="nav-dashboard-btn"
+            href={`${APP_URL}/dashboard`}
+            class="flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-900 text-white text-sm font-medium hover:bg-gray-800 transition-colors"
+          >
+            <span id="nav-region-flag" class="text-base" aria-hidden="true"></span>
+            Dashboard
+          </a>
+
+          <!-- Avatar with gold ring -->
+          <div class="relative">
+            <button
+              id="nav-avatar-btn"
+              type="button"
+              class="flex items-center justify-center w-10 h-10 rounded-full ring-2 ring-owr-gold text-sm font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-owr-gold bg-gray-200 text-gray-700 overflow-hidden cursor-pointer"
+              aria-label="User menu"
+              aria-expanded="false"
+            >
+              <!-- Filled by JS: avatar image or initial letter -->
+            </button>
+
+            <!-- Dropdown (dark theme matching Rails) -->
+            <div
+              id="user-dropdown"
+              class="hidden absolute right-0 mt-2 w-64 bg-owr-black rounded-xl shadow-2xl border border-owr-gold/30 overflow-hidden z-50"
+            >
+              <!-- User header -->
+              <div class="px-5 py-4 border-b border-gray-700">
+                <p id="dropdown-name" class="text-base font-semibold text-owr-gold"></p>
+                <p id="dropdown-email" class="text-sm text-gray-400 mt-0.5"></p>
+              </div>
+
+              <!-- Menu items -->
+              <div class="py-1">
+                <a id="dropdown-profile" href={`${APP_URL}/profile`} class="flex items-center gap-3 px-5 py-3 text-base text-owr-gold hover:bg-owr-red/40 transition-colors">
+                  <svg class="w-5 h-5 text-owr-gold/70" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                  </svg>
+                  My Player Profile
+                </a>
+                <a id="dropdown-events" href={`${APP_URL}/my-events`} class="flex items-center gap-3 px-5 py-3 text-base text-owr-gold hover:bg-owr-red/40 transition-colors">
+                  <svg class="w-5 h-5 text-owr-gold/70" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
+                  </svg>
+                  My Events
+                </a>
+                <a href={`${APP_URL}/users/edit`} class="flex items-center gap-3 px-5 py-3 text-base text-owr-gold hover:bg-owr-red/40 transition-colors">
+                  <svg class="w-5 h-5 text-owr-gold/70" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                  </svg>
+                  Profile Settings
+                </a>
+                <a href={`${APP_URL}/changelog`} class="flex items-center gap-3 px-5 py-3 text-base text-owr-gold hover:bg-owr-red/40 transition-colors">
+                  <svg class="w-5 h-5 text-owr-gold/70" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                  </svg>
+                  What's new on OWR?
+                </a>
+              </div>
+
+              <!-- Sign out -->
+              <a href={`${APP_URL}/logout`} class="flex items-center gap-3 px-5 py-3 text-base text-owr-gold hover:bg-owr-red/40 transition-colors border-t border-gray-700">
+                <svg class="w-5 h-5 text-owr-gold/70" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                </svg>
+                Log out
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hamburger (mobile) -->
+        <button
+          id="mobile-menu-btn"
+          type="button"
+          class:list={[
+            'md:hidden p-2 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-owr-gold/50',
+            transparent
+              ? 'text-white hover:bg-white/10'
+              : 'text-gray-700 hover:bg-gray-100',
+          ]}
+          aria-label="Open menu"
+          aria-expanded="false"
+        >
+          <!-- Hamburger icon -->
+          <svg id="hamburger-open" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <!-- Close icon (hidden) -->
+          <svg id="hamburger-close" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile menu panel -->
+  <div
+    id="mobile-menu"
+    class:list={[
+      'hidden md:hidden border-t',
+      transparent
+        ? 'bg-black/80 border-white/10'
+        : 'bg-white border-gray-200',
+    ]}
+  >
+    <div class="px-4 py-4 space-y-2">
+      {navLinks.map((link) => (
+        <a
+          href={link.href}
+          class:list={[
+            'block px-3 py-2 rounded-md text-base font-medium transition-colors',
+            transparent
+              ? 'text-white/80 hover:text-white hover:bg-white/10'
+              : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50',
+          ]}
+        >
+          {link.label}
+        </a>
+      ))}
+
+      <!-- Mobile anonymous -->
+      <div id="mobile-anonymous" class="pt-3 border-t border-gray-200/20 space-y-2">
         <a
           href={`${APP_URL}/login`}
           class:list={[
-            'text-sm font-medium transition-colors',
+            'block px-3 py-2 rounded-md text-base font-medium transition-colors',
             transparent
-              ? 'text-white/80 hover:text-white'
-              : 'text-gray-600 hover:text-gray-900',
+              ? 'text-white/80 hover:text-white hover:bg-white/10'
+              : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50',
           ]}
         >
           Sign In
@@ -75,7 +231,7 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
         <a
           href={`${APP_URL}/register`}
           class:list={[
-            'px-4 py-2 rounded-md text-sm font-medium transition-colors',
+            'block px-3 py-2 rounded-md text-base font-medium text-center transition-colors',
             transparent
               ? 'bg-white text-gray-900 hover:bg-gray-100'
               : 'bg-gray-900 text-white hover:bg-gray-800',
@@ -84,11 +240,150 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
           Get Started
         </a>
       </div>
+
+      <!-- Mobile authenticated (hidden until JS personalises) -->
+      <div id="mobile-authenticated" class="hidden pt-3 border-t border-gray-200/20 space-y-1">
+        <div class="px-3 py-2">
+          <p id="mobile-user-name" class:list={['text-sm font-semibold', transparent ? 'text-owr-gold' : 'text-gray-900']}></p>
+          <p id="mobile-user-email" class="text-xs text-gray-500"></p>
+        </div>
+        <a
+          id="mobile-dashboard-link"
+          href={`${APP_URL}/dashboard`}
+          class:list={[
+            'block px-3 py-2 rounded-md text-base font-medium transition-colors',
+            transparent
+              ? 'text-white/80 hover:text-white hover:bg-white/10'
+              : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50',
+          ]}
+        >
+          Dashboard
+        </a>
+        <a
+          id="mobile-profile-link"
+          href={`${APP_URL}/profile`}
+          class:list={[
+            'block px-3 py-2 rounded-md text-base font-medium transition-colors',
+            transparent
+              ? 'text-white/80 hover:text-white hover:bg-white/10'
+              : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50',
+          ]}
+        >
+          My Player Profile
+        </a>
+        <a
+          href={`${APP_URL}/users/edit`}
+          class:list={[
+            'block px-3 py-2 rounded-md text-base font-medium transition-colors',
+            transparent
+              ? 'text-white/80 hover:text-white hover:bg-white/10'
+              : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50',
+          ]}
+        >
+          Profile Settings
+        </a>
+        <a
+          href={`${APP_URL}/logout`}
+          class:list={[
+            'block px-3 py-2 rounded-md text-base font-medium transition-colors border-t border-gray-200/20 mt-2 pt-2',
+            transparent
+              ? 'text-white/80 hover:text-white hover:bg-white/10'
+              : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50',
+          ]}
+        >
+          Log out
+        </a>
+      </div>
     </div>
   </div>
 </header>
 
-<!-- Mobile menu toggle (JS) -->
 <script>
-  // Future: hamburger menu for mobile
+  import { apiFetch, APP_URL, type LandingMe } from '../lib/api';
+
+  // ── Mobile menu toggle ──────────────────────────────────────────
+  const menuBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const iconOpen = document.getElementById('hamburger-open');
+  const iconClose = document.getElementById('hamburger-close');
+
+  menuBtn?.addEventListener('click', () => {
+    const expanded = mobileMenu?.classList.toggle('hidden') === false;
+    menuBtn.setAttribute('aria-expanded', String(expanded));
+    iconOpen?.classList.toggle('hidden', expanded);
+    iconClose?.classList.toggle('hidden', !expanded);
+  });
+
+  // ── User dropdown toggle ────────────────────────────────────────
+  const avatarBtn = document.getElementById('nav-avatar-btn');
+  const dropdown = document.getElementById('user-dropdown');
+
+  avatarBtn?.addEventListener('click', () => {
+    const open = dropdown?.classList.toggle('hidden') === false;
+    avatarBtn.setAttribute('aria-expanded', String(open));
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!avatarBtn?.contains(e.target as Node) && !dropdown?.contains(e.target as Node)) {
+      dropdown?.classList.add('hidden');
+      avatarBtn?.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  // ── Nav personalisation ─────────────────────────────────────────
+  async function personaliseNav() {
+    const user = await apiFetch<LandingMe>('/api/v1/landing/me');
+    if (!user) return; // 401 or network error — stay anonymous
+
+    // Desktop: swap anonymous → authenticated
+    const anonEl = document.getElementById('nav-anonymous');
+    if (anonEl) anonEl.style.display = 'none';
+    const authEl = document.getElementById('nav-authenticated');
+    authEl?.classList.remove('hidden');
+    authEl?.classList.add('flex');
+
+    // Avatar button content
+    const btn = document.getElementById('nav-avatar-btn');
+    if (btn) {
+      if (user.avatar_url) {
+        btn.innerHTML = `<img src="${user.avatar_url}" alt="" class="w-10 h-10 rounded-full object-cover" />`;
+      } else {
+        btn.textContent = (user.full_name || '?')[0].toUpperCase();
+      }
+    }
+
+    // Region flag in dashboard button
+    const flagEl = document.getElementById('nav-region-flag');
+    if (flagEl && user.region_flag) flagEl.textContent = user.region_flag;
+
+    // Dashboard button link with region
+    if (user.region_slug) {
+      const dashLink = `${APP_URL}/${user.region_slug}/dashboard`;
+      document.getElementById('nav-dashboard-btn')?.setAttribute('href', dashLink);
+      document.getElementById('mobile-dashboard-link')?.setAttribute('href', dashLink);
+    }
+
+    // Dropdown details
+    const nameEl = document.getElementById('dropdown-name');
+    if (nameEl) nameEl.textContent = user.full_name;
+    const emailEl = document.getElementById('dropdown-email');
+    if (emailEl) emailEl.textContent = user.email || user.region_name || '';
+
+    // Player profile link
+    if (user.player_slug) {
+      const profileLink = `${APP_URL}/players/${user.player_slug}`;
+      document.getElementById('dropdown-profile')?.setAttribute('href', profileLink);
+      document.getElementById('mobile-profile-link')?.setAttribute('href', profileLink);
+    }
+
+    // Mobile: swap anonymous → authenticated
+    document.getElementById('mobile-anonymous')?.classList.add('hidden');
+    document.getElementById('mobile-authenticated')?.classList.remove('hidden');
+    const mobileName = document.getElementById('mobile-user-name');
+    if (mobileName) mobileName.textContent = user.full_name;
+    const mobileEmail = document.getElementById('mobile-user-email');
+    if (mobileEmail) mobileEmail.textContent = user.email || '';
+  }
+
+  personaliseNav();
 </script>

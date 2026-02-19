@@ -11,6 +11,7 @@ const navLinks = [
   { label: 'Pricing', href: '/pricing' },
   { label: 'Docs', href: '/docs' },
   { label: "What's New", href: '/whatsnew' },
+  { label: 'Roadmap', href: '/roadmap' },
 ];
 
 const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com';
@@ -177,13 +178,6 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
                 </a>
               </div>
 
-              <!-- Sign out -->
-              <a href={`${APP_URL}/logout`} class="flex items-center gap-3 px-5 py-3 text-base text-owr-gold hover:bg-owr-red/40 transition-colors border-t border-gray-700">
-                <svg class="w-5 h-5 text-owr-gold/70" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
-                </svg>
-                Log out
-              </a>
             </div>
           </div>
         </div>
@@ -325,17 +319,6 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
           ]}
         >
           Profile Settings
-        </a>
-        <a
-          href={`${APP_URL}/logout`}
-          class:list={[
-            'block px-3 py-2 rounded-md text-base font-medium transition-colors border-t border-gray-200/20 mt-2 pt-2',
-            transparent
-              ? 'text-white/80 hover:text-white hover:bg-white/10'
-              : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800',
-          ]}
-        >
-          Log out
         </a>
       </div>
     </div>

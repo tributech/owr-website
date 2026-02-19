@@ -1,0 +1,218 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+type RoadmapPhase = 'now' | 'next' | 'later';
+type RoadmapCategory = 'Rankings' | 'Events' | 'Community' | 'Mobile' | 'Pro' | 'Army Lists' | 'Platform';
+
+interface RoadmapItem {
+  title: string;
+  description: string;
+  category: RoadmapCategory;
+}
+
+interface RoadmapPhaseGroup {
+  phase: RoadmapPhase;
+  label: string;
+  subtitle: string;
+  items: RoadmapItem[];
+}
+
+const categoryBadge: Record<RoadmapCategory, string> = {
+  Rankings: 'bg-purple-100 text-purple-800 dark:bg-purple-900/50 dark:text-purple-300',
+  Events: 'bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300',
+  Community: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300',
+  Mobile: 'bg-orange-100 text-orange-800 dark:bg-orange-900/50 dark:text-orange-300',
+  Pro: 'bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-300',
+  'Army Lists': 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300',
+  Platform: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300',
+};
+
+const phaseConfig: Record<RoadmapPhase, { pillClass: string; dotClass: string; lineClass: string; cardOpacity: string }> = {
+  now: {
+    pillClass: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300',
+    dotClass: 'border-emerald-500 dark:border-emerald-400',
+    lineClass: 'border-emerald-300 dark:border-emerald-700',
+    cardOpacity: '',
+  },
+  next: {
+    pillClass: 'bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300',
+    dotClass: 'border-blue-500 dark:border-blue-400',
+    lineClass: 'border-blue-300 dark:border-blue-700',
+    cardOpacity: '',
+  },
+  later: {
+    pillClass: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300',
+    dotClass: 'border-gray-400 dark:border-gray-500',
+    lineClass: 'border-gray-300 dark:border-gray-600 border-dashed',
+    cardOpacity: 'opacity-75',
+  },
+};
+
+const phases: RoadmapPhaseGroup[] = [
+  {
+    phase: 'now',
+    label: 'Now — In Progress',
+    subtitle: 'Actively being worked on right now.',
+    items: [
+      {
+        title: 'Tournament Photo Galleries',
+        description: 'Upload and browse event photos alongside results. Showcase painted armies and memorable moments from your tournaments.',
+        category: 'Events',
+      },
+      {
+        title: 'Enhanced Army List Search',
+        description: 'Filter army lists by faction, point range, tournament placement, and more. Find winning lists faster.',
+        category: 'Army Lists',
+      },
+      {
+        title: 'Mobile App Improvements',
+        description: 'Smoother army list syncing, offline access to your lists, and push notifications for tournament updates.',
+        category: 'Mobile',
+      },
+    ],
+  },
+  {
+    phase: 'next',
+    label: 'Next — Coming Soon',
+    subtitle: 'Planned and committed for upcoming releases.',
+    items: [
+      {
+        title: 'Regional Masters Qualification Tracker',
+        description: 'Track your progress toward regional Masters events with automatic qualification scoring and standings.',
+        category: 'Rankings',
+      },
+      {
+        title: 'Tournament Organizer Dashboard',
+        description: 'A dedicated hub for TOs with event analytics, player demographics, and historical performance data.',
+        category: 'Events',
+      },
+      {
+        title: 'Player Profiles v2',
+        description: 'Richer player profiles with match history, head-to-head records, faction stats, and achievement badges.',
+        category: 'Community',
+      },
+      {
+        title: 'Pro Subscription Perks',
+        description: 'Expanded Pro benefits including advanced analytics, custom tournament branding, and priority support.',
+        category: 'Pro',
+      },
+    ],
+  },
+  {
+    phase: 'later',
+    label: 'Later — Exploring',
+    subtitle: 'Ideas we\'re excited about but haven\'t committed to yet.',
+    items: [
+      {
+        title: 'League & Campaign Support',
+        description: 'Multi-round league formats with persistent standings, campaign progression, and narrative tracking.',
+        category: 'Events',
+      },
+      {
+        title: 'Global Rankings Seasons',
+        description: 'Seasonal ranking resets with end-of-season rewards, historical archives, and year-over-year comparisons.',
+        category: 'Rankings',
+      },
+      {
+        title: 'Community Forums',
+        description: 'Integrated discussion spaces for local scenes, faction talk, and tournament coordination.',
+        category: 'Community',
+      },
+      {
+        title: 'API for Third-Party Tools',
+        description: 'Public API endpoints so community developers can build tools, widgets, and integrations with OWR data.',
+        category: 'Platform',
+      },
+    ],
+  },
+];
+---
+
+<Layout
+  title="Roadmap — Old World Rankings"
+  description="See what's being built, what's coming next, and where Old World Rankings is headed."
+>
+  <Nav />
+
+  <main class="pt-24 pb-16">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Header -->
+      <div class="text-center mb-12">
+        <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">Roadmap</h1>
+        <p class="text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
+          A look at what we're building, what's coming next, and ideas we're exploring.
+        </p>
+      </div>
+
+      <!-- Vision block -->
+      <div class="rounded-xl bg-gray-50 border border-gray-200 dark:bg-gray-800 dark:border-gray-700 p-6 sm:p-8 mb-16">
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">Our Vision</h2>
+        <p class="text-gray-600 dark:text-gray-300 mb-3">
+          Old World Rankings exists to be the complete companion for the Warhammer: The Old World community — making it effortless to find events, track rankings, manage army lists, and connect with fellow players worldwide.
+        </p>
+        <p class="text-gray-600 dark:text-gray-300">
+          We're building in the open. This roadmap reflects our current thinking and priorities, shaped by feedback from tournament organisers and players across every region. Things may shift as we learn, but the direction is clear: make the competitive Old World experience better for everyone.
+        </p>
+      </div>
+
+      <!-- Phase groups -->
+      <div class="space-y-16">
+        {phases.map((group) => {
+          const config = phaseConfig[group.phase];
+          return (
+            <section>
+              <!-- Phase header -->
+              <div class="mb-6">
+                <span class:list={['inline-block rounded-full px-4 py-1.5 text-sm font-semibold mb-2', config.pillClass]}>
+                  {group.label}
+                </span>
+                <p class="text-sm text-gray-500 dark:text-gray-400">{group.subtitle}</p>
+              </div>
+
+              <!-- Timeline items -->
+              <div>
+                {group.items.map((item, i) => (
+                  <article class:list={[
+                    'relative pl-8 pb-8 border-l-2 last:pb-0',
+                    config.lineClass,
+                    config.cardOpacity,
+                  ]}>
+                    <!-- Timeline dot -->
+                    {group.phase === 'now' ? (
+                      <div class="absolute -left-[9px] top-0 flex items-center justify-center w-4 h-4">
+                        <div class:list={['w-4 h-4 rounded-full bg-white dark:bg-gray-900 border-2', config.dotClass]} />
+                        <div class="absolute w-4 h-4 rounded-full border-2 border-emerald-500 dark:border-emerald-400 animate-ping opacity-50" />
+                      </div>
+                    ) : (
+                      <div class:list={['absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-white dark:bg-gray-900 border-2', config.dotClass]} />
+                    )}
+
+                    <!-- Card -->
+                    <div class="rounded-xl border border-gray-200 bg-white dark:bg-gray-800 dark:border-gray-700 p-5">
+                      <div class="flex flex-wrap items-center gap-3 mb-2">
+                        <h3 class="text-base font-semibold text-gray-900 dark:text-white">{item.title}</h3>
+                        <span class:list={['inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold', categoryBadge[item.category]]}>
+                          {item.category}
+                        </span>
+                      </div>
+                      <p class="text-sm text-gray-500 dark:text-gray-400">{item.description}</p>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
+          );
+        })}
+      </div>
+
+      <!-- Disclaimer -->
+      <p class="mt-16 text-center text-xs text-gray-400 dark:text-gray-500">
+        This roadmap reflects our current plans and is subject to change. Features may be added, reprioritised, or removed as we learn from the community.
+      </p>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

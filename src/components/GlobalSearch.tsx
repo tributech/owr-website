@@ -7,17 +7,17 @@ function PlayerResult({ player, isActive }: { player: SearchPlayer; isActive: bo
   return (
     <a
       href={`${APP_URL}${player.url}`}
-      className={`flex items-center justify-between px-3 py-2 hover:bg-gray-50 rounded-lg group cursor-pointer ${isActive ? 'bg-gray-50' : ''}`}
+      className={`flex items-center justify-between px-3 py-2 hover:bg-white/10 rounded-lg cursor-pointer ${isActive ? 'bg-white/10' : ''}`}
     >
       <div className="flex items-center gap-2 min-w-0">
-        <span className="text-sm text-gray-900 truncate">{player.name}</span>
+        <span className="text-sm text-white truncate">{player.name}</span>
         {player.nickname && (
-          <span className="text-gray-400 text-sm">(@{player.nickname})</span>
+          <span className="text-white/50 text-sm">(@{player.nickname})</span>
         )}
       </div>
       <div className="flex items-center gap-3 shrink-0">
         <CountryFlag code={player.region} />
-        <span className="text-sm text-gray-900 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+        <span className="text-sm text-[#FFD700] whitespace-nowrap">
           View profile &rarr;
         </span>
       </div>
@@ -29,12 +29,12 @@ function TournamentResult({ tournament, isActive }: { tournament: SearchTourname
   return (
     <a
       href={`${APP_URL}${tournament.url}`}
-      className={`flex items-center justify-between px-3 py-2 hover:bg-gray-50 rounded-lg group cursor-pointer ${isActive ? 'bg-gray-50' : ''}`}
+      className={`flex items-center justify-between px-3 py-2 hover:bg-white/10 rounded-lg cursor-pointer ${isActive ? 'bg-white/10' : ''}`}
     >
-      <span className="text-sm text-gray-900 truncate">{tournament.name}</span>
+      <span className="text-sm text-white truncate">{tournament.name}</span>
       <div className="flex items-center gap-3 shrink-0">
         <CountryFlag code={tournament.region} />
-        <span className="text-sm text-gray-900 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+        <span className="text-sm text-[#FFD700] whitespace-nowrap">
           View tournament &rarr;
         </span>
       </div>
@@ -92,7 +92,7 @@ export default function GlobalSearch() {
     <div className="max-w-xl mx-auto" ref={wrapperRef}>
       <div className="relative">
         <svg
-          className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none"
+          className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-[#FFD700] pointer-events-none z-10"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -102,21 +102,21 @@ export default function GlobalSearch() {
         </svg>
         <input
           type="text"
-          placeholder="Search players or tournaments..."
+          placeholder="Search for players or tournaments..."
           onChange={(e) => search(e.target.value)}
           onKeyDown={handleKeyDown}
-          className="w-full h-12 pl-12 pr-4 bg-white/95 backdrop-blur border border-gray-200 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400"
+          className="w-full h-12 pl-12 pr-4 bg-black/60 backdrop-blur border border-[#FFD700] rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#FFD700]/60"
         />
 
         {isOpen && results && (
-          <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden z-50">
+          <div className="absolute top-full left-0 right-0 mt-2 bg-[#1C1C1C] rounded-lg shadow-2xl border border-[#FFD700]/30 overflow-hidden z-50">
             {!hasResults ? (
-              <p className="px-4 py-3 text-sm text-gray-500">No results found</p>
+              <p className="px-4 py-3 text-sm text-white/50">No results found</p>
             ) : (
               <>
                 {players.length > 0 && (
                   <div className="py-2 px-2">
-                    <div className="text-xs text-gray-500 uppercase tracking-wide font-medium mb-1 px-2">
+                    <div className="text-xs text-[#FFD700] uppercase tracking-widest font-semibold mb-1 px-2">
                       Players
                     </div>
                     {players.map((player, i) => (
@@ -126,12 +126,12 @@ export default function GlobalSearch() {
                 )}
 
                 {players.length > 0 && tournaments.length > 0 && (
-                  <div className="border-t border-gray-100" />
+                  <div className="border-t border-white/10" />
                 )}
 
                 {tournaments.length > 0 && (
                   <div className="py-2 px-2">
-                    <div className="text-xs text-gray-500 uppercase tracking-wide font-medium mb-1 px-2">
+                    <div className="text-xs text-[#FFD700] uppercase tracking-widest font-semibold mb-1 px-2">
                       Tournaments
                     </div>
                     {tournaments.map((tournament, i) => (

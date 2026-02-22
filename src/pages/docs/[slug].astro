@@ -188,4 +188,42 @@ const bodyHtml = renderRichText(article.fields.body as unknown as Document);
   </main>
 
   <Footer />
+
+  <!-- Lightbox overlay -->
+  <div id="lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90 cursor-zoom-out">
+    <button id="lightbox-close" class="absolute top-4 right-4 text-white/70 hover:text-white transition-colors z-10" aria-label="Close">
+      <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+    <img id="lightbox-img" class="w-full h-full object-contain p-2" alt="" />
+  </div>
+
+  <script>
+    const lightbox = document.getElementById('lightbox')!;
+    const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement;
+
+    document.querySelectorAll('.doc-lightbox-img').forEach((img) => {
+      img.addEventListener('click', () => {
+        lightboxImg.src = (img as HTMLImageElement).src;
+        lightboxImg.alt = (img as HTMLImageElement).alt;
+        lightbox.classList.remove('hidden');
+        lightbox.classList.add('flex');
+      });
+    });
+
+    lightbox.addEventListener('click', () => {
+      lightbox.classList.add('hidden');
+      lightbox.classList.remove('flex');
+      lightboxImg.src = '';
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !lightbox.classList.contains('hidden')) {
+        lightbox.classList.add('hidden');
+        lightbox.classList.remove('flex');
+        lightboxImg.src = '';
+      }
+    });
+  </script>
 </Layout>

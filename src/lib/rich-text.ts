@@ -87,7 +87,7 @@ const options: Options = {
       const title = fields?.title || '';
       const description = fields?.description || '';
       if (!url) return '';
-      return `<figure class="my-6"><img src="https:${url}" alt="${title}" loading="lazy" class="rounded-lg w-full" />${description ? `<figcaption class="text-sm text-gray-500 mt-2 text-center">${description}</figcaption>` : ''}</figure>`;
+      return `<figure class="my-6"><img src="https:${url}" alt="${title}" loading="lazy" class="rounded-lg w-full cursor-zoom-in doc-lightbox-img" />${description ? `<figcaption class="text-sm text-gray-500 mt-2 text-center">${description}</figcaption>` : ''}</figure>`;
     },
     [INLINES.HYPERLINK]: (node, next) =>
       `<a href="${node.data.uri}" class="text-gray-900 dark:text-owr-gold underline underline-offset-4 hover:text-owr-gold-dark transition-colors"${node.data.uri.startsWith('http') ? ' target="_blank" rel="noopener noreferrer"' : ''}>${next(node.content)}</a>`,

@@ -4,6 +4,7 @@ import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 import DocSidebar from '../../components/docs/DocSidebar.astro';
 import DocBreadcrumb from '../../components/docs/DocBreadcrumb.astro';
+import DocPrevNext from '../../components/docs/DocPrevNext.astro';
 import DocArticleCard from '../../components/docs/DocArticleCard.astro';
 import { getClient } from '../../lib/contentful';
 import { renderRichText } from '../../lib/rich-text';
@@ -51,9 +52,37 @@ export async function getStaticPaths() {
       .map((a) => ({ title: a.fields.title, slug: a.fields.slug })),
   }));
 
+  // Build a flat ordered list of all articles grouped by category for prev/next
+  const orderedArticles: { title: string; slug: string; categoryId: string }[] = [];
+  for (const cat of categories) {
+    const catArticles = articles.filter(
+      (a) => (a.fields.category as DocCategoryEntry)?.sys?.id === cat.sys.id,
+    );
+    for (const a of catArticles) {
+      orderedArticles.push({
+        title: a.fields.title,
+        slug: a.fields.slug,
+        categoryId: cat.sys.id,
+      });
+    }
+  }
+
   return articles.map((article) => {
     const category = article.fields.category as DocCategoryEntry;
     const related = (article.fields.relatedArticles || []) as DocArticleEntry[];
+
+    // Find prev/next within the same category
+    const catArticles = orderedArticles.filter(
+      (a) => a.categoryId === category?.sys?.id,
+    );
+    const currentIndex = catArticles.findIndex(
+      (a) => a.slug === article.fields.slug,
+    );
+    const prev = currentIndex > 0 ? catArticles[currentIndex - 1] : undefined;
+    const next =
+      currentIndex < catArticles.length - 1
+        ? catArticles[currentIndex + 1]
+        : undefined;
 
     return {
       params: { slug: article.fields.slug },
@@ -62,9 +91,16 @@ export async function getStaticPaths() {
         category,
         sidebarCategories,
         relatedArticles: related,
+        prev,
+        next,
       },
     };
   });
+}
+
+interface NavItem {
+  title: string;
+  slug: string;
 }
 
 interface Props {
@@ -72,9 +108,11 @@ interface Props {
   category: DocCategoryEntry;
   sidebarCategories: { title: string; slug: string; articles: { title: string; slug: string }[] }[];
   relatedArticles: DocArticleEntry[];
+  prev?: NavItem;
+  next?: NavItem;
 }
 
-const { article, category, sidebarCategories, relatedArticles } = Astro.props;
+const { article, category, sidebarCategories, relatedArticles, prev, next } = Astro.props;
 
 const bodyHtml = renderRichText(article.fields.body as unknown as Document);
 ---
@@ -141,6 +179,9 @@ const bodyHtml = renderRichText(article.fields.body as unknown as Document);
               </div>
             </div>
           )}
+
+          {/* Prev / Next navigation */}
+          <DocPrevNext prev={prev} next={next} />
         </article>
       </div>
     </div>

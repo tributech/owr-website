@@ -270,6 +270,43 @@ The Contentful MCP server (`mcp__contentful-mcp__*`) is configured and can manag
 - `mcp__contentful-mcp__list_content_types` — verify schema
 - `mcp__contentful-mcp__create_content_type` / `publish_content_type` — schema changes
 
+### Uploading Images to Contentful
+
+Contentful's `upload_asset` requires a **publicly accessible URL** — localhost won't work. Use ngrok to tunnel a local file server:
+
+```bash
+# 1. Start a Python HTTP server in the directory containing images
+#    (done via openbrowser execute_code or manually)
+python3 -m http.server 8765 --directory /path/to/images
+
+# 2. Tunnel it with ngrok
+ngrok http 8765
+
+# 3. Use the ngrok URL in the upload_asset call
+mcp__contentful-mcp__upload_asset  file.upload = "https://<ngrok-url>/image.png"
+
+# 4. Publish the asset, then embed it in rich text via embedded-asset-block
+# 5. Kill ngrok when done: pkill ngrok
+```
+
+### Creating Help Doc Articles
+
+**Workflow for a new docArticle:**
+
+1. Upload & publish image assets (see above)
+2. Create entry with `contentTypeId: "docArticle"`, linking to a `docCategory`
+3. Build the `body` as Contentful Rich Text (see conventions above)
+4. Embed images using `embedded-asset-block` nodes referencing the asset ID
+5. Publish the entry
+
+**Existing doc categories:**
+
+| Category | ID | Slug |
+|----------|-----|------|
+| Tournament Hosting | `46Oro3c40AKAkiXynbiafT` | `tournament-hosting` |
+
+**Tags available for docArticle:** `players`, `tournament-organizers`, `pro`, `army-lists`, `rankings`, `getting-started`, `regions`, `galleries`
+
 ### Build & Deploy
 
 This is a **static site** — content changes in Contentful require a site rebuild.
@@ -277,6 +314,63 @@ This is a **static site** — content changes in Contentful require a site rebui
 - **Local:** `pnpm build` fetches from Contentful Delivery API (or Preview API in dev)
 - **Production:** Netlify build hook triggered by Contentful webhook on entry publish/unpublish
 - **Graceful degradation:** If Contentful is unconfigured or content types don't exist, pages render empty states (no build failures)
+
+## Documentation Drafts (`docs/`)
+
+The `docs/` directory contains working drafts of help documentation, written as markdown files alongside PNG screenshots. These serve as source material for Contentful docArticle entries.
+
+### `docs/tournament-hosting-guide/`
+
+Markdown + screenshot files for each tab in the tournament hosting flow. Each `.md` file has YAML frontmatter with metadata (title, slug, order, URL path, screenshot filenames, section).
+
+**Files:** `01-create-tournament.md` through `09-communications.md` plus `10-battle-board.md`, with corresponding `.png` screenshots.
+
+### Workflow: Documenting App Features with openbrowser MCP
+
+Use the `mcp__openbrowser__execute_code` tool to navigate the Rails app at `https://owr-local.site:5100`, interact with pages, and take screenshots for documentation.
+
+**Screenshot workflow:**
+1. Navigate to the page: `await navigate('https://owr-local.site:5100/...')`
+2. Get the main content area bounds (exclude sidebar/nav):
+   ```python
+   result = await evaluate("""
+       const allDivs = document.querySelectorAll('div');
+       let bestMatch = null; let bestArea = 0;
+       for (const div of allDivs) {
+           const rect = div.getBoundingClientRect();
+           if (rect.x > 100 && rect.width > 500 && rect.height > 400) {
+               const area = rect.width * rect.height;
+               const hasH1 = div.querySelector('h1');
+               if (hasH1 && area > bestArea) {
+                   bestMatch = { x: Math.round(rect.x), y: Math.round(rect.y),
+                                 w: Math.round(rect.width), h: Math.round(rect.height) };
+                   bestArea = area;
+               }
+           }
+       }
+       return bestMatch;
+   """)
+   ```
+3. Take a clipped full-page screenshot (sidebar/nav excluded):
+   ```python
+   await browser.take_screenshot(
+       path="/path/to/output.png",
+       full_page=True,
+       clip={"x": result['x'], "y": 48, "width": result['w'], "height": result['h']}
+   )
+   ```
+4. For detail shots of specific components, scroll them into view first, then take a plain viewport screenshot (`full_page=False`, no clip) — `clip` uses CSS pixels but viewport screenshots avoid DPI scaling issues.
+
+**Key gotchas:**
+- `screenshot_element()` and `clip` with viewport coordinates can produce black images due to device pixel ratio. Prefer full-page clip for main content, plain viewport shots for detail areas.
+- Always `await evaluate("window.scrollTo(0, 0)")` before full-page screenshots.
+- Get fresh `browser.get_browser_state_summary()` after any navigation — element indices go stale.
+- The user must log in manually before the browser can access authenticated pages.
+
+**Typical app structure for TO pages:**
+- Setup tabs: Overview, Dates & Payment, Documents, Staff, Attendees, Scoring, Rounds, Communications
+- URL pattern: `/au/tournaments/hosted/{slug}/{tab}`
+- Battle Board (display screen): `/au/tournaments/{slug}/battleboard`
 
 ## Future Work
 

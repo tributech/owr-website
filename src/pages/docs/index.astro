@@ -98,13 +98,14 @@ for (const article of articles) {
 
                 {catArticles.length > 0 ? (
                   <div class="grid gap-4 sm:grid-cols-2">
-                    {catArticles.map((article) => (
+                    {catArticles.map((article, index) => (
                       <DocArticleCard
                         title={article.fields.title}
                         slug={article.fields.slug}
                         excerpt={article.fields.excerpt}
                         tags={article.fields.tags}
                         categoryName={cat.fields.title}
+                        step={index + 1}
                       />
                     ))}
                   </div>

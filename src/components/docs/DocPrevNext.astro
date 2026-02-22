@@ -1,0 +1,56 @@
+---
+interface NavItem {
+  title: string;
+  slug: string;
+}
+
+interface Props {
+  prev?: NavItem;
+  next?: NavItem;
+}
+
+const { prev, next } = Astro.props;
+---
+
+{(prev || next) && (
+  <nav aria-label="Article navigation" class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
+    <div class="flex items-stretch gap-4">
+      {prev ? (
+        <a
+          href={`/docs/${prev.slug}`}
+          class="group flex-1 flex items-center gap-3 rounded-lg border border-gray-200 dark:border-gray-700 px-4 py-3 hover:border-owr-gold/50 hover:bg-owr-gold/5 transition-colors"
+        >
+          <svg class="w-5 h-5 text-gray-400 group-hover:text-owr-gold-dark transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+          <div class="min-w-0">
+            <div class="text-xs text-gray-500 dark:text-gray-400 mb-0.5">Previous</div>
+            <div class="text-sm font-medium text-gray-900 dark:text-white group-hover:text-owr-gold-dark transition-colors truncate">
+              {prev.title}
+            </div>
+          </div>
+        </a>
+      ) : (
+        <div class="flex-1"></div>
+      )}
+      {next ? (
+        <a
+          href={`/docs/${next.slug}`}
+          class="group flex-1 flex items-center justify-end gap-3 rounded-lg border border-gray-200 dark:border-gray-700 px-4 py-3 hover:border-owr-gold/50 hover:bg-owr-gold/5 transition-colors text-right"
+        >
+          <div class="min-w-0">
+            <div class="text-xs text-gray-500 dark:text-gray-400 mb-0.5">Next</div>
+            <div class="text-sm font-medium text-gray-900 dark:text-white group-hover:text-owr-gold-dark transition-colors truncate">
+              {next.title}
+            </div>
+          </div>
+          <svg class="w-5 h-5 text-gray-400 group-hover:text-owr-gold-dark transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      ) : (
+        <div class="flex-1"></div>
+      )}
+    </div>
+  </nav>
+)}

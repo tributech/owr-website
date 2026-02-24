@@ -3,17 +3,17 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
 
 const freeFeatures = [
   'View rankings & tournament results',
-  'Browse army lists & galleries',
+  'Basic army list search',
+  'Army list access (short delay)',
   'Register for tournaments',
   'Basic tournament hosting',
-  'OWR payment processing',
 ];
 
 const proFeatures = [
-  'Advanced army list search',
-  'Custom notifications',
-  'Full Army Builder access',
-  'Your own payment processing',
+  'Full Army Builder sync across all devices',
+  'Instant army list access including pre-event',
+  'Pre-launch registration support',
+  'Event follow and notifications',
   'Mobile app with list sync',
 ];
 ---
@@ -41,7 +41,7 @@ const proFeatures = [
         <h3 class="text-xl font-bold text-white mb-2">OWR Free</h3>
         <p class="text-white/60 mb-6">Everything you need to compete</p>
         <p class="text-3xl font-bold text-white mb-6">
-          $0<span class="text-lg font-normal text-white/60">/month</span>
+          $0<span class="text-lg font-normal text-white/60"> USD/month</span>
         </p>
         <ul class="space-y-3 flex-grow">
           {freeFeatures.map((feature) => (
@@ -71,7 +71,7 @@ const proFeatures = [
         <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">OWR Pro</h3>
         <p class="text-gray-500 dark:text-gray-400 mb-6">For tournament organizers &amp; power users</p>
         <p class="text-3xl font-bold text-gray-900 dark:text-white mb-6">
-          $5<span class="text-lg font-normal text-gray-500 dark:text-gray-400">/month</span>
+          $6<span class="text-lg font-normal text-gray-500 dark:text-gray-400"> USD/month</span>
         </p>
         <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Everything in Free, plus:</p>
         <ul class="space-y-3 flex-grow">
@@ -94,7 +94,6 @@ const proFeatures = [
     </div>
 
     <p class="text-center mt-8 text-white/60 text-sm">
-      * Platform fees apply when using OWR payment processing.
       <a href="/pricing" class="text-white underline underline-offset-4 hover:text-white/80">
         View full pricing details
       </a>

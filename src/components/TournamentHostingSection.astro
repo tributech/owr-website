@@ -1,11 +1,11 @@
 ---
 const benefits = [
-  { title: 'Easy Setup', description: 'Create your tournament in minutes with our guided setup wizard', icon: 'M12 4v16m8-8H4' },
-  { title: 'Player Registration', description: 'Built-in registration with waitlists and attendee management', icon: 'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 7a4 4 0 100-8 4 4 0 000 8zm10 4l2 2 4-4' },
-  { title: 'Payment Processing', description: 'Accept payments via OWR or connect your own Stripe account', icon: 'M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z' },
-  { title: 'Live Scoring', description: 'Real-time results, rankings, and battle boards for players', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z' },
-  { title: 'Army List Collection', description: 'Collect and validate army lists before the event', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' },
+  { title: 'Battle Hub', description: 'Live player scoring round by round — battle points, soft scores, and objectives all in one place', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z' },
+  { title: 'Easy Setup', description: 'Upload your players pack and AI creates your tournament for you in minutes', icon: 'M12 4v16m8-8H4' },
+  { title: 'Player Registration', description: 'Built-in registration with waitlists and payment collection', icon: 'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 7a4 4 0 100-8 4 4 0 000 8zm10 4l2 2 4-4' },
   { title: 'Auto Pairings', description: 'Swiss and other pairing systems with manual override options', icon: 'M13 10V3L4 14h7v7l9-11h-7z' },
+  { title: 'Army List Collection', description: 'Collect and validate army lists before the event', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' },
+  { title: 'Live Battle Board', description: 'Real-time standings, results, and awards displayed on screen for your venue', icon: 'M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z' },
 ];
 ---
 
@@ -14,6 +14,14 @@ const benefits = [
     <div class="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
       <!-- Left content -->
       <div class="mb-12 lg:mb-0">
+        <div class="mb-6 rounded-xl overflow-hidden shadow-lg border border-gray-200 dark:border-gray-700">
+          <img
+            src="/images/battleboard-results.png"
+            alt="OWR Battle Board showing final tournament results with podium places and standings"
+            class="w-full h-auto"
+            loading="lazy"
+          />
+        </div>
         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gray-900 text-white text-sm font-medium mb-4">
           For Tournament Organizers
         </span>

@@ -4,18 +4,51 @@ interface Props {
 }
 const { transparent = false } = Astro.props;
 
-const navLinks = [
-  { label: 'Regions', href: '/#regions' },
-  { label: 'Rankings', href: '/#rankings' },
-  { label: 'Features', href: '/#features' },
-  { label: 'Pricing', href: '/pricing' },
-  { label: 'Docs', href: '/docs' },
-  { label: "What's New", href: '/whatsnew' },
-  { label: 'About', href: '/about' },
-  { label: 'Roadmap', href: '/roadmap' },
+const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com';
+
+const megaMenus = [
+  {
+    label: 'Explore',
+    columns: 2,
+    items: [
+      { label: 'Regions', href: '/#regions', description: 'Find your local community and regional rankings', icon: 'M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418' },
+      { label: 'Global Rankings', href: `${APP_URL}/global_rankings`, description: 'Player rankings across every region worldwide', icon: 'M16.5 18.75h-9m9 0a3 3 0 0 1 3 3h-15a3 3 0 0 1 3-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 0 1-.982-3.172M9.497 14.25a7.454 7.454 0 0 0 .981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 0 0 7.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M18.75 4.236c.982.143 1.954.317 2.916.52A6.003 6.003 0 0 1 16.27 9.728M18.75 4.236V4.5c0 2.108-.966 3.99-2.48 5.228m0 0a6.003 6.003 0 0 1-2.27.853m0 0a7.44 7.44 0 0 1-4.04 0m0 0a6.003 6.003 0 0 1-2.27-.853' },
+      { label: 'Latest Results', href: `${APP_URL}/dashboard`, description: 'Recent tournament results and standings from around the world', icon: 'M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6' },
+      { label: 'Upcoming Events', href: `${APP_URL}/dashboard`, description: 'Find tournaments happening near you and register', icon: 'M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5' },
+      { label: 'Army Lists', href: `${APP_URL}/army_lists`, description: 'Browse army lists from tournaments around the world', icon: 'M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 12h.007v.008H3.75V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm-.375 5.25h.007v.008H3.75v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z' },
+      { label: 'Army Galleries', href: `${APP_URL}/galleries`, description: 'Painted army showcases and hobby inspiration', icon: 'M2.25 15.75l5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v13.5a1.5 1.5 0 0 0 1.5 1.5Z' },
+    ],
+  },
+  {
+    label: 'Product',
+    columns: 2,
+    items: [
+      { label: 'Features', href: '/#features', description: 'Everything OWR offers for players and tournament organisers', icon: 'M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z' },
+      { label: 'Battle Builder', href: `${APP_URL}/builder`, description: 'Build and manage your army lists with our list builder', icon: 'M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.049.58.025 1.193-.14 1.743' },
+      { label: 'Mobile App', href: '/#mobile', description: 'OWR in your pocket — manage lists and get live event updates', icon: 'M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3' },
+      { label: 'For Tournament Organisers', href: '/#tournament-hosting', description: 'Run events with automated pairings, live boards and more', icon: 'M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5m.75-9 3-3 2.148 2.148A12.061 12.061 0 0 1 16.5 7.605' },
+      { label: 'Pricing', href: '/pricing', description: 'Free for players forever — Pro plans for tournament organisers', icon: 'M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z' },
+      { label: 'Roadmap', href: '/roadmap', description: 'See what we\'re building next and vote on upcoming features', icon: 'M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z' },
+    ],
+  },
+  {
+    label: 'Resources',
+    columns: 1,
+    items: [
+      { label: 'Documentation', href: '/docs', description: 'Guides and help articles to get the most out of OWR', icon: 'M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25' },
+      { label: "What's New", href: '/whatsnew', description: 'Latest updates, improvements and fixes to the platform', icon: 'M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 0 1-2.25 2.25M16.5 7.5V18a2.25 2.25 0 0 0 2.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 0 0 2.25 2.25h13.5' },
+      { label: 'Support', href: 'mailto:support@oldworldrankings.com', description: 'Get in touch — we\'re here to help', icon: 'M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75' },
+    ],
+  },
 ];
 
-const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com';
+const directLinks = [
+  { label: 'About', href: '/about' },
+];
+
+// Flat list for mobile menu
+const mobileLinks = megaMenus.flatMap(m => m.items.map(i => ({ label: i.label, href: i.href })));
+mobileLinks.push(...directLinks);
 ---
 
 <header
@@ -48,16 +81,91 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
         </span>
       </a>
 
-      <!-- Desktop nav links -->
-      <nav class="hidden md:flex items-center gap-8">
-        {navLinks.map((link) => (
+      <!-- Desktop nav links (mega menu) -->
+      <nav class="hidden lg:flex items-center gap-1">
+        {megaMenus.map((menu) => (
+          <div class="group relative">
+            <button
+              type="button"
+              class:list={[
+                'flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer',
+                transparent
+                  ? 'text-white/70 hover:text-white hover:bg-white/10'
+                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800',
+              ]}
+            >
+              {menu.label}
+              <svg class="w-4 h-4 opacity-50 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+              </svg>
+            </button>
+
+            <!-- Dropdown panel — CSS hover only -->
+            <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 absolute left-1/2 -translate-x-1/2 top-full pt-2 transition-all duration-150 z-50">
+              <div class:list={[
+                'rounded-xl border shadow-xl p-2',
+                menu.columns === 2 ? 'w-[600px]' : 'min-w-[320px]',
+                transparent
+                  ? 'bg-gray-900/95 border-white/10 backdrop-blur-xl'
+                  : 'bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700',
+              ]}>
+                <div class:list={[
+                  menu.columns === 2 ? 'grid grid-cols-2 gap-0.5' : '',
+                ]}>
+                  {menu.items.map((item) => (
+                    <a
+                      href={item.href}
+                      class:list={[
+                        'group/item flex items-start gap-3 px-3 py-3 rounded-lg transition-colors',
+                        transparent
+                          ? 'hover:bg-white/10'
+                          : 'hover:bg-gray-50 dark:hover:bg-gray-800',
+                      ]}
+                    >
+                      <div class:list={[
+                        'flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center mt-0.5 transition-colors',
+                        transparent
+                          ? 'bg-owr-gold/15 text-owr-gold'
+                          : 'bg-amber-100 text-amber-700 group-hover/item:bg-amber-200 group-hover/item:text-amber-800 dark:bg-owr-gold/10 dark:text-owr-gold dark:group-hover/item:bg-owr-gold/20',
+                      ]}>
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                          <path stroke-linecap="round" stroke-linejoin="round" d={item.icon} />
+                        </svg>
+                      </div>
+                      <div class="min-w-0">
+                        <div class:list={[
+                          'text-sm font-semibold',
+                          transparent
+                            ? 'text-white'
+                            : 'text-gray-900 dark:text-white',
+                        ]}>
+                          {item.label}
+                        </div>
+                        <div class:list={[
+                          'text-xs mt-0.5 leading-relaxed',
+                          transparent
+                            ? 'text-white/50'
+                            : 'text-gray-500 dark:text-gray-400',
+                        ]}>
+                          {item.description}
+                        </div>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+
+        {directLinks.map((link) => (
           <a
             href={link.href}
             class:list={[
-              'text-sm transition-colors',
+              'px-3 py-2 rounded-lg text-sm font-medium transition-colors',
               transparent
-                ? 'text-white/70 hover:text-white'
-                : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white',
+                ? 'text-white/70 hover:text-white hover:bg-white/10'
+                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800',
             ]}
           >
             {link.label}
@@ -72,7 +180,7 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
           id="theme-toggle"
           type="button"
           class:list={[
-            'hidden md:flex items-center justify-center w-9 h-9 rounded-lg transition-colors cursor-pointer',
+            'hidden lg:flex items-center justify-center w-9 h-9 rounded-lg transition-colors cursor-pointer',
             transparent
               ? 'text-owr-gold hover:bg-white/10'
               : 'text-owr-gold hover:bg-gray-100 dark:hover:bg-gray-800',
@@ -90,7 +198,7 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
         </button>
 
         <!-- Anonymous state (default) -->
-        <div id="nav-anonymous" class="hidden md:flex items-center gap-4">
+        <div id="nav-anonymous" class="hidden lg:flex items-center gap-4">
           <a
             href={`${APP_URL}/login`}
             class:list={[
@@ -183,12 +291,12 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
           </div>
         </div>
 
-        <!-- Hamburger (mobile) -->
+        <!-- Hamburger (mobile/tablet) -->
         <button
           id="mobile-menu-btn"
           type="button"
           class:list={[
-            'md:hidden p-2 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-owr-gold/50',
+            'lg:hidden p-2 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-owr-gold/50',
             transparent
               ? 'text-white hover:bg-white/10'
               : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800',
@@ -213,14 +321,14 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
   <div
     id="mobile-menu"
     class:list={[
-      'hidden md:hidden border-t',
+      'hidden lg:hidden border-t',
       transparent
         ? 'bg-black/80 border-white/10'
         : 'bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700',
     ]}
   >
     <div class="px-4 py-4 space-y-2">
-      {navLinks.map((link) => (
+      {mobileLinks.map((link) => (
         <a
           href={link.href}
           class:list={[

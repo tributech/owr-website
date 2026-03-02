@@ -69,9 +69,12 @@ const proFeatures = [
           </span>
         </div>
         <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">OWR Pro</h3>
-        <p class="text-gray-500 dark:text-gray-400 mb-6">For tournament organizers &amp; power users</p>
+        <p class="text-gray-500 dark:text-gray-400 mb-4">For tournament organizers &amp; power users</p>
+        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-green-100 text-green-800 text-xs font-medium mb-4">
+          Introductory pricing
+        </span>
         <p class="text-3xl font-bold text-gray-900 dark:text-white mb-6">
-          $6<span class="text-lg font-normal text-gray-500 dark:text-gray-400"> USD/month</span>
+          <span data-pro-price>$7</span><span class="text-lg font-normal text-gray-500 dark:text-gray-400" data-pro-suffix> USD/month</span>
         </p>
         <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Everything in Free, plus:</p>
         <ul class="space-y-3 flex-grow">
@@ -100,3 +103,24 @@ const proFeatures = [
     </p>
   </div>
 </section>
+
+<script>
+  import { detectCurrency, priceForCurrency } from '../lib/pricing';
+
+  function updatePricing() {
+    const user = window.__owrUser;
+    const currency = detectCurrency(user?.region_slug);
+    const price = priceForCurrency(currency);
+
+    const section = document.getElementById('pricing');
+    if (!section) return;
+
+    const priceEl = section.querySelector('[data-pro-price]');
+    const suffixEl = section.querySelector('[data-pro-suffix]');
+    if (priceEl) priceEl.textContent = price.display;
+    if (suffixEl) suffixEl.textContent = ` ${price.suffix}`;
+  }
+
+  document.addEventListener('owr:user-loaded', () => updatePricing());
+  if (window.__owrUser !== undefined) updatePricing();
+</script>

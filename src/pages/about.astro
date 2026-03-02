@@ -1,0 +1,81 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout
+  title="About — Old World Rankings"
+  description="Meet the creator behind Old World Rankings — the companion platform for Warhammer: The Old World."
+>
+  <Nav />
+
+  <main class="pt-24 pb-16">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+        <!-- Left: Bio -->
+        <div>
+          <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">About</h1>
+          <p class="text-gray-600 dark:text-gray-400 leading-relaxed mb-6">
+            I'm the host of
+            <a href="https://oldworldfanatics.com" target="_blank" rel="noopener noreferrer" class="text-owr-gold hover:text-owr-gold-dark transition-colors underline">Old World Fanatics</a>,
+            a podcast dedicated to competitive Warhammer: The Old World.
+            Through the podcast and this platform, I'm working to build and support our growing community.
+          </p>
+
+          <div class="space-y-4">
+            <a
+              href="https://oldworldfanatics.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex items-center gap-2 text-owr-gold hover:text-owr-gold-dark transition-colors"
+            >
+              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+              </svg>
+              <span>oldworldfanatics.com</span>
+            </a>
+
+            <a
+              href="https://www.youtube.com/@oldworldfanatics"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex items-center gap-2 text-owr-gold hover:text-owr-gold-dark transition-colors"
+            >
+              <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+              </svg>
+              <span>YouTube Channel</span>
+            </a>
+
+            <a
+              href="https://www.patreon.com/oldworldfanatics"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex items-center gap-2 text-owr-gold hover:text-owr-gold-dark transition-colors"
+            >
+              <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M15.386.524c-4.764 0-8.64 3.876-8.64 8.64 0 4.75 3.876 8.613 8.64 8.613 4.75 0 8.614-3.864 8.614-8.613C24 4.4 20.136.524 15.386.524zM.003 23.537h4.22V.524H.003z" />
+              </svg>
+              <span>Join our Patreon</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Right: Photo + Name -->
+        <div>
+          <div class="rounded-lg overflow-hidden bg-gray-800">
+            <img
+              src="/images/gommo.png"
+              alt="Gommo at Warhammer World"
+              class="w-full h-[280px] object-cover"
+            />
+          </div>
+          <p class="mt-4 font-handwriting text-4xl text-owr-gold">gommo</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

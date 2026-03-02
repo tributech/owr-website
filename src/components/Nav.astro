@@ -11,6 +11,7 @@ const navLinks = [
   { label: 'Pricing', href: '/pricing' },
   { label: 'Docs', href: '/docs' },
   { label: "What's New", href: '/whatsnew' },
+  { label: 'About', href: '/about' },
   { label: 'Roadmap', href: '/roadmap' },
 ];
 
@@ -443,7 +444,15 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
     if (mobileName) mobileName.textContent = user.full_name;
     const mobileEmail = document.getElementById('mobile-user-email');
     if (mobileEmail) mobileEmail.textContent = user.email || '';
+
+    window.__owrUser = user;
+    document.dispatchEvent(new CustomEvent('owr:user-loaded', { detail: user }));
   }
 
-  personaliseNav();
+  personaliseNav().then(() => {
+    if (window.__owrUser === undefined) {
+      window.__owrUser = null;
+      document.dispatchEvent(new CustomEvent('owr:user-loaded', { detail: null }));
+    }
+  });
 </script>

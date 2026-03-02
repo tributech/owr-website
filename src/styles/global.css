@@ -27,6 +27,7 @@
 
   /* Typography */
   --font-sans: "Montserrat", system-ui, sans-serif;
+  --font-handwriting: "Permanent Marker", cursive;
 
   /* Breakpoints (extending defaults) */
   --breakpoint-xs: 480px;

@@ -79,3 +79,25 @@ export interface SearchResults {
   players: SearchPlayer[];
   tournaments: SearchTournament[];
 }
+
+export interface RankedPlayer {
+  id: string;
+  name: string;
+  nickname?: string;
+  region_code: string;
+  rank: number;
+  points: number;
+  faction_name?: string;
+}
+
+export interface FactionRanking {
+  faction_id: string;
+  faction_name: string;
+  players: RankedPlayer[];
+}
+
+export interface LandingRankings {
+  offline: RankedPlayer[];
+  total: RankedPlayer[];
+  factions: FactionRanking[];
+}

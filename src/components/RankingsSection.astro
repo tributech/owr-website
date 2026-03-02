@@ -1,0 +1,259 @@
+---
+const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com';
+---
+
+<section id="rankings" class="relative py-16 sm:py-24 overflow-hidden scroll-mt-20">
+  <!-- Dark background with rotating battle images -->
+  <div class="absolute inset-0 bg-black">
+    <div id="rankings-bg" class="absolute inset-0 transition-opacity duration-1000 opacity-30">
+      <img src="/images/landing/image1.jpg" alt="" class="w-full h-full object-cover" loading="lazy" />
+    </div>
+    <div class="absolute inset-0 bg-black/40"></div>
+  </div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-8">
+      <div>
+        <div class="flex items-center gap-2 mb-2">
+          <svg class="h-6 w-6 text-owr-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-4.5A3.375 3.375 0 0012.75 11h-1.5A3.375 3.375 0 007.5 14.25v4.5m6-6V6.75A3.375 3.375 0 0010.125 3.375h-.25A3.375 3.375 0 006.5 6.75v1.5" />
+          </svg>
+          <h2 class="text-2xl sm:text-3xl font-bold text-white">Top Ranked Players</h2>
+        </div>
+        <p class="text-white/70">The best generals competing worldwide</p>
+      </div>
+      <a
+        href={`${APP_URL}/global_rankings`}
+        class="hidden sm:flex items-center text-sm font-medium text-white hover:text-white/70 transition-colors"
+      >
+        View full rankings
+        <svg class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+
+    <!-- Two tables side by side -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <!-- Left: Global rankings with Offline/Total toggle -->
+      <div>
+        <div class="flex gap-2 mb-4">
+          <button
+            type="button"
+            data-tab="offline"
+            class="rankings-tab px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors bg-white text-gray-900"
+          >
+            Global (Offline)
+          </button>
+          <button
+            type="button"
+            data-tab="total"
+            class="rankings-tab px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors bg-white/10 text-white hover:bg-white/20"
+          >
+            Global (All)
+          </button>
+        </div>
+        <div id="global-rankings" class="bg-white/5 backdrop-blur rounded-xl border border-white/10 overflow-hidden">
+          <!-- Skeleton rows -->
+          {Array.from({ length: 5 }).map((_, i) => (
+            <div class:list={['flex items-center justify-between p-4', i !== 0 && 'border-t border-white/10']}>
+              <div class="flex items-center gap-4">
+                <div class="w-8 h-8 rounded-full bg-white/10 animate-pulse"></div>
+                <div class="w-6 h-6 rounded bg-white/10 animate-pulse"></div>
+                <div>
+                  <div class="h-4 w-32 bg-white/10 rounded animate-pulse"></div>
+                  <div class="h-3 w-20 bg-white/10 rounded animate-pulse mt-1"></div>
+                </div>
+              </div>
+              <div class="h-5 w-12 bg-white/10 rounded animate-pulse"></div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Right: Faction rankings (rotating) -->
+      <div>
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-2">
+            <span id="faction-label" class="px-4 py-2 rounded-full text-sm font-medium bg-owr-gold/20 text-owr-gold whitespace-nowrap">
+              Loading...
+            </span>
+          </div>
+          <div class="flex gap-1">
+            <button type="button" id="faction-prev" class="p-1.5 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors">
+              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <button type="button" id="faction-next" class="p-1.5 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors">
+              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div id="faction-rankings" class="bg-white/5 backdrop-blur rounded-xl border border-white/10 overflow-hidden">
+          <!-- Skeleton rows -->
+          {Array.from({ length: 5 }).map((_, i) => (
+            <div class:list={['flex items-center justify-between p-4', i !== 0 && 'border-t border-white/10']}>
+              <div class="flex items-center gap-4">
+                <div class="w-8 h-8 rounded-full bg-white/10 animate-pulse"></div>
+                <div class="w-6 h-6 rounded bg-white/10 animate-pulse"></div>
+                <div class="h-4 w-32 bg-white/10 rounded animate-pulse"></div>
+              </div>
+              <div class="h-5 w-12 bg-white/10 rounded animate-pulse"></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile: view full rankings link -->
+    <a
+      href={`${APP_URL}/global_rankings`}
+      class="flex sm:hidden items-center justify-center mt-6 text-sm font-medium text-white hover:text-white/70 transition-colors"
+    >
+      View full rankings
+      <svg class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+      </svg>
+    </a>
+  </div>
+</section>
+
+<script>
+  import { apiFetch, APP_URL, type LandingRankings, type RankedPlayer } from '../lib/api';
+  import { countryFlag } from '../lib/country-flag';
+
+  // Rotating background images
+  const BG_IMAGES = Array.from({ length: 16 }, (_, i) => `/images/landing/image${i + 1}.jpg`);
+  let bgIndex = 0;
+  const bgEl = document.getElementById('rankings-bg');
+  if (bgEl) {
+    setInterval(() => {
+      bgIndex = (bgIndex + 1) % BG_IMAGES.length;
+      const img = bgEl.querySelector('img');
+      if (img) img.src = BG_IMAGES[bgIndex];
+    }, 8000);
+  }
+
+  function rankBadgeClasses(rank: number): string {
+    if (rank === 1) return 'bg-owr-gold text-gray-900';
+    if (rank === 2) return 'bg-gray-300 text-gray-900';
+    if (rank === 3) return 'bg-amber-700 text-white';
+    return 'bg-white/20 text-white';
+  }
+
+  function renderPlayerRow(player: RankedPlayer, index: number, showFaction: boolean): string {
+    const flag = countryFlag(player.region_code);
+    const profileUrl = player.nickname
+      ? `${APP_URL}/@${player.nickname}`
+      : `${APP_URL}/players/${player.id}`;
+
+    return `
+      <a href="${profileUrl}" class="flex items-center justify-between p-4 hover:bg-white/5 transition-colors${index !== 0 ? ' border-t border-white/10' : ''}">
+        <div class="flex items-center gap-4">
+          <span class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${rankBadgeClasses(player.rank)}">
+            ${player.rank}
+          </span>
+          <span class="text-xl" title="${player.region_code}">${flag}</span>
+          <div>
+            <p class="font-medium text-white">${player.name}</p>
+            ${showFaction && player.faction_name ? `<p class="text-sm text-white/60">${player.faction_name}</p>` : ''}
+          </div>
+        </div>
+        <div class="text-right">
+          <p class="font-bold text-white">${player.points?.toLocaleString() || '-'}</p>
+          <p class="text-xs text-white/60">points</p>
+        </div>
+      </a>
+    `;
+  }
+
+  let rankings: LandingRankings | null = null;
+  let activeGlobalTab: 'offline' | 'total' = 'offline';
+  let factionIndex = 0;
+  let factionInterval: ReturnType<typeof setInterval> | null = null;
+
+  function renderGlobal() {
+    if (!rankings) return;
+    const players = activeGlobalTab === 'offline' ? rankings.offline : rankings.total;
+    const el = document.getElementById('global-rankings');
+    if (!el) return;
+
+    if (players.length === 0) {
+      el.innerHTML = '<p class="p-4 text-white/60 text-center">No rankings data available yet</p>';
+      return;
+    }
+    el.innerHTML = players.map((p, i) => renderPlayerRow(p, i, true)).join('');
+  }
+
+  function renderFaction() {
+    if (!rankings || rankings.factions.length === 0) return;
+    const faction = rankings.factions[factionIndex];
+    const labelEl = document.getElementById('faction-label');
+    const listEl = document.getElementById('faction-rankings');
+    if (labelEl) labelEl.textContent = faction.faction_name;
+    if (!listEl) return;
+
+    if (faction.players.length === 0) {
+      listEl.innerHTML = '<p class="p-4 text-white/60 text-center">No players ranked</p>';
+      return;
+    }
+    listEl.innerHTML = faction.players.map((p, i) => renderPlayerRow(p, i, false)).join('');
+  }
+
+  function startFactionRotation() {
+    if (factionInterval) clearInterval(factionInterval);
+    factionInterval = setInterval(() => {
+      if (!rankings || rankings.factions.length === 0) return;
+      factionIndex = (factionIndex + 1) % rankings.factions.length;
+      renderFaction();
+    }, 6000);
+  }
+
+  // Tab switching
+  document.querySelectorAll('.rankings-tab').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      activeGlobalTab = (btn as HTMLElement).dataset.tab as 'offline' | 'total';
+      document.querySelectorAll('.rankings-tab').forEach((b) => {
+        const isActive = (b as HTMLElement).dataset.tab === activeGlobalTab;
+        b.className = `rankings-tab px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
+          isActive ? 'bg-white text-gray-900' : 'bg-white/10 text-white hover:bg-white/20'
+        }`;
+      });
+      renderGlobal();
+    });
+  });
+
+  // Faction prev/next
+  document.getElementById('faction-prev')?.addEventListener('click', () => {
+    if (!rankings || rankings.factions.length === 0) return;
+    factionIndex = (factionIndex - 1 + rankings.factions.length) % rankings.factions.length;
+    renderFaction();
+    startFactionRotation(); // reset timer
+  });
+  document.getElementById('faction-next')?.addEventListener('click', () => {
+    if (!rankings || rankings.factions.length === 0) return;
+    factionIndex = (factionIndex + 1) % rankings.factions.length;
+    renderFaction();
+    startFactionRotation(); // reset timer
+  });
+
+  // Fetch and render
+  async function loadRankings() {
+    rankings = await apiFetch<LandingRankings>('/api/v1/landing/rankings');
+    if (!rankings) return;
+    renderGlobal();
+    if (rankings.factions.length > 0) {
+      renderFaction();
+      startFactionRotation();
+    } else {
+      const labelEl = document.getElementById('faction-label');
+      if (labelEl) labelEl.textContent = 'No faction data';
+    }
+  }
+
+  loadRankings();
+</script>

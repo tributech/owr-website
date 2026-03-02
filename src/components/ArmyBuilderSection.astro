@@ -1,0 +1,84 @@
+---
+const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com';
+
+const benefits = [
+  { title: 'Build & Validate', description: 'Choose your faction, add units, and get real-time validation against the latest rules and points.' },
+  { title: 'Submit to Tournaments', description: 'Send your list straight to your next event without leaving the builder. No PDFs, no copy-paste.' },
+  { title: 'Sync Everywhere', description: 'Your lists stay in sync across web, iOS, and Android. Build on desktop, tweak on the bus to the event.' },
+  { title: 'Share & Export', description: 'Share lists as text, Discord markdown, or downloadable files. Reimport on any device.' },
+];
+---
+
+<section id="builder" class="relative py-16 sm:py-24 overflow-hidden scroll-mt-20">
+  <!-- Dark background with subtle pattern -->
+  <div class="absolute inset-0 bg-gray-900">
+    <div class="absolute inset-0 opacity-5 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCI+CjxyZWN0IHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgZmlsbD0iIzAwMCIvPgo8cGF0aCBkPSJNMzYgMzRoLTJ2LTRoLTR2LTJoNHYtNGgydjRoNHYyaC00djR6IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuNCIvPgo8L3N2Zz4=')]"></div>
+  </div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
+      <!-- Left: Content -->
+      <div class="mb-12 lg:mb-0">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-owr-gold text-gray-900 text-sm font-medium mb-4">
+          Build Anywhere, Play Everywhere
+        </span>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white mb-4">
+          Build Your Army. Submit Your List. Play.
+        </h2>
+        <p class="text-white/70 mb-8">
+          <a href="https://oldworldbuilder.com" target="_blank" rel="noopener noreferrer" class="text-owr-gold hover:text-owr-gold-dark underline transition-colors">Old World Builder</a> compatible —
+          pick your faction, add units, validate against the latest points, and submit directly to your next tournament.
+          All synced across every device you own.
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+          {benefits.map((benefit) => (
+            <div class="p-4 rounded-lg bg-white/5 border border-white/10">
+              <h3 class="font-semibold text-white text-sm mb-1">{benefit.title}</h3>
+              <p class="text-xs text-white/60 leading-relaxed">{benefit.description}</p>
+            </div>
+          ))}
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a
+            href={`${APP_URL}/builder`}
+            class="px-6 py-3 bg-owr-gold text-gray-900 font-semibold rounded-lg hover:bg-owr-gold-dark transition-colors text-center"
+          >
+            Open Battle Builder
+          </a>
+          <a
+            href="#mobile"
+            class="px-6 py-3 border border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-colors text-center"
+          >
+            Get the Mobile App
+          </a>
+        </div>
+      </div>
+
+      <!-- Right: Screenshot -->
+      <div class="flex justify-center">
+        <div class="relative w-full max-w-md">
+          <!-- Desktop browser frame -->
+          <div class="bg-gray-800 rounded-lg shadow-2xl overflow-hidden border border-gray-700">
+            <div class="h-7 bg-gray-700 flex items-center gap-1.5 px-3">
+              <div class="w-2.5 h-2.5 rounded-full bg-red-400"></div>
+              <div class="w-2.5 h-2.5 rounded-full bg-yellow-400"></div>
+              <div class="w-2.5 h-2.5 rounded-full bg-green-400"></div>
+              <span class="ml-2 text-xs text-gray-400">Battle Builder</span>
+            </div>
+            <img
+              src="/images/battle-builder-desktop.png"
+              alt="OWR Battle Builder showing army list creation with unit selection, validation, and tournament submission"
+              class="w-full"
+              loading="lazy"
+            />
+          </div>
+          <!-- Decorative glow -->
+          <div class="absolute -top-6 -right-6 w-32 h-32 bg-owr-gold/10 rounded-full blur-3xl"></div>
+          <div class="absolute -bottom-6 -left-6 w-24 h-24 bg-owr-gold/10 rounded-full blur-2xl"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

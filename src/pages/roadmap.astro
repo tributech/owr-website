@@ -4,7 +4,7 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 
 type RoadmapPhase = 'now' | 'next' | 'later';
-type RoadmapCategory = 'Rankings' | 'Events' | 'Community' | 'Mobile' | 'Pro' | 'Army Lists' | 'Platform';
+type RoadmapCategory = 'Gaming' | 'Community' | 'Hobby';
 
 interface RoadmapItem {
   title: string;
@@ -20,13 +20,9 @@ interface RoadmapPhaseGroup {
 }
 
 const categoryBadge: Record<RoadmapCategory, string> = {
-  Rankings: 'bg-purple-100 text-purple-800 dark:bg-purple-900/50 dark:text-purple-300',
-  Events: 'bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300',
+  Gaming: 'bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-300',
   Community: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300',
-  Mobile: 'bg-orange-100 text-orange-800 dark:bg-orange-900/50 dark:text-orange-300',
-  Pro: 'bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-300',
-  'Army Lists': 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300',
-  Platform: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300',
+  Hobby: 'bg-purple-100 text-purple-800 dark:bg-purple-900/50 dark:text-purple-300',
 };
 
 const phaseConfig: Record<RoadmapPhase, { pillClass: string; dotClass: string; lineClass: string; cardOpacity: string }> = {
@@ -57,19 +53,19 @@ const phases: RoadmapPhaseGroup[] = [
     subtitle: 'Actively being worked on right now.',
     items: [
       {
-        title: 'Tournament Photo Galleries',
-        description: 'Upload and browse event photos alongside results. Showcase painted armies and memorable moments from your tournaments.',
-        category: 'Events',
+        title: 'Battle Hub Scorer',
+        description: 'Turn-by-turn game scoring for tournament rounds and ad-hoc games. See both army lists on your phone, track kills, objectives, and soft scores. Save your game history and easily scan and share lists.',
+        category: 'Gaming',
       },
       {
-        title: 'Enhanced Army List Search',
-        description: 'Filter army lists by faction, point range, tournament placement, and more. Find winning lists faster.',
-        category: 'Army Lists',
+        title: 'Team Tournaments',
+        description: 'Squad-based tournament format — register as a team, compete together, and earn team rankings. Built for the events that bring your club mates to the table.',
+        category: 'Community',
       },
       {
-        title: 'Mobile App Improvements',
-        description: 'Smoother army list syncing, offline access to your lists, and push notifications for tournament updates.',
-        category: 'Mobile',
+        title: 'Mobile Apps',
+        description: 'Native iOS and Android apps with Battle Builder, push notifications, and tournament management on the go. Build lists, check pairings, and stay connected with your local scene.',
+        category: 'Gaming',
       },
     ],
   },
@@ -79,24 +75,19 @@ const phases: RoadmapPhaseGroup[] = [
     subtitle: 'Planned and committed for upcoming releases.',
     items: [
       {
-        title: 'Regional Masters Qualification Tracker',
-        description: 'Track your progress toward regional Masters events with automatic qualification scoring and standings.',
-        category: 'Rankings',
-      },
-      {
-        title: 'Tournament Organizer Dashboard',
-        description: 'A dedicated hub for TOs with event analytics, player demographics, and historical performance data.',
-        category: 'Events',
-      },
-      {
-        title: 'Player Profiles v2',
-        description: 'Richer player profiles with match history, head-to-head records, faction stats, and achievement badges.',
+        title: 'Clubs',
+        description: 'Register your gaming club on OWR. Club profiles, member rosters, club-run events and leagues, and club vs club rankings. Your local scene, organised.',
         category: 'Community',
       },
       {
-        title: 'Pro Subscription Perks',
-        description: 'Expanded Pro benefits including advanced analytics, custom tournament branding, and priority support.',
-        category: 'Pro',
+        title: 'Unit & Item Meta Analysis',
+        description: 'Track which units and magic items are winning tournaments. See popularity trends, win rates, and how the meta shifts over time across factions.',
+        category: 'Hobby',
+      },
+      {
+        title: 'Internationalisation',
+        description: 'Multi-language support for Europe and beyond. Play, organise, and browse OWR in French, German, Spanish, Italian, and more.',
+        category: 'Community',
       },
     ],
   },
@@ -106,24 +97,19 @@ const phases: RoadmapPhaseGroup[] = [
     subtitle: 'Ideas we\'re excited about but haven\'t committed to yet.',
     items: [
       {
-        title: 'League & Campaign Support',
-        description: 'Multi-round league formats with persistent standings, campaign progression, and narrative tracking.',
-        category: 'Events',
+        title: 'Online Play Integration',
+        description: 'Native integration with online tabletop simulators. Play The Old World remotely with full OWR tournament support — pairings, scoring, and rankings, all connected.',
+        category: 'Gaming',
       },
       {
-        title: 'Global Rankings Seasons',
-        description: 'Seasonal ranking resets with end-of-season rewards, historical archives, and year-over-year comparisons.',
-        category: 'Rankings',
+        title: 'ELO Rankings',
+        description: 'Matchup-based ranking system that rewards playing stronger opponents. Faction-level ELO stats and head-to-head tracking for a deeper competitive picture.',
+        category: 'Gaming',
       },
       {
         title: 'Community Forums',
-        description: 'Integrated discussion spaces for local scenes, faction talk, and tournament coordination.',
+        description: 'Integrated discussion spaces for local scenes, faction talk, hobby showcasing, and tournament coordination.',
         category: 'Community',
-      },
-      {
-        title: 'API for Third-Party Tools',
-        description: 'Public API endpoints so community developers can build tools, widgets, and integrations with OWR data.',
-        category: 'Platform',
       },
     ],
   },
@@ -148,12 +134,19 @@ const phases: RoadmapPhaseGroup[] = [
 
       <!-- Vision block -->
       <div class="rounded-xl bg-gray-50 border border-gray-200 dark:bg-gray-800 dark:border-gray-700 p-6 sm:p-8 mb-16">
+        <div class="flex justify-center mb-6">
+          <img
+            src="/images/owr-pillars.png"
+            alt="The three pillars of OWR: Gaming, Community, and Hobby"
+            class="max-w-xs w-full"
+          />
+        </div>
         <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">Our Vision</h2>
         <p class="text-gray-600 dark:text-gray-300 mb-3">
-          Old World Rankings exists to be the complete companion for the Warhammer: The Old World community — making it effortless to find events, track rankings, manage army lists, and connect with fellow players worldwide.
+          Everything we build at OWR is driven by three pillars: <strong class="text-gray-900 dark:text-white">Community</strong>, <strong class="text-gray-900 dark:text-white">Gaming</strong>, and <strong class="text-gray-900 dark:text-white">Hobby</strong>. These aren't separate tracks — they intersect and feed into each other. <strong class="text-gray-900 dark:text-white">Gaming</strong> and <strong class="text-gray-900 dark:text-white">Hobby</strong> meet in narrative play. <strong class="text-gray-900 dark:text-white">Community</strong> and <strong class="text-gray-900 dark:text-white">Gaming</strong> drive the competitive scene. Together they shape every feature on this roadmap.
         </p>
         <p class="text-gray-600 dark:text-gray-300">
-          We're building in the open. This roadmap reflects our current thinking and priorities, shaped by feedback from tournament organisers and players across every region. Things may shift as we learn, but the direction is clear: make the competitive Old World experience better for everyone.
+          We're building in the open. This roadmap reflects our current thinking and priorities, shaped by feedback from tournament organisers and players across every region. Things may shift as we learn, but the direction is clear.
         </p>
       </div>
 
@@ -173,7 +166,7 @@ const phases: RoadmapPhaseGroup[] = [
 
               <!-- Timeline items -->
               <div>
-                {group.items.map((item, i) => (
+                {group.items.map((item) => (
                   <article class:list={[
                     'relative pl-8 pb-8 border-l-2 last:pb-0',
                     config.lineClass,

@@ -121,6 +121,7 @@ Public endpoints should include `Cache-Control` headers.
 | Variable | Purpose | Required |
 |----------|---------|----------|
 | `PUBLIC_APP_URL` | Rails app URL (default: `https://oldworldrankings.com`) | No |
+| `PUBLIC_UMAMI_WEBSITE_ID` | Umami analytics website ID | No |
 | `PUBLIC_GA_ID` | Google Analytics ID | No |
 | `CONTENTFUL_SPACE_ID` | Contentful space (`ry0ysk99xuno`) | Yes (for docs/changelog) |
 | `CONTENTFUL_DELIVERY_TOKEN` | Contentful Delivery API token | Yes (for production builds) |

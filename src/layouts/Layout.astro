@@ -5,6 +5,7 @@ interface Props {
 }
 
 const gaId = import.meta.env.PUBLIC_GA_ID;
+const umamiWebsiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID;
 const {
   title,
   description = 'The complete companion for Warhammer: The Old World. Rankings, tournaments, army lists, galleries and more.',
@@ -48,6 +49,17 @@ const {
     <style is:global>
       @import '../styles/global.css';
     </style>
+
+    {
+      umamiWebsiteId && (
+        <script
+          is:inline
+          defer
+          src="https://analytics.tributech.com.au/script.js"
+          data-website-id={umamiWebsiteId}
+        />
+      )
+    }
 
     {
       gaId && (

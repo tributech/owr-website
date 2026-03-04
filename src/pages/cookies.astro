@@ -1,0 +1,146 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout
+  title="Cookie Policy — Old World Rankings"
+  description="How Old World Rankings uses cookies and analytics scripts."
+>
+  <Nav />
+
+  <main class="pt-24 pb-16">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">Cookie Policy</h1>
+
+      <div class="prose prose-gray max-w-none space-y-6">
+        <p class="text-gray-500">Last updated: March 2026</p>
+
+        <section>
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">What Are Cookies</h2>
+          <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
+            Cookies are small text files stored on your device when you visit a website. They help sites remember your preferences and understand how you interact with the service.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">Essential Cookies</h2>
+          <p class="text-gray-600 dark:text-gray-400 leading-relaxed mb-4">
+            These cookies are required for the Platform to function. They do not require consent.
+          </p>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left">
+              <thead>
+                <tr class="border-b border-gray-200 dark:border-gray-700">
+                  <th class="py-3 pr-4 font-semibold text-gray-900 dark:text-white">Cookie</th>
+                  <th class="py-3 pr-4 font-semibold text-gray-900 dark:text-white">Purpose</th>
+                  <th class="py-3 font-semibold text-gray-900 dark:text-white">Duration</th>
+                </tr>
+              </thead>
+              <tbody class="text-gray-600 dark:text-gray-400">
+                <tr class="border-b border-gray-100 dark:border-gray-800">
+                  <td class="py-3 pr-4 font-mono text-xs">_owr_session</td>
+                  <td class="py-3 pr-4">Keeps you logged in across pages</td>
+                  <td class="py-3">Session (cleared on browser close)</td>
+                </tr>
+                <tr class="border-b border-gray-100 dark:border-gray-800">
+                  <td class="py-3 pr-4 font-mono text-xs">remember_user_token</td>
+                  <td class="py-3 pr-4">"Remember me" persistent login</td>
+                  <td class="py-3">14 days</td>
+                </tr>
+                <tr class="border-b border-gray-100 dark:border-gray-800">
+                  <td class="py-3 pr-4 font-mono text-xs">owr_consent</td>
+                  <td class="py-3 pr-4">Stores your cookie preference (accept/decline)</td>
+                  <td class="py-3">1 year</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">Analytics — Umami (No Consent Required)</h2>
+          <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
+            We use Umami for privacy-focused analytics. Umami does not use cookies, does not collect personal information, does not track users across sites, and does not store IP addresses. All data is aggregated and anonymous. Because Umami is fully cookieless, it loads on every page without requiring consent.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">Analytics — Google Analytics (Consent Required)</h2>
+          <p class="text-gray-600 dark:text-gray-400 leading-relaxed mb-4">
+            With your consent, we use Google Analytics (GA4) to understand how the Platform is used. Google Analytics sets the following cookies:
+          </p>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left">
+              <thead>
+                <tr class="border-b border-gray-200 dark:border-gray-700">
+                  <th class="py-3 pr-4 font-semibold text-gray-900 dark:text-white">Cookie</th>
+                  <th class="py-3 pr-4 font-semibold text-gray-900 dark:text-white">Purpose</th>
+                  <th class="py-3 font-semibold text-gray-900 dark:text-white">Duration</th>
+                </tr>
+              </thead>
+              <tbody class="text-gray-600 dark:text-gray-400">
+                <tr class="border-b border-gray-100 dark:border-gray-800">
+                  <td class="py-3 pr-4 font-mono text-xs">_ga</td>
+                  <td class="py-3 pr-4">Distinguishes unique users</td>
+                  <td class="py-3">2 years</td>
+                </tr>
+                <tr class="border-b border-gray-100 dark:border-gray-800">
+                  <td class="py-3 pr-4 font-mono text-xs">_ga_*</td>
+                  <td class="py-3 pr-4">Maintains session state</td>
+                  <td class="py-3">2 years</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="text-gray-600 dark:text-gray-400 leading-relaxed mt-4">
+            Google Analytics will <strong class="text-gray-900 dark:text-white">only load if you click "Accept"</strong> on the consent banner. If you decline, no GA cookies are set and no data is sent to Google.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">Other Scripts</h2>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left">
+              <thead>
+                <tr class="border-b border-gray-200 dark:border-gray-700">
+                  <th class="py-3 pr-4 font-semibold text-gray-900 dark:text-white">Script</th>
+                  <th class="py-3 pr-4 font-semibold text-gray-900 dark:text-white">Purpose</th>
+                  <th class="py-3 font-semibold text-gray-900 dark:text-white">Category</th>
+                </tr>
+              </thead>
+              <tbody class="text-gray-600 dark:text-gray-400">
+                <tr class="border-b border-gray-100 dark:border-gray-800">
+                  <td class="py-3 pr-4">Sentry</td>
+                  <td class="py-3 pr-4">Error monitoring to keep the Platform running reliably</td>
+                  <td class="py-3">Essential</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">Managing Your Preferences</h2>
+          <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
+            You can change your cookie preference at any time by clearing the <code class="text-sm bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded">owr_consent</code> cookie in your browser settings and reloading the page. The consent banner will reappear.
+          </p>
+          <p class="text-gray-600 dark:text-gray-400 leading-relaxed mt-3">
+            You can also disable cookies entirely in your browser settings, though this may affect your ability to log in and use the Platform.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">Contact</h2>
+          <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
+            For questions about our use of cookies, contact us at
+            <a href="mailto:data@oldworldrankings.com" class="text-gray-900 dark:text-owr-gold font-semibold underline underline-offset-4">data@oldworldrankings.com</a>.
+          </p>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

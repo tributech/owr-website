@@ -1,0 +1,223 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout
+  title="Third-Party Services — Old World Rankings"
+  description="Third-party services and data processors used by Old World Rankings."
+>
+  <Nav />
+
+  <main class="pt-24 pb-16">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">Third-Party Services</h1>
+
+      <div class="prose prose-gray max-w-none space-y-6">
+        <p class="text-gray-500">Last updated: March 2026</p>
+
+        <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
+          Old World Rankings uses third-party services to operate the Platform. This page lists each service, what data it receives, and why. For more detail on your rights over this data, see our <a href="/data-rights" class="text-gray-900 dark:text-owr-gold font-semibold underline underline-offset-4">Data Rights</a> page.
+        </p>
+
+        <section>
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">Infrastructure & Hosting</h2>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left">
+              <thead>
+                <tr class="border-b border-gray-200 dark:border-gray-700">
+                  <th class="py-3 pr-4 font-semibold text-gray-900 dark:text-white">Service</th>
+                  <th class="py-3 pr-4 font-semibold text-gray-900 dark:text-white">Data Received</th>
+                  <th class="py-3 font-semibold text-gray-900 dark:text-white">Purpose</th>
+                </tr>
+              </thead>
+              <tbody class="text-gray-600 dark:text-gray-400">
+                <tr class="border-b border-gray-100 dark:border-gray-800">
+                  <td class="py-3 pr-4 font-medium text-gray-900 dark:text-white">Render</td>
+                  <td class="py-3 pr-4">All application data (database, application server)</td>
+                  <td class="py-3">Infrastructure hosting (Oregon, US)</td>
+                </tr>
+                <tr class="border-b border-gray-100 dark:border-gray-800">
+                  <td class="py-3 pr-4 font-medium text-gray-900 dark:text-white">AWS S3</td>
+                  <td class="py-3 pr-4">Uploaded images (avatars, gallery photos, tournament assets)</td>
+                  <td class="py-3">File storage</td>
+                </tr>
+                <tr class="border-b border-gray-100 dark:border-gray-800">
+                  <td class="py-3 pr-4 font-medium text-gray-900 dark:text-white">AWS SES</td>
+                  <td class="py-3 pr-4">Email addresses, email content</td>
+                  <td class="py-3">Transactional email delivery</td>
+                </tr>
+                <tr class="border-b border-gray-100 dark:border-gray-800">
+                  <td class="py-3 pr-4 font-medium text-gray-900 dark:text-white">Netlify</td>
+                  <td class="py-3 pr-4">None (static files only)</td>
+                  <td class="py-3">Marketing site hosting</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">Authentication</h2>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left">
+              <thead>
+                <tr class="border-b border-gray-200 dark:border-gray-700">
+                  <th class="py-3 pr-4 font-semibold text-gray-900 dark:text-white">Service</th>
+                  <th class="py-3 pr-4 font-semibold text-gray-900 dark:text-white">Data Received</th>
+                  <th class="py-3 font-semibold text-gray-900 dark:text-white">Purpose</th>
+                </tr>
+              </thead>
+              <tbody class="text-gray-600 dark:text-gray-400">
+                <tr class="border-b border-gray-100 dark:border-gray-800">
+                  <td class="py-3 pr-4 font-medium text-gray-900 dark:text-white">Google OAuth</td>
+                  <td class="py-3 pr-4">Email, name, profile photo (received from Google)</td>
+                  <td class="py-3">Social login</td>
+                </tr>
+                <tr class="border-b border-gray-100 dark:border-gray-800">
+                  <td class="py-3 pr-4 font-medium text-gray-900 dark:text-white">Microsoft OAuth</td>
+                  <td class="py-3 pr-4">Email, name, profile photo (received from Microsoft)</td>
+                  <td class="py-3">Social login</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">Payments</h2>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left">
+              <thead>
+                <tr class="border-b border-gray-200 dark:border-gray-700">
+                  <th class="py-3 pr-4 font-semibold text-gray-900 dark:text-white">Service</th>
+                  <th class="py-3 pr-4 font-semibold text-gray-900 dark:text-white">Data Received</th>
+                  <th class="py-3 font-semibold text-gray-900 dark:text-white">Purpose</th>
+                </tr>
+              </thead>
+              <tbody class="text-gray-600 dark:text-gray-400">
+                <tr class="border-b border-gray-100 dark:border-gray-800">
+                  <td class="py-3 pr-4 font-medium text-gray-900 dark:text-white">Stripe</td>
+                  <td class="py-3 pr-4">Email, name, payment card details (handled directly by Stripe — we never see card numbers)</td>
+                  <td class="py-3">Subscription billing, tournament registration payments, organiser payouts</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">Analytics & Monitoring</h2>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left">
+              <thead>
+                <tr class="border-b border-gray-200 dark:border-gray-700">
+                  <th class="py-3 pr-4 font-semibold text-gray-900 dark:text-white">Service</th>
+                  <th class="py-3 pr-4 font-semibold text-gray-900 dark:text-white">Data Received</th>
+                  <th class="py-3 font-semibold text-gray-900 dark:text-white">Purpose</th>
+                </tr>
+              </thead>
+              <tbody class="text-gray-600 dark:text-gray-400">
+                <tr class="border-b border-gray-100 dark:border-gray-800">
+                  <td class="py-3 pr-4 font-medium text-gray-900 dark:text-white">Umami</td>
+                  <td class="py-3 pr-4">Aggregated page views only — no cookies, no IP addresses, no personal data</td>
+                  <td class="py-3">Privacy-focused usage analytics</td>
+                </tr>
+                <tr class="border-b border-gray-100 dark:border-gray-800">
+                  <td class="py-3 pr-4 font-medium text-gray-900 dark:text-white">Google Analytics</td>
+                  <td class="py-3 pr-4">Anonymised page views, truncated IP (consent required)</td>
+                  <td class="py-3">Usage analytics</td>
+                </tr>
+                <tr class="border-b border-gray-100 dark:border-gray-800">
+                  <td class="py-3 pr-4 font-medium text-gray-900 dark:text-white">Sentry</td>
+                  <td class="py-3 pr-4">Error traces, request metadata (PII scrubbed)</td>
+                  <td class="py-3">Error monitoring and service reliability</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">AI Services</h2>
+          <p class="text-gray-600 dark:text-gray-400 leading-relaxed mb-4">
+            We use AI services to power specific Platform features. No personal account data (email, password, etc.) is sent to AI providers. The data sent is limited to the content being processed for each feature.
+          </p>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left">
+              <thead>
+                <tr class="border-b border-gray-200 dark:border-gray-700">
+                  <th class="py-3 pr-4 font-semibold text-gray-900 dark:text-white">Provider</th>
+                  <th class="py-3 pr-4 font-semibold text-gray-900 dark:text-white">Data Sent</th>
+                  <th class="py-3 font-semibold text-gray-900 dark:text-white">Feature</th>
+                </tr>
+              </thead>
+              <tbody class="text-gray-600 dark:text-gray-400">
+                <tr class="border-b border-gray-100 dark:border-gray-800">
+                  <td class="py-3 pr-4 font-medium text-gray-900 dark:text-white">Google Gemini</td>
+                  <td class="py-3 pr-4">Tournament player pack PDF contents, tournament names, colour palettes</td>
+                  <td class="py-3">Player pack data extraction, tournament thumbnail generation</td>
+                </tr>
+                <tr class="border-b border-gray-100 dark:border-gray-800">
+                  <td class="py-3 pr-4 font-medium text-gray-900 dark:text-white">DeepSeek</td>
+                  <td class="py-3 pr-4">Aggregated faction statistics, player nicknames, tournament names</td>
+                  <td class="py-3">Monthly meta report generation</td>
+                </tr>
+                <tr class="border-b border-gray-100 dark:border-gray-800">
+                  <td class="py-3 pr-4 font-medium text-gray-900 dark:text-white">Anthropic (Claude)</td>
+                  <td class="py-3 pr-4">Tournament and army list data as needed</td>
+                  <td class="py-3">Content analysis and data processing</td>
+                </tr>
+                <tr class="border-b border-gray-100 dark:border-gray-800">
+                  <td class="py-3 pr-4 font-medium text-gray-900 dark:text-white">OpenAI</td>
+                  <td class="py-3 pr-4">Tournament and army list data as needed</td>
+                  <td class="py-3">Content analysis and data processing</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="text-gray-600 dark:text-gray-400 leading-relaxed mt-4">
+            AI-generated content (meta reports, extracted data) is reviewed and may be edited before publication. We do not use AI to make automated decisions that affect your account or access to the Platform.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">Tournament Data Sources</h2>
+          <p class="text-gray-600 dark:text-gray-400 leading-relaxed mb-4">
+            We aggregate tournament results from the following external platforms. These are data sources, not processors — they provide publicly available competitive data that we display on OWR.
+          </p>
+          <ul class="list-disc pl-6 text-gray-600 dark:text-gray-400 space-y-1">
+            <li>Best Coast Pairings (BCP)</li>
+            <li>New Recruit</li>
+            <li>Stats & Ladders</li>
+            <li>Champions Hub</li>
+            <li>Ecksen</li>
+            <li>Longshanks</li>
+            <li>Direct uploads (spreadsheets) and manual entry by tournament organisers</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">International Data Transfers</h2>
+          <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
+            The OWR application is hosted on Render in Oregon, United States. Your data may also be processed by AWS (US), Google (US), Stripe (US), and other providers listed above. International transfers are protected under the EU–US Data Privacy Framework and/or Standard Contractual Clauses where applicable.
+          </p>
+          <p class="text-gray-600 dark:text-gray-400 leading-relaxed mt-3">
+            Tributech Pty Ltd is an Australian company. Data is subject to the Australian Privacy Act 1988 and, for EU/EEA users, the General Data Protection Regulation (GDPR).
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">Contact</h2>
+          <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
+            For questions about our use of third-party services, contact us at
+            <a href="mailto:data@oldworldrankings.com" class="text-gray-900 dark:text-owr-gold font-semibold underline underline-offset-4">data@oldworldrankings.com</a>.
+          </p>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

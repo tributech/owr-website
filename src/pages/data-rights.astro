@@ -1,0 +1,136 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout
+  title="Your Data Rights — Old World Rankings"
+  description="How to access, correct, delete, or export your personal data on Old World Rankings."
+>
+  <Nav />
+
+  <main class="pt-24 pb-16">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">Your Data Rights</h1>
+
+      <div class="prose prose-gray max-w-none space-y-6">
+        <p class="text-gray-500">Last updated: March 2026</p>
+
+        <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
+          Old World Rankings is operated by <strong class="text-gray-900 dark:text-white">Tributech Pty Ltd</strong> (ABN 65 140 774 876). We respect your rights over your personal data. This page explains what rights you have and how to exercise them.
+        </p>
+
+        <section>
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">Your Rights</h2>
+          <p class="text-gray-600 dark:text-gray-400 leading-relaxed mb-4">Depending on your jurisdiction (including under GDPR and the Australian Privacy Act), you may have the right to:</p>
+          <ul class="list-disc pl-6 text-gray-600 dark:text-gray-400 space-y-2">
+            <li><strong class="text-gray-700 dark:text-gray-300">Access</strong> — Request a copy of all personal data we hold about you</li>
+            <li><strong class="text-gray-700 dark:text-gray-300">Rectification</strong> — Correct inaccurate or incomplete personal data</li>
+            <li><strong class="text-gray-700 dark:text-gray-300">Erasure</strong> — Request deletion of your account and personal data</li>
+            <li><strong class="text-gray-700 dark:text-gray-300">Restriction</strong> — Request that we limit how we process your data</li>
+            <li><strong class="text-gray-700 dark:text-gray-300">Portability</strong> — Receive your data in a structured, machine-readable format</li>
+            <li><strong class="text-gray-700 dark:text-gray-300">Objection</strong> — Object to processing based on legitimate interest</li>
+            <li><strong class="text-gray-700 dark:text-gray-300">Cookie preferences</strong> — Accept or decline analytics cookies via the consent banner at any time</li>
+            <li><strong class="text-gray-700 dark:text-gray-300">Anonymisation</strong> — Request that your name in historical tournament records be anonymised</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">How to Make a Request</h2>
+          <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
+            Email us at <a href="mailto:data@oldworldrankings.com" class="text-gray-900 dark:text-owr-gold font-semibold underline underline-offset-4">data@oldworldrankings.com</a> from the email address associated with your account. Include:
+          </p>
+          <ul class="list-disc pl-6 text-gray-600 dark:text-gray-400 space-y-1 mt-3">
+            <li>Your display name or username on OWR</li>
+            <li>What you're requesting (access, deletion, correction, etc.)</li>
+            <li>Any relevant details to help us locate your data</li>
+          </ul>
+          <p class="text-gray-600 dark:text-gray-400 leading-relaxed mt-3">
+            We will verify your identity and respond within <strong class="text-gray-900 dark:text-white">30 days</strong>.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">What Happens When You Delete Your Account</h2>
+          <p class="text-gray-600 dark:text-gray-400 leading-relaxed mb-3">When you request account deletion, we will:</p>
+          <ul class="list-disc pl-6 text-gray-600 dark:text-gray-400 space-y-1">
+            <li>Delete your account credentials (email, password, OAuth links)</li>
+            <li>Delete your profile information (bio, avatar, email preferences)</li>
+            <li>Remove uploaded images (gallery photos, avatars) from storage</li>
+            <li>Anonymise your name in tournament records (results are retained as part of the historical competitive record, but your identity is replaced with an anonymous placeholder)</li>
+            <li>Sever links to payment processors (Stripe retains transaction data per PCI requirements)</li>
+          </ul>
+          <p class="text-gray-600 dark:text-gray-400 leading-relaxed mt-3">
+            Tournament results aggregated from third-party platforms exist independently of your OWR account and cannot be deleted from those sources by us.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">Hide Player</h2>
+          <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
+            If you don't want to delete your account but would prefer not to appear in public rankings, you can use the "Hide Player" feature in your profile settings. This pseudonymises your name on public-facing pages. Your data is still retained internally but is not displayed publicly.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">Data Retention</h2>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left">
+              <thead>
+                <tr class="border-b border-gray-200 dark:border-gray-700">
+                  <th class="py-3 pr-4 font-semibold text-gray-900 dark:text-white">Data</th>
+                  <th class="py-3 font-semibold text-gray-900 dark:text-white">Retention</th>
+                </tr>
+              </thead>
+              <tbody class="text-gray-600 dark:text-gray-400">
+                <tr class="border-b border-gray-100 dark:border-gray-800">
+                  <td class="py-3 pr-4">Account data</td>
+                  <td class="py-3">Until account deletion</td>
+                </tr>
+                <tr class="border-b border-gray-100 dark:border-gray-800">
+                  <td class="py-3 pr-4">Sign-in IP addresses</td>
+                  <td class="py-3">90 days</td>
+                </tr>
+                <tr class="border-b border-gray-100 dark:border-gray-800">
+                  <td class="py-3 pr-4">Tournament results & rankings</td>
+                  <td class="py-3">Indefinite (anonymised on deletion)</td>
+                </tr>
+                <tr class="border-b border-gray-100 dark:border-gray-800">
+                  <td class="py-3 pr-4">Payment records</td>
+                  <td class="py-3">7 years (legal requirement)</td>
+                </tr>
+                <tr class="border-b border-gray-100 dark:border-gray-800">
+                  <td class="py-3 pr-4">Uploaded images</td>
+                  <td class="py-3">Until deleted by user or account deletion</td>
+                </tr>
+                <tr class="border-b border-gray-100 dark:border-gray-800">
+                  <td class="py-3 pr-4">Support/feedback messages</td>
+                  <td class="py-3">2 years</td>
+                </tr>
+                <tr class="border-b border-gray-100 dark:border-gray-800">
+                  <td class="py-3 pr-4">Analytics data (aggregated)</td>
+                  <td class="py-3">Cannot be traced to individuals</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">Complaints</h2>
+          <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
+            If you're not satisfied with how we've handled your request, you have the right to lodge a complaint with a supervisory authority:
+          </p>
+          <ul class="list-disc pl-6 text-gray-600 dark:text-gray-400 space-y-1 mt-3">
+            <li><strong class="text-gray-700 dark:text-gray-300">Australia:</strong> <a href="https://www.oaic.gov.au" target="_blank" rel="noopener noreferrer" class="text-gray-900 dark:text-owr-gold font-semibold underline underline-offset-4">Office of the Australian Information Commissioner (OAIC)</a></li>
+            <li><strong class="text-gray-700 dark:text-gray-300">EU/EEA:</strong> Your local data protection authority</li>
+            <li><strong class="text-gray-700 dark:text-gray-300">UK:</strong> <a href="https://ico.org.uk" target="_blank" rel="noopener noreferrer" class="text-gray-900 dark:text-owr-gold font-semibold underline underline-offset-4">Information Commissioner's Office (ICO)</a></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

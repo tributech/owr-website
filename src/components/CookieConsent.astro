@@ -3,26 +3,28 @@
 
 <div
   id="cookie-banner"
-  class="fixed bottom-0 inset-x-0 z-50 hidden"
+  class="fixed bottom-4 inset-x-4 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 sm:max-w-md z-50 hidden"
   role="dialog"
   aria-label="Cookie consent"
 >
-  <div class="bg-gray-900 border-t border-gray-800 px-4 py-3 sm:px-6">
-    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-      <p class="text-sm text-gray-300 text-center sm:text-left">
-        We use cookies for analytics to understand how you use our site.
+  <div class="bg-owr-black rounded-xl border border-gray-800 px-6 py-5 shadow-2xl">
+    <div class="flex flex-col items-center gap-4 text-center">
+      <p class="text-base font-medium text-white">Cookie Consent</p>
+      <p class="text-sm text-gray-400 leading-relaxed">
+        We use cookies for analytics and to provide real-time chat support.
+        We do not use cookies for marketing or sales tracking.
         <a href="/privacy" class="underline text-owr-gold hover:text-owr-gold-dark">Privacy Policy</a>
       </p>
-      <div class="flex items-center gap-2 shrink-0">
+      <div class="flex items-center gap-3">
         <button
           id="cookie-decline"
-          class="px-4 py-1.5 text-sm text-gray-400 hover:text-white transition-colors cursor-pointer"
+          class="px-5 py-2 text-sm rounded-lg border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 transition-colors cursor-pointer"
         >
           Decline
         </button>
         <button
           id="cookie-accept"
-          class="px-4 py-1.5 text-sm font-semibold bg-owr-gold text-gray-900 rounded-lg hover:bg-owr-gold-dark transition-colors cursor-pointer"
+          class="px-5 py-2 text-sm font-semibold bg-owr-gold text-gray-900 rounded-lg hover:bg-owr-gold-dark transition-colors cursor-pointer"
         >
           Accept
         </button>

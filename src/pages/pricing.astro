@@ -19,17 +19,17 @@ const freeFeatures = [
 
 const proFeatures = [
   { label: 'Everything in Free' },
+  { label: 'Army Builder Sync', isHot: true },
+  { label: 'Early Army List Access', isHot: true },
+  { label: 'Battle Hub Scorer', isHot: true },
+  { label: 'Tournament Pack AI Assist', isHot: true },
   { label: 'Private Tournaments' },
   { label: 'Presale Dates' },
-  { label: 'Early Army List Access' },
-  { label: 'Army Builder Sync' },
   { label: 'Advanced Army Filters' },
   { label: 'Advanced Stats' },
   { label: 'Profile Customization' },
   { label: 'Notifications' },
   { label: 'Ad-Free' },
-  { label: 'Battle Hub Scorer' },
-  { label: 'Tournament Pack AI Assist' },
   { label: 'Bulk Army List Download' },
   { label: 'Tournament Comms' },
   { label: 'Priority Support' },
@@ -39,7 +39,7 @@ const proFeatures = [
 
 <Layout
   title="Pricing — Old World Rankings"
-  description="OWR is free for players. Upgrade to Pro for tournament organizers and power users."
+  description="Everything you need to compete. Upgrade to Pro to unlock the full experience."
 >
   <Nav />
 
@@ -51,7 +51,7 @@ const proFeatures = [
           Simple, Transparent Pricing
         </h1>
         <p class="text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
-          OWR is free for players. Upgrade to Pro for advanced features and tournament hosting without limits.
+          Everything you need to compete. Upgrade to Pro to unlock the full experience.
         </p>
       </div>
 
@@ -62,7 +62,7 @@ const proFeatures = [
           <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Free</h2>
           <p class="text-gray-500 dark:text-gray-400 mb-6">Everything you need to compete</p>
           <p class="text-4xl font-bold text-gray-900 dark:text-white mb-8">
-            $0<span class="text-lg font-normal text-gray-500 dark:text-gray-400"> USD/month</span>
+            $0<span class="text-lg font-normal text-gray-500 dark:text-gray-400" data-free-suffix> USD/month</span>
           </p>
           <ul class="space-y-4 flex-grow">
             {freeFeatures.map((f) => (
@@ -91,22 +91,27 @@ const proFeatures = [
             </span>
           </div>
           <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Pro</h2>
-          <p class="text-gray-500 dark:text-gray-400 mb-4">For organizers &amp; power users</p>
-          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-green-100 text-green-800 text-xs font-medium mb-4">
-            Introductory pricing
-          </span>
-          <p class="text-4xl font-bold text-gray-900 dark:text-white mb-8">
-            <span data-pro-price>$7</span><span class="text-lg font-normal text-gray-500 dark:text-gray-400" data-pro-suffix> USD/month</span>
+          <p class="text-gray-500 dark:text-gray-400 mb-6">For organizers &amp; power users</p>
+          <p class="text-4xl font-bold text-gray-900 dark:text-white mb-1">
+            <span data-pro-price>$5.83</span><span class="text-lg font-normal text-gray-500 dark:text-gray-400" data-pro-suffix> USD/month</span>
           </p>
+          <p class="text-xs text-gray-400 dark:text-gray-500 mb-6">* Billed yearly (2 months free). <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-green-100 text-green-800 text-[10px] font-medium">Introductory pricing</span></p>
           <ul class="space-y-4 flex-grow">
             {proFeatures.map((f) => (
               <li class="flex items-center gap-3 text-gray-700 dark:text-gray-300">
                 <svg class="h-5 w-5 text-owr-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
-                {f.label}
+                <span>{f.label}</span>
+                {f.isHot && <span class="text-[10px] px-1.5 py-0.5 rounded-full bg-owr-gold text-gray-900 font-semibold">HOT</span>}
               </li>
             ))}
+            <li class="flex items-center gap-3 text-gray-700 dark:text-gray-300 pt-3 border-t border-gray-200 dark:border-gray-700">
+              <svg class="h-5 w-5 text-owr-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+              <span class="font-semibold text-gray-900 dark:text-white">Support the continued development of Old World Rankings</span>
+            </li>
           </ul>
           <a
             href={`${APP_URL}/purchase`}
@@ -132,8 +137,10 @@ const proFeatures = [
 
       const priceEl = document.querySelector('[data-pro-price]');
       const suffixEl = document.querySelector('[data-pro-suffix]');
+      const freeSuffixEl = document.querySelector('[data-free-suffix]');
       if (priceEl) priceEl.textContent = price.display;
       if (suffixEl) suffixEl.textContent = ` ${price.suffix}`;
+      if (freeSuffixEl) freeSuffixEl.textContent = ` ${price.suffix}`;
     }
 
     document.addEventListener('owr:user-loaded', () => updatePricing());

@@ -11,14 +11,14 @@ interface PriceEntry {
 }
 
 const PRICES: Record<string, PriceEntry> = {
-  USD: { symbol: '$', amount: '7', currency: 'USD' },
-  AUD: { symbol: 'A$', amount: '9.99', currency: 'AUD' },
-  EUR: { symbol: '€', amount: '5.99', currency: 'EUR' },
-  GBP: { symbol: '£', amount: '5.49', currency: 'GBP' },
-  NZD: { symbol: 'NZ$', amount: '11.99', currency: 'NZD' },
-  SGD: { symbol: 'S$', amount: '8.99', currency: 'SGD' },
-  CAD: { symbol: 'C$', amount: '9.99', currency: 'CAD' },
-  JPY: { symbol: '¥', amount: '1,100', currency: 'JPY' },
+  USD: { symbol: '$', amount: '5.83', currency: 'USD' },
+  AUD: { symbol: 'A$', amount: '8.33', currency: 'AUD' },
+  EUR: { symbol: '€', amount: '4.99', currency: 'EUR' },
+  GBP: { symbol: '£', amount: '4.58', currency: 'GBP' },
+  NZD: { symbol: 'NZ$', amount: '9.99', currency: 'NZD' },
+  SGD: { symbol: 'S$', amount: '7.49', currency: 'SGD' },
+  CAD: { symbol: 'C$', amount: '8.33', currency: 'CAD' },
+  JPY: { symbol: '¥', amount: '917', currency: 'JPY' },
 };
 
 const DEFAULT_CURRENCY = 'USD';

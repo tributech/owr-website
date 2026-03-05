@@ -14,14 +14,14 @@ const freeFeatures = [
 ];
 
 const proFeatures = [
+  { label: 'Army Builder Sync', isHot: true },
+  { label: 'Early Army List Access', isHot: true },
+  { label: 'Battle Hub Scorer', isHot: true },
+  { label: 'Tournament Pack AI Assist', isHot: true },
   { label: 'Private Tournaments' },
-  { label: 'Early Army List Access' },
-  { label: 'Army Builder Sync' },
   { label: 'Advanced Stats' },
   { label: 'Notifications' },
   { label: 'Ad-Free' },
-  { label: 'Battle Hub Scorer' },
-  { label: 'Tournament Pack AI Assist' },
   { label: 'Priority Support' },
 ];
 ---
@@ -39,7 +39,7 @@ const proFeatures = [
       </span>
       <h2 class="text-2xl sm:text-3xl font-bold text-white mb-4">Take Your Game Further</h2>
       <p class="text-white/70 max-w-2xl mx-auto">
-        OWR is free for players. Upgrade to Pro for tournament organizers and power users.
+        Everything you need to compete. Upgrade to Pro to unlock the full experience.
       </p>
     </div>
 
@@ -49,7 +49,7 @@ const proFeatures = [
         <h3 class="text-xl font-bold text-white mb-2">OWR Free</h3>
         <p class="text-white/60 mb-6">Everything you need to compete</p>
         <p class="text-3xl font-bold text-white mb-6">
-          $0<span class="text-lg font-normal text-white/60"> USD/month</span>
+          $0<span class="text-lg font-normal text-white/60" data-free-suffix> USD/month</span>
         </p>
         <ul class="space-y-3 flex-grow">
           {freeFeatures.map((feature) => (
@@ -78,13 +78,11 @@ const proFeatures = [
           </span>
         </div>
         <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">OWR Pro</h3>
-        <p class="text-gray-500 dark:text-gray-400 mb-4">For tournament organizers &amp; power users</p>
-        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-green-100 text-green-800 text-xs font-medium mb-4">
-          Introductory pricing
-        </span>
-        <p class="text-3xl font-bold text-gray-900 dark:text-white mb-6">
-          <span data-pro-price>$7</span><span class="text-lg font-normal text-gray-500 dark:text-gray-400" data-pro-suffix> USD/month</span>
+        <p class="text-gray-500 dark:text-gray-400 mb-6">For tournament organizers &amp; power users</p>
+        <p class="text-3xl font-bold text-gray-900 dark:text-white mb-1">
+          <span data-pro-price>$5.83</span><span class="text-lg font-normal text-gray-500 dark:text-gray-400" data-pro-suffix> USD/month</span>
         </p>
+        <p class="text-xs text-gray-400 dark:text-gray-500 mb-4">* Billed yearly (2 months free). <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-green-100 text-green-800 text-[10px] font-medium">Introductory pricing</span></p>
         <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Everything in Free, plus:</p>
         <ul class="space-y-3 flex-grow">
           {proFeatures.map((feature) => (
@@ -93,8 +91,15 @@ const proFeatures = [
                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
               </svg>
               <span>{feature.label}</span>
+              {feature.isHot && <span class="text-[10px] px-1.5 py-0.5 rounded-full bg-owr-gold text-gray-900 font-semibold">HOT</span>}
             </li>
           ))}
+          <li class="flex items-center gap-3 text-gray-900 dark:text-white pt-2 border-t border-gray-200 dark:border-gray-700">
+            <svg class="h-5 w-5 text-owr-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+            <span class="font-semibold">Support the continued development of Old World Rankings</span>
+          </li>
         </ul>
         <a
           href={`${APP_URL}/purchase`}
@@ -126,8 +131,10 @@ const proFeatures = [
 
     const priceEl = section.querySelector('[data-pro-price]');
     const suffixEl = section.querySelector('[data-pro-suffix]');
+    const freeSuffixEl = section.querySelector('[data-free-suffix]');
     if (priceEl) priceEl.textContent = price.display;
     if (suffixEl) suffixEl.textContent = ` ${price.suffix}`;
+    if (freeSuffixEl) freeSuffixEl.textContent = ` ${price.suffix}`;
   }
 
   document.addEventListener('owr:user-loaded', () => updatePricing());

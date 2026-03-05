@@ -13,6 +13,20 @@ const bansheeToken = import.meta.env.PUBLIC_BANSHEE_TOKEN;
       s.async = 1;
       document.head.appendChild(s);
     })();
-    banshee('init', { token: bansheeToken });
+    var initOpts = {
+      token: bansheeToken,
+      display: 'drawer',
+      hideDefaultLauncher: true
+    };
+
+    // Identify logged-in users via the session cookie
+    document.addEventListener('owr:user-loaded', function(e) {
+      var user = e.detail;
+      if (user) {
+        banshee('identify', { email: user.email, name: user.full_name });
+      }
+    });
+
+    banshee('init', initOpts);
   </script>
 )}

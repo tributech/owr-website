@@ -8,7 +8,7 @@ import GlobalSearch from './GlobalSearch';
 const heroImages = Array.from({ length: 16 }, (_, i) => `/images/landing/image${i + 1}.jpg`);
 ---
 
-<section class="relative min-h-[70vh] flex items-center justify-center pt-16 pb-12">
+<section class="relative min-h-[60vh] sm:min-h-[70vh] flex items-center justify-center pt-16 pb-8 sm:pb-12">
   <!-- Background with overlay -->
   <div class="absolute inset-0 bg-black" id="hero-bg">
     {heroImages.map((src, i) => (
@@ -30,18 +30,18 @@ const heroImages = Array.from({ length: 16 }, (_, i) => `/images/landing/image${
     <img
       src="/images/owr_logo_white.png"
       alt="Old World Rankings"
-      class="mx-auto mb-8 h-24 w-24 sm:h-32 sm:w-32"
+      class="mx-auto mb-6 sm:mb-8 h-20 w-20 sm:h-32 sm:w-32"
     />
 
-    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 text-balance">
+    <h1 class="text-3xl sm:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 text-balance">
       The Complete Companion to The Old World
     </h1>
 
-    <p class="text-lg sm:text-xl text-white/80 mb-8">
+    <p class="text-base sm:text-xl text-white/80 mb-6 sm:mb-8">
       Host, Find &amp; Play Events &middot; Create Army Lists &middot; Track Faction Meta &amp; Rankings
     </p>
 
-    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-8 sm:mb-12">
       <a
         href="#regions"
         class="w-full sm:w-auto px-8 py-3 bg-owr-gold text-gray-900 font-semibold rounded-lg hover:bg-owr-gold-dark transition-colors text-center"

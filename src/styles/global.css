@@ -47,6 +47,28 @@ body {
   font-family: var(--font-sans);
 }
 
+/* Pagefind search UI theming */
+:root {
+  --pagefind-ui-scale: 0.9;
+  --pagefind-ui-primary: #DAA520;
+  --pagefind-ui-text: #374151;
+  --pagefind-ui-background: #ffffff;
+  --pagefind-ui-border: #e5e7eb;
+  --pagefind-ui-tag: #fef3c7;
+  --pagefind-ui-border-width: 1px;
+  --pagefind-ui-border-radius: 12px;
+  --pagefind-ui-image-border-radius: 8px;
+  --pagefind-ui-font: "Montserrat", system-ui, sans-serif;
+}
+
+.dark {
+  --pagefind-ui-primary: #FFD700;
+  --pagefind-ui-text: #d1d5db;
+  --pagefind-ui-background: #1f2937;
+  --pagefind-ui-border: #374151;
+  --pagefind-ui-tag: #292524;
+}
+
 /* Inline code in rich text */
 .inline-code {
   background-color: #f3f4f6;

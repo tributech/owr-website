@@ -12,6 +12,9 @@ export default defineConfig({
     server: {
       allowedHosts: ['www.owr-local.site'],
     },
+    preview: {
+      allowedHosts: ['www.owr-local.site'],
+    },
   },
   server: {
     host: '0.0.0.0',

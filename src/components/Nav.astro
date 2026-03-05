@@ -105,7 +105,7 @@ mobileLinks.push(...directLinks);
             <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 absolute left-1/2 -translate-x-1/2 top-full pt-2 transition-all duration-150 z-50">
               <div class:list={[
                 'rounded-xl border shadow-xl p-2',
-                menu.columns === 2 ? 'w-[600px]' : 'min-w-[320px]',
+                menu.columns === 2 ? 'w-[min(600px,90vw)]' : 'min-w-[320px]',
                 transparent
                   ? 'bg-gray-900/95 border-white/10 backdrop-blur-xl'
                   : 'bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700',
@@ -184,7 +184,7 @@ mobileLinks.push(...directLinks);
             'hidden lg:flex items-center justify-center w-9 h-9 rounded-lg transition-colors cursor-pointer',
             transparent
               ? 'text-owr-gold hover:bg-white/10'
-              : 'text-owr-gold hover:bg-gray-100 dark:hover:bg-gray-800',
+              : 'text-owr-gold-dark dark:text-owr-gold hover:bg-gray-100 dark:hover:bg-gray-800',
           ]}
           aria-label="Toggle theme"
         >
@@ -322,53 +322,98 @@ mobileLinks.push(...directLinks);
   <div
     id="mobile-menu"
     class:list={[
-      'hidden lg:hidden border-t',
+      'hidden lg:hidden border-t max-h-[calc(100dvh-4rem)] overflow-y-auto',
       transparent
         ? 'bg-black/80 border-white/10'
         : 'bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700',
     ]}
   >
-    <div class="px-4 py-4 space-y-2">
-      {mobileLinks.map((link) => (
-        <a
-          href={link.href}
-          class:list={[
-            'block px-3 py-2 rounded-md text-base font-medium transition-colors',
-            transparent
-              ? 'text-white/80 hover:text-white hover:bg-white/10'
-              : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800',
-          ]}
-        >
-          {link.label}
-        </a>
+    <div class="px-4 py-4 space-y-1">
+      {megaMenus.map((menu) => (
+        <div class="py-1">
+          <p class:list={[
+            'px-3 py-1.5 text-xs font-semibold uppercase tracking-wider',
+            transparent ? 'text-white/40' : 'text-gray-400 dark:text-gray-500',
+          ]}>
+            {menu.label}
+          </p>
+          {menu.items.map((item) => (
+            <a
+              href={item.href}
+              class:list={[
+                'flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors',
+                transparent
+                  ? 'text-white/80 hover:text-white hover:bg-white/10'
+                  : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800',
+              ]}
+            >
+              <svg class:list={[
+                'w-5 h-5 shrink-0',
+                transparent ? 'text-owr-gold/70' : 'text-gray-400 dark:text-gray-500',
+              ]} fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d={item.icon} />
+              </svg>
+              {item.label}
+            </a>
+          ))}
+        </div>
       ))}
 
+      {directLinks.length > 0 && (
+        <div class:list={[
+          'pt-1 border-t',
+          transparent ? 'border-white/10' : 'border-gray-200 dark:border-gray-700',
+        ]}>
+          {directLinks.map((link) => (
+            <a
+              href={link.href}
+              class:list={[
+                'block px-3 py-2.5 rounded-md text-sm font-medium transition-colors',
+                transparent
+                  ? 'text-white/80 hover:text-white hover:bg-white/10'
+                  : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800',
+              ]}
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+      )}
+
       <!-- Mobile theme toggle -->
-      <button
-        id="mobile-theme-toggle"
-        type="button"
-        class:list={[
-          'flex items-center gap-3 w-full px-3 py-2 rounded-md text-base font-medium transition-colors cursor-pointer',
-          transparent
-            ? 'text-owr-gold hover:bg-white/10'
-            : 'text-owr-gold hover:bg-gray-50 dark:hover:bg-gray-800',
-        ]}
-      >
-        <svg id="mobile-theme-sun" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
-        </svg>
-        <svg id="mobile-theme-moon" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
-        </svg>
-        <span id="mobile-theme-label">Toggle theme</span>
-      </button>
+      <div class:list={[
+        'pt-1 border-t',
+        transparent ? 'border-white/10' : 'border-gray-200 dark:border-gray-700',
+      ]}>
+        <button
+          id="mobile-theme-toggle"
+          type="button"
+          class:list={[
+            'flex items-center gap-3 w-full px-3 py-2.5 rounded-md text-sm font-medium transition-colors cursor-pointer',
+            transparent
+              ? 'text-owr-gold hover:bg-white/10'
+              : 'text-owr-gold-dark dark:text-owr-gold hover:bg-gray-50 dark:hover:bg-gray-800',
+          ]}
+        >
+          <svg id="mobile-theme-sun" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+          </svg>
+          <svg id="mobile-theme-moon" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+          </svg>
+          <span id="mobile-theme-label">Toggle theme</span>
+        </button>
+      </div>
 
       <!-- Mobile anonymous -->
-      <div id="mobile-anonymous" class="pt-3 border-t border-gray-200/20 space-y-2">
+      <div id="mobile-anonymous" class:list={[
+        'pt-2 border-t space-y-2',
+        transparent ? 'border-white/10' : 'border-gray-200 dark:border-gray-700',
+      ]}>
         <a
           href={`${APP_URL}/login`}
           class:list={[
-            'block px-3 py-2 rounded-md text-base font-medium transition-colors',
+            'block px-3 py-2.5 rounded-md text-sm font-medium transition-colors',
             transparent
               ? 'text-white/80 hover:text-white hover:bg-white/10'
               : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800',
@@ -379,7 +424,7 @@ mobileLinks.push(...directLinks);
         <a
           href={`${APP_URL}/register`}
           class:list={[
-            'block px-3 py-2 rounded-md text-base font-medium text-center transition-colors',
+            'block px-3 py-2.5 rounded-md text-sm font-medium text-center transition-colors',
             transparent
               ? 'bg-white text-gray-900 hover:bg-gray-100'
               : 'bg-gray-900 text-white hover:bg-gray-800',
@@ -390,7 +435,10 @@ mobileLinks.push(...directLinks);
       </div>
 
       <!-- Mobile authenticated (hidden until JS personalises) -->
-      <div id="mobile-authenticated" class="hidden pt-3 border-t border-gray-200/20 space-y-1">
+      <div id="mobile-authenticated" class:list={[
+        'hidden pt-2 border-t space-y-1',
+        transparent ? 'border-white/10' : 'border-gray-200 dark:border-gray-700',
+      ]}>
         <div class="px-3 py-2">
           <p id="mobile-user-name" class:list={['text-sm font-semibold', transparent ? 'text-owr-gold' : 'text-gray-900 dark:text-white']}></p>
           <p id="mobile-user-email" class="text-xs text-gray-500"></p>
@@ -399,7 +447,7 @@ mobileLinks.push(...directLinks);
           id="mobile-dashboard-link"
           href={`${APP_URL}/dashboard`}
           class:list={[
-            'block px-3 py-2 rounded-md text-base font-medium transition-colors',
+            'block px-3 py-2.5 rounded-md text-sm font-medium transition-colors',
             transparent
               ? 'text-white/80 hover:text-white hover:bg-white/10'
               : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800',
@@ -411,7 +459,7 @@ mobileLinks.push(...directLinks);
           id="mobile-profile-link"
           href={`${APP_URL}/profile`}
           class:list={[
-            'block px-3 py-2 rounded-md text-base font-medium transition-colors',
+            'block px-3 py-2.5 rounded-md text-sm font-medium transition-colors',
             transparent
               ? 'text-white/80 hover:text-white hover:bg-white/10'
               : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800',
@@ -422,7 +470,7 @@ mobileLinks.push(...directLinks);
         <a
           href={`${APP_URL}/profile`}
           class:list={[
-            'block px-3 py-2 rounded-md text-base font-medium transition-colors',
+            'block px-3 py-2.5 rounded-md text-sm font-medium transition-colors',
             transparent
               ? 'text-white/80 hover:text-white hover:bg-white/10'
               : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800',

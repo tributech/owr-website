@@ -65,11 +65,11 @@ for (const article of articles) {
 
       <!-- Category quick links -->
       {categories.length > 0 && (
-        <div class="flex flex-wrap justify-center gap-3 mb-12">
+        <div class="flex overflow-x-auto sm:flex-wrap sm:justify-center gap-3 mb-12 pb-2 sm:pb-0 -mx-4 px-4 sm:mx-0 sm:px-0">
           {categories.map((cat) => (
             <a
               href={`#${cat.fields.slug}`}
-              class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gray-200 bg-white text-sm font-medium text-gray-700 hover:border-gray-400 hover:text-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300 dark:hover:border-gray-500 dark:hover:text-white transition-colors"
+              class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gray-200 bg-white text-sm font-medium text-gray-700 hover:border-gray-400 hover:text-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300 dark:hover:border-gray-500 dark:hover:text-white transition-colors shrink-0 sm:shrink"
             >
               {cat.fields.icon && (
                 <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

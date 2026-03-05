@@ -87,13 +87,68 @@ const options: Options = {
       const title = fields?.title || '';
       const description = fields?.description || '';
       if (!url) return '';
-      return `<figure class="my-6"><img src="https:${url}" alt="${title}" loading="lazy" class="rounded-lg w-full cursor-zoom-in doc-lightbox-img" />${description ? `<figcaption class="text-sm text-gray-500 mt-2 text-center">${description}</figcaption>` : ''}</figure>`;
+      // Classify images by aspect ratio for smart sizing
+      const width = fields?.file?.details?.image?.width || 800;
+      const height = fields?.file?.details?.image?.height || 600;
+      const aspect = width / height;
+      let sizeClass: string;
+      if (aspect >= 1.8) {
+        // Very wide (banners) — full width
+        sizeClass = 'max-w-full';
+      } else if (aspect >= 1.2) {
+        // Landscape — large but not full
+        sizeClass = 'max-w-2xl';
+      } else if (aspect >= 0.7) {
+        // Square-ish — medium
+        sizeClass = 'max-w-sm';
+      } else {
+        // Portrait/tall — small
+        sizeClass = 'max-w-xs';
+      }
+      return `<figure class="doc-figure my-6 ${sizeClass} mx-auto"><img src="https:${url}" alt="${title}" loading="lazy" class="rounded-lg border border-gray-200 shadow-sm w-full cursor-zoom-in doc-lightbox-img" />${description ? `<figcaption class="text-sm text-gray-500 mt-2 text-center">${description}</figcaption>` : ''}</figure>`;
     },
     [INLINES.HYPERLINK]: (node, next) =>
       `<a href="${node.data.uri}" class="text-gray-900 dark:text-owr-gold underline underline-offset-4 hover:text-owr-gold-dark transition-colors"${node.data.uri.startsWith('http') ? ' target="_blank" rel="noopener noreferrer"' : ''}>${next(node.content)}</a>`,
   },
 };
 
+/**
+ * Post-process HTML to wrap consecutive <figure> elements in a grid container.
+ * This creates multi-column layouts when images appear back-to-back.
+ */
+function wrapConsecutiveFigures(html: string): string {
+  // Match runs of 2+ consecutive figures (possibly separated by whitespace)
+  return html.replace(
+    /(<figure class="doc-figure[^>]*>[\s\S]*?<\/figure>\s*){2,}/g,
+    (match) => {
+      const figures = match.match(/<figure class="doc-figure[^>]*>[\s\S]*?<\/figure>/g) || [];
+      // Reset individual figure margins/max-width inside grids — grid handles sizing
+      const cleaned = figures.map(f =>
+        f.replace(/class="doc-figure my-6 [^"]*mx-auto"/, 'class="doc-figure my-0"')
+      ).join('\n');
+      let cols: string;
+      switch (figures.length) {
+        case 2:
+          cols = 'sm:grid-cols-2';
+          break;
+        case 3:
+          cols = 'sm:grid-cols-3';
+          break;
+        case 4:
+          // 2x2 grid looks cleaner than 4 across
+          cols = 'sm:grid-cols-2';
+          break;
+        default:
+          // 5+ images: 3-col grid, rows wrap naturally
+          cols = 'sm:grid-cols-2 lg:grid-cols-3';
+          break;
+      }
+      return `<div class="doc-image-grid grid ${cols} gap-4 my-6 items-start">\n${cleaned}\n</div>`;
+    }
+  );
+}
+
 export function renderRichText(document: Document): string {
-  return documentToHtmlString(document, options);
+  const html = documentToHtmlString(document, options);
+  return wrapConsecutiveFigures(html);
 }

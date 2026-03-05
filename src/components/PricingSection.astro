@@ -2,19 +2,27 @@
 const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com';
 
 const freeFeatures = [
-  'View rankings & tournament results',
-  'Basic army list search',
-  'Army list access (short delay)',
-  'Register for tournaments',
-  'Basic tournament hosting',
+  { label: 'Tournament hosting', isNew: true },
+  { label: 'Battle Builder', isNew: true },
+  { label: 'View rankings & stats' },
+  { label: 'Browse army lists' },
+  { label: 'Register for tournaments' },
+  { label: 'Play in tournaments' },
+  { label: 'Faction statistics' },
+  { label: 'Faction leaderboards' },
+  { label: 'Community features' },
 ];
 
 const proFeatures = [
-  'Full Battle Builder sync across all devices',
-  'Instant army list access including pre-event',
-  'Pre-launch registration support',
-  'Event follow and notifications',
-  'Mobile app with list sync',
+  { label: 'Private Tournaments' },
+  { label: 'Early Army List Access' },
+  { label: 'Army Builder Sync' },
+  { label: 'Advanced Stats' },
+  { label: 'Notifications' },
+  { label: 'Ad-Free' },
+  { label: 'Battle Hub Scorer' },
+  { label: 'Tournament Pack AI Assist' },
+  { label: 'Priority Support' },
 ];
 ---
 
@@ -49,7 +57,8 @@ const proFeatures = [
               <svg class="h-5 w-5 text-white/60 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
               </svg>
-              <span>{feature}</span>
+              <span>{feature.label}</span>
+              {feature.isNew && <span class="text-[10px] px-1.5 py-0.5 rounded-full bg-green-500 text-white font-semibold">NEW</span>}
             </li>
           ))}
         </ul>
@@ -83,12 +92,12 @@ const proFeatures = [
               <svg class="h-5 w-5 text-gray-900 dark:text-white shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
               </svg>
-              <span>{feature}</span>
+              <span>{feature.label}</span>
             </li>
           ))}
         </ul>
         <a
-          href="/pricing"
+          href={`${APP_URL}/purchase`}
           class="block w-full py-3 text-center bg-owr-gold text-gray-900 font-semibold rounded-lg hover:bg-owr-gold-dark transition-colors mt-8"
         >
           Upgrade to Pro

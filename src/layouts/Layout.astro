@@ -1,5 +1,6 @@
 ---
 import CookieConsent from '../components/CookieConsent.astro';
+import BansheeWidget from '../components/BansheeWidget.astro';
 
 interface Props {
   title: string;
@@ -70,5 +71,6 @@ const {
   >
     <slot />
     <CookieConsent />
+    <BansheeWidget />
   </body>
 </html>

@@ -1,0 +1,18 @@
+---
+const bansheeToken = import.meta.env.PUBLIC_BANSHEE_TOKEN;
+---
+
+{bansheeToken && (
+  <script is:inline define:vars={{ bansheeToken }}>
+    (function(){
+      window.banshee = window.banshee || function() {
+        (window.banshee.q = window.banshee.q || []).push(arguments);
+      };
+      var s = document.createElement('script');
+      s.src = 'https://scream.banshee.chat/widget/boo.js?v=0';
+      s.async = 1;
+      document.head.appendChild(s);
+    })();
+    banshee('init', { token: bansheeToken });
+  </script>
+)}

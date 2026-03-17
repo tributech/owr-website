@@ -39,9 +39,19 @@ const proFeatures = [
         &#10024; Unlock More
       </span>
       <h2 class="text-2xl sm:text-3xl font-bold text-white mb-4">Take Your Game Further</h2>
-      <p class="text-white/70 max-w-2xl mx-auto">
+      <p class="text-white/70 max-w-2xl mx-auto mb-8">
         Everything you need to compete. Upgrade to Pro to unlock the full experience.
       </p>
+
+      <!-- Billing toggle -->
+      <div class="inline-flex items-center bg-white/10 rounded-full p-1">
+        <button type="button" data-interval="monthly" class="px-5 py-2 text-sm font-medium rounded-full transition-colors bg-white text-gray-900">
+          Monthly
+        </button>
+        <button type="button" data-interval="yearly" class="px-5 py-2 text-sm font-medium rounded-full transition-colors text-white/60 hover:text-white">
+          Yearly <span class="text-[10px] px-1.5 py-0.5 rounded-full bg-green-500/20 text-green-400 font-semibold ml-1">Save ~17%</span>
+        </button>
+      </div>
     </div>
 
     <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
@@ -81,9 +91,9 @@ const proFeatures = [
         <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">OWR Pro</h3>
         <p class="text-gray-500 dark:text-gray-400 mb-6">For tournament organizers &amp; power users</p>
         <p class="text-3xl font-bold text-gray-900 dark:text-white mb-1">
-          <span data-pro-price>$5.83</span><span class="text-lg font-normal text-gray-500 dark:text-gray-400" data-pro-suffix> USD/month</span>
+          <span data-pro-price>$6.99</span><span class="text-lg font-normal text-gray-500 dark:text-gray-400" data-pro-suffix> USD/month</span>
         </p>
-        <p class="text-xs text-gray-400 dark:text-gray-500 mb-4">* Billed yearly (2 months free). <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-green-100 text-green-800 text-[10px] font-medium">Introductory pricing</span></p>
+        <p class="text-xs text-gray-400 dark:text-gray-500 mb-4" data-billing-note>Billed monthly. <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-green-100 text-green-800 text-[10px] font-medium">Introductory pricing</span></p>
         <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Everything in Free, plus:</p>
         <ul class="space-y-3 flex-grow">
           {proFeatures.map((feature) => (
@@ -121,12 +131,14 @@ const proFeatures = [
 </section>
 
 <script>
-  import { detectCurrency, priceForCurrency } from '../lib/pricing';
+  import { detectCurrency, priceForCurrency, type BillingInterval } from '../lib/pricing';
+
+  let currentInterval: BillingInterval = 'monthly';
 
   function updatePricing() {
     const user = window.__owrUser;
     const currency = detectCurrency(user?.region_slug);
-    const price = priceForCurrency(currency);
+    const price = priceForCurrency(currency, currentInterval);
 
     const section = document.getElementById('pricing');
     if (!section) return;
@@ -134,9 +146,36 @@ const proFeatures = [
     const priceEl = section.querySelector('[data-pro-price]');
     const suffixEl = section.querySelector('[data-pro-suffix]');
     const freeSuffixEl = section.querySelector('[data-free-suffix]');
+    const billingNote = section.querySelector('[data-billing-note]');
     if (priceEl) priceEl.textContent = price.display;
     if (suffixEl) suffixEl.textContent = ` ${price.suffix}`;
     if (freeSuffixEl) freeSuffixEl.textContent = ` ${price.suffix}`;
+    if (billingNote) {
+      const noteText = currentInterval === 'yearly'
+        ? 'Billed yearly (2 months free).'
+        : 'Billed monthly.';
+      billingNote.innerHTML = `${noteText} <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-green-100 text-green-800 text-[10px] font-medium">Introductory pricing</span>`;
+    }
+  }
+
+  // Toggle buttons
+  const section = document.getElementById('pricing');
+  if (section) {
+    const toggleBtns = section.querySelectorAll<HTMLButtonElement>('[data-interval]');
+    const activeClasses = ['bg-white', 'text-gray-900'];
+    const inactiveClasses = ['text-white/60', 'hover:text-white'];
+
+    toggleBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        currentInterval = btn.dataset.interval as BillingInterval;
+        toggleBtns.forEach((b) => {
+          const isActive = b.dataset.interval === currentInterval;
+          activeClasses.forEach((c) => b.classList.toggle(c, isActive));
+          inactiveClasses.forEach((c) => b.classList.toggle(c, !isActive));
+        });
+        updatePricing();
+      });
+    });
   }
 
   document.addEventListener('owr:user-loaded', () => updatePricing());

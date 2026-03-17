@@ -1,3 +1,5 @@
+export type BillingInterval = 'monthly' | 'yearly';
+
 export interface PriceInfo {
   display: string;
   currency: string;
@@ -6,19 +8,20 @@ export interface PriceInfo {
 
 interface PriceEntry {
   symbol: string;
-  amount: string;
+  monthly: string;
+  yearly: string;
   currency: string;
 }
 
 const PRICES: Record<string, PriceEntry> = {
-  USD: { symbol: '$', amount: '5.83', currency: 'USD' },
-  AUD: { symbol: 'A$', amount: '8.33', currency: 'AUD' },
-  EUR: { symbol: '€', amount: '4.99', currency: 'EUR' },
-  GBP: { symbol: '£', amount: '4.58', currency: 'GBP' },
-  NZD: { symbol: 'NZ$', amount: '9.99', currency: 'NZD' },
-  SGD: { symbol: 'S$', amount: '7.49', currency: 'SGD' },
-  CAD: { symbol: 'C$', amount: '8.33', currency: 'CAD' },
-  JPY: { symbol: '¥', amount: '917', currency: 'JPY' },
+  USD: { symbol: '$', monthly: '6.99', yearly: '5.83', currency: 'USD' },
+  AUD: { symbol: 'A$', monthly: '9.99', yearly: '8.33', currency: 'AUD' },
+  EUR: { symbol: '€', monthly: '5.99', yearly: '4.99', currency: 'EUR' },
+  GBP: { symbol: '£', monthly: '5.49', yearly: '4.58', currency: 'GBP' },
+  NZD: { symbol: 'NZ$', monthly: '11.99', yearly: '9.99', currency: 'NZD' },
+  SGD: { symbol: 'S$', monthly: '8.99', yearly: '7.49', currency: 'SGD' },
+  CAD: { symbol: 'C$', monthly: '9.99', yearly: '8.33', currency: 'CAD' },
+  JPY: { symbol: '¥', monthly: '1100', yearly: '917', currency: 'JPY' },
 };
 
 const DEFAULT_CURRENCY = 'USD';
@@ -59,10 +62,11 @@ const TZ_TO_CURRENCY: Record<string, string> = {
   'Europe/Luxembourg': 'EUR', 'Europe/Zagreb': 'EUR',
 };
 
-export function priceForCurrency(currency: string): PriceInfo {
+export function priceForCurrency(currency: string, interval: BillingInterval = 'monthly'): PriceInfo {
   const entry = PRICES[currency] || PRICES[DEFAULT_CURRENCY];
+  const amount = interval === 'yearly' ? entry.yearly : entry.monthly;
   return {
-    display: `${entry.symbol}${entry.amount}`,
+    display: `${entry.symbol}${amount}`,
     currency: entry.currency,
     suffix: `${entry.currency}/month`,
   };

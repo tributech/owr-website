@@ -15,6 +15,7 @@ pnpm-debug.log*
 
 # environment variables
 .env
+.env.local
 .env.production
 
 # macOS
@@ -23,6 +24,9 @@ pnpm-debug.log*
 # IDE
 .idea/
 .vscode/
+
+# Reports (auto-generated)
+reports/
 
 # MCP
 .mcp.json

@@ -105,7 +105,7 @@ const options: Options = {
         // Portrait/tall — small
         sizeClass = 'max-w-xs';
       }
-      return `<figure class="doc-figure my-6 ${sizeClass} mx-auto"><img src="https:${url}" alt="${title}" loading="lazy" class="rounded-lg border border-gray-200 shadow-sm w-full cursor-zoom-in doc-lightbox-img" />${description ? `<figcaption class="text-sm text-gray-500 mt-2 text-center">${description}</figcaption>` : ''}</figure>`;
+      return `<figure class="doc-figure my-6 ${sizeClass} mx-auto"><img src="https:${url}" alt="${title}" loading="lazy" class="rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm w-full cursor-zoom-in doc-lightbox-img" />${description ? `<figcaption class="text-sm text-gray-500 mt-2 text-center">${description}</figcaption>` : ''}</figure>`;
     },
     [INLINES.HYPERLINK]: (node, next) =>
       `<a href="${node.data.uri}" class="text-gray-900 dark:text-owr-gold underline underline-offset-4 hover:text-owr-gold-dark transition-colors"${node.data.uri.startsWith('http') ? ' target="_blank" rel="noopener noreferrer"' : ''}>${next(node.content)}</a>`,

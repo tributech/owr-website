@@ -25,6 +25,14 @@ if (client) {
   }
 }
 
+// Generate a URL-friendly slug from a title
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+}
+
 // Group entries by month/year
 const grouped = new Map<string, typeof entries>();
 for (const entry of entries) {
@@ -63,6 +71,7 @@ for (const entry of entries) {
                 {monthEntries.map((entry) => (
                   <ChangelogCard
                     title={entry.fields.title}
+                    slug={slugify(entry.fields.title)}
                     date={entry.fields.date}
                     category={entry.fields.category}
                     bodyHtml={renderRichText(entry.fields.description as unknown as Document)}

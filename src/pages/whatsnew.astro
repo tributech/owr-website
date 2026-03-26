@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import ChangelogCard from '../components/changelog/ChangelogCard.astro';
+import Lightbox from '../components/Lightbox.astro';
 import { getClient } from '../lib/contentful';
 import { renderRichText } from '../lib/rich-text';
 import type { ChangelogEntrySkeleton } from '../lib/contentful-types';
@@ -89,5 +90,6 @@ for (const entry of entries) {
     </div>
   </main>
 
+  <Lightbox />
   <Footer />
 </Layout>

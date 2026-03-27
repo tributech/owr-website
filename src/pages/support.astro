@@ -1,0 +1,95 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout
+  title="Support — Old World Rankings"
+  description="Get help with Old World Rankings. Browse our docs, chat with support, or send us an email."
+>
+  <Nav />
+
+  <main class="pt-24 pb-16">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-3">How can we help?</h1>
+        <p class="text-gray-500 dark:text-gray-400 text-lg">Find answers, chat with us, or drop us an email.</p>
+      </div>
+
+      <div class="space-y-6">
+        <!-- 1. Documentation -->
+        <a
+          href="/docs"
+          class="group block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800/50 p-6 hover:border-owr-gold/60 dark:hover:border-owr-gold/40 transition-colors"
+        >
+          <div class="flex items-start gap-5">
+            <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-amber-100 dark:bg-owr-gold/10 flex items-center justify-center text-amber-700 dark:text-owr-gold group-hover:bg-amber-200 dark:group-hover:bg-owr-gold/20 transition-colors">
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+              </svg>
+            </div>
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center justify-between">
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Browse Documentation</h2>
+                <svg class="w-5 h-5 text-gray-400 group-hover:text-owr-gold transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                </svg>
+              </div>
+              <p class="text-gray-500 dark:text-gray-400 mt-1">Guides and help articles covering everything from getting started to running tournaments. Most questions are answered here.</p>
+            </div>
+          </div>
+        </a>
+
+        <!-- 2. Live Chat -->
+        <button
+          type="button"
+          data-action="banshee-open"
+          class="group block w-full text-left rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800/50 p-6 hover:border-owr-gold/60 dark:hover:border-owr-gold/40 transition-colors cursor-pointer"
+        >
+          <div class="flex items-start gap-5">
+            <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-amber-100 dark:bg-owr-gold/10 flex items-center justify-center text-amber-700 dark:text-owr-gold group-hover:bg-amber-200 dark:group-hover:bg-owr-gold/20 transition-colors">
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+              </svg>
+            </div>
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center justify-between">
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Chat with Support</h2>
+                <svg class="w-5 h-5 text-gray-400 group-hover:text-owr-gold transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                </svg>
+              </div>
+              <p class="text-gray-500 dark:text-gray-400 mt-1">Open a live chat with our support team. We'll get back to you as quickly as we can.</p>
+            </div>
+          </div>
+        </button>
+
+        <!-- 3. Email -->
+        <a
+          href="mailto:support@oldworldrankings.com"
+          class="group block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800/50 p-6 hover:border-owr-gold/60 dark:hover:border-owr-gold/40 transition-colors"
+        >
+          <div class="flex items-start gap-5">
+            <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-amber-100 dark:bg-owr-gold/10 flex items-center justify-center text-amber-700 dark:text-owr-gold group-hover:bg-amber-200 dark:group-hover:bg-owr-gold/20 transition-colors">
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+              </svg>
+            </div>
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center justify-between">
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Email Us</h2>
+                <svg class="w-5 h-5 text-gray-400 group-hover:text-owr-gold transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                </svg>
+              </div>
+              <p class="text-gray-500 dark:text-gray-400 mt-1">Send us an email at <span class="font-medium text-gray-700 dark:text-gray-300">support@oldworldrankings.com</span> and we'll respond within 24 hours.</p>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

@@ -1,15 +1,20 @@
-<!-- Lightbox overlay for doc-lightbox-img images -->
-<div id="lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 cursor-zoom-out p-[5vh_5vw]">
-  <button id="lightbox-close" class="absolute top-6 right-6 text-white/70 hover:text-white transition-colors z-10" aria-label="Close">
-    <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-    </svg>
-  </button>
-  <img id="lightbox-img" class="max-w-full max-h-full object-contain rounded-lg shadow-2xl" alt="" />
+<!-- Lightbox modal for doc-lightbox-img images -->
+<div id="lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 backdrop-blur-sm p-4 sm:p-8">
+  <div id="lightbox-card" class="relative max-w-5xl w-full max-h-[90vh] bg-white dark:bg-gray-900 rounded-2xl shadow-2xl overflow-hidden">
+    <button id="lightbox-close" class="absolute top-3 right-3 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-white transition-colors" aria-label="Close">
+      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+    <div class="p-3">
+      <img id="lightbox-img" class="w-full h-auto max-h-[calc(90vh-24px)] object-contain rounded-lg" alt="" />
+    </div>
+  </div>
 </div>
 
 <script>
   const lightbox = document.getElementById('lightbox')!;
+  const lightboxCard = document.getElementById('lightbox-card')!;
   const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement;
 
   document.querySelectorAll('.doc-lightbox-img').forEach((img) => {
@@ -21,17 +26,24 @@
     });
   });
 
-  lightbox.addEventListener('click', () => {
-    lightbox.classList.add('hidden');
-    lightbox.classList.remove('flex');
-    lightboxImg.src = '';
+  // Close when clicking the backdrop (not the card)
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) {
+      closeLightbox();
+    }
   });
+
+  document.getElementById('lightbox-close')!.addEventListener('click', closeLightbox);
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && !lightbox.classList.contains('hidden')) {
-      lightbox.classList.add('hidden');
-      lightbox.classList.remove('flex');
-      lightboxImg.src = '';
+      closeLightbox();
     }
   });
+
+  function closeLightbox() {
+    lightbox.classList.add('hidden');
+    lightbox.classList.remove('flex');
+    lightboxImg.src = '';
+  }
 </script>

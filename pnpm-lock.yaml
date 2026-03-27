@@ -35,6 +35,9 @@ importers:
       react-dom:
         specifier: ^19.2.4
         version: 19.2.4(react@19.2.4)
+      shareon:
+        specifier: ^2.7.0
+        version: 2.7.0
       tailwindcss:
         specifier: ^4.1.18
         version: 4.1.18
@@ -1975,6 +1978,9 @@ packages:
     resolution: {integrity: sha512-vFKC2IEtQnVhpT78h1Yp8wzwrf8CM+MzKMHGJZfBtzhZNycRFnXsHk6E5TxIkkMsgNS7mdX3AGB7x2QM2di4lA==}
     engines: {node: '>=10'}
     hasBin: true
+
+  shareon@2.7.0:
+    resolution: {integrity: sha512-h2aeW0C7ejvA0CspqAGAUQ0IfkNDkAHPexsC93Db/DSarDh2qMAK2nTCdhfUt9TbRs82KLyCpFnlLpi/mO3P3w==}
 
   sharp@0.34.5:
     resolution: {integrity: sha512-Ou9I5Ft9WNcCbXrU9cMgPBcCK8LiwLqcbywW3t4oDV37n1pzpuNLsYiAV8eODnjbtQlSDwZ2cUEeQz4E54Hltg==}
@@ -4412,6 +4418,8 @@ snapshots:
   semver@6.3.1: {}
 
   semver@7.7.4: {}
+
+  shareon@2.7.0: {}
 
   sharp@0.34.5:
     dependencies:

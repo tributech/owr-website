@@ -120,9 +120,16 @@ export default function RenegadeArticle() {
           <span className="text-sm uppercase tracking-[0.12em] text-[#9a7b30] align-middle">Old World Rankings</span>
         </div>
         <h1 className="text-4xl md:text-6xl font-bold text-owr-gold mb-6">The Renegade Effect</h1>
-        <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed max-w-3xl mb-6">
-          The community-authored <strong className="text-gray-700 dark:text-gray-200">Renegade army lists</strong> have become one of the most debated topics in competitive Old World.
-          With Val&apos;s <strong className="text-gray-700 dark:text-gray-200">Renegades v2.0</strong> on the horizon, there&apos;s never been more discussion about whether community rulesets belong in competitive play.
+        <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed max-w-3xl mb-4">
+          Warhammer: The Old World launched with seven <strong className="text-gray-700 dark:text-gray-200">Legacy factions</strong> &mdash;
+          older armies carried forward from previous editions with minimal updates. While playable, many of their rules were outdated or outright broken
+          compared to the fully supported core factions.
+        </p>
+        <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed max-w-3xl mb-6">
+          Enter the <strong className="text-gray-700 dark:text-gray-200">Renegade army lists</strong>: community-authored rule patches
+          published through <a href="https://www.squarebased.com/" target="_blank" rel="noopener noreferrer" className="text-owr-gold-dark dark:text-owr-gold hover:underline">Square Based</a>,
+          led by Val Heffelfinger. These aren&apos;t homebrew wishlists &mdash; they&apos;re focused fixes for the most broken elements of each Legacy faction.
+          With <strong className="text-gray-700 dark:text-gray-200">Renegades v2.0</strong> on the horizon, there&apos;s never been more debate about whether community rulesets belong in competitive play.
         </p>
         <Callout color="gold" title="Important context">
           Renegades v1.0 was <strong>not a balance pass</strong>. It was a patch &mdash; fixing things that were totally broken in the Legacy army lists.

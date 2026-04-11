@@ -5,6 +5,7 @@ import BansheeWidget from '../components/BansheeWidget.astro';
 interface Props {
   title: string;
   description?: string;
+  noindex?: boolean;
 }
 
 const gaId = import.meta.env.PUBLIC_GA_ID;
@@ -12,6 +13,7 @@ const umamiWebsiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID;
 const {
   title,
   description = 'The complete companion for Warhammer: The Old World. Rankings, tournaments, army lists, galleries and more.',
+  noindex = false,
 } = Astro.props;
 ---
 
@@ -28,6 +30,7 @@ const {
       })();
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <meta name="description" content={description} />
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site).href} />
 

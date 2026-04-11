@@ -1,0 +1,17 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import RenegadeArticle from '../../components/insights/RenegadeArticle';
+---
+
+<Layout
+  title="The Renegade Effect — Old World Rankings"
+  description="13 months of tournament data reveals how community rulesets are reshaping Legacy faction diversity in competitive Warhammer: The Old World."
+  noindex={true}
+>
+  <Nav transparent={false} />
+  <main class="bg-[#0a0c10]">
+    <RenegadeArticle client:load />
+  </main>
+</Layout>

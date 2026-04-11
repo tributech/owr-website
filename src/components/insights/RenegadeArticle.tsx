@@ -15,7 +15,7 @@ const SLIDE_LABELS = ['The Hook','Landscape','Regions','First Look','VC Reveal',
 function Stat({ label, value, detail, color = 'text-owr-gold' }: { label: string; value: string; detail: string; color?: string }) {
   return (
     <div className="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4">
-      <div className="text-[0.65rem] uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-1">{label}</div>
+      <div className="text-[0.65rem] uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1">{label}</div>
       <div className={`text-3xl font-bold font-sans ${color}`}>{value}</div>
       <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">{detail}</div>
     </div>

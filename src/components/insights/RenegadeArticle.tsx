@@ -359,6 +359,38 @@ export default function RenegadeArticle() {
         </Callout>
       </Slide>
 
+      {/* ══ PRO BANNER ══ */}
+      <section className="py-10 px-6 md:px-12 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-gray-50 via-white to-gray-50 dark:from-[#0f1118] dark:via-[#12151c] dark:to-[#0f1118]">
+        <div className="max-w-[900px] mx-auto flex flex-col md:flex-row items-center gap-6 md:gap-10">
+          <div className="flex-shrink-0">
+            <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-owr-gold/20 to-owr-gold/5 border border-owr-gold-dark/30 flex items-center justify-center">
+              <svg className="w-7 h-7 text-owr-gold" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 0 0-2.455 2.456Z" />
+              </svg>
+            </div>
+          </div>
+          <div className="flex-1 text-center md:text-left">
+            <div className="text-xs font-semibold uppercase tracking-widest text-owr-gold-dark mb-1">OWR Pro</div>
+            <h3 className="text-lg md:text-xl font-bold text-gray-900 dark:text-white mb-1">Support OWR &amp; unlock more</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Going Pro supports the project and helps us produce more analysis like this. You also get deeper faction stats, matchup data, meta trends &mdash;
+              and AI Smart Convert, which turns every army list on OWR into a fully interactive Battle Builder list, ready to tweak and take to the table.
+            </p>
+          </div>
+          <a
+            href="https://oldworldrankings.com/purchase"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-shrink-0 inline-flex items-center gap-2 px-5 py-2.5 bg-owr-gold hover:bg-owr-gold-dark text-gray-900 font-semibold text-sm rounded-lg transition-colors cursor-pointer"
+          >
+            Get OWR Pro
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+            </svg>
+          </a>
+        </div>
+      </section>
+
       {/* ══ SLIDE 10: CONCLUSIONS ══ */}
       <Slide id="conclusions">
         <ChapterLabel num="Conclusions" title="What v1.0 Actually Did" />

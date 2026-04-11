@@ -416,12 +416,6 @@ export default function RenegadeArticle() {
 
         <div className="bg-owr-gold/5 dark:bg-[#12151c] border border-owr-gold-dark rounded-xl p-6 text-center mb-6">
           <p className="text-lg text-owr-gold-dark dark:text-owr-gold font-semibold leading-relaxed max-w-3xl mx-auto">
-            v1.0 was a patch, not a balance pass. It fixed broken things. Even with minimal intervention,
-            the weakest factions saw massive improvements. v2.0 is aiming to go further &mdash; actually balancing
-            Legacy factions rather than just fixing what was broken. If minimal fixes produced these results,
-            imagine what real balance work could do.
-          </p>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mt-3">
             Excluding players from playing by leaving their army faction broken isn&apos;t good for anyone.
           </p>
         </div>

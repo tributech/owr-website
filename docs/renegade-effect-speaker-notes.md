@@ -1,12 +1,8 @@
 # The Renegade Effect — Speaker Notes & YouTube
 
-## YouTube Titles (pick one)
+## YouTube Title
 
-1. The Data Behind Renegade Army Lists — What 1,097 Tournaments Actually Show
-2. Are Renegade Lists Saving Legacy Factions? 13 Months of Old World Data
-3. Renegade vs Official: The Numbers Don't Lie — Old World Rankings Deep Dive
-4. Why Renegade Lists Matter More Than You Think — Old World Tournament Data
-5. We Analysed 1,097 Tournaments to Settle the Renegade Debate
+Why I THINK RENEGADES MATTER — 1,097 Tournaments of Old World Data
 
 ## YouTube Description
 
@@ -23,122 +19,147 @@ In this video we cover:
 
 Full interactive article: https://www.oldworldrankings.com/insights/renegade-effect
 
-#warhammertheoldworld #theoldworld #warhammer #renegades #legacyarmies #tournamentdata #oldworldrankings #competitivewarhammer #warhammerdata #tabletopgaming #warhammercommuntiy #skaven #vampirecounts
+Cover art/thumbnail by Michael C. Hendges — https://mchendges.artstation.com/projects/L291vw (used without permission)
+
+#warhammertheoldworld #theoldworld #warhammer #renegades #legacyarmies #tournamentdata #oldworldrankings #competitivewarhammer #warhammerdata #tabletopgaming #warhammercommunity #skaven #vampirecounts
 
 ---
 
 ## Slide 1: The Hook
 
-**Key message**: Why does this matter for the hobby?
+**Key message**: Set the scene — what are Legacy factions, what are Renegades, why should you care?
 
-- Val's Renegades v2.0 is coming — massive community debate right now
-- Before we look forward, let's look back at what v1.0 actually did
-- Important context: v1.0 was NOT a balance pass. It was a patch — fixing things that were totally broken in the Legacy army lists. No grand rebalancing goal.
-- The real question: if Legacy factions aren't viable at competitive events, those players either don't attend or play something else. That's lost players, not just lost factions.
-- We can't know for certain if players have multiple armies, but we CAN measure: when renegade rules are available, do more people bring Legacy factions to tournaments?
-- 13 months of global data. 1,097 events. 15,697 players. Let's find out.
+- The Old World launched with seven Legacy factions — older armies with incomplete or uncompetitive rules compared to core factions
+- Enter the Renegade army lists — community-authored rule patches published through Square Based, led by Val Heffelfinger with community input. Not homebrew wishlists, focused fixes
+- Renegades v2.0 is coming — massive debate about whether community rulesets belong in competitive play
+- Frame as questions: what happens when Legacy factions aren't viable? Do players just not attend, or switch? Are we losing players — or just factions?
+- Wonder aloud: fewer people playing competitively → fewer people playing casually too?
+- **Hypothesis**: "When renegade rules are available, more people bring Legacy factions to tournaments — meaning community rulesets are actively growing the competitive player base."
+- **Important context**: As far as we understand, Val has stated v1.0 was NOT a balance pass. It was a patch — fixing broken things. No grand rebalancing goal. This is the effect of minimal intervention.
+- 13 months of global data. 1,097 events. 15,697 players. Let's test it.
 
 ---
 
-## Slide 2: The Landscape
+## Slide 2: The Landscape (Chapter I)
 
-**Key message**: Renegade adoption has exploded.
+**Key message**: Renegade adoption has been rapid.
 
-- March 2025: zero renegade events in our data
+- v1.0 launched in March 2025 — adoption grew rapidly from there
 - By late 2025: renegade events regularly outnumber official-only ones
-- Today: ~40% of all tracked events accept renegade army lists
-- This isn't one region driving it — it's global (tease the next slide)
-- Toggle between All Events and GT Only to show the pattern holds at competitive level
+- Today: ~40% of all tracked events allow renegade army lists
+- Key stats: 657 official-only events (9,106 players) vs 440 renegade-accepting (6,550 players)
+- Legacy share already higher at renegade events: 26.8% vs 19.2%
 
 ---
 
-## Slide 3: Regional Breakdown
+## Slide 3: Regional Breakdown (Chapter I cont.)
 
-**Key message**: This is a worldwide phenomenon.
+**Key message**: This is a global phenomenon.
 
 - Every single region with enough data shows higher Legacy player share at renegade events
-- Not a single exception
-- Biggest uplifts: Poland (+12.8pp), Netherlands (+12.9pp), US (+11.3pp), Germany (+10.5pp)
-- Even regions with smaller samples (Ireland, NZ) show the same direction
-- France is interesting — 26 events, all official-only. No renegade adoption yet.
+- Biggest uplifts: Netherlands (+12.9pp), US (+11.3pp), Poland (+12.8pp), Germany (+10.5pp)
+- 17 out of 17 regions show the same direction — 100% consistency
+- Poland leads renegade adoption: 54 renegade vs 35 official events
 
 ---
 
-## Slide 4: First Look — With All Legacy Factions
+## Slide 4: First Look — All Legacy Factions (Chapter II)
 
-**Key message**: The initial data looks promising but modest.
+**Key message**: Initial data is interesting but modest — something is hiding.
 
-- Faction diversity: almost identical (~3.1 vs ~3.2 distinct Legacy factions per GT)
-- Player share: renegade GTs see +3.4pp more Legacy players (23.4% vs 20.0%)
-- "Hmm, that's not a huge difference. But wait — something feels off about these numbers..."
-- Transition: "Let's look at WHO these Legacy players actually are."
-
----
-
-## Slide 5: The Vampire Counts Revelation
-
-**Key message**: VC are distorting the entire picture.
-
-- 237 VC players at official GTs — that's 43% of ALL Legacy players at those events
-- VC appear at 71.3% of official GTs — nearly double any other Legacy faction
-- 48.3% win rate — they're already competitive without any help
-- They behave like a core faction that just happens to have a Legacy label
-- The doughnut chart makes it visceral — VC dwarf everything else
-- "So what happens if we treat Vampire Counts as what they really are — a core faction?"
+- Zooming into GTs (5+ rounds) for a competitive-level view
+- Faction diversity: nearly identical (~3.1 vs ~3.2 distinct Legacy factions per GT)
+- Player share: +3.4pp gap (23.4% vs 20.0%) — smaller than the +7.6pp across all events
+- Makes sense: GTs are more competitive, players gravitate toward stronger lists
+- Legacy factions still lack subfaction variety and expanded options even with renegade rules
+- "But is there more to this story?"
 
 ---
 
-## Slide 6: The Re-Walk — Without Vampire Counts
+## Slide 5: The Vampire Counts Problem (Chapter III)
 
-**Key message**: THIS is the real renegade effect.
+**Key message**: VC are distorting the entire Legacy picture.
 
-- Strip out VC and suddenly the gap is massive
+- VC are 35.7% of all Legacy GT players — 237 out of 548 at official events
+- Present at 71.3% of official GTs — nearly double any other Legacy faction
+- 48.3% win rate — already competitive without community help
+- New simplified chart: purple (VC) vs teal (all other Legacy) — makes VC dominance immediately obvious
+- **The Realisation**: VC are a core faction wearing a Legacy label. Popular, competitive, don't need renegade rules.
+- "So what happens when we strip them out?"
+
+---
+
+## Slide 6: The Real Renegade Effect (Chapter IV)
+
+**Key message**: Without VC inflating the numbers, the renegade effect doubles.
+
 - Player share: 12.2% official vs 18.2% renegade — that's +6.0pp, or +49% relative growth
-- Diversity also separates: 2.15 vs 2.59 distinct factions
-- The horizontal bar chart showing "with VC" vs "without VC" is the money shot
-- "Community rulesets aren't a nice-to-have. For the six non-VC Legacy factions, they're the difference between showing up and staying home."
+- Diversity gap emerges: 2.15 vs 2.59 distinct factions
+- The gap widens from +3.4pp (with VC) to +6.0pp (without)
+- For the six non-VC Legacy factions, renegade rules clearly correlate with significantly higher tournament representation
 
 ---
 
-## Slide 7: Faction by Faction
+## Slide 7: Faction by Faction (Chapter V)
 
-**Key message**: Not all factions benefit equally, but the winners win BIG.
+**Key message**: The factions that need help most, benefit most.
 
 - Skaven: +80% presence growth, +11.6pp win rate improvement
 - Ogre Kingdoms: +32% presence growth, win rate stable (already decent)
 - Lizardmen: +39% presence growth, +8.8pp win rate improvement
-- Chaos Dwarfs: +11% presence growth, but +11.6pp win rate improvement (biggest win rate jump)
-- Dark Elves & Daemons: roughly flat — renegade rules don't help or hurt much
-- Vampire Counts: slightly DOWN at renegade events (65% vs 71.3%) — they don't need the help
-- "The factions that need help the most, benefit the most. That's exactly what you'd want to see."
+- Chaos Dwarfs: +11% presence growth, +11.6pp win rate improvement (biggest win rate jump)
+- **The Droppers**: Dark Elves & Daemons of Chaos show slight dips. Neither are infantry/horde, so v1.5 errata didn't help. Dark Elves have the broader "elf problem" — competing with High Elves and Wood Elves for attention. Daemons face a similar squeeze. Renegade rules may not have addressed their core issues yet.
+- **VC Drop**: Presence actually down (71.3% → 65.0%) — community comp doing its job. BSB removal, targeted nerfs. Strong enough to attract comp attention.
 
 ---
 
-## Slide 8: The Skaven Story
+## Slide 8: The Skaven Story (Chapter VI)
 
 **Key message**: Poster child for why community rules matter.
 
-- At official events: worst Legacy faction. 27.9% win rate — you win roughly 1 in 4 games
-- With renegade rules: 39.5% win rate — genuinely competitive
-- Feb 2026: 83.3% of renegade GTs had at least one Skaven player
-- IMPORTANT CAVEAT: The v2.0 TOW errata/FAQ (Games Workshop's own update) also helped infantry/horde armies
-- Skaven are a horde army — so they got a double boost (renegade rules + errata buff)
-- Lizardmen (also infantry-heavy) show a similar but smaller pattern
-- Daemons and Ogres (more elite/monster-heavy) didn't benefit as much from the errata
-- Be honest about the confounding variable: we can't fully separate renegade effect from errata effect
-- "But the direction is clear: making these armies playable brings players to the table."
+- Most dramatic beneficiary of renegade rules
+- Look at the timeline — from June 2025 when v1.5 infantry changes landed, even official GT presence started to pick up
+- Renegade events show a clear lag as players realised Skaven could actually be competitive, building through late 2025, peaking early 2026
+- Stats: 30.6% → 55.0% presence (+80%), 27.9% → 39.5% win rate, Feb 2026 peak at 83.3% of renegade GTs
+- **Caveat**: v1.5 TOW errata also helped infantry/horde armies — Skaven likely got a double boost. Lizardmen show similar but smaller pattern. Daemons and Ogres (elite/monster-heavy) didn't benefit as much from errata.
+- Can't fully separate the two effects, but the direction is consistent with the pattern across all Legacy factions
+- Forward look: v2.0 aims to add much more flavour back to Skaven
 
 ---
 
-## Slide 9: Conclusions
+## Slide 9: A Note on the Numbers (Chapter VII)
 
-**Key message**: v1.0 barely tried, and it still worked. Imagine what v2.0 could do.
+**Key message**: Be honest about what the data can and can't tell us.
 
-- Renegades v1.0 was a patch, not a balance pass. It fixed broken things.
-- Even with that minimal intervention:
-  - +6pp legacy player share at GTs (excluding VC) — 49% relative growth
-  - Universal effect across every region in the world
-  - The weakest factions (Skaven, Lizardmen) saw the biggest improvements
-- The v2.0 errata also helped, showing that ANY improvement to these factions brings players
-- If v2.0 actually aims for C+/B tier competitive viability, the effect could be significantly larger
-- "Excluding players from competitive play by leaving their army lists broken isn't good for anyone. The data says community rulesets are bringing people to the table."
+- **Can't claim**: Correlation not causation. TOs who allow renegades may already run Legacy-friendly communities. v1.5 errata confounds horde army results. No formal significance tests. Can't tell new players from army-switchers.
+- **Data does show**: 17/17 regions same direction. 1,097 events across 13 months. Weakest factions benefit most — harder to explain by selection bias alone.
+- **How we detect renegades**: Based on submitted army lists, NOT player packs. If renegades were allowed but nobody brought one, it won't show. This likely understates renegade adoption. Parsing player packs at scale is something OWR is working towards.
+- **Plain English**: Not peer-reviewed science. Can't prove causation. But across a thousand events, seventeen regions, and thirteen months, the association is real and consistent. What it means is up for debate.
+
+---
+
+## Slide 10: Conclusions — What We Found
+
+**Key message**: Here's what the data shows, and here's our take.
+
+- **More Legacy Players?** Yes — +7.6pp across all formats, +6.0pp at GTs (excl VC). Consistent across every region.
+- **Greater Diversity?** Same factions appear, but more players willing to bring them.
+- **VC Distortion?** Absolutely — remove VC and the effect doubles.
+- **The quote**: "Excluding players from playing by leaving their army faction broken isn't good for anyone."
+- **Our Take** (editorial):
+  - We're community builders first (OWR, Old World Fanatics). That can sit uncomfortably with the competitive scene, but Legacy factions demand an exception.
+  - Community rulesets in competitive play aren't new — German comp, WTC all run some form of comp. That's community rules.
+  - If we stop playing Legacy, GW has every reason to never support them. Keeping them on the table keeps the pressure on.
+  - Renegade lists aren't breaking the game. This isn't Amazonians or Halflings — these are core Warhammer Fantasy factions that belong in The Old World.
+  - "Official" doesn't mean "tested and balanced" — Grand Cathay shows that. The best playtesting is thousands of players across thousands of games. OWR has that data.
+  - The data suggests renegade rules are bringing Legacy players to the table. We think that's worth supporting.
+
+---
+
+## Slide 11: Resources & Methodology
+
+- Square Based — Val's Renegades project home
+- Skaven v2.0 Beta — latest draft rules
+- Dark Elves v2.0 Beta — latest draft rules
+- Methodology: March 2025 – March 2026, GTs = 5+ rounds, 7 Legacy factions, renegade subfactions collapsed to parent, win rate = avg(wins/rounds)
+- Data from OWR global database

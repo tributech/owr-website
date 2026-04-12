@@ -12,7 +12,7 @@ const SLIDE_IDS = ['hook','landscape','regions','first-look','vc-reveal','withou
 const SLIDE_LABELS = ['The Hook','Landscape','Regions','First Look','VC Reveal','Without VC','Factions','Skaven','Data Nerd','Conclusions','Resources'];
 
 /* ── Helpers ── */
-function Stat({ label, value, detail, color = 'text-owr-gold' }: { label: string; value: string; detail: string; color?: string }) {
+function Stat({ label, value, detail, color = 'text-owr-gold-dark dark:text-owr-gold' }: { label: string; value: string; detail: string; color?: string }) {
   return (
     <div className="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4">
       <div className="text-[0.65rem] uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1">{label}</div>
@@ -53,7 +53,7 @@ function ChapterLabel({ num, title }: { num: string; title: string }) {
   return (
     <>
       <div className="text-xs uppercase tracking-[0.2em] text-[#9a7b30] mb-1">{num}</div>
-      <h2 className="text-3xl md:text-4xl font-bold text-owr-gold mb-4 font-sans">{title}</h2>
+      <h2 className="text-3xl md:text-4xl font-bold text-owr-gold-dark dark:text-owr-gold mb-4 font-sans">{title}</h2>
     </>
   );
 }
@@ -119,7 +119,7 @@ export default function RenegadeArticle() {
           <img src="/images/owr_logo_white.png" alt="OWR" className="h-12 inline-block mr-3 drop-shadow-[0_0_10px_rgba(201,168,76,0.3)]" />
           <span className="text-sm uppercase tracking-[0.12em] text-[#9a7b30] align-middle">Old World Rankings</span>
         </div>
-        <h1 className="text-4xl md:text-6xl font-bold text-owr-gold mb-6">The Renegade Effect</h1>
+        <h1 className="text-4xl md:text-6xl font-bold text-owr-gold-dark dark:text-owr-gold mb-6">The Renegade Effect</h1>
         <div className="relative">
           <a href="https://www.squarebased.com/" target="_blank" rel="noopener noreferrer" className="hidden md:block float-right ml-8 mb-4">
             <img
@@ -150,7 +150,7 @@ export default function RenegadeArticle() {
 
         <div className="bg-gray-100 dark:bg-[#12151c] border-l-4 border-owr-gold rounded-r-xl p-5 max-w-3xl mb-6">
           <div className="text-xs uppercase tracking-[0.15em] text-[#9a7b30] mb-2 font-semibold">Our Hypothesis</div>
-          <p className="text-lg text-owr-gold font-semibold leading-relaxed">
+          <p className="text-lg text-owr-gold-dark dark:text-owr-gold font-semibold leading-relaxed">
             &ldquo;When renegade rules are available, more people bring Legacy factions to tournaments &mdash;
             meaning community rulesets are actively growing the competitive player base.&rdquo;
           </p>
@@ -203,7 +203,7 @@ export default function RenegadeArticle() {
           <Stat label="Biggest Uplift" value="+12.9pp" detail="Netherlands (13.9% → 26.8%)" color="text-green-400" />
           <Stat label="Largest Volume" value="+11.3pp" detail="United States (145 + 95 events)" color="text-green-400" />
           <Stat label="Most Renegade Events" value="54" detail="Poland (54 renegade vs 35 official)" color="text-[#c95c4c]" />
-          <Stat label="Regions Showing Uplift" value="17/17" detail="100% consistency" color="text-owr-gold" />
+          <Stat label="Regions Showing Uplift" value="17/17" detail="100% consistency" color="text-owr-gold-dark dark:text-owr-gold" />
         </div>
       </Slide>
 
@@ -256,7 +256,7 @@ export default function RenegadeArticle() {
           <Stat label="Official Legacy (no VC)" value="12.2%" detail="Player share at GTs" color="text-[#6b8acd]" />
           <Stat label="Renegade Legacy (no VC)" value="18.2%" detail="Player share at GTs" color="text-[#c95c4c]" />
           <Stat label="Gap" value="+6.0pp" detail="+49% relative growth" color="text-green-400" />
-          <Stat label="Diversity Gap" value="+0.44" detail="2.15 vs 2.59 distinct factions" color="text-owr-gold" />
+          <Stat label="Diversity Gap" value="+0.44" detail="2.15 vs 2.59 distinct factions" color="text-owr-gold-dark dark:text-owr-gold" />
         </div>
         <ChartBox><VCCompareChart /></ChartBox>
         <Callout color="gold" title="The Twist">
@@ -339,7 +339,7 @@ export default function RenegadeArticle() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
           <Stat label="GT Presence Growth" value="+80%" detail="30.6% → 55.0% of GTs" color="text-[#c95c4c]" />
           <Stat label="Win Rate Improvement" value="+11.6pp" detail="27.9% → 39.5%" color="text-green-400" />
-          <Stat label="Peak Month (Feb 26)" value="83.3%" detail="10 of 12 renegade GTs" color="text-owr-gold" />
+          <Stat label="Peak Month (Feb 26)" value="83.3%" detail="10 of 12 renegade GTs" color="text-owr-gold-dark dark:text-owr-gold" />
           <Stat label="Worst Official Win%" value="27.9%" detail="Lowest of any Legacy faction at official GTs" color="text-[#6b8acd]" />
         </div>
         <ChartBox><SkavenTimelineChart /></ChartBox>
@@ -444,7 +444,7 @@ export default function RenegadeArticle() {
         </div>
 
         <div className="bg-owr-gold/5 dark:bg-[#12151c] border border-owr-gold-dark rounded-xl p-6 text-center mb-6">
-          <p className="text-xl md:text-2xl text-owr-gold-dark dark:text-owr-gold font-semibold whitespace-nowrap">
+          <p className="text-xl md:text-2xl text-owr-gold-dark dark:text-owr-gold font-semibold">
             Excluding players from playing by leaving their army faction broken isn&apos;t good for anyone.
           </p>
         </div>

@@ -63,13 +63,20 @@ export function VCStackChart() {
 }
 
 export function VCCompareChart() {
+  // Dim "with VC" rows (0,2), bright "no VC" rows (1,3)
+  const offBg = ['rgba(107,138,205,0.25)','rgba(107,138,205,0.8)','rgba(107,138,205,0.25)','rgba(107,138,205,0.8)'];
+  const renBg = ['rgba(201,92,76,0.25)','rgba(201,92,76,0.8)','rgba(201,92,76,0.25)','rgba(201,92,76,0.8)'];
+  const offBorder = ['rgba(107,138,205,0.4)', C.off, 'rgba(107,138,205,0.4)', C.off];
+  const renBorder = ['rgba(201,92,76,0.4)', C.ren, 'rgba(201,92,76,0.4)', C.ren];
+  const bw = [1, 2, 1, 2];
+
   return (
     <Bar
       data={{
         labels: vcCompareLabels,
         datasets: [
-          { label: 'Official GTs', data: vcCompareOfficial, backgroundColor: 'rgba(107,138,205,0.6)', borderColor: C.off, borderWidth: 1, borderRadius: 4 },
-          { label: 'Renegade GTs', data: vcCompareRenegade, backgroundColor: 'rgba(201,92,76,0.6)', borderColor: C.ren, borderWidth: 1, borderRadius: 4 },
+          { label: 'Official GTs', data: vcCompareOfficial, backgroundColor: offBg, borderColor: offBorder, borderWidth: bw, borderRadius: 4 },
+          { label: 'Renegade GTs', data: vcCompareRenegade, backgroundColor: renBg, borderColor: renBorder, borderWidth: bw, borderRadius: 4 },
         ],
       }}
       options={{

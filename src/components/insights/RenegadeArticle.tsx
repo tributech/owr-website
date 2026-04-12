@@ -177,16 +177,21 @@ export default function RenegadeArticle() {
       {/* ══ SLIDE 2: THE LANDSCAPE ══ */}
       <Slide id="landscape">
         <ChapterLabel num="Chapter I" title="The Landscape" />
-        <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed max-w-3xl mb-6">
+        <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed max-w-3xl mb-4">
           Renegade v1.0 launched in March 2025. Within months, adoption grew rapidly &mdash;
           by late 2025, renegade-accepting events regularly <strong className="text-gray-700 dark:text-gray-200">outnumbered official-only ones</strong>.
           Today, roughly <strong className="text-gray-700 dark:text-gray-200">40% of all tracked events</strong> allow renegade army lists.
         </p>
+        <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed max-w-3xl mb-6">
+          Legacy factions make up <strong className="text-gray-700 dark:text-gray-200">7 of 17 factions</strong> (41%) &mdash;
+          yet at official-only events they account for just <strong className="text-gray-700 dark:text-gray-200">19.2% of players</strong>.
+          Less than half the representation you&apos;d expect if factions were played equally.
+        </p>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
           <Stat label="Official-Only Events" value="657" detail="9,106 players" color="text-[#6b8acd]" />
           <Stat label="Renegade-Accepting" value="440" detail="6,550 players" color="text-[#c95c4c]" />
-          <Stat label="Legacy Share — Official" value="19.2%" detail="1,761 legacy players" color="text-[#6b8acd]" />
-          <Stat label="Legacy Share — Renegade" value="26.8%" detail="1,653 legacy players" color="text-[#c95c4c]" />
+          <Stat label="Legacy Share — Official" value="19.2%" detail="Expected: 41% (7/17 factions)" color="text-[#6b8acd]" />
+          <Stat label="Legacy Share — Renegade" value="26.8%" detail="Closer, but still under-represented" color="text-[#c95c4c]" />
         </div>
         <ChartBox><AdoptionChart /></ChartBox>
       </Slide>

@@ -1,0 +1,137 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import { getClient } from '../../lib/contentful';
+import { renderRichText } from '../../lib/rich-text';
+import type { InsightArticleSkeleton, InsightArticleEntry } from '../../lib/contentful-types';
+import type { Document } from '@contentful/rich-text-types';
+
+// Custom article components — Astro needs static imports for client:load hydration.
+// Add new custom articles here with an import + slug match below.
+import RenegadeArticle from '../../components/insights/RenegadeArticle';
+
+export async function getStaticPaths() {
+  const client = getClient();
+  if (!client) return [];
+
+  let articles: InsightArticleEntry[] = [];
+  try {
+    const response = await client.getEntries<InsightArticleSkeleton>({
+      content_type: 'insightArticle',
+      include: 2,
+    });
+    articles = response.items;
+  } catch (e) {
+    console.error('insightArticle getStaticPaths error:', e);
+    return [];
+  }
+
+  return articles.map((article) => ({
+    params: { slug: article.fields.slug },
+    props: { article },
+  }));
+}
+
+const { article } = Astro.props;
+const isCustom = article.fields.customPage === true;
+const slug = article.fields.slug;
+
+// Resolve author
+const authorEntry = article.fields.authorRef && 'fields' in article.fields.authorRef
+  ? article.fields.authorRef : null;
+const authorAvatar = authorEntry?.fields?.avatar && 'fields' in authorEntry.fields.avatar
+  ? authorEntry.fields.avatar.fields?.file?.url : null;
+const authorProfileUrl = authorEntry?.fields?.profileUrl;
+
+// Resolve featured image for OG
+const ogImage = article.fields.featuredImage && 'fields' in article.fields.featuredImage
+  ? `https:${article.fields.featuredImage.fields?.file?.url}`
+  : undefined;
+
+// Render body for standard articles
+const bodyHtml = !isCustom && article.fields.body
+  ? renderRichText(article.fields.body as Document)
+  : '';
+
+const date = new Date(article.fields.publishDate).toLocaleDateString('en-GB', {
+  day: 'numeric', month: 'long', year: 'numeric',
+});
+const tags = article.fields.tags || [];
+const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com';
+---
+
+<Layout
+  title={`${article.fields.title} — Old World Rankings`}
+  description={article.fields.description}
+  ogImage={ogImage}
+>
+  <Nav transparent={false} />
+
+  <main class="bg-white dark:bg-[#0a0c10]">
+    {/* Custom pages — add new slug matches here */}
+    {isCustom && slug === 'renegade-effect' && <RenegadeArticle client:load />}
+
+    {!isCustom && (
+      <article class="pt-24 pb-16">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <header class="mb-10">
+            <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-4">
+              <time>{date}</time>
+            </div>
+            <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+              {article.fields.title}
+            </h1>
+            <p class="text-lg text-gray-600 dark:text-gray-400 mb-6">
+              {article.fields.description}
+            </p>
+            {tags.length > 0 && (
+              <div class="flex flex-wrap gap-2">
+                {tags.map((tag: string) => (
+                  <span class="text-xs px-2.5 py-1 rounded-full bg-gray-100 dark:bg-white/[0.06] text-gray-600 dark:text-gray-400">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+          </header>
+
+          <div class="prose prose-gray dark:prose-invert max-w-none" set:html={bodyHtml} />
+        </div>
+      </article>
+    )}
+
+    {/* Author line — for standard articles; custom pages handle their own */}
+    {!isCustom && authorEntry && (
+      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="flex items-center gap-3">
+          {authorAvatar ? (
+            <img src={`https:${authorAvatar}`} alt={authorEntry.fields.name}
+              class="w-8 h-8 rounded-full ring-1 ring-owr-gold/30" />
+          ) : (
+            <div class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-800 flex items-center justify-center">
+              <span class="text-sm font-bold text-gray-500 dark:text-gray-400">
+                {authorEntry.fields.name.charAt(0)}
+              </span>
+            </div>
+          )}
+          <div>
+            {authorProfileUrl ? (
+              <a href={`${APP_URL}${authorProfileUrl}`} class="text-sm font-medium text-gray-900 dark:text-white hover:text-owr-gold transition-colors">
+                {authorEntry.fields.name}
+              </a>
+            ) : (
+              <span class="text-sm font-medium text-gray-900 dark:text-white">{authorEntry.fields.name}</span>
+            )}
+            {authorEntry.fields.nickname && (
+              <span class="text-sm text-gray-500 dark:text-gray-400 ml-1">@{authorEntry.fields.nickname}</span>
+            )}
+          </div>
+          <span class="text-sm text-gray-400 dark:text-gray-500">&middot;</span>
+          <span class="text-sm text-gray-400 dark:text-gray-500">{date}</span>
+        </div>
+      </div>
+    )}
+  </main>
+  <Footer />
+</Layout>

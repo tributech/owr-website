@@ -41,6 +41,23 @@ function ChartBox({ children, className = '' }: { children: React.ReactNode; cla
   return <div className={`bg-[#12151c] border border-[#1e2330] rounded-xl p-4 ${className}`}>{children}</div>; /* Charts always dark */
 }
 
+function CopyButton({ text, label, icon }: { text: string; label: string; icon: React.ReactNode }) {
+  const [copied, setCopied] = useState(false);
+  return (
+    <div className="relative">
+      <button title={label} onClick={() => { navigator.clipboard.writeText(text); setCopied(true); setTimeout(() => setCopied(false), 1500); }}
+        className="w-8 h-8 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors cursor-pointer">
+        {icon}
+      </button>
+      {copied && (
+        <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-[10px] bg-gray-900 text-white px-2 py-1 rounded whitespace-nowrap pointer-events-none">
+          Copied!
+        </span>
+      )}
+    </div>
+  );
+}
+
 function Slide({ children, id }: { children: React.ReactNode; id: string }) {
   return (
     <section id={id} className="min-h-screen flex flex-col justify-center py-12 px-6 md:px-12 border-b border-gray-200 dark:border-gray-700 snap-start">
@@ -115,19 +132,62 @@ export default function RenegadeArticle() {
 
       {/* ══ SLIDE 1: THE HOOK ══ */}
       <Slide id="hook">
-        <div className="mb-6">
-          <img src="/images/owr_logo_white.png" alt="OWR" className="h-12 inline-block mr-3 drop-shadow-[0_0_10px_rgba(201,168,76,0.3)]" />
-          <span className="text-sm uppercase tracking-[0.12em] text-[#9a7b30] align-middle">Old World Rankings</span>
+        <div className="flex items-start justify-between mb-6">
+          <div className="flex items-center gap-2.5">
+            <a href="https://oldworldrankings.com/@gommo" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+              <img src="https://images.ctfassets.net/ry0ysk99xuno/3zvzdJ9JtoxywnvM9wnSsu/229b9ac4718e23b1bf129b58144c1b30/gommo-avatar.jpg" alt="gommo" className="w-7 h-7 rounded-full ring-1 ring-owr-gold/30" />
+              <span className="text-sm text-gray-600 dark:text-gray-400">@gommo</span>
+            </a>
+            <span className="text-gray-300 dark:text-gray-600">&middot;</span>
+            <span className="text-sm text-gray-500 dark:text-gray-500">12 Apr 2026</span>
+          </div>
+          <div className="flex items-center gap-2">
+            {[
+              { label: 'Bluesky', href: `https://bsky.app/intent/compose?text=${encodeURIComponent('The Renegade Effect — data on Legacy factions in competitive Old World\nhttps://www.oldworldrankings.com/insights/renegade-effect')}`, icon: 'M5.202 2.857C7.954 4.922 10.913 9.11 12 11.358c1.087-2.247 4.046-6.436 6.798-8.501C20.783 1.366 24 .213 24 3.883c0 .732-.42 6.156-.667 7.037-.856 3.061-3.978 3.842-6.755 3.37 4.854.826 6.089 3.562 3.422 6.299-5.065 5.196-7.28-1.304-7.847-2.97-.104-.305-.152-.448-.153-.327 0-.121-.05.022-.153.327-.568 1.666-2.782 8.166-7.847 2.97-2.667-2.737-1.432-5.473 3.422-6.3-2.777.473-5.899-.308-6.755-3.369C.42 10.04 0 4.615 0 3.883c0-3.67 3.217-2.517 5.202-1.026' },
+              { label: 'Facebook', href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent('https://www.oldworldrankings.com/insights/renegade-effect')}`, icon: 'M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z' },
+              { label: 'Reddit', href: `https://reddit.com/submit?url=${encodeURIComponent('https://www.oldworldrankings.com/insights/renegade-effect')}&title=${encodeURIComponent('The Renegade Effect — 1,097 tournaments of Old World data')}`, icon: 'M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 0-.463.327.327 0 0 0-.462 0c-.545.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.231-.094z' },
+            ].map(s => (
+              <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" title={`Share on ${s.label}`}
+                className="w-8 h-8 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors cursor-pointer">
+                <svg className="w-4 h-4 text-gray-600 dark:text-gray-400" viewBox="0 0 24 24" fill="currentColor"><path d={s.icon} /></svg>
+              </a>
+            ))}
+            <CopyButton
+              text="The Renegade Effect — data on Legacy factions in competitive Old World&#10;https://www.oldworldrankings.com/insights/renegade-effect"
+              label="Copy for Discord"
+              icon={<svg className="w-4 h-4 text-gray-600 dark:text-gray-400" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z" /></svg>}
+            />
+            <CopyButton
+              text="https://www.oldworldrankings.com/insights/renegade-effect"
+              label="Copy link"
+              icon={<svg className="w-4 h-4 text-gray-600 dark:text-gray-400" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" /></svg>}
+            />
+          </div>
+        </div>
+        <div className="flex flex-wrap gap-2 mb-4">
+          {['Renegades', 'Legacy Factions', 'Tournament Data', 'Competitive', 'Vampire Counts', 'Skaven'].map(tag => (
+            <span key={tag} className="text-[10px] uppercase tracking-wider px-2 py-1 rounded-full bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400">{tag}</span>
+          ))}
         </div>
         <h1 className="text-4xl md:text-6xl font-bold text-owr-gold-dark dark:text-owr-gold mb-6">The Renegade Effect</h1>
         <div className="relative">
-          <a href="https://www.squarebased.com/" target="_blank" rel="noopener noreferrer" className="hidden md:block float-right ml-8 mb-4">
-            <img
-              src="https://cdn.prod.website-files.com/67c6636b090576483bf4aaed/68f059448d47d72a99ac5f22_Renegade_Legacy_Pack_Banner.png"
-              alt="Renegade Legacy Pack"
-              className="w-72 lg:w-80 object-contain rounded-xl opacity-90 hover:opacity-100 transition-opacity"
-            />
-          </a>
+          <div className="hidden md:block float-right ml-8 mb-4 w-72 lg:w-96">
+            <div className="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 shadow-lg bg-gray-100 dark:bg-gray-800">
+              <div className="relative pb-[56.25%]">
+                <iframe
+                  src="https://www.youtube.com/embed/oSeSN0AP8no"
+                  title="The Renegade Effect — Old World Rankings"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="absolute inset-0 w-full h-full"
+                />
+              </div>
+              <div className="px-3 py-2">
+                <div className="text-xs font-semibold text-gray-900 dark:text-white truncate">Why I Think Renegades Matter</div>
+                <div className="text-[10px] text-gray-500 dark:text-gray-400">Old World Fanatics</div>
+              </div>
+            </div>
+          </div>
           <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed max-w-3xl mb-4">
             Warhammer: The Old World launched with seven <strong className="text-gray-700 dark:text-gray-200">Legacy factions</strong> &mdash;
             older armies carried forward from previous editions with minimal updates. While playable, many of their rules were incomplete or uncompetitive
@@ -498,7 +558,7 @@ export default function RenegadeArticle() {
             <li><strong>Official-only:</strong> every result uses a GW-published faction list. <strong>Renegade-accepting:</strong> at least one &ldquo;(Renegades)&rdquo; list present.</li>
             <li><strong>GT:</strong> 5+ rounds. <strong>Legacy factions:</strong> Chaos Dwarfs, Daemons of Chaos, Dark Elves, Lizardmen, Ogre Kingdoms, Skaven, Vampire Counts.</li>
             <li>Renegade subfactions collapsed to parent for diversity counts. Win rate = avg(wins/rounds) per player.</li>
-            <li>Data: Old World Rankings global database — <a href="https://oldworldrankings.com" className="text-owr-gold-dark hover:text-owr-gold">oldworldrankings.com</a></li>
+            <li>Data: Old World Rankings global database — <a href="https://oldworldrankings.com" className="text-owr-gold-dark hover:text-owr-gold">oldworldrankings.com</a>. Explore live faction data on our <a href="https://oldworldrankings.com/faction_stats" className="text-owr-gold-dark hover:text-owr-gold">Faction Stats</a> page.</li>
           </ul>
         </div>
 

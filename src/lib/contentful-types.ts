@@ -49,3 +49,41 @@ export type ChangelogEntryEntry = Entry<
   undefined,
   string
 >;
+
+// ── author ─────────────────────────────────────────────────────────
+export interface AuthorSkeleton {
+  contentTypeId: 'author';
+  fields: {
+    name: EntryFieldTypes.Symbol;
+    nickname?: EntryFieldTypes.Symbol;
+    avatar?: EntryFieldTypes.AssetLink;
+    profileUrl?: EntryFieldTypes.Symbol;
+  };
+}
+
+export type AuthorEntry = Entry<AuthorSkeleton, undefined, string>;
+
+// ── insightArticle ─────────────────────────────────────────────────
+export interface InsightArticleSkeleton {
+  contentTypeId: 'insightArticle';
+  fields: {
+    title: EntryFieldTypes.Symbol;
+    slug: EntryFieldTypes.Symbol;
+    description: EntryFieldTypes.Symbol;
+    excerpt?: EntryFieldTypes.Text;
+    publishDate: EntryFieldTypes.Date;
+    featuredImage?: EntryFieldTypes.AssetLink;
+    youtubeUrl?: EntryFieldTypes.Symbol;
+    featured?: EntryFieldTypes.Boolean;
+    customPage?: EntryFieldTypes.Boolean;
+    body?: EntryFieldTypes.RichText;
+    tags?: EntryFieldTypes.Array<EntryFieldTypes.Symbol>;
+    authorRef?: EntryFieldTypes.EntryLink<AuthorSkeleton>;
+  };
+}
+
+export type InsightArticleEntry = Entry<
+  InsightArticleSkeleton,
+  undefined,
+  string
+>;

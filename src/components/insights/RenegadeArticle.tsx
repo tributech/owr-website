@@ -461,12 +461,14 @@ export default function RenegadeArticle() {
             And honestly? Community rulesets in competitive play aren&apos;t new. German comp, WTC &mdash; nearly every major competitive
             scene we&apos;ve seen runs some form of comp. At the end of the day, that&apos;s community rules too.
           </p>
-          <ul className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed space-y-2 list-disc pl-4 mb-3">
-            <li>If we stop playing Legacy factions, we give Games Workshop every reason to never support them again. Keeping them on the table keeps the pressure on GW to bring them back properly.</li>
-            <li>Renegade lists aren&apos;t breaking the game. This isn&apos;t homebrew Amazonians or a Halfling army &mdash; these are core Warhammer Fantasy factions that belong in The Old World.</li>
-            <li>There&apos;s a perception that &ldquo;official&rdquo; means &ldquo;tested and balanced&rdquo; &mdash; Grand Cathay shows us that&apos;s simply not the case. Even with playtesters, the best playtesting comes from thousands of players across thousands of games. OWR has that data, and it shows what&apos;s balanced and what isn&apos;t.</li>
-            <li>The data suggests renegade rules are bringing Legacy players to the table. We think that&apos;s worth supporting.</li>
+          <ul className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed space-y-2 list-disc pl-4 mb-4">
+            <li><strong className="text-gray-900 dark:text-gray-100">Stop playing Legacy and GW has no reason to support them.</strong> Keeping them on the table keeps the pressure on Games Workshop to bring them back properly.</li>
+            <li><strong className="text-gray-900 dark:text-gray-100">Renegade lists aren&apos;t breaking the game.</strong> This isn&apos;t homebrew Amazonians or a Halfling army &mdash; these are core Warhammer Fantasy factions that belong in The Old World.</li>
+            <li><strong className="text-gray-900 dark:text-gray-100">&ldquo;Official&rdquo; doesn&apos;t mean &ldquo;tested and balanced.&rdquo;</strong> Grand Cathay shows us that. Even with playtesters, the best playtesting comes from thousands of players across thousands of games. OWR has that data, and it shows what&apos;s balanced and what isn&apos;t.</li>
           </ul>
+          <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed font-medium">
+            The data suggests renegade rules are bringing Legacy players to the table. We think that&apos;s worth supporting.
+          </p>
         </div>
 
       </Slide>

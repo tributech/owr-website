@@ -32,26 +32,29 @@ export function VCDoughnut() {
 }
 
 export function VCStackChart() {
+  // Combine official + renegade into totals per month
+  const vcTotal = vcOffPlayers.map((v, i) => v + (vcRenPlayers[i] ?? 0));
+  const nvTotal = nvOffPlayers.map((v, i) => v + (nvRenPlayers[i] ?? 0));
+
   return (
     <Bar
       data={{
         labels: [...MONTHS],
         datasets: [
-          { label: 'VC (Official)', data: vcOffPlayers, backgroundColor: 'rgba(139,92,246,0.5)', borderColor: C.vc, borderWidth: 1, borderRadius: 2, stack: 'off' },
-          { label: 'Non-VC (Official)', data: nvOffPlayers, backgroundColor: 'rgba(107,138,205,0.4)', borderColor: C.off, borderWidth: 1, borderRadius: 2, stack: 'off' },
-          { label: 'VC (Renegade)', data: vcRenPlayers, backgroundColor: 'rgba(139,92,246,0.3)', borderColor: C.vc, borderWidth: 1, borderRadius: 2, stack: 'ren' },
-          { label: 'Non-VC (Renegade)', data: nvRenPlayers, backgroundColor: 'rgba(201,92,76,0.3)', borderColor: C.ren, borderWidth: 1, borderRadius: 2, stack: 'ren' },
+          { label: 'Vampire Counts', data: vcTotal, backgroundColor: 'rgba(139,92,246,0.75)', borderColor: '#8b5cf6', borderWidth: 1, borderRadius: 3, stack: 'legacy' },
+          { label: 'All Other Legacy', data: nvTotal, backgroundColor: 'rgba(20,184,166,0.65)', borderColor: '#14b8a6', borderWidth: 1, borderRadius: 3, stack: 'legacy' },
         ],
       }}
       options={{
         responsive: true,
+        maintainAspectRatio: false,
         scales: {
-          y: { stacked: true, beginAtZero: true, max: 90, grid: { color: C.gridLine }, title: { display: true, text: 'Players', color: '#5a5c63', font: { size: 10 } } },
+          y: { stacked: true, beginAtZero: true, grid: { color: C.gridLine }, title: { display: true, text: 'GT Legacy Players', color: '#5a5c63', font: { size: 10 } } },
           x: { stacked: true, grid: { display: false } },
         },
         plugins: {
-          title: { display: true, text: 'VC vs Other Legacy (GT Players)', color: '#e8e6e3', font: { family: "'Montserrat', sans-serif", size: 13, weight: 600 as const }, padding: { bottom: 10 } },
-          legend: { labels: { usePointStyle: true, pointStyle: 'circle' as const, padding: 10, font: { size: 9 } } },
+          title: { display: true, text: 'Vampire Counts vs All Other Legacy (GT Players)', color: '#e8e6e3', font: { family: "'Montserrat', sans-serif", size: 13, weight: 600 as const }, padding: { bottom: 10 } },
+          legend: { labels: { usePointStyle: true, pointStyle: 'circle' as const, padding: 14 } },
           tooltip: tt,
         },
       }}

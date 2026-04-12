@@ -4,6 +4,7 @@ import type { ChartOptions } from 'chart.js';
 
 const baseOpts: ChartOptions<'line'> = {
   responsive: true,
+  maintainAspectRatio: false,
   interaction: { mode: 'index' as const, intersect: false },
   plugins: {
     legend: { labels: { usePointStyle: true, pointStyle: 'circle' as const, padding: 14 } },

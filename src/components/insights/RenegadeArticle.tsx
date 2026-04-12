@@ -8,8 +8,8 @@ import {
 } from './charts';
 import { factionData } from './charts/data';
 
-const SLIDE_IDS = ['hook','landscape','regions','first-look','vc-reveal','without-vc','factions','skaven','data-nerd','conclusions'] as const;
-const SLIDE_LABELS = ['The Hook','Landscape','Regions','First Look','VC Reveal','Without VC','Factions','Skaven','Data Nerd','Conclusions'];
+const SLIDE_IDS = ['hook','landscape','regions','first-look','vc-reveal','without-vc','factions','skaven','data-nerd','conclusions','resources'] as const;
+const SLIDE_LABELS = ['The Hook','Landscape','Regions','First Look','VC Reveal','Without VC','Factions','Skaven','Data Nerd','Conclusions','Resources'];
 
 /* ── Helpers ── */
 function Stat({ label, value, detail, color = 'text-owr-gold' }: { label: string; value: string; detail: string; color?: string }) {
@@ -120,30 +120,35 @@ export default function RenegadeArticle() {
           <span className="text-sm uppercase tracking-[0.12em] text-[#9a7b30] align-middle">Old World Rankings</span>
         </div>
         <h1 className="text-4xl md:text-6xl font-bold text-owr-gold mb-6">The Renegade Effect</h1>
-        <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed max-w-3xl mb-4">
-          Warhammer: The Old World launched with seven <strong className="text-gray-700 dark:text-gray-200">Legacy factions</strong> &mdash;
-          older armies carried forward from previous editions with minimal updates. While playable, many of their rules were outdated or outright broken
-          compared to the fully supported core factions.
-        </p>
-        <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed max-w-3xl mb-6">
-          Enter the <strong className="text-gray-700 dark:text-gray-200">Renegade army lists</strong>: community-authored rule patches
-          published through <a href="https://www.squarebased.com/" target="_blank" rel="noopener noreferrer" className="text-owr-gold-dark dark:text-owr-gold hover:underline">Square Based</a>,
-          led by Val Heffelfinger. These aren&apos;t homebrew wishlists &mdash; they&apos;re focused fixes for the most broken elements of each Legacy faction.
-          With <strong className="text-gray-700 dark:text-gray-200">Renegades v2.0</strong> on the horizon, there&apos;s never been more debate about whether community rulesets belong in competitive play.
-        </p>
-        <Callout color="gold" title="Important context">
-          Renegades v1.0 was <strong>not a balance pass</strong>. It was a patch &mdash; fixing things that were totally broken in the Legacy army lists.
-          No grand rebalancing goal. What you&apos;re about to see is the effect of <strong>minimal intervention</strong>.
-        </Callout>
-        <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed max-w-3xl mt-6 mb-4">
-          If Legacy factions aren&apos;t viable at competitive events, those players either don&apos;t attend or play something else.
-          That&apos;s lost players, not just lost factions.
-        </p>
-        <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed max-w-3xl mb-4">
-          And it&apos;s hard not to wonder whether fewer people playing a faction competitively means <a href="https://bloodandpigment.com/2024/05/22/its-competitive-but-is-it-fun-play-mindsets-in-tabletop-miniature-gaming/" target="_blank" rel="noopener noreferrer" className="text-owr-gold-dark dark:text-owr-gold hover:underline">fewer people playing it casually too</a>.
-        </p>
+        <div className="relative">
+          <a href="https://www.squarebased.com/" target="_blank" rel="noopener noreferrer" className="hidden md:block float-right ml-8 mb-4">
+            <img
+              src="https://cdn.prod.website-files.com/67c6636b090576483bf4aaed/68f059448d47d72a99ac5f22_Renegade_Legacy_Pack_Banner.png"
+              alt="Renegade Legacy Pack"
+              className="w-72 lg:w-80 object-contain rounded-xl opacity-90 hover:opacity-100 transition-opacity"
+            />
+          </a>
+          <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed max-w-3xl mb-4">
+            Warhammer: The Old World launched with seven <strong className="text-gray-700 dark:text-gray-200">Legacy factions</strong> &mdash;
+            older armies carried forward from previous editions with minimal updates. While playable, many of their rules were incomplete or uncompetitive
+            compared to the fully supported core factions.
+          </p>
+          <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed max-w-3xl mb-4">
+            Enter the <strong className="text-gray-700 dark:text-gray-200">Renegade army lists</strong>: community-authored rule patches
+            published through <a href="https://www.squarebased.com/" target="_blank" rel="noopener noreferrer" className="text-owr-gold-dark dark:text-owr-gold hover:underline">Square Based</a>,
+            led by Val Heffelfinger with input from the competitive community. These aren&apos;t homebrew wishlists &mdash; they&apos;re focused fixes for the most broken elements of each Legacy faction.
+            With <strong className="text-gray-700 dark:text-gray-200">Renegades v2.0</strong> on the horizon, there&apos;s never been more debate about whether community rulesets belong in competitive play.
+          </p>
+          <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed max-w-3xl mb-4">
+            So what happens when Legacy factions aren&apos;t viable at competitive events? Do those players just not attend, or switch to something else?
+            If so, are we losing players &mdash; or just factions?
+          </p>
+          <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed max-w-3xl mb-6">
+            And it&apos;s hard not to wonder whether fewer people playing a faction competitively means <a href="https://bloodandpigment.com/2024/05/22/its-competitive-but-is-it-fun-play-mindsets-in-tabletop-miniature-gaming/" target="_blank" rel="noopener noreferrer" className="text-owr-gold-dark dark:text-owr-gold hover:underline">fewer people playing it casually too</a>.
+          </p>
+        </div>
 
-        <div className="bg-gray-100 dark:bg-[#12151c] border-l-4 border-owr-gold rounded-r-xl p-5 max-w-3xl mb-4">
+        <div className="bg-gray-100 dark:bg-[#12151c] border-l-4 border-owr-gold rounded-r-xl p-5 max-w-3xl mb-6">
           <div className="text-xs uppercase tracking-[0.15em] text-[#9a7b30] mb-2 font-semibold">Our Hypothesis</div>
           <p className="text-lg text-owr-gold font-semibold leading-relaxed">
             &ldquo;When renegade rules are available, more people bring Legacy factions to tournaments &mdash;
@@ -151,7 +156,13 @@ export default function RenegadeArticle() {
           </p>
         </div>
 
-        <p className="text-sm text-gray-500 max-w-3xl">
+        <Callout color="gold" title="Important context">
+          As far as we understand, Val has stated that Renegades v1.0 was <strong>not a balance pass</strong>.
+          It was a patch &mdash; fixing things that were totally broken in the Legacy army lists.
+          No grand rebalancing goal. What you&apos;re about to see is the effect of <strong>minimal intervention</strong>.
+        </Callout>
+
+        <p className="text-sm text-gray-500 max-w-3xl mt-6">
           We used <strong className="text-gray-600 dark:text-gray-400">13 months of global tournament data</strong> to test this. Let&apos;s see what the numbers say.
         </p>
         <div className="flex flex-wrap gap-4 mt-8 text-xs uppercase tracking-widest text-gray-500">
@@ -167,8 +178,8 @@ export default function RenegadeArticle() {
       <Slide id="landscape">
         <ChapterLabel num="Chapter I" title="The Landscape" />
         <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed max-w-3xl mb-6">
-          Renegade adoption has surged. In March 2025, zero events accepted renegade lists.
-          By late 2025, renegade-accepting events regularly <strong className="text-gray-700 dark:text-gray-200">outnumbered official-only ones</strong>.
+          Renegade v1.0 launched in March 2025. Within months, adoption grew rapidly &mdash;
+          by late 2025, renegade-accepting events regularly <strong className="text-gray-700 dark:text-gray-200">outnumbered official-only ones</strong>.
           Today, roughly <strong className="text-gray-700 dark:text-gray-200">40% of all tracked events</strong> allow renegade army lists.
         </p>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
@@ -185,9 +196,9 @@ export default function RenegadeArticle() {
         <ChapterLabel num="Chapter I (cont.)" title="A Global Phenomenon" />
         <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed max-w-3xl mb-6">
           This isn&apos;t one region driving the numbers. <strong className="text-gray-700 dark:text-gray-200">Every single region</strong> with enough data
-          shows higher Legacy player share at renegade-accepting events. Not a single exception.
+          shows higher Legacy player share at renegade-accepting events.
         </p>
-        <ChartBox><RegionChart /></ChartBox>
+        <ChartBox className="max-h-[55vh] flex items-center justify-center"><RegionChart /></ChartBox>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
           <Stat label="Biggest Uplift" value="+12.9pp" detail="Netherlands (13.9% → 26.8%)" color="text-green-400" />
           <Stat label="Largest Volume" value="+11.3pp" detail="United States (145 + 95 events)" color="text-green-400" />
@@ -204,15 +215,15 @@ export default function RenegadeArticle() {
           The initial data is... interesting, but not as dramatic as we might expect.
         </p>
         <div className="grid md:grid-cols-2 gap-4 mb-4">
-          <ChartBox className="min-h-[350px]"><DiversityLineChart /></ChartBox>
-          <ChartBox className="min-h-[350px]"><PlayerShareLineChart /></ChartBox>
+          <ChartBox className="min-h-[40vh]"><DiversityLineChart /></ChartBox>
+          <ChartBox className="min-h-[40vh]"><PlayerShareLineChart /></ChartBox>
         </div>
         <Callout color="blue" title="Initial Reading">
           Faction <em>diversity</em> is nearly identical: ~3.1 vs ~3.2 distinct Legacy factions per GT.
           Player share differs by <strong>+3.4pp</strong> (23.4% vs 20.0%) — smaller than the +7.6pp gap across all events.
           That makes sense: GTs are more competitive, so players gravitate toward stronger lists. Legacy factions &mdash;
           even with renegade rules &mdash; lack the subfaction variety, expanded magic items, and updated options that core factions enjoy.
-          But there&apos;s more to this story...
+          But is there more to this story?
         </Callout>
       </Slide>
 
@@ -226,7 +237,7 @@ export default function RenegadeArticle() {
         </p>
         <div className="grid md:grid-cols-2 gap-4 mb-4">
           <ChartBox><VCDoughnut /></ChartBox>
-          <ChartBox><VCStackChart /></ChartBox>
+          <ChartBox className="min-h-[40vh]"><VCStackChart /></ChartBox>
         </div>
         <Callout color="purple" title="The Realisation">
           Vampire Counts aren&apos;t really a &ldquo;Legacy&rdquo; faction in any meaningful competitive sense.
@@ -249,7 +260,7 @@ export default function RenegadeArticle() {
         </div>
         <ChartBox><VCCompareChart /></ChartBox>
         <Callout color="gold" title="The Twist">
-          Without the VC safety blanket, the renegade effect <strong>doubles</strong>.
+          Without VC inflating the numbers, the renegade effect <strong>doubles</strong>.
           The player share gap widens from +3.4pp to <strong>+6.0pp</strong>. A diversity gap emerges.
           For the six non-VC Legacy factions, renegade rules clearly correlate with significantly higher tournament representation.
         </Callout>
@@ -297,9 +308,22 @@ export default function RenegadeArticle() {
             </tbody>
           </table>
         </div>
-        <div className="grid md:grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-2 gap-4 mb-4">
           <ChartBox><FactionPresenceChart /></ChartBox>
           <ChartBox><WinRateChart /></ChartBox>
+        </div>
+        <div className="space-y-3">
+          <Callout color="red" title="The Droppers: Dark Elves &amp; Daemons of Chaos">
+            Both show a slight dip in presence at renegade events. Neither are infantry or horde armies, so the v1.5 errata that
+            boosted Skaven and Lizardmen didn&apos;t help them. Dark Elves share the broader &ldquo;elf problem&rdquo; &mdash;
+            competing for attention with High Elves and Wood Elves who have fuller, more modern army lists.
+            Daemons face a similar squeeze. The renegade rules may not have addressed their core issues yet.
+          </Callout>
+          <Callout color="purple" title="The VC Drop">
+            Vampire Counts actually see <strong>lower</strong> presence at renegade events (71.3% &rarr; 65.0%).
+            This likely reflects community comp doing its job &mdash; restrictions like removing their Battle Standard Bearer
+            and other targeted nerfs. VC were already strong enough to attract comp attention, and that&apos;s exactly what happened.
+          </Callout>
         </div>
       </Slide>
 
@@ -308,6 +332,9 @@ export default function RenegadeArticle() {
         <ChapterLabel num="Chapter VI" title="The Skaven Story" />
         <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed max-w-3xl mb-4">
           Of all seven Legacy factions, Skaven are the most dramatic beneficiary of community rulesets.
+          Look at the timeline &mdash; from around June 2025, when the v1.5 infantry rule changes landed, even official GT presence started to pick up.
+          With renegade events there&apos;s a clear lag as players realised Skaven could actually be competitive, building steadily through late 2025
+          before peaking in early 2026.
         </p>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
           <Stat label="GT Presence Growth" value="+80%" detail="30.6% → 55.0% of GTs" color="text-[#c95c4c]" />
@@ -320,7 +347,8 @@ export default function RenegadeArticle() {
           The <strong>v1.5 TOW errata/FAQ</strong> (Games Workshop&apos;s own update) also helped infantry and horde armies.
           Skaven, being a horde army, likely got a <strong>double boost</strong> &mdash; renegade rules plus errata buffs.
           Lizardmen (also infantry-heavy) show a similar but smaller pattern, while Daemons and Ogres (more elite/monster-heavy) didn&apos;t benefit as much from the errata.
-          We can&apos;t fully separate the two effects, but the direction is clear.
+          We can&apos;t fully separate the two effects, but the direction is consistent with the pattern across all Legacy factions.
+          It&apos;ll be interesting to see what happens with Renegades v2.0, which aims to add much more of the flavour back to Skaven.
         </Callout>
       </Slide>
 
@@ -328,81 +356,75 @@ export default function RenegadeArticle() {
       <Slide id="data-nerd">
         <ChapterLabel num="Chapter VII" title="A Note on the Numbers" />
         <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed max-w-3xl mb-6">
-          Before we draw conclusions, let&apos;s be honest about what this data can and can&apos;t tell us.
+          Let&apos;s be upfront about what this data can and can&apos;t tell us.
         </p>
 
         <div className="grid md:grid-cols-2 gap-4 mb-6">
-          <div className="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
-            <h3 className="text-sm font-semibold text-owr-gold uppercase tracking-wider mb-3">Limitations</h3>
-            <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-2 list-disc pl-4">
-              <li><strong className="text-gray-700 dark:text-gray-200">Selection bias:</strong> TOs who allow renegades aren&apos;t randomly assigned &mdash; they choose to. Communities that already have Legacy interest are more likely to adopt renegade rules. We&apos;re measuring the <em>type of community</em> as much as the ruleset itself.</li>
-              <li><strong className="text-gray-700 dark:text-gray-200">No causal inference:</strong> This is observational data, not an experiment. We describe <em>associations</em>, not causes. We can&apos;t prove renegade rules caused higher Legacy attendance.</li>
-              <li><strong className="text-gray-700 dark:text-gray-200">Confounded timeline:</strong> The v1.5 TOW errata landed during our window and independently buffed infantry/horde Legacy armies. We cannot cleanly separate the errata effect from the renegade effect.</li>
-              <li><strong className="text-gray-700 dark:text-gray-200">No significance tests:</strong> These are descriptive statistics without formal hypothesis testing. The differences we report may fall within normal sampling variation, particularly for smaller subgroups.</li>
-              <li><strong className="text-gray-700 dark:text-gray-200">Unweighted averages:</strong> Our per-tournament averages aren&apos;t weighted by event size or adjusted for region or time period. Larger tournaments and regional metas could shift these numbers.</li>
-              <li><strong className="text-gray-700 dark:text-gray-200">Multi-army players:</strong> We can&apos;t determine if renegade events attract <em>new</em> Legacy players or if existing players switch to Legacy armies when the option is available. Both explanations fit the data.</li>
-            </ul>
-          </div>
-          <div className="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
-            <h3 className="text-sm font-semibold text-green-400 uppercase tracking-wider mb-3">What the data does show</h3>
-            <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-2 list-disc pl-4">
-              <li><strong className="text-gray-700 dark:text-gray-200">Consistent direction:</strong> Across all 17 regions, every month, and every tournament size, the association points the same way. While regions aren&apos;t fully independent (shared temporal trends), the consistency is notable.</li>
-              <li><strong className="text-gray-700 dark:text-gray-200">Meaningful volume:</strong> 1,097 events and 15,697 results across 13 months is a substantial dataset for this hobby, even if individual subgroups are small.</li>
-              <li><strong className="text-gray-700 dark:text-gray-200">Faction-level coherence:</strong> The factions that benefit most from renegade rules (Skaven, Lizardmen) are exactly the ones considered weakest under official rules. This pattern is harder to explain by selection bias alone.</li>
-              <li><strong className="text-gray-700 dark:text-gray-200">Platform coverage:</strong> OWR tracks events globally, though events on other platforms are not included. The direction of any platform bias is unknown.</li>
-            </ul>
-          </div>
+          <Callout color="red" title="What we can't claim">
+            <strong>Correlation, not causation.</strong> TOs who allow renegades may already run Legacy-friendly communities.
+            The v1.5 errata confounds horde army results. No formal significance tests were run.
+            We can&apos;t tell if renegade events attract <em>new</em> Legacy players or existing players switching armies.
+          </Callout>
+          <Callout color="blue" title="What the data does show">
+            <strong>17 out of 17 regions</strong> show the same direction. 1,097 events across 13 months.
+            The weakest factions (Skaven, Lizardmen) benefit most &mdash; harder to explain by selection bias alone.
+          </Callout>
         </div>
 
-        <Callout color="gold" title="The Plain English Version">
-          We&apos;re not claiming this is peer-reviewed science, and we&apos;re not trying to claim authority by numbers alone.
-          We can&apos;t prove that renegade rules <em>cause</em> more Legacy players &mdash; TOs who allow renegades may just run events
-          in communities that already like Legacy factions. The v1.5 errata muddies the waters further for horde armies like Skaven.
-          <br /><br />
-          But here&apos;s what we <em>can</em> say: across a thousand events, seventeen regions, and thirteen months,
-          tournaments where renegade lists were used <strong>consistently show higher Legacy representation</strong> than those where they weren&apos;t.
-          Whether that&apos;s because renegade rules unlock demand, or because Legacy-friendly communities adopt renegade rules, or both &mdash; the association is real.
-          What it means is up for debate.
-        </Callout>
-      </Slide>
+        <div className="mt-4">
+          <Callout color="gold" title="How we detect renegades">
+            We classify a tournament as &ldquo;renegade-accepting&rdquo; when at least one submitted army list uses a renegade faction.
+            We&apos;re <strong>not</strong> currently trawling player packs to check if renegades were allowed &mdash; so events where renegades were
+            permitted but nobody brought one won&apos;t show up. This likely <strong>understates</strong> renegade adoption.
+            Parsing player packs at scale is something OWR is working towards.
+          </Callout>
+        </div>
 
-      {/* ══ PRO BANNER ══ */}
-      <section className="py-10 px-6 md:px-12 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-gray-50 via-white to-gray-50 dark:from-[#0f1118] dark:via-[#12151c] dark:to-[#0f1118]">
-        <div className="max-w-[900px] mx-auto flex flex-col md:flex-row items-center gap-6 md:gap-10">
-          <div className="flex-shrink-0">
-            <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-owr-gold/20 to-owr-gold/5 border border-owr-gold-dark/30 flex items-center justify-center">
-              <svg className="w-7 h-7 text-owr-gold" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 0 0-2.455 2.456Z" />
-              </svg>
+        <div className="mt-4">
+          <Callout color="gold" title="Plain English">
+            This isn&apos;t peer-reviewed science. We can&apos;t prove renegade rules <em>cause</em> more Legacy players.
+            But across a thousand events, seventeen regions, and thirteen months,
+            renegade-accepting tournaments <strong>consistently show higher Legacy representation</strong>.
+            Whether that&apos;s the rules, the communities, or both &mdash; the association is real. What it means is up for debate.
+          </Callout>
+        </div>
+
+        <div className="mt-6 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
+          <div className="flex flex-col md:flex-row items-center gap-6">
+            <div className="flex-shrink-0">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-owr-gold/20 to-owr-gold/5 border border-owr-gold-dark/30 flex items-center justify-center">
+                <svg className="w-6 h-6 text-owr-gold" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 0 0-2.455 2.456Z" />
+                </svg>
+              </div>
             </div>
+            <div className="flex-1 text-center md:text-left">
+              <div className="text-xs font-semibold uppercase tracking-widest text-owr-gold-dark mb-1">OWR Pro</div>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Going Pro supports the project and helps us produce more analysis like this &mdash; including parsing player packs at scale.
+                You also get deeper faction stats, matchup data, and AI Smart Convert.
+              </p>
+            </div>
+            <a
+              href="https://oldworldrankings.com/purchase"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-shrink-0 inline-flex items-center gap-2 px-5 py-2.5 bg-owr-gold hover:bg-owr-gold-dark text-gray-900 font-semibold text-sm rounded-lg transition-colors cursor-pointer"
+            >
+              Get OWR Pro
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+              </svg>
+            </a>
           </div>
-          <div className="flex-1 text-center md:text-left">
-            <div className="text-xs font-semibold uppercase tracking-widest text-owr-gold-dark mb-1">OWR Pro</div>
-            <h3 className="text-lg md:text-xl font-bold text-gray-900 dark:text-white mb-1">Support OWR &amp; unlock more</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              Going Pro supports the project and helps us produce more analysis like this. You also get deeper faction stats, matchup data, meta trends &mdash;
-              and AI Smart Convert, which turns every army list on OWR into a fully interactive Battle Builder list, ready to tweak and take to the table.
-            </p>
-          </div>
-          <a
-            href="https://oldworldrankings.com/purchase"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex-shrink-0 inline-flex items-center gap-2 px-5 py-2.5 bg-owr-gold hover:bg-owr-gold-dark text-gray-900 font-semibold text-sm rounded-lg transition-colors cursor-pointer"
-          >
-            Get OWR Pro
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-            </svg>
-          </a>
         </div>
-      </section>
+      </Slide>
 
       {/* ══ SLIDE 10: CONCLUSIONS ══ */}
       <Slide id="conclusions">
-        <ChapterLabel num="Conclusions" title="What v1.0 Actually Did" />
+        <ChapterLabel num="Conclusions" title="What We Found" />
         <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed max-w-3xl mb-6">
-          After 13 months and over a thousand events, the data paints a clear picture.
+          After 13 months and over a thousand events, here&apos;s what the data shows.
         </p>
 
         <div className="space-y-4 mb-6">
@@ -422,13 +444,38 @@ export default function RenegadeArticle() {
         </div>
 
         <div className="bg-owr-gold/5 dark:bg-[#12151c] border border-owr-gold-dark rounded-xl p-6 text-center mb-6">
-          <p className="text-lg text-owr-gold-dark dark:text-owr-gold font-semibold leading-relaxed max-w-3xl mx-auto">
+          <p className="text-xl md:text-2xl text-owr-gold-dark dark:text-owr-gold font-semibold whitespace-nowrap">
             Excluding players from playing by leaving their army faction broken isn&apos;t good for anyone.
           </p>
         </div>
 
+        <div className="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5 mb-6">
+          <h3 className="text-xs font-semibold text-[#9a7b30] uppercase tracking-wider mb-3">Our Take</h3>
+          <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed mb-3">
+            Coming from the team behind Old World Rankings &mdash; and as hosts of <strong className="text-gray-900 dark:text-gray-100">Old World Fanatics</strong> &mdash;
+            we&apos;re community builders first. We know that can sometimes sit uncomfortably alongside the competitive scene.
+          </p>
+          <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed mb-3">
+            But the existence of seven Legacy factions that can&apos;t compete on an even footing feels like it demands an exception.
+            And honestly? Community rulesets in competitive play aren&apos;t new. German comp, WTC &mdash; nearly every major competitive
+            scene we&apos;ve seen runs some form of comp. At the end of the day, that&apos;s community rules too.
+          </p>
+          <ul className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed space-y-2 list-disc pl-4 mb-3">
+            <li>If we stop playing Legacy factions, we give Games Workshop every reason to never support them again. Keeping them on the table keeps the pressure on GW to bring them back properly.</li>
+            <li>Renegade lists aren&apos;t breaking the game. This isn&apos;t homebrew Amazonians or a Halfling army &mdash; these are core Warhammer Fantasy factions that belong in The Old World.</li>
+            <li>There&apos;s a perception that &ldquo;official&rdquo; means &ldquo;tested and balanced&rdquo; &mdash; Grand Caf&eacute; shows us that&apos;s simply not the case. Even with playtesters, the best playtesting comes from thousands of players across thousands of games. OWR has that data, and it shows what&apos;s balanced and what isn&apos;t.</li>
+            <li>The data suggests renegade rules are bringing Legacy players to the table. We think that&apos;s worth supporting.</li>
+          </ul>
+        </div>
+
+      </Slide>
+
+      {/* ══ SLIDE 11: RESOURCES & METHODOLOGY ══ */}
+      <Slide id="resources">
+        <ChapterLabel num="" title="Resources &amp; Methodology" />
+
         <div className="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5 text-sm mb-4">
-          <h3 className="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-3">Renegades v2.0 Resources</h3>
+          <h3 className="text-xs font-semibold text-[#9a7b30] uppercase tracking-wider mb-3">Renegades v2.0 Resources</h3>
           <ul className="space-y-2 list-none pl-0">
             <li><a href="https://www.squarebased.com/" target="_blank" rel="noopener noreferrer" className="text-owr-gold-dark dark:text-owr-gold hover:underline font-medium">Square Based</a> <span className="text-gray-500 dark:text-gray-400">&mdash; Val&apos;s Renegades project home</span></li>
             <li><a href="https://docs.google.com/document/u/0/d/1QAt19do6rdvZgE8E6wLxUBkxfLBwdWYncAiof01vFHQ/mobilebasic" target="_blank" rel="noopener noreferrer" className="text-owr-gold-dark dark:text-owr-gold hover:underline font-medium">Skaven v2.0 Beta</a> <span className="text-gray-500 dark:text-gray-400">&mdash; Latest draft rules</span></li>

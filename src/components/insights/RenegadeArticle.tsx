@@ -252,9 +252,10 @@ export default function RenegadeArticle() {
         <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed max-w-3xl mb-6">
           Treating Vampire Counts as the core faction they effectively are, the picture shifts <strong className="text-gray-700 dark:text-gray-200">dramatically</strong>.
         </p>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-          <Stat label="Official Legacy (no VC)" value="12.2%" detail="Player share at GTs" color="text-[#6b8acd]" />
-          <Stat label="Renegade Legacy (no VC)" value="18.2%" detail="Player share at GTs" color="text-[#c95c4c]" />
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">
+          <Stat label="Expected Share (6/17)" value="35.3%" detail="If all factions represented equally" color="text-gray-500" />
+          <Stat label="Official Legacy (no VC)" value="12.2%" detail="~⅓ of expected" color="text-[#6b8acd]" />
+          <Stat label="Renegade Legacy (no VC)" value="18.2%" detail="~½ of expected" color="text-[#c95c4c]" />
           <Stat label="Gap" value="+6.0pp" detail="+49% relative growth" color="text-green-400" />
           <Stat label="Diversity Gap" value="+0.44" detail="2.15 vs 2.59 distinct factions" color="text-owr-gold-dark dark:text-owr-gold" />
         </div>
@@ -456,7 +457,7 @@ export default function RenegadeArticle() {
             we&apos;re community builders first. We know that can sometimes sit uncomfortably alongside the competitive scene.
           </p>
           <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed mb-3">
-            But the existence of seven Legacy factions that can&apos;t compete on an even footing feels like it demands an exception.
+            But with seven Legacy factions &mdash; six of which can&apos;t compete on an even footing &mdash; it feels like it demands an exception.
             And honestly? Community rulesets in competitive play aren&apos;t new. German comp, WTC &mdash; nearly every major competitive
             scene we&apos;ve seen runs some form of comp. At the end of the day, that&apos;s community rules too.
           </p>

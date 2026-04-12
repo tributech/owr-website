@@ -463,7 +463,7 @@ export default function RenegadeArticle() {
           <ul className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed space-y-2 list-disc pl-4 mb-3">
             <li>If we stop playing Legacy factions, we give Games Workshop every reason to never support them again. Keeping them on the table keeps the pressure on GW to bring them back properly.</li>
             <li>Renegade lists aren&apos;t breaking the game. This isn&apos;t homebrew Amazonians or a Halfling army &mdash; these are core Warhammer Fantasy factions that belong in The Old World.</li>
-            <li>There&apos;s a perception that &ldquo;official&rdquo; means &ldquo;tested and balanced&rdquo; &mdash; Grand Caf&eacute; shows us that&apos;s simply not the case. Even with playtesters, the best playtesting comes from thousands of players across thousands of games. OWR has that data, and it shows what&apos;s balanced and what isn&apos;t.</li>
+            <li>There&apos;s a perception that &ldquo;official&rdquo; means &ldquo;tested and balanced&rdquo; &mdash; Grand Cathay shows us that&apos;s simply not the case. Even with playtesters, the best playtesting comes from thousands of players across thousands of games. OWR has that data, and it shows what&apos;s balanced and what isn&apos;t.</li>
             <li>The data suggests renegade rules are bringing Legacy players to the table. We think that&apos;s worth supporting.</li>
           </ul>
         </div>

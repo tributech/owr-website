@@ -193,6 +193,21 @@ export default function RenegadeArticle() {
             older armies carried forward from previous editions with minimal updates. While playable, many of their rules were incomplete or uncompetitive
             compared to the fully supported core factions.
           </p>
+          <div className="md:hidden mb-6 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 shadow-lg bg-gray-100 dark:bg-gray-800">
+            <div className="relative pb-[56.25%]">
+              <iframe
+                src="https://www.youtube.com/embed/oSeSN0AP8no"
+                title="The Renegade Effect — Old World Rankings"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="absolute inset-0 w-full h-full"
+              />
+            </div>
+            <div className="px-3 py-2">
+              <div className="text-xs font-semibold text-gray-900 dark:text-white truncate">Why I Think Renegades Matter</div>
+              <div className="text-[10px] text-gray-500 dark:text-gray-400">Old World Fanatics</div>
+            </div>
+          </div>
           <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed max-w-3xl mb-4">
             Enter the <strong className="text-gray-700 dark:text-gray-200">Renegade army lists</strong>: community-authored rule patches
             published through <a href="https://www.squarebased.com/" target="_blank" rel="noopener noreferrer" className="text-owr-gold-dark dark:text-owr-gold hover:underline">Square Based</a>,

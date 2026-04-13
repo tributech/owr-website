@@ -31,3 +31,6 @@ reports/
 # MCP
 .mcp.json
 .claude/settings.local.json
+
+# Private working docs — strategy notes, drafts, anything not public
+docs/private/

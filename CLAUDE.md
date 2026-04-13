@@ -320,6 +320,10 @@ This is a **static site** — content changes in Contentful require a site rebui
 
 The `docs/` directory contains working drafts of help documentation, written as markdown files alongside PNG screenshots. These serve as source material for Contentful docArticle entries.
 
+### Private Notes (`docs/private/`)
+
+**`docs/private/` is gitignored.** Put anything here that shouldn't be in the public repo: strategy notes, competitive analysis, traffic/revenue numbers, draft content, internal TODOs, anything that's useful for working context but isn't for public consumption. Never commit files from this directory. If you find yourself adding docs that feel like planning/strategy rather than reference material, default to `docs/private/`.
+
 ### `docs/tournament-hosting-guide/`
 
 Markdown + screenshot files for each tab in the tournament hosting flow. Each `.md` file has YAML frontmatter with metadata (title, slug, order, URL path, screenshot filenames, section).

@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { Trophy, BarChart, CalendarArrowUp, ScrollText, Image, Hammer, ChevronDown, X as CloseIcon, ZoomIn, MessageCircleQuestion, Mail, ChevronLeft, ChevronRight } from '@lucide/astro';
 
 const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com';
 
@@ -145,7 +146,7 @@ const platformStats = [
               <div class="stat-big">88,375</div>
               <div class="stat-label">Games played →</div>
             </a>
-            <a class="stat-card" href="/#regions">
+            <a class="stat-card" href="/#regions" target="_blank" rel="noopener">
               <div class="stat-big">25</div>
               <div class="stat-label">Regions worldwide →</div>
             </a>
@@ -153,26 +154,32 @@ const platformStats = [
 
           <div class="pillar-row">
             <a class="pillar" href={`${APP_URL}/global_rankings`} target="_blank" rel="noopener">
+              <div class="pillar-icon"><Trophy size={22} strokeWidth={2} /></div>
               <div class="pillar-title gold">Rankings →</div>
               <div class="pillar-desc">Global and regional leaderboards. Player ratings that travel across every region.</div>
             </a>
             <a class="pillar" href={`${APP_URL}/faction_stats`} target="_blank" rel="noopener">
+              <div class="pillar-icon"><BarChart size={22} strokeWidth={2} /></div>
               <div class="pillar-title gold">Faction Stats →</div>
               <div class="pillar-desc">Win rates, matchups and meta trends for every faction and subfaction.</div>
             </a>
             <a class="pillar" href={`${APP_URL}/upcoming`} target="_blank" rel="noopener">
+              <div class="pillar-icon"><CalendarArrowUp size={22} strokeWidth={2} /></div>
               <div class="pillar-title gold">Upcoming Events →</div>
               <div class="pillar-desc">Event discovery, registration, live pairings, public venue display.</div>
             </a>
             <a class="pillar" href={`${APP_URL}/army_lists`} target="_blank" rel="noopener">
+              <div class="pillar-icon"><ScrollText size={22} strokeWidth={2} /></div>
               <div class="pillar-title gold">Army Lists →</div>
               <div class="pillar-desc">Browse army lists from tournaments around the world. Highest-dwell page.</div>
             </a>
             <a class="pillar" href={`${APP_URL}/galleries`} target="_blank" rel="noopener">
+              <div class="pillar-icon"><Image size={22} strokeWidth={2} /></div>
               <div class="pillar-title gold">Galleries →</div>
               <div class="pillar-desc">Painted army showcases. Tens of thousands of hobby pics.</div>
             </a>
             <a class="pillar" href={`${APP_URL}/builder`} target="_blank" rel="noopener">
+              <div class="pillar-icon"><Hammer size={22} strokeWidth={2} /></div>
               <div class="pillar-title gold">Battle Builder →</div>
               <div class="pillar-desc">Build and manage your army lists with our native list builder.</div>
             </a>
@@ -419,8 +426,13 @@ const platformStats = [
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6" /></svg>
     </button>
 
-    <!-- Counter -->
-    <div class="slide-counter" id="slide-counter">01 / 08</div>
+    <!-- Counter / mobile next pill -->
+    <button type="button" class="slide-counter" id="slide-counter" aria-label="Next slide">
+      <span id="slide-counter-text">01 / 08</span>
+      <span class="slide-counter-next" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </span>
+    </button>
 
     <!-- Lightbox -->
     <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-hidden="true">
@@ -439,24 +451,35 @@ const platformStats = [
       const nextBtn = document.getElementById('next-btn');
       const menuItems = Array.from(document.querySelectorAll('[data-menu]'));
       const counter = document.getElementById('slide-counter');
+      const counterText = document.getElementById('slide-counter-text');
       let current = 0;
 
       function pad2(n) { return String(n).padStart(2, '0'); }
 
+      function isVertical() { return window.matchMedia('(max-width: 700px)').matches; }
+
       function go(idx) {
         current = Math.max(0, Math.min(total - 1, idx));
-        container.style.transform = `translateX(-${current * 100}vw)`;
+        if (isVertical()) {
+          container.style.transform = `translateY(-${current * 100}vh)`;
+        } else {
+          container.style.transform = `translateX(-${current * 100}vw)`;
+        }
         menuItems.forEach((m, i) => {
           m.classList.toggle('is-current', i === current);
         });
-        counter.textContent = `${pad2(current + 1)} / ${pad2(total)}`;
+        counterText.textContent = `${pad2(current + 1)} / ${pad2(total)}`;
         prevBtn.disabled = current === 0;
         nextBtn.disabled = current === total - 1;
+        counter.disabled = current === total - 1;
         if (history.replaceState) history.replaceState(null, '', `#${current + 1}`);
       }
 
+      window.addEventListener('resize', () => go(current));
+
       prevBtn.addEventListener('click', () => go(current - 1));
       nextBtn.addEventListener('click', () => go(current + 1));
+      counter.addEventListener('click', () => { if (current < total - 1) go(current + 1); });
       menuItems.forEach((m, i) => m.addEventListener('click', () => go(i)));
 
       document.addEventListener('keydown', (e) => {
@@ -469,13 +492,23 @@ const platformStats = [
         else if (/^[1-9]$/.test(e.key)) { const n = parseInt(e.key, 10) - 1; if (n < total) go(n); }
       });
 
-      let touchStartX = null;
-      container.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
+      let touchStartX = null, touchStartY = null;
+      container.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+      }, { passive: true });
       container.addEventListener('touchend', (e) => {
         if (touchStartX === null) return;
         const dx = e.changedTouches[0].clientX - touchStartX;
-        if (Math.abs(dx) > 50) go(current + (dx < 0 ? 1 : -1));
+        const dy = e.changedTouches[0].clientY - touchStartY;
+        const useY = isVertical();
+        const primary = useY ? dy : dx;
+        const cross = useY ? dx : dy;
+        if (Math.abs(primary) > 60 && Math.abs(primary) > Math.abs(cross) * 1.2) {
+          go(current + (primary < 0 ? 1 : -1));
+        }
         touchStartX = null;
+        touchStartY = null;
       }, { passive: true });
 
       const hashMatch = window.location.hash.match(/^#(\d+)$/);
@@ -627,9 +660,20 @@ const platformStats = [
       justify-content: center;
       padding: 6rem 4rem 3rem;
       box-sizing: border-box;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
     }
+    .slide-inner { min-width: 0; }
     @media (max-width: 900px) {
-      .slide { padding: 7rem 1.5rem 2rem; }
+      .slide {
+        padding: 5rem 1.25rem 4rem;
+        align-items: flex-start;
+      }
+    }
+    @media (max-width: 700px) {
+      .slides-track { flex-direction: column; }
+      .slide { flex: 0 0 100vh; height: 100vh; width: 100vw; }
     }
     .slide-inner {
       width: 100%;
@@ -720,6 +764,12 @@ const platformStats = [
       gap: 1rem;
       margin-bottom: 1.75rem;
     }
+    @media (max-width: 700px) {
+      .stat-row-3 { grid-template-columns: 1fr; gap: 0.5rem; margin-bottom: 1rem; }
+      .stat-card { padding: 0.75rem 1rem; }
+      .stat-big { font-size: 1.75rem; }
+      .stat-label { font-size: 0.85rem; }
+    }
     .stat-card {
       display: block;
       border: 1px solid rgba(255, 215, 0, 0.3);
@@ -750,10 +800,19 @@ const platformStats = [
     .pillar-row {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
+      gap: 0.75rem;
+    }
+    @media (max-width: 900px) {
+      .pillar-row { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 520px) {
+      .pillar-row { grid-template-columns: 1fr; }
     }
     .pillar {
-      display: block;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.35rem;
       border: 1px solid rgba(255, 215, 0, 0.2);
       background: rgba(255, 255, 255, 0.02);
       border-radius: 0.6rem;
@@ -761,6 +820,26 @@ const platformStats = [
       text-decoration: none;
       color: inherit;
       transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s ease;
+    }
+    .pillar-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 0.5rem;
+      background: rgba(255, 215, 0, 0.1);
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFD700;
+      margin-bottom: 0.35rem;
+      transition: background 0.15s ease;
+    }
+    a.pillar:hover .pillar-icon {
+      background: rgba(255, 215, 0, 0.2);
+    }
+    .pillar-icon svg {
+      width: 20px;
+      height: 20px;
     }
     a.pillar:hover {
       border-color: rgba(255, 215, 0, 0.7);
@@ -776,9 +855,6 @@ const platformStats = [
       font-size: 0.85rem;
       color: #94a3b8;
       line-height: 1.4;
-    }
-    @media (max-width: 900px) {
-      .stat-row-3, .pillar-row { grid-template-columns: 1fr; }
     }
 
     /* ========== Traffic slide ========== */
@@ -941,8 +1017,10 @@ const platformStats = [
       font-variant-numeric: tabular-nums;
     }
     @media (max-width: 700px) {
-      .audience-name { width: 110px; font-size: 0.85rem; }
-      .audience-flag { font-size: 1.4rem; }
+      .audience-name { width: 90px; font-size: 0.8rem; }
+      .audience-flag { font-size: 1.3rem; width: 2rem; }
+      .audience-row { gap: 0.5rem; }
+      .audience-val { width: 55px; font-size: 0.85rem; }
     }
 
     /* ========== Why Now slide ========== */
@@ -1066,7 +1144,12 @@ const platformStats = [
     }
     @media (max-width: 1100px) {
       .placement-split { grid-template-columns: 1fr; }
-      .mobile-grid { grid-template-columns: repeat(4, 1fr); }
+      .mobile-grid { grid-template-columns: repeat(2, 1fr); }
+      .mobile-col { flex-direction: column; }
+    }
+    @media (max-width: 700px) {
+      .placement-grid { grid-template-columns: 1fr; }
+      .mobile-img-wrap { aspect-ratio: 9 / 17; }
     }
     .placement-card {
       border: 1px solid rgba(255, 215, 0, 0.25);
@@ -1187,6 +1270,25 @@ const platformStats = [
       .discount-row { grid-template-columns: 1fr; }
       .pricing-cell { font-size: 0.88rem; padding: 0.7rem 0.75rem; }
     }
+    @media (max-width: 640px) {
+      .pricing-header { display: none; }
+      .pricing-row {
+        grid-template-columns: 1fr;
+        padding: 0.75rem 0.25rem;
+        gap: 0.25rem;
+      }
+      .pricing-row .pricing-cell { padding: 0.25rem 0.75rem; }
+      .pricing-right { text-align: left; }
+      .pricing-price::before {
+        content: 'Launch rate: ';
+        color: #94a3b8;
+        font-weight: 500;
+      }
+      .pricing-slots::before {
+        content: 'Slots: ';
+        color: #94a3b8;
+      }
+    }
 
     /* ========== Close slide ========== */
     .cta-row {
@@ -1243,8 +1345,8 @@ const platformStats = [
       top: 50%;
       transform: translateY(-50%);
       z-index: 30;
-      width: 50px;
-      height: 50px;
+      width: 48px;
+      height: 48px;
       border-radius: 9999px;
       border: 1px solid rgba(255, 215, 0, 0.3);
       background: rgba(28, 28, 28, 0.75);
@@ -1254,19 +1356,18 @@ const platformStats = [
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: background 0.15s, color 0.15s;
+      transition: background 0.15s, color 0.15s, opacity 0.15s;
     }
     .nav-btn:hover { background: #FFD700; color: #1c1c1c; }
-    .nav-btn svg { width: 22px; height: 22px; }
+    .nav-btn svg { width: 20px; height: 20px; }
     .nav-prev { left: 1.25rem; }
     .nav-next { right: 1.25rem; }
     .nav-btn:disabled {
-      opacity: 0.25;
-      cursor: not-allowed;
+      opacity: 0;
+      pointer-events: none;
     }
-    .nav-btn:disabled:hover {
-      background: rgba(28, 28, 28, 0.75);
-      color: #FFD700;
+    @media (max-width: 700px) {
+      .nav-btn { display: none; }
     }
 
     /* ========== Counter ========== */
@@ -1286,6 +1387,27 @@ const platformStats = [
       padding: 0.5rem 1rem;
       border-radius: 9999px;
       backdrop-filter: blur(6px);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+    .slide-counter:hover {
+      background: rgba(255, 215, 0, 0.12);
+      border-color: #FFD700;
+    }
+    .slide-counter:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+    .slide-counter-next {
+      display: none;
+    }
+    .slide-counter-next svg { width: 14px; height: 14px; }
+    @media (max-width: 700px) {
+      .slide-counter-next { display: inline-flex; }
     }
 
     /* ========== Lightbox ========== */
@@ -1384,15 +1506,26 @@ const platformStats = [
     }
     .zoom-hint svg { width: 16px; height: 16px; }
 
-    /* ========== Responsive header ========== */
+    /* ========== Responsive header / controls ========== */
     @media (max-width: 1100px) {
       .deck-kicker { display: none; }
     }
     @media (max-width: 700px) {
-      .deck-header { padding: 0.75rem 1rem; gap: 0.75rem; }
-      .deck-menu-item { padding: 0.35rem 0.5rem; font-size: 0.7rem; }
+      .deck-header { padding: 0.5rem 0.75rem; gap: 0.5rem; }
+      .deck-menu-item { padding: 0.3rem 0.45rem; font-size: 0.68rem; letter-spacing: 0.02em; }
       .deck-menu-num { display: none; }
-      .deck-logo img { height: 30px; }
+      .deck-logo img { height: 26px; }
+      .slide-counter { bottom: 0.75rem; font-size: 0.72rem; padding: 0.35rem 0.75rem; }
+    }
+    @media (max-width: 500px) {
+      .deck-menu-item { padding: 0.25rem 0.35rem; font-size: 0.62rem; }
+    }
+    @media (max-width: 700px) {
+      .cta-btn { padding: 0.9rem 1.4rem; font-size: 1rem; }
+      .cta-row { gap: 0.6rem; }
+      .lightbox { padding: 1rem; }
+      .lightbox-close { top: 0.75rem; right: 0.75rem; width: 40px; height: 40px; }
+      .lightbox-img { max-height: 80vh; max-width: 95vw; }
     }
   </style>
 </Layout>

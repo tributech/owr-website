@@ -58,11 +58,51 @@ const mobilePlacements = [
 ];
 
 const pricing = [
-  { pkg: 'Regional — Tier 1', flags: ['🇬🇧', '🇺🇸'], price: '£50 / $60 /mo', slots: '3 per region' },
-  { pkg: 'Regional — Tier 2', flags: ['🇦🇺', '🇨🇦'], price: '$50 AUD / CAD /mo', slots: '3 per region' },
-  { pkg: 'Regional — Tier 3', flags: ['🇳🇿', '🇮🇪', '🇪🇺'], price: '$30 NZD / €45 /mo', slots: '3 per region' },
-  { pkg: 'Global Spotlight', flags: ['🌐'], price: '£100 / $130 /mo', slots: '4 global' },
-  { pkg: 'Army Lists Feature', flags: ['🌐'], price: '£150 / $190 /mo', slots: '2 global' },
+  {
+    pkg: 'Regional — Tier 1',
+    desc: 'Regional dashboard, rankings & tournament pages — pick UK or US',
+    flags: ['🇬🇧', '🇺🇸'],
+    reach: '~30%',
+    price: '£50 / $60',
+    unit: 'per region / mo',
+    slots: '3 per region',
+  },
+  {
+    pkg: 'Regional — Tier 2',
+    desc: 'Regional dashboard, rankings & tournament pages — pick AU or CA',
+    flags: ['🇦🇺', '🇨🇦'],
+    reach: '~15%',
+    price: '$50 AUD / CAD',
+    unit: 'per region / mo',
+    slots: '3 per region',
+  },
+  {
+    pkg: 'Regional — Tier 3',
+    desc: 'Every other region — NZ, IE, EU, ZA, JP, and more',
+    flags: ['🌐'],
+    reach: '~50%',
+    price: '$30 NZD / €45',
+    unit: 'per region / mo',
+    slots: '3 per region',
+  },
+  {
+    pkg: 'Global Spotlight',
+    desc: 'oldworldrankings.com homepage + global rankings — every visitor',
+    flags: ['🌐'],
+    reach: '~30%',
+    price: '£100 / $130',
+    unit: 'flat / mo',
+    slots: '4 global',
+  },
+  {
+    pkg: 'Army Lists Feature',
+    desc: 'Inside every army-list detail modal — highest-intent moment on the platform',
+    flags: ['🌐'],
+    reach: '~50%',
+    price: '£150 / $190',
+    unit: 'flat / mo',
+    slots: '2 global',
+  },
 ];
 
 const trafficStats = [
@@ -352,20 +392,29 @@ const platformStats = [
           <div class="pricing-table">
             <div class="pricing-header">
               <div class="pricing-cell">Package</div>
+              <div class="pricing-cell pricing-right">Reach*</div>
               <div class="pricing-cell pricing-right">Launch rate</div>
               <div class="pricing-cell pricing-right">Slots</div>
             </div>
             {pricing.map((row) => (
               <div class="pricing-row">
                 <div class="pricing-cell pricing-pkg">
-                  <span class="pricing-flags">{row.flags.join(' ')}</span>
-                  <span>{row.pkg}</span>
+                  <div class="pricing-pkg-line">
+                    <span class="pricing-flags">{row.flags.join(' ')}</span>
+                    <span>{row.pkg}</span>
+                  </div>
+                  <div class="pricing-pkg-desc">{row.desc}</div>
                 </div>
-                <div class="pricing-cell pricing-right pricing-price">{row.price}</div>
+                <div class="pricing-cell pricing-right pricing-reach">{row.reach}</div>
+                <div class="pricing-cell pricing-right pricing-price">
+                  <div>{row.price}</div>
+                  <div class="pricing-unit">{row.unit}</div>
+                </div>
                 <div class="pricing-cell pricing-right pricing-slots">{row.slots}</div>
               </div>
             ))}
           </div>
+          <p class="pricing-foot">* Approximate share of real-human engaged sessions over the last 90 days. Regional tiers price <strong>per region</strong> — buy one or several within a tier.</p>
 
           <div class="discount-row">
             <div class="discount-card">
@@ -1200,7 +1249,7 @@ const platformStats = [
     }
     .pricing-header {
       display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-columns: 2.4fr 0.7fr 1fr 0.9fr;
       background: rgba(0,0,0,0.4);
       color: #FFD700;
       font-size: 0.75rem;
@@ -1210,24 +1259,51 @@ const platformStats = [
     }
     .pricing-row {
       display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-columns: 2.4fr 0.7fr 1fr 0.9fr;
       border-top: 1px solid rgba(255,255,255,0.06);
+      align-items: center;
     }
     .pricing-row:nth-child(odd) { background: rgba(255,255,255,0.015); }
     .pricing-row:hover { background: rgba(255, 215, 0, 0.05); }
-    .pricing-cell { padding: 0.9rem 1rem; font-size: 1rem; }
+    .pricing-cell { padding: 0.85rem 1rem; font-size: 0.95rem; }
     .pricing-right { text-align: right; }
-    .pricing-pkg {
-      font-weight: 700;
+    .pricing-pkg { font-weight: 700; }
+    .pricing-pkg-line {
       display: flex;
       align-items: center;
       gap: 0.6rem;
     }
+    .pricing-pkg-desc {
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: #94a3b8;
+      margin-top: 0.2rem;
+      line-height: 1.35;
+    }
     .pricing-flags {
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       letter-spacing: 0.15rem;
       white-space: nowrap;
     }
+    .pricing-reach {
+      color: #FFD700;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+    .pricing-unit {
+      font-size: 0.7rem;
+      font-weight: 400;
+      color: #94a3b8;
+      margin-top: 0.15rem;
+      letter-spacing: 0.02em;
+    }
+    .pricing-foot {
+      font-size: 0.78rem;
+      color: #94a3b8;
+      margin: 0.6rem 0 1.25rem;
+      font-style: italic;
+    }
+    .pricing-foot strong { color: #e2e8f0; font-style: normal; }
     .pricing-price {
       color: #FFD700;
       font-weight: 700;
@@ -1267,9 +1343,11 @@ const platformStats = [
     }
     @media (max-width: 900px) {
       .discount-row { grid-template-columns: 1fr; }
-      .pricing-cell { font-size: 0.88rem; padding: 0.7rem 0.75rem; }
+      .pricing-cell { font-size: 0.85rem; padding: 0.6rem 0.6rem; }
+      .pricing-pkg-desc { font-size: 0.72rem; }
+      .pricing-unit { font-size: 0.65rem; }
     }
-    @media (max-width: 640px) {
+    @media (max-width: 700px) {
       .pricing-header { display: none; }
       .pricing-row {
         grid-template-columns: 1fr;
@@ -1278,6 +1356,11 @@ const platformStats = [
       }
       .pricing-row .pricing-cell { padding: 0.25rem 0.75rem; }
       .pricing-right { text-align: left; }
+      .pricing-reach::before {
+        content: 'Reach: ';
+        color: #94a3b8;
+        font-weight: 500;
+      }
       .pricing-price::before {
         content: 'Launch rate: ';
         color: #94a3b8;
@@ -1287,6 +1370,7 @@ const platformStats = [
         content: 'Slots: ';
         color: #94a3b8;
       }
+      .pricing-unit { display: inline-block; margin-left: 0.4rem; margin-top: 0; }
     }
 
     /* ========== Close slide ========== */

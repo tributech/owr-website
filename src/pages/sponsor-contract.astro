@@ -1,0 +1,588 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const tiers = [
+  { name: 'Regional Partner — Tier 1', regions: 'UK · US', price: '£50 / USD$60 per region / month' },
+  { name: 'Regional Partner — Tier 2', regions: 'AU · CA', price: 'AUD$50 / CAD$50 per region / month' },
+  { name: 'Regional Partner — Tier 3', regions: 'every other region — NZ · IE · EU · ZA · JP · etc.', price: '£25 / USD$30 per region / month' },
+  { name: 'Global Spotlight', regions: 'oldworldrankings.com homepage + global rankings', price: '£100 / USD$130 flat / month' },
+  { name: 'Army Lists Feature', regions: 'inside every army-list detail modal, opened from any tournament page', price: '£150 / USD$190 flat / month' },
+];
+
+const regionFlags = [
+  { flag: '🇬🇧', name: 'United Kingdom', tier: 'Tier 1' },
+  { flag: '🇺🇸', name: 'United States', tier: 'Tier 1' },
+  { flag: '🇦🇺', name: 'Australia', tier: 'Tier 2' },
+  { flag: '🇨🇦', name: 'Canada', tier: 'Tier 2' },
+  { flag: '🇳🇿', name: 'New Zealand', tier: 'Tier 3' },
+  { flag: '🇮🇪', name: 'Ireland', tier: 'Tier 3' },
+  { flag: '🇪🇺', name: 'EU — non-UK/IE', tier: 'Tier 3' },
+];
+
+const partyFields = [
+  'Sponsor (legal name)',
+  'Trading / display name',
+  'Primary contact',
+  'Contact email',
+  'Website / landing URL',
+  'Affiliate URL (if applicable)',
+  'Start date',
+  'End date',
+];
+
+const creativeSpec = [
+  ['Formats', 'PNG, JPG, WebP'],
+  ['Max file size', '150 KB'],
+  ['Colour space', 'sRGB'],
+  ['Retina', 'Supply @2x if you can (1456 × 180 / 640 × 200)'],
+  ['Background', 'Transparent PNG preferred for logo marks; solid OK'],
+  ['Animation', 'Static only — no GIFs, no video'],
+  ['Safe zone', 'Keep critical text ≥8px from edges'],
+  ['Landing URL', 'One per ad size. Must be HTTPS.'],
+];
+
+const terms = [
+  ['Minimum term: 3 months.', 'Early cancellation refunded pro-rata for whole unused months only.'],
+  ['Payment.', 'Upfront for the full term. Invoice raised on signing; launch within 7–10 days of cleared payment.'],
+  ['Creative approval.', 'OWR may reject or request changes to creative that misrepresents the product, contains offensive content, or breaches Games Workshop\'s community IP guidelines. Rejected creative doesn\'t extend the term.'],
+  ['Trademarks.', 'Sponsor confirms it owns or has licence to any trademarks/logos supplied. OWR is not affiliated with Games Workshop; "Warhammer: The Old World" references are nominative only.'],
+  ['Exclusivity.', 'None by default. If an exclusivity clause is required (e.g. category-exclusive in a region), it must be written in §8 below and may be subject to a surcharge.'],
+  ['Reporting disputes.', 'Raised within 30 days of the monthly report.'],
+  ['Law & venue.', 'Governed by the laws of Queensland, Australia. Both parties agree to resolve disputes in good faith before escalating.'],
+];
+---
+
+<Layout
+  title="OWR Sponsor Agreement"
+  description="Sponsor agreement template for Old World Rankings — fill in, print to PDF, and return signed."
+  noindex={true}
+>
+  <button id="print-btn" class="print-btn" type="button" aria-label="Print or save as PDF">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+    Print / Save as PDF
+  </button>
+
+  <main class="contract">
+    <header class="contract-header">
+      <img src="/images/owr_logo_white.png" alt="Old World Rankings" class="contract-logo" />
+      <div>
+        <h1>Sponsor Agreement</h1>
+        <p class="contract-meta">Old World Rankings · operated by Tributech Pty Ltd · Template v1 · 2026</p>
+      </div>
+    </header>
+
+    <p class="lead">
+      Short-form sponsorship agreement between <strong>Old World Rankings</strong> and the Sponsor named below. This document covers one sponsor across one or more placements for a defined period. Fill in the bracketed fields, sign §7, and return.
+    </p>
+
+    <section>
+      <h2>1. Parties &amp; Details</h2>
+      <table class="kv">
+        <tbody>
+          {partyFields.map((label) => (
+            <tr>
+              <th>{label}</th>
+              <td><span class="fill"></span></td>
+            </tr>
+          ))}
+          <tr>
+            <th>Billed by</th>
+            <td>Tributech Pty Ltd (ABN on invoice)</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>2. Package Selected</h2>
+      <p>Tick the tier(s) purchased. Regional tiers price <strong>per region</strong> — buy one or several within a tier.</p>
+
+      <ul class="check-list">
+        {tiers.map((t) => (
+          <li>
+            <span class="check"></span>
+            <div>
+              <strong>{t.name}</strong> ({t.regions}) — <span class="price">{t.price}</span>
+            </div>
+          </li>
+        ))}
+      </ul>
+
+      <h3>Region(s) covered</h3>
+      <p class="hint">Regional tiers only.</p>
+      <ul class="check-list region-list">
+        {regionFlags.map((r) => (
+          <li>
+            <span class="check"></span>
+            <div>{r.flag} <strong>{r.name}</strong> <span class="dim">({r.tier})</span></div>
+          </li>
+        ))}
+        <li>
+          <span class="check"></span>
+          <div>Other Tier 3 region: <span class="fill"></span></div>
+        </li>
+      </ul>
+
+      <h3>Term &amp; Discount</h3>
+      <p>Minimum term is <strong>3 months</strong> — no discount applies at the minimum. Longer upfront commitments earn a discount:</p>
+      <ul class="check-list">
+        <li><span class="check"></span><div>6 months upfront — <strong>15% off</strong></div></li>
+        <li><span class="check"></span><div>12 months upfront — <strong>20% off</strong> + footer logo in event emails</div></li>
+        <li><span class="check"></span><div>Affiliate link provided — <strong>additional 15% off</strong> any tier</div></li>
+      </ul>
+
+      <table class="kv totals">
+        <tbody>
+          <tr><th>Subtotal (monthly × term × regions)</th><td><span class="fill"></span></td></tr>
+          <tr><th>Discount applied</th><td><span class="fill short"></span> %</td></tr>
+          <tr class="total-row"><th>Total due</th><td><span class="fill"></span> <span class="dim">(specify currency)</span></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>3. Ad Creative</h2>
+      <p>Two discrete sizes cover every placement.</p>
+
+      <div class="ad-sizes">
+        <div class="ad-size">
+          <h3>Desktop Leaderboard — 728 × 90</h3>
+          <p>Shown on: homepage hero band, regional dashboard, global rankings, army lists index, army list detail modal.</p>
+        </div>
+        <div class="ad-size">
+          <h3>Mobile Banner — 320 × 100</h3>
+          <p>Shown on: mobile rankings, mobile army lists.</p>
+        </div>
+      </div>
+
+      <h3>Spec (both sizes)</h3>
+      <table class="kv">
+        <tbody>
+          {creativeSpec.map(([k, v]) => (
+            <tr><th>{k}</th><td>{v}</td></tr>
+          ))}
+        </tbody>
+      </table>
+
+      <p class="callout"><strong>Max 3 sponsors per slot per region.</strong> OWR Pro members see an ad-free experience — ads shown only to free users.</p>
+
+      <h3>Creative swaps</h3>
+      <p>One swap per calendar month at no charge. Additional swaps billed at AUD$25 each or comped at OWR's discretion.</p>
+
+      <h3>OWR provides (free)</h3>
+      <ul class="check-list">
+        <li><span class="check"></span><div>Creative help / design review if you don't have assets</div></li>
+        <li><span class="check"></span><div>UTM parameters appended to every click out (<code>utm_source=owr</code>, <code>utm_medium=sponsor</code>, <code>utm_campaign=[sponsor-slug]</code>, <code>utm_content=[placement]</code>)</div></li>
+        <li><span class="check"></span><div>Affiliate-link pass-through if you've supplied one in §1</div></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>4. Reporting</h2>
+      <ul class="check-list">
+        <li><span class="check"></span><div>Monthly UTM performance summary (clicks by placement) emailed to the contact in §1</div></li>
+        <li><span class="check"></span><div>On-request: raw UTM dashboard access (Google Analytics 4)</div></li>
+      </ul>
+      <p>No impression tracking beyond server-side delivery counts. OWR does not run third-party ad networks, pixels, or retargeting on sponsor creative.</p>
+    </section>
+
+    <section>
+      <h2>5. Terms</h2>
+      <ol class="terms-list">
+        {terms.map(([head, body]) => (
+          <li><strong>{head}</strong> {body}</li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="payment-section">
+      <h2>6. Payment</h2>
+      <blockquote>
+        <strong>[ Payment link to be inserted by OWR before sending to the sponsor ]</strong>
+      </blockquote>
+      <p>Invoice from Tributech Pty Ltd. Payable in the currency listed against your tier in §2 — <strong>GBP / USD$</strong> for Tier 1, Tier 3, Global Spotlight and Army Lists Feature; <strong>AUD$ / CAD$</strong> for Tier 2. Card, PayPal and bank transfer accepted.</p>
+    </section>
+
+    <section class="sign-section">
+      <h2>7. Signatures</h2>
+      <p>By signing below, both parties agree to the terms above for the term stated in §1.</p>
+      <table class="sign-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Old World Rankings</th>
+            <th>Sponsor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Name</th>
+            <td>Colin Goudie</td>
+            <td><span class="fill"></span></td>
+          </tr>
+          <tr>
+            <th>Title</th>
+            <td>Founder, OWR</td>
+            <td><span class="fill"></span></td>
+          </tr>
+          <tr class="sign-row">
+            <th>Signature</th>
+            <td><span class="fill tall"></span></td>
+            <td><span class="fill tall"></span></td>
+          </tr>
+          <tr>
+            <th>Date</th>
+            <td><span class="fill short"></span></td>
+            <td><span class="fill short"></span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>8. Special Terms / Notes</h2>
+      <p>Anything agreed outside the above template (category exclusivity, bespoke placement, co-branded content, etc.):</p>
+      <div class="notes-box">
+        <span class="fill"></span>
+        <span class="fill"></span>
+        <span class="fill"></span>
+        <span class="fill"></span>
+      </div>
+    </section>
+
+    <footer class="contract-footer">
+      <p>Old World Rankings · oldworldrankings.com · sponsors@oldworldrankings.com</p>
+      <p>Template v1 · 2026</p>
+    </footer>
+  </main>
+
+  <script is:inline>
+    document.getElementById('print-btn').addEventListener('click', () => window.print());
+  </script>
+
+  <style is:global>
+    html, body {
+      background: #f8f7f4;
+      color: #1c1c1c;
+      margin: 0;
+      padding: 0;
+      font-family: 'Montserrat', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Print button (hidden in print) */
+    .print-btn {
+      position: fixed;
+      top: 1.25rem;
+      right: 1.25rem;
+      z-index: 100;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.7rem 1.1rem;
+      background: #1c1c1c;
+      color: #FFD700;
+      border: 1px solid #FFD700;
+      border-radius: 9999px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+    .print-btn:hover { background: #FFD700; color: #1c1c1c; }
+    .print-btn svg { width: 18px; height: 18px; }
+
+    /* A4-ish width contract */
+    .contract {
+      max-width: 820px;
+      margin: 2rem auto 4rem;
+      padding: 3rem 3.5rem;
+      background: #fff;
+      border: 1px solid #e2e0d8;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.06);
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    .contract-header {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 2px solid #FFD700;
+      margin-bottom: 1.5rem;
+    }
+    .contract-logo {
+      height: 56px;
+      width: auto;
+      filter: invert(1);
+    }
+    .contract-header h1 {
+      margin: 0;
+      font-size: 1.75rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      color: #1c1c1c;
+    }
+    .contract-meta {
+      margin: 0.25rem 0 0;
+      font-size: 0.78rem;
+      color: #6b6b6b;
+      letter-spacing: 0.04em;
+    }
+
+    .lead {
+      font-size: 1rem;
+      color: #3d3d3d;
+      margin: 0 0 2rem;
+    }
+
+    section {
+      margin-bottom: 2rem;
+      page-break-inside: avoid;
+    }
+
+    h2 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      margin: 0 0 0.85rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid #e2e0d8;
+      color: #1c1c1c;
+    }
+    h3 {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #DAA520;
+      margin: 1.4rem 0 0.5rem;
+    }
+    p { margin: 0.4rem 0 0.75rem; }
+    .hint { color: #6b6b6b; font-size: 0.85rem; margin-top: -0.25rem; }
+    .dim { color: #6b6b6b; }
+
+    /* Key/value table */
+    table.kv {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.5rem 0 1rem;
+    }
+    table.kv th {
+      text-align: left;
+      font-weight: 600;
+      color: #3d3d3d;
+      padding: 0.55rem 0.75rem 0.55rem 0;
+      width: 38%;
+      vertical-align: top;
+      border-bottom: 1px solid #ece9df;
+    }
+    table.kv td {
+      padding: 0.55rem 0;
+      border-bottom: 1px solid #ece9df;
+      vertical-align: top;
+    }
+    table.kv.totals tr.total-row th,
+    table.kv.totals tr.total-row td {
+      font-weight: 800;
+      font-size: 1.05rem;
+      border-bottom: none;
+      border-top: 2px solid #1c1c1c;
+      padding-top: 0.65rem;
+    }
+
+    /* Fillable underlines */
+    .fill {
+      display: inline-block;
+      min-width: 220px;
+      border-bottom: 1px solid #888;
+      height: 1.2em;
+      vertical-align: bottom;
+    }
+    .fill.short { min-width: 80px; }
+    .fill.tall { width: 100%; min-width: 0; height: 2.4em; }
+
+    /* Checkbox list */
+    ul.check-list {
+      list-style: none;
+      padding: 0;
+      margin: 0.5rem 0 1rem;
+    }
+    ul.check-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.7rem;
+      padding: 0.3rem 0;
+      page-break-inside: avoid;
+    }
+    .check {
+      flex-shrink: 0;
+      width: 14px;
+      height: 14px;
+      border: 1.5px solid #1c1c1c;
+      border-radius: 2px;
+      margin-top: 0.2rem;
+    }
+    ul.check-list .price { color: #1c1c1c; font-weight: 700; }
+    ul.check-list code {
+      background: #f0eee5;
+      padding: 1px 4px;
+      border-radius: 3px;
+      font-size: 0.78rem;
+    }
+
+    .region-list {
+      column-count: 2;
+      column-gap: 1.5rem;
+    }
+    .region-list li { break-inside: avoid; }
+
+    /* Ad sizes side by side */
+    .ad-sizes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 0.75rem 0 1rem;
+    }
+    .ad-size {
+      border: 1px solid #ece9df;
+      border-left: 3px solid #FFD700;
+      padding: 0.75rem 1rem;
+      background: #faf9f4;
+    }
+    .ad-size h3 {
+      margin: 0 0 0.3rem;
+      color: #1c1c1c;
+      text-transform: none;
+      letter-spacing: 0;
+      font-size: 0.95rem;
+    }
+    .ad-size p { margin: 0; font-size: 0.85rem; color: #555; }
+
+    .callout {
+      background: #fff8d4;
+      border-left: 3px solid #FFD700;
+      padding: 0.7rem 1rem;
+      margin: 0.75rem 0 1rem;
+    }
+
+    /* Terms */
+    ol.terms-list {
+      padding-left: 1.4rem;
+      margin: 0.5rem 0 1rem;
+    }
+    ol.terms-list li {
+      padding: 0.35rem 0;
+      page-break-inside: avoid;
+    }
+
+    /* Payment section */
+    .payment-section blockquote {
+      margin: 0 0 1rem;
+      padding: 1rem 1.25rem;
+      background: #f0eee5;
+      border-left: 3px solid #1c1c1c;
+      font-style: italic;
+      color: #3d3d3d;
+    }
+
+    /* Signature table */
+    .sign-section { page-break-inside: avoid; }
+    table.sign-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.75rem;
+    }
+    table.sign-table th,
+    table.sign-table td {
+      border: 1px solid #ece9df;
+      padding: 0.7rem 0.85rem;
+      vertical-align: top;
+      text-align: left;
+    }
+    table.sign-table thead th {
+      background: #1c1c1c;
+      color: #FFD700;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+    table.sign-table tbody th {
+      width: 22%;
+      background: #faf9f4;
+      font-size: 0.85rem;
+      color: #6b6b6b;
+      font-weight: 600;
+    }
+    .sign-row td { height: 3rem; }
+
+    /* Notes box */
+    .notes-box {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      padding: 1rem 0 0;
+    }
+    .notes-box .fill {
+      width: 100%;
+      min-width: 0;
+      height: 1.5em;
+    }
+
+    .contract-footer {
+      margin-top: 3rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid #e2e0d8;
+      text-align: center;
+      color: #888;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+    }
+    .contract-footer p { margin: 0.15rem 0; }
+
+    /* Print: chrome-clean */
+    @media print {
+      @page {
+        size: A4;
+        margin: 14mm;
+      }
+      html, body { background: #fff; font-size: 10pt; }
+      .print-btn { display: none !important; }
+      .contract {
+        margin: 0;
+        max-width: 100%;
+        padding: 0;
+        border: none;
+        box-shadow: none;
+        font-size: 9pt;
+        line-height: 1.45;
+      }
+      .contract-header { margin-bottom: 1rem; padding-bottom: 0.75rem; }
+      h2 { margin-top: 1rem; }
+      section { margin-bottom: 1.2rem; }
+      a { color: inherit; text-decoration: none; }
+      .ad-sizes { gap: 0.5rem; }
+      .callout { background: transparent; border-left: 2px solid #1c1c1c; }
+      .payment-section blockquote { background: transparent; border-left: 2px solid #1c1c1c; }
+      table.sign-table thead th { background: transparent; color: #1c1c1c; border: 1px solid #1c1c1c; }
+      table.sign-table tbody th { background: transparent; }
+      .ad-size { background: transparent; }
+    }
+
+    @media (max-width: 700px) {
+      .contract { margin: 0; padding: 1.25rem 1rem 3rem; border: none; box-shadow: none; }
+      .contract-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+      .contract-logo { height: 40px; }
+      .contract-header h1 { font-size: 1.4rem; }
+      .ad-sizes { grid-template-columns: 1fr; }
+      .region-list { column-count: 1; }
+      table.kv th { width: auto; display: block; padding-bottom: 0; border: none; }
+      table.kv td { display: block; padding-top: 0.25rem; padding-bottom: 0.75rem; }
+      .fill { min-width: 60%; }
+    }
+  </style>
+</Layout>

@@ -1,0 +1,1531 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Trophy, BarChart, CalendarArrowUp, ScrollText, Image, Hammer, ChevronDown, X as CloseIcon, ZoomIn, MessageCircleQuestion, Mail, ChevronLeft, ChevronRight } from '@lucide/astro';
+
+const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com';
+
+const slides = [
+  { id: 'cover', label: 'Cover' },
+  { id: 'platform', label: 'Platform' },
+  { id: 'traffic', label: 'Traffic' },
+  { id: 'audience', label: 'Audience' },
+  { id: 'why-now', label: 'Why Now' },
+  { id: 'placements', label: 'Placements' },
+  { id: 'pricing', label: 'Pricing' },
+  { id: 'close', label: 'Next Step' },
+];
+
+const growth = [
+  { m: 'Oct', users: 13614 },
+  { m: 'Nov', users: 19400 },
+  { m: 'Dec', users: 30372 },
+  { m: 'Jan', users: 26510 },
+  { m: 'Feb', users: 45668 },
+];
+const maxUsers = Math.max(...growth.map((g) => g.users));
+
+const audienceRaw = [
+  { flag: '🇺🇸', name: 'United States', users: 3911 },
+  { flag: '🇬🇧', name: 'United Kingdom', users: 3118 },
+  { flag: '🇦🇺', name: 'Australia', users: 1506 },
+  { flag: '🇨🇦', name: 'Canada', users: 765 },
+  { flag: '🇮🇪', name: 'Ireland', users: 148 },
+  { flag: '🇳🇿', name: 'New Zealand', users: 113 },
+];
+const audienceTotal = audienceRaw.reduce((acc, a) => acc + a.users, 0);
+const audience = audienceRaw.map((a) => ({
+  ...a,
+  pct: (a.users / audienceTotal) * 100,
+}));
+const maxPct = audience[0].pct;
+
+const playerStats = [
+  { big: '10,225', label: 'Players tracked globally', sub: 'Every competitive TOW player with a recorded result' },
+  { big: '2,011', label: 'Signed-up accounts', sub: '914 have claimed a tracked player profile' },
+  { big: '2.7×', label: 'Quarter-over-quarter signup growth', sub: 'Last 3 months vs the 3 before' },
+];
+
+const placements = [
+  { title: 'Homepage Hero', desc: 'First impression. Leaderboard + hero-adjacent slot.', img: '/images/sponsor/homepage-hero.png' },
+  { title: 'Regional Dashboard', desc: 'Geo-targeted. UK players see UK sponsors.', img: '/images/sponsor/dashboard.png' },
+  { title: 'Army Lists', desc: '70k+ pageviews / month. Highest dwell-time.', img: '/images/sponsor/army-lists.png' },
+  { title: 'Global Rankings', desc: 'The leaderboard everyone checks.', img: '/images/sponsor/global-rankings.png' },
+];
+
+const mobilePlacements = [
+  { title: 'Mobile — Rankings', desc: '320×100 banner above the leaderboard.', img: '/images/sponsor/mobile-1.png' },
+  { title: 'Mobile — Army Lists', desc: '320×100 banner above the list feed.', img: '/images/sponsor/mobile-2.png' },
+];
+
+const pricing = [
+  { pkg: 'Regional — Tier 1', flags: ['🇬🇧', '🇺🇸'], price: '£50 / $60 /mo', slots: '3 per region' },
+  { pkg: 'Regional — Tier 2', flags: ['🇦🇺', '🇨🇦'], price: '$50 AUD / CAD /mo', slots: '3 per region' },
+  { pkg: 'Regional — Tier 3', flags: ['🇳🇿', '🇮🇪', '🇪🇺'], price: '$30 NZD / €45 /mo', slots: '3 per region' },
+  { pkg: 'Global Spotlight', flags: ['🌐'], price: '£100 / $130 /mo', slots: '4 global' },
+  { pkg: 'Army Lists Feature', flags: ['🌐'], price: '£150 / $190 /mo', slots: '2 global' },
+];
+
+const trafficStats = [
+  { big: '24,464', label: 'Google organic clicks' },
+  { big: '256,486', label: 'Google impressions' },
+  { big: '500k+', label: 'Real-human pageviews' },
+  { big: '9.54%', label: 'Search CTR' },
+];
+
+const platformStats = [
+  { big: '1,721', label: 'Tournaments tracked' },
+  { big: '88,375', label: 'Games played' },
+  { big: '25', label: 'Regions worldwide' },
+];
+---
+
+<Layout
+  title="OWR Sponsor Prospectus"
+  description="Sponsor slots on Old World Rankings — reach the most engaged Warhammer: The Old World players on the web."
+  noindex={true}
+>
+  <div id="deck">
+
+    <!-- Top nav menu -->
+    <header class="deck-header">
+      <a href="/" class="deck-logo">
+        <img src="/images/owr_logo_white.png" alt="OWR" />
+      </a>
+      <nav class="deck-menu" id="deck-menu">
+        {slides.map((s, i) => (
+          <button class="deck-menu-item" data-menu={i} aria-label={`Go to ${s.label}`}>
+            <span class="deck-menu-num">{String(i + 1).padStart(2, '0')}</span>
+            <span class="deck-menu-label">{s.label}</span>
+          </button>
+        ))}
+      </nav>
+      <div class="deck-kicker">Sponsor Prospectus · 2026</div>
+    </header>
+
+    <!-- Slides track -->
+    <div class="slides-track" id="slides-container">
+
+      <!-- ============ 1. COVER ============ -->
+      <section class="slide slide-cover" data-slide="0">
+        <div class="slide-inner slide-inner-center">
+          <img src="/images/owr_logo_white.png" alt="" class="cover-logo" />
+          <div class="kicker-big">Sponsor Prospectus · 2026</div>
+          <h1 class="title-xxl">
+            Reach the most engaged
+            <span class="gold">Warhammer: The Old World</span>
+            players on the web.
+          </h1>
+          <p class="lead">
+            The rankings, tournaments and army-list platform that serious TOW players use every week.
+          </p>
+          <div class="hint">
+            <span>→ Use arrow keys, click the menu, or swipe</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 2. PLATFORM ============ -->
+      <section class="slide" data-slide="1">
+        <div class="slide-inner">
+          <div class="kicker">The platform</div>
+          <h2 class="title-xl">
+            Every competitive TOW event,
+            <span class="gold">in one place.</span>
+          </h2>
+          <p class="lead-tight">
+            Players find events, register, build lists, and see the meta.
+            Organisers run events end-to-end.
+          </p>
+
+          <div class="stat-row-3">
+            <a class="stat-card" href={`${APP_URL}/latest`} target="_blank" rel="noopener">
+              <div class="stat-big">1,721</div>
+              <div class="stat-label">Tournaments tracked →</div>
+            </a>
+            <a class="stat-card" href={`${APP_URL}/global_rankings`} target="_blank" rel="noopener">
+              <div class="stat-big">88,375</div>
+              <div class="stat-label">Games played →</div>
+            </a>
+            <a class="stat-card" href="/#regions" target="_blank" rel="noopener">
+              <div class="stat-big">25</div>
+              <div class="stat-label">Regions worldwide →</div>
+            </a>
+          </div>
+
+          <div class="pillar-row">
+            <a class="pillar" href={`${APP_URL}/global_rankings`} target="_blank" rel="noopener">
+              <div class="pillar-icon"><Trophy size={22} strokeWidth={2} /></div>
+              <div class="pillar-title gold">Rankings →</div>
+              <div class="pillar-desc">Global and regional leaderboards. Player ratings that travel across every region.</div>
+            </a>
+            <a class="pillar" href={`${APP_URL}/faction_stats`} target="_blank" rel="noopener">
+              <div class="pillar-icon"><BarChart size={22} strokeWidth={2} /></div>
+              <div class="pillar-title gold">Faction Stats →</div>
+              <div class="pillar-desc">Win rates, matchups and meta trends for every faction and subfaction.</div>
+            </a>
+            <a class="pillar" href={`${APP_URL}/upcoming`} target="_blank" rel="noopener">
+              <div class="pillar-icon"><CalendarArrowUp size={22} strokeWidth={2} /></div>
+              <div class="pillar-title gold">Upcoming Events →</div>
+              <div class="pillar-desc">Event discovery, registration, live pairings, public venue display.</div>
+            </a>
+            <a class="pillar" href={`${APP_URL}/army_lists`} target="_blank" rel="noopener">
+              <div class="pillar-icon"><ScrollText size={22} strokeWidth={2} /></div>
+              <div class="pillar-title gold">Army Lists →</div>
+              <div class="pillar-desc">Browse army lists from tournaments around the world. Highest-dwell page.</div>
+            </a>
+            <a class="pillar" href={`${APP_URL}/galleries`} target="_blank" rel="noopener">
+              <div class="pillar-icon"><Image size={22} strokeWidth={2} /></div>
+              <div class="pillar-title gold">Galleries →</div>
+              <div class="pillar-desc">Painted army showcases. Tens of thousands of hobby pics.</div>
+            </a>
+            <a class="pillar" href={`${APP_URL}/builder`} target="_blank" rel="noopener">
+              <div class="pillar-icon"><Hammer size={22} strokeWidth={2} /></div>
+              <div class="pillar-title gold">Battle Builder →</div>
+              <div class="pillar-desc">Build and manage your army lists with our native list builder.</div>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 3. TRAFFIC ============ -->
+      <section class="slide" data-slide="2">
+        <div class="slide-inner">
+          <div class="kicker">Traffic · over 3 months</div>
+          <h2 class="title-xl">
+            <span class="gold">3.4× growth</span> in five months.
+          </h2>
+          <p class="lead-tight">
+            Not a spike — a consistent upward slope as TOW takes share of the GW community.
+          </p>
+
+          <div class="traffic-split">
+            <div class="stat-stack">
+              {trafficStats.map((s) => (
+                <div class="stat-row">
+                  <span class="stat-row-big">{s.big}</span>
+                  <span class="stat-row-label">{s.label}</span>
+                </div>
+              ))}
+            </div>
+
+            <div class="chart-wrap">
+              <div class="chart-kicker">Monthly active users</div>
+              <div class="chart-bars">
+                {growth.map((g) => (
+                  <div class="chart-col">
+                    <div class="chart-val">{(g.users / 1000).toFixed(1)}k</div>
+                    <div class="chart-bar" style={`height: ${(g.users / maxUsers) * 100}%`}></div>
+                    <div class="chart-month">{g.m}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 4. AUDIENCE ============ -->
+      <section class="slide" data-slide="3">
+        <div class="slide-inner">
+          <div class="kicker">Players &amp; audience</div>
+          <h2 class="title-xl">
+            Real players. <span class="gold">Real growth.</span>
+          </h2>
+
+          <div class="player-stats">
+            {playerStats.map((s) => (
+              <div class="player-stat-card">
+                <div class="player-stat-big">{s.big}</div>
+                <div class="player-stat-label">{s.label}</div>
+                <div class="player-stat-sub">{s.sub}</div>
+              </div>
+            ))}
+          </div>
+
+          <div class="audience-heading">
+            <div class="kicker" style="margin-bottom: 0.5rem">Traffic share — top markets</div>
+            <p class="audience-note">English-speaking, tournament-active hobbyists. US + UK + AU + CA carry the bulk of engagement.</p>
+          </div>
+
+          <div class="audience-list">
+            {audience.map((a) => (
+              <div class="audience-row">
+                <span class="audience-flag">{a.flag}</span>
+                <span class="audience-name">{a.name}</span>
+                <div class="audience-bar-wrap">
+                  <div class="audience-bar" style={`width: ${(a.pct / maxPct) * 100}%`}></div>
+                </div>
+                <span class="audience-val">{a.pct.toFixed(1)}%</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 5. WHY NOW ============ -->
+      <section class="slide" data-slide="4">
+        <div class="slide-inner slide-inner-center">
+          <div class="kicker-big">Why now</div>
+          <h2 class="title-xxl">
+            The Old World could be
+            <span class="gold">the fastest-growing</span>
+            Games Workshop system.
+          </h2>
+          <p class="lead">
+            Trending to surpass Age of Sigmar as the <span class="white-bold">#2 GW game</span> by engaged-player base within 12 months.
+            Low CPM today. Way more expensive tomorrow.
+          </p>
+
+          <div class="why-stats">
+            <div class="why-stat"><div class="why-big">3.4×</div><div class="why-label">User growth in 5 months</div></div>
+            <div class="why-stat"><div class="why-big">#1</div><div class="why-label">TOW rankings platform</div></div>
+            <div class="why-stat"><div class="why-big">Low</div><div class="why-label">CPM today vs 12 months out</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 6. PLACEMENTS ============ -->
+      <section class="slide" data-slide="5">
+        <div class="slide-inner">
+          <div class="kicker">Placements</div>
+          <h2 class="title-xl">
+            Built for the <span class="gold">hobby.</span>
+          </h2>
+          <p class="lead-tight">
+            Static image ads. Max 3 sponsors per slot per region. Served from our CDN.
+            No third-party networks, no pop-ups, no retargeting.
+            <span class="pro-note">* OWR Pro members get an ad-free experience — ads shown to free users only.</span>
+          </p>
+
+          <div class="placement-split">
+            <div class="placement-grid">
+              {placements.map((p) => (
+                <div class="placement-card">
+                  <button type="button" class="placement-img-wrap zoomable" data-zoom-src={p.img} data-zoom-caption={p.title}>
+                    <img src={p.img} alt={p.title} loading="lazy" />
+                    <span class="zoom-hint" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6M8 11h6"/></svg>
+                    </span>
+                  </button>
+                  <div class="placement-body">
+                    <div class="placement-title gold">{p.title}</div>
+                    <div class="placement-desc">{p.desc}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div class="mobile-col">
+              <div class="mobile-kicker">On mobile too</div>
+              <div class="mobile-grid">
+                {mobilePlacements.map((p) => (
+                  <div class="mobile-card">
+                    <button type="button" class="mobile-img-wrap zoomable" data-zoom-src={p.img} data-zoom-caption={p.title}>
+                      <img src={p.img} alt={p.title} loading="lazy" />
+                    </button>
+                    <div class="mobile-label">{p.title}</div>
+                  </div>
+                ))}
+              </div>
+              <div class="mobile-kicker" style="margin-top: 0.5rem">Army list detail · 728×90</div>
+              <div class="dialog-card">
+                <button type="button" class="dialog-img-wrap zoomable" data-zoom-src="/images/sponsor/armylist-dialog.png" data-zoom-caption="Army list detail modal">
+                  <img src="/images/sponsor/armylist-dialog.png" alt="Army list detail modal" loading="lazy" />
+                </button>
+                <div class="dialog-label">Highest-intent moment — inside every army-list modal</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 7. PRICING ============ -->
+      <section class="slide" data-slide="6">
+        <div class="slide-inner">
+          <div class="kicker">Pricing · launch rates</div>
+          <h2 class="title-xl">
+            Launch pricing. <span class="gold">Locked for first-wave sponsors.</span>
+          </h2>
+          <p class="lead-tight">
+            These are introductory rates to fill initial inventory. First-wave sponsors lock these prices for the life of the contract — future rates go up as traffic, sign-ups and retention data come in.
+          </p>
+
+          <div class="pricing-table">
+            <div class="pricing-header">
+              <div class="pricing-cell">Package</div>
+              <div class="pricing-cell pricing-right">Launch rate</div>
+              <div class="pricing-cell pricing-right">Slots</div>
+            </div>
+            {pricing.map((row) => (
+              <div class="pricing-row">
+                <div class="pricing-cell pricing-pkg">
+                  <span class="pricing-flags">{row.flags.join(' ')}</span>
+                  <span>{row.pkg}</span>
+                </div>
+                <div class="pricing-cell pricing-right pricing-price">{row.price}</div>
+                <div class="pricing-cell pricing-right pricing-slots">{row.slots}</div>
+              </div>
+            ))}
+          </div>
+
+          <div class="discount-row">
+            <div class="discount-card">
+              <div class="discount-title gold">Bundle discount</div>
+              <ul class="discount-list">
+                <li>3 months — <span class="gold">10% off</span></li>
+                <li>6 months — <span class="gold">15% off</span></li>
+                <li>12 months — <span class="gold">20% off</span> + footer logo in event emails</li>
+                <li>Affiliate link? Extra <span class="gold">15% off</span> any tier</li>
+              </ul>
+            </div>
+            <div class="discount-card">
+              <div class="discount-title gold">Included free</div>
+              <ul class="discount-list">
+                <li>Logo on public Sponsors page</li>
+                <li>UTM tracking on every link out</li>
+                <li>Creative help if you need it</li>
+                <li>Launch in 7–10 days</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 8. CLOSE ============ -->
+      <section class="slide" data-slide="7">
+        <div class="slide-inner slide-inner-center">
+          <div class="kicker-big">Next step</div>
+          <h2 class="title-xxl">Let's do this.</h2>
+          <p class="lead">
+            First-wave slots are filling — no hard-sell, just first-come, first-served.
+            Pick the channel that suits you.
+          </p>
+          <div class="cta-row">
+            <a href="mailto:sponsors@oldworldrankings.com?subject=OWR%20Sponsor%20Slot%20%E2%80%94%20Interested" class="cta-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>
+              Email us
+            </a>
+            <button type="button" data-action="banshee-open" class="cta-btn cta-btn-outline">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" /><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /><path d="M12 17h.01" /></svg>
+              Chat with us
+            </button>
+          </div>
+          <div class="close-foot">
+            <p>Old World Rankings · oldworldrankings.com</p>
+            <p>The rankings, tournaments and army-list platform for Warhammer: The Old World.</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Prev / Next -->
+    <button id="prev-btn" class="nav-btn nav-prev" aria-label="Previous slide">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6" /></svg>
+    </button>
+    <button id="next-btn" class="nav-btn nav-next" aria-label="Next slide">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6" /></svg>
+    </button>
+
+    <!-- Counter / mobile next pill -->
+    <button type="button" class="slide-counter" id="slide-counter" aria-label="Next slide">
+      <span id="slide-counter-text">01 / 08</span>
+      <span class="slide-counter-next" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </span>
+    </button>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-hidden="true">
+      <button id="lightbox-close" class="lightbox-close" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12" /></svg>
+      </button>
+      <img id="lightbox-img" class="lightbox-img" alt="" />
+      <div id="lightbox-caption" class="lightbox-caption"></div>
+    </div>
+  </div>
+
+  <script is:inline define:vars={{ total: slides.length }}>
+    (function () {
+      const container = document.getElementById('slides-container');
+      const prevBtn = document.getElementById('prev-btn');
+      const nextBtn = document.getElementById('next-btn');
+      const menuItems = Array.from(document.querySelectorAll('[data-menu]'));
+      const counter = document.getElementById('slide-counter');
+      const counterText = document.getElementById('slide-counter-text');
+      let current = 0;
+
+      function pad2(n) { return String(n).padStart(2, '0'); }
+
+      function isVertical() { return window.matchMedia('(max-width: 700px)').matches; }
+
+      function go(idx) {
+        current = Math.max(0, Math.min(total - 1, idx));
+        if (isVertical()) {
+          container.style.transform = `translateY(-${current * 100}vh)`;
+        } else {
+          container.style.transform = `translateX(-${current * 100}vw)`;
+        }
+        menuItems.forEach((m, i) => {
+          m.classList.toggle('is-current', i === current);
+        });
+        counterText.textContent = `${pad2(current + 1)} / ${pad2(total)}`;
+        prevBtn.disabled = current === 0;
+        nextBtn.disabled = current === total - 1;
+        counter.disabled = current === total - 1;
+        if (history.replaceState) history.replaceState(null, '', `#${current + 1}`);
+      }
+
+      window.addEventListener('resize', () => go(current));
+
+      prevBtn.addEventListener('click', () => go(current - 1));
+      nextBtn.addEventListener('click', () => go(current + 1));
+      counter.addEventListener('click', () => { if (current < total - 1) go(current + 1); });
+      menuItems.forEach((m, i) => m.addEventListener('click', () => go(i)));
+
+      document.addEventListener('keydown', (e) => {
+        if (e.target.closest('input, textarea, [contenteditable]')) return;
+        if (document.getElementById('lightbox').classList.contains('is-open')) return;
+        if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); go(current + 1); }
+        else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(current - 1); }
+        else if (e.key === 'Home') go(0);
+        else if (e.key === 'End') go(total - 1);
+        else if (/^[1-9]$/.test(e.key)) { const n = parseInt(e.key, 10) - 1; if (n < total) go(n); }
+      });
+
+      let touchStartX = null, touchStartY = null;
+      container.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+      }, { passive: true });
+      container.addEventListener('touchend', (e) => {
+        if (touchStartX === null) return;
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        const dy = e.changedTouches[0].clientY - touchStartY;
+        const useY = isVertical();
+        const primary = useY ? dy : dx;
+        const cross = useY ? dx : dy;
+        if (Math.abs(primary) > 60 && Math.abs(primary) > Math.abs(cross) * 1.2) {
+          go(current + (primary < 0 ? 1 : -1));
+        }
+        touchStartX = null;
+        touchStartY = null;
+      }, { passive: true });
+
+      const hashMatch = window.location.hash.match(/^#(\d+)$/);
+      const initial = hashMatch ? parseInt(hashMatch[1], 10) - 1 : 0;
+      go(initial >= 0 && initial < total ? initial : 0);
+
+      // Banshee chat — trigger the same widget the main nav uses
+      document.querySelectorAll('[data-action="banshee-open"]').forEach((el) => {
+        el.addEventListener('click', (ev) => {
+          ev.preventDefault();
+          if (typeof window.banshee === 'function') {
+            window.banshee('open');
+          }
+        });
+      });
+
+      // Lightbox
+      const lb = document.getElementById('lightbox');
+      const lbImg = document.getElementById('lightbox-img');
+      const lbCaption = document.getElementById('lightbox-caption');
+      const lbClose = document.getElementById('lightbox-close');
+      function openLb(src, caption) {
+        lbImg.src = src;
+        lbCaption.textContent = caption || '';
+        lb.classList.add('is-open');
+        lb.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeLb() {
+        lb.classList.remove('is-open');
+        lb.setAttribute('aria-hidden', 'true');
+        lbImg.src = '';
+        document.body.style.overflow = '';
+      }
+      document.querySelectorAll('.zoomable').forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          openLb(btn.getAttribute('data-zoom-src'), btn.getAttribute('data-zoom-caption'));
+        });
+      });
+      lbClose.addEventListener('click', closeLb);
+      lb.addEventListener('click', (e) => { if (e.target === lb) closeLb(); });
+      document.addEventListener('keydown', (e) => {
+        if (lb.classList.contains('is-open') && e.key === 'Escape') { e.preventDefault(); closeLb(); }
+      });
+    })();
+  </script>
+
+  <style is:global>
+    html, body {
+      overflow: hidden;
+      overscroll-behavior: none;
+      background: #1c1c1c;
+    }
+
+    /* ========== Layout root ========== */
+    #deck {
+      position: fixed;
+      inset: 0;
+      background: #1c1c1c;
+      color: #fff;
+      font-family: 'Montserrat', system-ui, sans-serif;
+      user-select: none;
+      overflow: hidden;
+    }
+
+    /* ========== Top header / menu ========== */
+    .deck-header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 1.25rem 2rem;
+      background: linear-gradient(to bottom, rgba(28,28,28,0.95), rgba(28,28,28,0.7) 70%, transparent);
+      border-bottom: 1px solid rgba(255, 215, 0, 0.15);
+    }
+    .deck-logo img {
+      height: 38px;
+      width: auto;
+      opacity: 0.9;
+    }
+    .deck-menu {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      flex: 1;
+      justify-content: center;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .deck-menu::-webkit-scrollbar { display: none; }
+    .deck-menu-item {
+      background: transparent;
+      border: none;
+      color: rgba(255,255,255,0.45);
+      padding: 0.5rem 0.9rem;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      border-bottom: 2px solid transparent;
+      display: flex;
+      align-items: baseline;
+      gap: 0.4rem;
+      white-space: nowrap;
+      transition: color 0.15s ease, border-color 0.15s ease;
+    }
+    .deck-menu-item:hover {
+      color: #FFD700;
+    }
+    .deck-menu-item.is-current {
+      color: #FFD700;
+      border-bottom-color: #FFD700;
+    }
+    .deck-menu-num {
+      font-size: 0.62rem;
+      opacity: 0.6;
+      letter-spacing: 0.1em;
+      font-weight: 700;
+    }
+    .deck-menu-item.is-current .deck-menu-num { opacity: 1; }
+    .deck-kicker {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      color: rgba(255, 215, 0, 0.75);
+      font-weight: 700;
+    }
+
+    /* ========== Slides track ========== */
+    .slides-track {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+      will-change: transform;
+    }
+    .slide {
+      flex: 0 0 100vw;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6rem 4rem 3rem;
+      box-sizing: border-box;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+    }
+    .slide-inner { min-width: 0; }
+    @media (max-width: 900px) {
+      .slide {
+        padding: 5rem 1.25rem 4rem;
+        align-items: flex-start;
+      }
+    }
+    @media (max-width: 700px) {
+      .slides-track { flex-direction: column; }
+      .slide { flex: 0 0 100vh; height: 100vh; width: 100vw; }
+    }
+    .slide-inner {
+      width: 100%;
+      max-width: 1200px;
+    }
+    .slide-inner-center {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 1000px;
+    }
+
+    /* ========== Typography ========== */
+    .kicker {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      color: #FFD700;
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+    }
+    .kicker-big {
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.35em;
+      color: #FFD700;
+      font-weight: 700;
+      margin-bottom: 1.75rem;
+    }
+    .title-xl {
+      font-size: clamp(2.4rem, 5vw, 4.2rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin: 0 0 1.5rem;
+      max-width: 22ch;
+    }
+    .title-xxl {
+      font-size: clamp(3rem, 6.5vw, 5.5rem);
+      font-weight: 800;
+      line-height: 1.03;
+      letter-spacing: -0.025em;
+      margin: 0 0 1.75rem;
+      max-width: 18ch;
+    }
+    .slide-inner-center .title-xl,
+    .slide-inner-center .title-xxl {
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .lead {
+      font-size: clamp(1.1rem, 1.6vw, 1.5rem);
+      color: #cbd5e1;
+      line-height: 1.55;
+      max-width: 46rem;
+      margin: 0 auto 1.5rem;
+    }
+    .lead-tight {
+      font-size: clamp(1rem, 1.3vw, 1.2rem);
+      color: #cbd5e1;
+      line-height: 1.55;
+      max-width: 56rem;
+      margin: 0 0 2rem;
+    }
+    .gold { color: #FFD700; }
+    .white-bold { color: #fff; font-weight: 700; }
+
+    /* ========== Cover specifics ========== */
+    .cover-logo {
+      height: 120px;
+      width: auto;
+      margin-bottom: 1.75rem;
+      filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.3));
+    }
+    .hint {
+      margin-top: 2.5rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255, 215, 0, 0.7);
+    }
+
+    /* ========== Platform slide ========== */
+    .stat-row-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.75rem;
+    }
+    @media (max-width: 700px) {
+      .stat-row-3 { grid-template-columns: 1fr; gap: 0.5rem; margin-bottom: 1rem; }
+      .stat-card { padding: 0.75rem 1rem; }
+      .stat-big { font-size: 1.75rem; }
+      .stat-label { font-size: 0.85rem; }
+    }
+    .stat-card {
+      display: block;
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.06), transparent);
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s ease;
+    }
+    a.stat-card:hover {
+      border-color: rgba(255, 215, 0, 0.7);
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.12), rgba(255, 215, 0, 0.02));
+      transform: translateY(-2px);
+    }
+    .stat-big {
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 800;
+      color: #FFD700;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+    .stat-label {
+      font-size: 0.95rem;
+      color: #94a3b8;
+      margin-top: 0.5rem;
+    }
+    .pillar-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+    }
+    @media (max-width: 900px) {
+      .pillar-row { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 520px) {
+      .pillar-row { grid-template-columns: 1fr; }
+    }
+    .pillar {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.35rem;
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 0.6rem;
+      padding: 1rem 1.15rem;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s ease;
+    }
+    .pillar-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 0.5rem;
+      background: rgba(255, 215, 0, 0.1);
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFD700;
+      margin-bottom: 0.35rem;
+      transition: background 0.15s ease;
+    }
+    a.pillar:hover .pillar-icon {
+      background: rgba(255, 215, 0, 0.2);
+    }
+    .pillar-icon svg {
+      width: 20px;
+      height: 20px;
+    }
+    a.pillar:hover {
+      border-color: rgba(255, 215, 0, 0.7);
+      background: rgba(255, 255, 255, 0.04);
+      transform: translateY(-2px);
+    }
+    .pillar-title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+    .pillar-desc {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      line-height: 1.4;
+    }
+
+    /* ========== Traffic slide ========== */
+    .traffic-split {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 3rem;
+      align-items: center;
+    }
+    .stat-stack { display: flex; flex-direction: column; gap: 0.75rem; }
+    .stat-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding-bottom: 0.65rem;
+    }
+    .stat-row-big {
+      font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+      font-weight: 800;
+      color: #FFD700;
+      font-variant-numeric: tabular-nums;
+    }
+    .stat-row-label {
+      font-size: 0.95rem;
+      color: #94a3b8;
+      text-align: right;
+    }
+    .chart-wrap {}
+    .chart-kicker {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      color: #FFD700;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .chart-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 0.75rem;
+      height: 260px;
+    }
+    .chart-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      height: 100%;
+      justify-content: flex-end;
+    }
+    .chart-val {
+      font-size: 0.8rem;
+      color: #cbd5e1;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+    .chart-bar {
+      width: 100%;
+      background: linear-gradient(to top, #DAA520, #FFD700);
+      border-radius: 4px 4px 0 0;
+      min-height: 12px;
+      transition: height 0.7s ease;
+    }
+    .chart-month {
+      font-size: 0.75rem;
+      color: #64748b;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    @media (max-width: 900px) {
+      .traffic-split { grid-template-columns: 1fr; gap: 2rem; }
+      .chart-bars { height: 180px; }
+    }
+
+    /* ========== Audience / Players slide ========== */
+    .player-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .player-stat-card {
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.06), transparent);
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+    }
+    .player-stat-big {
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 800;
+      color: #FFD700;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+      margin-bottom: 0.5rem;
+    }
+    .player-stat-label {
+      font-size: 1rem;
+      color: #e2e8f0;
+      font-weight: 600;
+      line-height: 1.3;
+      margin-bottom: 0.35rem;
+    }
+    .player-stat-sub {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      line-height: 1.35;
+    }
+    .audience-heading { margin-bottom: 1rem; }
+    .audience-note {
+      font-size: 1rem;
+      color: #cbd5e1;
+      margin: 0;
+      line-height: 1.45;
+    }
+    @media (max-width: 900px) {
+      .player-stats { grid-template-columns: 1fr; gap: 0.6rem; }
+      .player-stat-card { padding: 1rem; }
+    }
+    .audience-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-width: 900px;
+    }
+    .audience-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .audience-flag {
+      font-size: 1.75rem;
+      width: 2.5rem;
+      text-align: center;
+    }
+    .audience-name {
+      width: 180px;
+      font-size: 1rem;
+      color: #e2e8f0;
+    }
+    .audience-bar-wrap {
+      flex: 1;
+      background: rgba(255,255,255,0.05);
+      height: 28px;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .audience-bar {
+      height: 100%;
+      background: linear-gradient(to right, #DAA520, #FFD700);
+      border-radius: 4px;
+    }
+    .audience-val {
+      width: 80px;
+      text-align: right;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #FFD700;
+      font-variant-numeric: tabular-nums;
+    }
+    @media (max-width: 700px) {
+      .audience-name { width: 90px; font-size: 0.8rem; }
+      .audience-flag { font-size: 1.3rem; width: 2rem; }
+      .audience-row { gap: 0.5rem; }
+      .audience-val { width: 55px; font-size: 0.85rem; }
+    }
+
+    /* ========== Why Now slide ========== */
+    .why-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      margin-top: 2rem;
+      max-width: 900px;
+      width: 100%;
+    }
+    .why-stat {
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 0.75rem;
+      padding: 1.75rem 1rem;
+    }
+    .why-big {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 800;
+      color: #FFD700;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+    .why-label {
+      font-size: 0.9rem;
+      color: #94a3b8;
+      line-height: 1.3;
+    }
+    @media (max-width: 700px) {
+      .why-stats { grid-template-columns: 1fr; }
+    }
+
+    /* ========== Placements slide ========== */
+    .pro-note {
+      display: block;
+      margin-top: 0.6rem;
+      color: #94a3b8;
+      font-size: 0.85rem;
+      font-style: italic;
+    }
+    .placement-split {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 320px;
+      gap: 1.5rem;
+      align-items: start;
+    }
+    .placement-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+    .mobile-col {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .mobile-kicker {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: #FFD700;
+      font-weight: 700;
+    }
+    .mobile-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+    .mobile-card {
+      border: 1px solid rgba(255, 215, 0, 0.25);
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 0.6rem;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .mobile-img-wrap {
+      aspect-ratio: 9 / 19.5;
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.4);
+    }
+    .mobile-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+    }
+    .mobile-label {
+      padding: 0.5rem 0.6rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #FFD700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      text-align: center;
+    }
+    .dialog-card {
+      border: 1px solid rgba(255, 215, 0, 0.25);
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 0.6rem;
+      overflow: hidden;
+    }
+    .dialog-img-wrap {
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.4);
+    }
+    .dialog-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+    }
+    .dialog-label {
+      padding: 0.5rem 0.7rem;
+      font-size: 0.72rem;
+      color: #cbd5e1;
+      text-align: center;
+      line-height: 1.35;
+    }
+    @media (max-width: 1100px) {
+      .placement-split { grid-template-columns: 1fr; }
+      .mobile-grid { grid-template-columns: repeat(2, 1fr); }
+      .mobile-col { flex-direction: column; }
+    }
+    @media (max-width: 700px) {
+      .placement-grid { grid-template-columns: 1fr; }
+      .mobile-img-wrap { aspect-ratio: 9 / 17; }
+    }
+    .placement-card {
+      border: 1px solid rgba(255, 215, 0, 0.25);
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 0.75rem;
+      overflow: hidden;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+    .placement-card:hover {
+      border-color: rgba(255, 215, 0, 0.7);
+      background: rgba(255, 255, 255, 0.04);
+    }
+    .placement-img-wrap {
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: rgba(0,0,0,0.4);
+    }
+    .placement-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+    }
+    .placement-body {
+      padding: 1rem 1.25rem;
+    }
+    .placement-title {
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.35rem;
+    }
+    .placement-desc {
+      font-size: 0.9rem;
+      color: #94a3b8;
+      line-height: 1.45;
+    }
+    @media (max-width: 900px) {
+      .placement-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ========== Pricing slide ========== */
+    .pricing-table {
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      border-radius: 0.75rem;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+    .pricing-header {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      background: rgba(0,0,0,0.4);
+      color: #FFD700;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 700;
+    }
+    .pricing-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .pricing-row:nth-child(odd) { background: rgba(255,255,255,0.015); }
+    .pricing-row:hover { background: rgba(255, 215, 0, 0.05); }
+    .pricing-cell { padding: 0.9rem 1rem; font-size: 1rem; }
+    .pricing-right { text-align: right; }
+    .pricing-pkg {
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .pricing-flags {
+      font-size: 1.15rem;
+      letter-spacing: 0.15rem;
+      white-space: nowrap;
+    }
+    .pricing-price {
+      color: #FFD700;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .pricing-slots {
+      color: #94a3b8;
+      white-space: nowrap;
+    }
+    .discount-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .discount-card {
+      border: 1px solid rgba(255, 215, 0, 0.25);
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 0.75rem;
+      padding: 1.25rem 1.4rem;
+    }
+    .discount-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+    .discount-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: 0.95rem;
+      color: #e2e8f0;
+    }
+    .discount-list li {
+      padding: 0.25rem 0;
+    }
+    @media (max-width: 900px) {
+      .discount-row { grid-template-columns: 1fr; }
+      .pricing-cell { font-size: 0.88rem; padding: 0.7rem 0.75rem; }
+    }
+    @media (max-width: 640px) {
+      .pricing-header { display: none; }
+      .pricing-row {
+        grid-template-columns: 1fr;
+        padding: 0.75rem 0.25rem;
+        gap: 0.25rem;
+      }
+      .pricing-row .pricing-cell { padding: 0.25rem 0.75rem; }
+      .pricing-right { text-align: left; }
+      .pricing-price::before {
+        content: 'Launch rate: ';
+        color: #94a3b8;
+        font-weight: 500;
+      }
+      .pricing-slots::before {
+        content: 'Slots: ';
+        color: #94a3b8;
+      }
+    }
+
+    /* ========== Close slide ========== */
+    .cta-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 1.25rem 0 1.5rem;
+    }
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: #FFD700;
+      color: #1c1c1c;
+      font-weight: 700;
+      padding: 1.1rem 2rem;
+      font-size: 1.1rem;
+      border-radius: 9999px;
+      text-decoration: none;
+      box-shadow: 0 0 40px rgba(255, 215, 0, 0.35);
+      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+      border: 2px solid transparent;
+    }
+    .cta-btn:hover { background: #DAA520; }
+    .cta-btn svg {
+      width: 22px;
+      height: 22px;
+    }
+    .cta-btn-outline {
+      background: transparent;
+      color: #FFD700;
+      border-color: rgba(255, 215, 0, 0.6);
+      box-shadow: none;
+    }
+    .cta-btn-outline:hover {
+      background: rgba(255, 215, 0, 0.12);
+      border-color: #FFD700;
+      color: #FFD700;
+    }
+    .close-foot {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 215, 0, 0.2);
+      color: #64748b;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+    .close-foot p { margin: 0.2rem 0; }
+
+    /* ========== Nav buttons ========== */
+    .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 30;
+      width: 48px;
+      height: 48px;
+      border-radius: 9999px;
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      background: rgba(28, 28, 28, 0.75);
+      backdrop-filter: blur(6px);
+      color: #FFD700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s, opacity 0.15s;
+    }
+    .nav-btn:hover { background: #FFD700; color: #1c1c1c; }
+    .nav-btn svg { width: 20px; height: 20px; }
+    .nav-prev { left: 1.25rem; }
+    .nav-next { right: 1.25rem; }
+    .nav-btn:disabled {
+      opacity: 0;
+      pointer-events: none;
+    }
+    @media (max-width: 700px) {
+      .nav-btn { display: none; }
+    }
+
+    /* ========== Counter ========== */
+    .slide-counter {
+      position: absolute;
+      bottom: 1.25rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+      font-size: 0.8rem;
+      color: #FFD700;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      font-variant-numeric: tabular-nums;
+      background: rgba(28, 28, 28, 0.8);
+      border: 1px solid rgba(255, 215, 0, 0.25);
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      backdrop-filter: blur(6px);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+    .slide-counter:hover {
+      background: rgba(255, 215, 0, 0.12);
+      border-color: #FFD700;
+    }
+    .slide-counter:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+    .slide-counter-next {
+      display: none;
+    }
+    .slide-counter-next svg { width: 14px; height: 14px; }
+    @media (max-width: 700px) {
+      .slide-counter-next { display: inline-flex; }
+    }
+
+    /* ========== Lightbox ========== */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    .lightbox.is-open {
+      display: flex;
+      opacity: 1;
+    }
+    .lightbox-img {
+      max-width: 90vw;
+      max-height: 85vh;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 0.5rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+    }
+    .lightbox-caption {
+      position: absolute;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #FFD700;
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      background: rgba(28, 28, 28, 0.8);
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      padding: 0.5rem 1.25rem;
+      border-radius: 9999px;
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      width: 48px;
+      height: 48px;
+      border-radius: 9999px;
+      border: 1px solid rgba(255, 215, 0, 0.4);
+      background: rgba(28, 28, 28, 0.9);
+      color: #FFD700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+    .lightbox-close:hover { background: #FFD700; color: #1c1c1c; }
+    .lightbox-close svg { width: 22px; height: 22px; }
+
+    /* Zoomable buttons */
+    button.zoomable {
+      background: transparent;
+      border: none;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      cursor: zoom-in;
+      display: block;
+      position: relative;
+    }
+    button.zoomable img { display: block; }
+    .zoom-hint {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      width: 32px;
+      height: 32px;
+      border-radius: 9999px;
+      background: rgba(28, 28, 28, 0.7);
+      border: 1px solid rgba(255, 215, 0, 0.4);
+      color: #FFD700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+      pointer-events: none;
+    }
+    button.zoomable:hover .zoom-hint,
+    button.zoomable:focus-visible .zoom-hint {
+      opacity: 1;
+    }
+    .zoom-hint svg { width: 16px; height: 16px; }
+
+    /* ========== Responsive header / controls ========== */
+    @media (max-width: 1100px) {
+      .deck-kicker { display: none; }
+    }
+    @media (max-width: 700px) {
+      .deck-header { padding: 0.5rem 0.75rem; gap: 0.5rem; }
+      .deck-menu-item { padding: 0.3rem 0.45rem; font-size: 0.68rem; letter-spacing: 0.02em; }
+      .deck-menu-num { display: none; }
+      .deck-logo img { height: 26px; }
+      .slide-counter { bottom: 0.75rem; font-size: 0.72rem; padding: 0.35rem 0.75rem; }
+    }
+    @media (max-width: 500px) {
+      .deck-menu-item { padding: 0.25rem 0.35rem; font-size: 0.62rem; }
+    }
+    @media (max-width: 700px) {
+      .cta-btn { padding: 0.9rem 1.4rem; font-size: 1rem; }
+      .cta-row { gap: 0.6rem; }
+      .lightbox { padding: 1rem; }
+      .lightbox-close { top: 0.75rem; right: 0.75rem; width: 40px; height: 40px; }
+      .lightbox-img { max-height: 80vh; max-width: 95vw; }
+    }
+  </style>
+</Layout>

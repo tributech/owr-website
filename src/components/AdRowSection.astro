@@ -1,0 +1,21 @@
+---
+/**
+ * Two leaderboard ad placeholders side-by-side, shown mid-homepage.
+ * Stacks on mobile.
+ */
+import AdUnit from './AdUnit.astro';
+---
+
+<section class="bg-owr-black py-12 sm:py-16 border-y border-owr-gold/20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-center gap-3 mb-4">
+      <span class="text-[10px] font-semibold uppercase tracking-widest text-gray-400">
+        Sponsored
+      </span>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 place-items-center">
+      <AdUnit format="leaderboard" theme="dark" />
+      <AdUnit format="leaderboard" theme="dark" />
+    </div>
+  </div>
+</section>

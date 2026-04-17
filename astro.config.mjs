@@ -6,7 +6,12 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   site: 'https://www.oldworldrankings.com',
-  integrations: [react(), sitemap()],
+  integrations: [
+    react(),
+    sitemap({
+      filter: (page) => !page.includes('/sponsor-deck'),
+    }),
+  ],
   vite: {
     plugins: [tailwindcss()],
     server: {

@@ -21,6 +21,7 @@ const resourceLinks = [
   { label: 'Roadmap', href: '/roadmap' },
   { label: 'Support', href: '/support' },
   { label: 'Status', href: 'https://status.oldworldrankings.com', external: true },
+  { label: 'Sponsor OWR', href: '/sponsor-deck', nofollow: true },
 ];
 
 const legalLinks = [
@@ -89,6 +90,7 @@ const legalLinks = [
                 href={link.href}
                 class="text-sm text-gray-400 hover:text-white transition-colors"
                 {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                {...(link.nofollow ? { rel: 'nofollow' } : {})}
               >
                 {link.label}
               </a>

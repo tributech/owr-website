@@ -1,0 +1,59 @@
+---
+/**
+ * Placeholder ad slot for advertiser outreach. Mirrors the AdUnit mockup
+ * in the Rails app — dashed gold border with "Your Ad Here" label.
+ *
+ * Supported formats:
+ *   - skyscraper  (160×600) — floating right column
+ *   - leaderboard (728×90)  — wide horizontal row
+ *   - medium      (300×250) — card-style, good for grids
+ */
+interface Props {
+  format?: 'skyscraper' | 'leaderboard' | 'medium';
+  height?: string;
+  class?: string;
+  theme?: 'light' | 'dark';
+}
+
+const { format = 'medium', height, class: className = '', theme = 'light' } = Astro.props;
+
+const dimensions = {
+  skyscraper: { minHeight: '600px', aspectRatio: '160 / 600', maxWidth: '160px' },
+  leaderboard: { minHeight: '90px', aspectRatio: '728 / 90', maxWidth: '728px' },
+  medium: { minHeight: '250px', aspectRatio: '300 / 250', maxWidth: '300px' },
+}[format];
+
+const resolvedHeight = height ?? dimensions.minHeight;
+
+const borderClasses = 'border-owr-gold/50 bg-owr-gold/5';
+
+const labelClasses = 'text-owr-gold';
+
+const subClasses = theme === 'dark' ? 'text-gray-300' : 'text-gray-500';
+---
+
+<div
+  class:list={[
+    'ad-unit flex items-center justify-center border-2 border-dashed rounded-lg',
+    borderClasses,
+    className,
+  ]}
+  style={{
+    minHeight: resolvedHeight,
+    aspectRatio: dimensions.aspectRatio,
+    maxWidth: dimensions.maxWidth,
+    width: '100%',
+  }}
+  data-ad-format={format}
+  role="complementary"
+  aria-label="Advertisement placeholder"
+>
+  <div class="text-center px-4 py-2">
+    <p class:list={['font-semibold text-sm uppercase tracking-wider', labelClasses]}>
+      Your Ad Here
+    </p>
+    <p class:list={['text-xs mt-1', subClasses]}>
+      Contact us to advertise
+    </p>
+  </div>
+</div>

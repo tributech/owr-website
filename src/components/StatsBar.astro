@@ -3,11 +3,13 @@
  * Stats bar showing platform numbers.
  * Fetched client-side from the Rails API — falls back to placeholder dashes.
  */
+const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com';
+
 const stats = [
-  { label: 'Active Players', icon: 'users' },
-  { label: 'Tournaments', icon: 'trophy' },
-  { label: 'Army Lists', icon: 'swords' },
-  { label: 'Regions', icon: 'map-pin' },
+  { label: 'Active Players', icon: 'users', href: `${APP_URL}/global_rankings` },
+  { label: 'Tournaments', icon: 'trophy', href: `${APP_URL}/latest` },
+  { label: 'Army Lists', icon: 'swords', href: `${APP_URL}/army_lists` },
+  { label: 'Regions', icon: 'map-pin', href: '/#regions' },
 ];
 ---
 
@@ -15,14 +17,17 @@ const stats = [
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <div class="grid grid-cols-2 md:grid-cols-4 gap-8" id="stats-bar">
       {stats.map((stat) => (
-        <div class="text-center">
+        <a
+          href={stat.href}
+          class="group text-center rounded-lg p-2 -m-2 transition-colors hover:bg-gray-50 dark:hover:bg-gray-700/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-owr-gold"
+        >
           <div class="flex items-center justify-center mb-2">
-            <span class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white" data-stat={stat.icon}>
+            <span class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white group-hover:text-owr-gold-dark dark:group-hover:text-owr-gold transition-colors" data-stat={stat.icon}>
               &mdash;
             </span>
           </div>
-          <p class="text-sm text-gray-500 dark:text-gray-400">{stat.label}</p>
-        </div>
+          <p class="text-sm text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">{stat.label}</p>
+        </a>
       ))}
     </div>
   </div>

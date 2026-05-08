@@ -18,6 +18,7 @@
     "astro": "^5.16.6",
     "chart.js": "^4.5.1",
     "contentful": "^11.10.3",
+    "devices.css": "^0.2.0",
     "react": "^19.2.4",
     "react-chartjs-2": "^5.3.1",
     "react-dom": "^19.2.4",

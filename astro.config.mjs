@@ -9,7 +9,10 @@ export default defineConfig({
   integrations: [
     react(),
     sitemap({
-      filter: (page) => !page.includes('/sponsor-deck') && !page.includes('/sponsor-contract'),
+      filter: (page) =>
+        !page.includes('/sponsor-deck') &&
+        !page.includes('/sponsor-contract') &&
+        !page.includes('/become-a-tester'),
     }),
   ],
   vite: {

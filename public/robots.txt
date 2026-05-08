@@ -3,5 +3,7 @@ Allow: /
 Disallow: /sponsor-deck
 Disallow: /sponsor-contract
 Disallow: /images/sponsor/
+Disallow: /become-a-tester
+Disallow: /become-a-tester-thanks
 
 Sitemap: https://www.oldworldrankings.com/sitemap-index.xml

@@ -68,7 +68,14 @@ export async function getStaticPaths() {
     }
   }
 
-  return articles.map((article) => {
+  // Skip articles whose category link is missing or unpublished — Contentful
+  // returns the link without `fields` resolved, which would crash rendering.
+  const renderableArticles = articles.filter((article) => {
+    const category = article.fields.category as DocCategoryEntry | undefined;
+    return Boolean(category?.fields?.title);
+  });
+
+  return renderableArticles.map((article) => {
     const category = article.fields.category as DocCategoryEntry;
     const related = (article.fields.relatedArticles || []) as DocArticleEntry[];
 

@@ -297,6 +297,57 @@ function renderBody(doc) {
   return { mjml: mjmlChunks.join('\n\n'), text };
 }
 
+// Header section: small caps "OWR Newsletter, <Month YYYY>", title, preheader, hero image.
+// Sits above the rich-text body so the email opens with proper context
+// (and the Rails layout can keep its top-of-email logo/banner small).
+function renderHeader() {
+  const date = new Date(fields.publishedAt);
+  const monthYear = date.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+
+  const heroUrl = absUrl(fields.heroImagePath);
+  const heroBlock = heroUrl
+    ? `<mj-section padding="20px 0 24px 0" background-color="#ffffff">
+  <mj-column>
+    <mj-image src="${escapeHtml(heroUrl)}" alt="${escapeHtml(fields.title)}" border-radius="6px" padding="0" />
+  </mj-column>
+</mj-section>`
+    : '';
+
+  const preheaderBlock = fields.preheader
+    ? `<mj-section padding="0 25px 4px 25px" background-color="#ffffff">
+  <mj-column>
+    <mj-text font-size="16px" color="#666" align="center" line-height="1.5">${escapeHtml(fields.preheader)}</mj-text>
+  </mj-column>
+</mj-section>`
+    : '';
+
+  return `<mj-section padding="20px 25px 0 25px" background-color="#ffffff">
+  <mj-column>
+    <mj-text align="center" font-size="12px" font-weight="700" letter-spacing="2px" color="#DAA520" text-transform="uppercase">OWR Newsletter, ${escapeHtml(monthYear)}</mj-text>
+    <mj-text align="center" font-size="28px" font-weight="bold" color="#1C1C1C" line-height="1.2" padding-top="8px">${escapeHtml(fields.title)}</mj-text>
+  </mj-column>
+</mj-section>
+
+${preheaderBlock}
+
+${heroBlock}`.trim();
+}
+
+function renderHeaderText() {
+  const date = new Date(fields.publishedAt);
+  const monthYear = date.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+  const lines = [
+    `OWR NEWSLETTER, ${monthYear.toUpperCase()}`,
+    '',
+    fields.title,
+  ];
+  if (fields.preheader) lines.push('', fields.preheader);
+  if (fields.heroImagePath) {
+    lines.push('', `[Hero image: ${absUrl(fields.heroImagePath)}]`);
+  }
+  return lines.join('\n');
+}
+
 // ---- Plain-text walker ----
 
 function renderText(doc) {
@@ -366,7 +417,11 @@ function renderTextEmbed(node) {
 
 // --- Output ---
 
-const { mjml: mjmlBody, text: textBody } = renderBody(fields.body);
+const { mjml: bodyMjml, text: bodyText } = renderBody(fields.body);
+const headerMjml = renderHeader();
+const headerText = renderHeaderText();
+const mjmlBody = `${headerMjml}\n\n${bodyMjml}`;
+const textBody = `${headerText}\n\n${bodyText}`;
 
 const sidecar = {
   slug: fields.slug,

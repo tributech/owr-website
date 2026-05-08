@@ -1,0 +1,65 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import { NEWSLETTERS, formatNewsletterDate } from '../../lib/newsletters';
+
+const issues = [...NEWSLETTERS].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
+---
+
+<Layout
+  title="Newsletter | Old World Rankings"
+  description="The OWR newsletter. Tournament highlights, platform updates, and community shoutouts from across the Old World."
+>
+  <Nav />
+
+  <main class="pt-24 pb-16 bg-white dark:bg-[#0a0c10] min-h-screen">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <!-- Header -->
+      <div class="text-center mb-12">
+        <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">Newsletter</h1>
+        <p class="text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
+          Tournament highlights, platform updates, and community shoutouts from across the Old World.
+        </p>
+      </div>
+
+      {issues.length > 0 ? (
+        <div class="space-y-4">
+          {issues.map((issue) => (
+            <a
+              href={`/newsletter/${issue.slug}`}
+              class="group flex flex-col sm:flex-row rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-white/[0.03] overflow-hidden hover:border-gray-400 dark:hover:border-gray-600 transition-colors"
+            >
+              <div class="relative sm:w-64 md:w-72 flex-shrink-0 aspect-[16/9] sm:aspect-auto overflow-hidden bg-gray-100 dark:bg-gray-900">
+                <img
+                  src={issue.heroImage}
+                  alt={issue.title}
+                  class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300"
+                />
+              </div>
+              <div class="p-4 sm:py-5 sm:px-6 flex flex-col justify-center min-w-0">
+                <p class="text-xs text-gray-500 dark:text-gray-400 mb-2 uppercase tracking-wider font-medium">
+                  {formatNewsletterDate(issue.publishedAt)}
+                </p>
+                <h2 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-owr-gold-dark transition-colors">
+                  {issue.title}
+                </h2>
+                <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
+                  {issue.preheader}
+                </p>
+              </div>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <div class="text-center py-16">
+          <p class="text-gray-500 text-lg">The first issue is on its way. Watch this space.</p>
+        </div>
+      )}
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

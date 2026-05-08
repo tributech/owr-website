@@ -87,3 +87,55 @@ export type InsightArticleEntry = Entry<
   undefined,
   string
 >;
+
+// ── imageReference ─────────────────────────────────────────────────
+export interface ImageReferenceSkeleton {
+  contentTypeId: 'imageReference';
+  fields: {
+    path: EntryFieldTypes.Symbol;
+    alt: EntryFieldTypes.Symbol;
+    caption?: EntryFieldTypes.Symbol;
+  };
+}
+
+export type ImageReferenceEntry = Entry<
+  ImageReferenceSkeleton,
+  undefined,
+  string
+>;
+
+// ── newsletterEmbed ────────────────────────────────────────────────
+export interface NewsletterEmbedSkeleton {
+  contentTypeId: 'newsletterEmbed';
+  fields: {
+    kind: EntryFieldTypes.Symbol;
+  };
+}
+
+export type NewsletterEmbedEntry = Entry<
+  NewsletterEmbedSkeleton,
+  undefined,
+  string
+>;
+
+// ── newsletterIssue ────────────────────────────────────────────────
+export interface NewsletterIssueSkeleton {
+  contentTypeId: 'newsletterIssue';
+  fields: {
+    title: EntryFieldTypes.Symbol;
+    slug: EntryFieldTypes.Symbol;
+    subject: EntryFieldTypes.Symbol;
+    preheader?: EntryFieldTypes.Text;
+    category: EntryFieldTypes.Symbol;
+    region?: EntryFieldTypes.Symbol;
+    publishedAt: EntryFieldTypes.Date;
+    heroImagePath?: EntryFieldTypes.Symbol;
+    body?: EntryFieldTypes.RichText;
+  };
+}
+
+export type NewsletterIssueEntry = Entry<
+  NewsletterIssueSkeleton,
+  undefined,
+  string
+>;

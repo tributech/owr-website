@@ -6,7 +6,7 @@ import { getClient } from '../../lib/contentful';
 import type { InsightArticleSkeleton } from '../../lib/contentful-types';
 import { latestNewsletter, formatNewsletterDate } from '../../lib/newsletters';
 
-const featuredNewsletter = latestNewsletter();
+const featuredNewsletter = await latestNewsletter();
 
 const client = getClient();
 

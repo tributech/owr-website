@@ -1,0 +1,26 @@
+---
+const APP_URL = import.meta.env.PUBLIC_APP_URL ?? 'https://oldworldrankings.com';
+---
+
+<aside class="!mt-14 p-6 sm:p-8 rounded-xl border border-owr-gold/40 bg-owr-gold/5 dark:bg-owr-gold/10">
+  <h3 class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3">
+    Built by Pro supporters
+  </h3>
+  <p class="text-base text-gray-700 dark:text-gray-300 leading-relaxed">
+    Team tournaments. The Battle Hub rebuild. Secondary scoring. Mobile beta. The OG image work. The sponsorship system. The handful of quality-of-life wins above. Every single thing in this newsletter got built because <a href={`${APP_URL}/pricing`} class="text-owr-gold-dark hover:underline"><strong class="text-gray-900 dark:text-white">OWR Pro</strong></a> supporters are funding it.
+  </p>
+  <p class="text-base text-gray-700 dark:text-gray-300 leading-relaxed mt-3">
+    Genuine thanks to everyone who jumped on early. You're the reason this is shipping at the pace it is, and the reason we can keep building.
+  </p>
+  <p class="text-sm text-gray-600 dark:text-gray-400 mt-4">
+    If you've been on the fence, OWR Pro is the lever. Ad-free browsing, the full tournament hosting toolkit, and you're directly fuelling the next batch of work.
+  </p>
+  <p class="!mt-6">
+    <a
+      href={`${APP_URL}/pricing`}
+      class="inline-block bg-owr-gold text-gray-900 font-semibold px-6 py-3 rounded-lg hover:bg-owr-gold-dark transition"
+    >
+      Become an OWR Pro supporter &rarr;
+    </a>
+  </p>
+</aside>

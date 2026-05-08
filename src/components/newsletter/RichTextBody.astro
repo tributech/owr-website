@@ -1,0 +1,76 @@
+---
+// Walk the top-level content array of a Contentful rich-text document for a
+// newsletterIssue body. Render each node either as raw HTML (via the
+// newsletter-rich-text helper) or, for embedded-entry-blocks, dispatch to
+// a custom Astro component based on the linked entry's content type.
+
+import type { Document } from '@contentful/rich-text-types';
+import { renderNewsletterNode } from '../../lib/newsletter-rich-text';
+import NewsletterImage from './NewsletterImage.astro';
+import SponsorCards from './SponsorCards.astro';
+import CtaHostTournament from './CtaHostTournament.astro';
+import ProCallout from './ProCallout.astro';
+import MobileTesterPreview from '../MobileTesterPreview.tsx';
+
+interface Props {
+  body: Document;
+}
+
+const { body } = Astro.props;
+
+// Each top-level node is either a rich-text block we render to HTML, or an
+// embedded-entry-block that we dispatch to a component.
+type NodeRender =
+  | { kind: 'html'; html: string }
+  | { kind: 'image'; path: string; alt: string; caption?: string }
+  | { kind: 'embed'; embedKind: string };
+
+function classifyNode(node: any): NodeRender {
+  if (node.nodeType === 'embedded-entry-block') {
+    const target = node.data?.target;
+    const contentType = target?.sys?.contentType?.sys?.id;
+    const fields = target?.fields ?? {};
+
+    if (contentType === 'imageReference') {
+      return {
+        kind: 'image',
+        path: fields.path ?? '',
+        alt: fields.alt ?? '',
+        caption: fields.caption,
+      };
+    }
+    if (contentType === 'newsletterEmbed') {
+      return { kind: 'embed', embedKind: fields.kind ?? 'unknown' };
+    }
+    // Fallback: render nothing for unknown embeds (logged below).
+    console.warn('[RichTextBody] Unknown embed contentType:', contentType, target);
+    return { kind: 'html', html: '' };
+  }
+  return { kind: 'html', html: renderNewsletterNode(node as any) };
+}
+
+const renderables = (body.content ?? []).map(classifyNode);
+---
+
+<div class="newsletter-body">
+  {renderables.map((r) => {
+    if (r.kind === 'html') {
+      return <Fragment set:html={r.html} />;
+    }
+    if (r.kind === 'image') {
+      return <NewsletterImage path={r.path} alt={r.alt} caption={r.caption} />;
+    }
+    // r.kind === 'embed'
+    if (r.embedKind === 'mobile-beta-preview') {
+      return (
+        <div class="my-8">
+          <MobileTesterPreview />
+        </div>
+      );
+    }
+    if (r.embedKind === 'sponsor-cards') return <SponsorCards />;
+    if (r.embedKind === 'cta-host-tournament') return <CtaHostTournament />;
+    if (r.embedKind === 'pro-callout') return <ProCallout />;
+    return null;
+  })}
+</div>

@@ -1,0 +1,36 @@
+---
+// Sponsor cards block — embedded into newsletter rich text bodies via a
+// `newsletterEmbed` entry of kind="sponsor-cards".
+//
+// Sponsors are hardcoded for now. Future: extend the newsletterEmbed schema
+// with a sponsor list, or introduce a separate `sponsor` content type.
+
+const sponsors = [
+  {
+    name: 'Mighty Melee Games',
+    logo: '/images/sponsors/mighty-melee.png',
+    href: 'https://oldworldrankings.com/sponsor-ads/3261e4a2-1c0e-43ed-814e-947116283ec5/click?scope=regional',
+  },
+  {
+    name: 'UK Resin Prints',
+    logo: '/images/sponsors/ukresinprints.png',
+    href: 'https://oldworldrankings.com/sponsor-ads/801b6b36-7440-407b-b82e-42cd3e6012c2/click?scope=regional',
+  },
+];
+---
+
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 my-6">
+  {sponsors.map((s) => (
+    <a
+      href={s.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="block group"
+    >
+      <figure class="flex flex-col items-center bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 group-hover:border-owr-gold/60 dark:group-hover:border-owr-gold/40 transition-colors p-4">
+        <img src={s.logo} alt={s.name} class="max-h-32 w-auto" loading="lazy" />
+        <figcaption class="text-xs text-gray-500 italic mt-3 text-center">{s.name}</figcaption>
+      </figure>
+    </a>
+  ))}
+</div>

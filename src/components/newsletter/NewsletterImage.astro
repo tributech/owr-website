@@ -1,0 +1,29 @@
+---
+// Render a Contentful imageReference as a captioned figure.
+// Path is referenced as a relative path on the OWR website (or a full URL).
+//
+// When the email MJML renderer reads the same field, it prefixes paths with
+// PUBLIC_APP_URL to produce absolute URLs for the email client.
+
+interface Props {
+  path: string;
+  alt: string;
+  caption?: string;
+}
+
+const { path, alt, caption } = Astro.props;
+---
+
+<figure class="my-6">
+  <img
+    src={path}
+    alt={alt}
+    class="w-full rounded-lg border border-gray-200 dark:border-gray-800"
+    loading="lazy"
+  />
+  {caption && (
+    <figcaption class="text-xs text-gray-500 italic mt-2">
+      {caption}
+    </figcaption>
+  )}
+</figure>

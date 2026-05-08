@@ -1,0 +1,108 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import RichTextBody from '../../components/newsletter/RichTextBody.astro';
+import { getClient } from '../../lib/contentful';
+import type {
+  NewsletterIssueSkeleton,
+  NewsletterIssueEntry,
+} from '../../lib/contentful-types';
+import type { Document } from '@contentful/rich-text-types';
+
+export async function getStaticPaths() {
+  const client = getClient();
+  if (!client) return [];
+
+  let issues: NewsletterIssueEntry[] = [];
+  try {
+    const response = await client.getEntries<NewsletterIssueSkeleton>({
+      content_type: 'newsletterIssue',
+      order: ['-fields.publishedAt'],
+      include: 3, // resolve embedded imageReference + newsletterEmbed entries inside body
+    });
+    issues = response.items;
+  } catch {
+    return [];
+  }
+
+  return issues.map((issue) => ({
+    params: { slug: issue.fields.slug },
+    props: { issue },
+  }));
+}
+
+interface Props {
+  issue: NewsletterIssueEntry;
+}
+
+const { issue } = Astro.props;
+const { title, preheader, publishedAt, heroImagePath, body } = issue.fields;
+
+const formattedDate = new Date(publishedAt).toLocaleDateString('en-GB', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+
+const monthYear = new Date(publishedAt).toLocaleDateString('en-GB', {
+  month: 'long',
+  year: 'numeric',
+});
+---
+
+<Layout title={`${title} | Old World Rankings`} description={preheader ?? ''}>
+  <Nav />
+
+  <main class="pt-24 pb-20">
+    <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <!-- Header -->
+      <header class="mb-10 text-center">
+        <p class="text-sm font-semibold tracking-widest uppercase text-owr-gold-dark dark:text-owr-gold mb-3">
+          OWR Newsletter, {monthYear}
+        </p>
+        <h1 class="text-3xl sm:text-5xl font-bold text-gray-900 dark:text-white leading-tight mb-4">
+          {title}
+        </h1>
+        {preheader && (
+          <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+            {preheader}
+          </p>
+        )}
+        <p class="text-xs text-gray-500 dark:text-gray-500 mt-6">
+          Published {formattedDate}
+        </p>
+      </header>
+
+      <!-- Hero image -->
+      {heroImagePath && (
+        <figure class="mb-12 -mx-4 sm:mx-0">
+          <img
+            src={heroImagePath}
+            alt={title}
+            class="w-full sm:rounded-xl border border-gray-200 dark:border-gray-800"
+          />
+        </figure>
+      )}
+
+      <!-- Body -->
+      <div class="text-gray-700 dark:text-gray-300 text-lg leading-relaxed space-y-5">
+        {body && <RichTextBody body={body as Document} />}
+      </div>
+
+      <!-- Sign-off -->
+      <p class="text-sm text-gray-500 dark:text-gray-400 mt-12 pt-8 border-t border-gray-200 dark:border-gray-800 max-w-3xl">
+        Keep rolling dice,<br />
+        <strong class="text-gray-900 dark:text-white">Gommo &amp; the OWR team</strong>
+      </p>
+
+      <p class="text-xs text-gray-500 dark:text-gray-500 mt-6 text-center">
+        <a href="/newsletter" class="text-owr-gold-dark hover:underline">Read past issues &rarr;</a>
+      </p>
+
+    </article>
+  </main>
+
+  <Footer />
+</Layout>

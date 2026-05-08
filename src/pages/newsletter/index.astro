@@ -2,9 +2,9 @@
 import Layout from '../../layouts/Layout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
-import { NEWSLETTERS, formatNewsletterDate } from '../../lib/newsletters';
+import { fetchNewsletters, formatNewsletterDate } from '../../lib/newsletters';
 
-const issues = [...NEWSLETTERS].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
+const issues = await fetchNewsletters();
 ---
 
 <Layout

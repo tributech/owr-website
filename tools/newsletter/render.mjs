@@ -297,56 +297,6 @@ function renderBody(doc) {
   return { mjml: mjmlChunks.join('\n\n'), text };
 }
 
-// Header section: small caps "OWR Newsletter, <Month YYYY>", title, preheader, hero image.
-// Sits above the rich-text body so the email opens with proper context
-// (and the Rails layout can keep its top-of-email logo/banner small).
-function renderHeader() {
-  const date = new Date(fields.publishedAt);
-  const monthYear = date.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
-
-  const heroUrl = absUrl(fields.heroImagePath);
-  const heroBlock = heroUrl
-    ? `<mj-section padding="20px 0 24px 0" background-color="#ffffff">
-  <mj-column>
-    <mj-image src="${escapeHtml(heroUrl)}" alt="${escapeHtml(fields.title)}" border-radius="6px" padding="0" />
-  </mj-column>
-</mj-section>`
-    : '';
-
-  const preheaderBlock = fields.preheader
-    ? `<mj-section padding="0 25px 4px 25px" background-color="#ffffff">
-  <mj-column>
-    <mj-text font-size="16px" color="#666" align="center" line-height="1.5">${escapeHtml(fields.preheader)}</mj-text>
-  </mj-column>
-</mj-section>`
-    : '';
-
-  return `<mj-section padding="20px 25px 0 25px" background-color="#ffffff">
-  <mj-column>
-    <mj-text align="center" font-size="12px" font-weight="700" letter-spacing="2px" color="#DAA520" text-transform="uppercase">OWR Newsletter, ${escapeHtml(monthYear)}</mj-text>
-    <mj-text align="center" font-size="28px" font-weight="bold" color="#1C1C1C" line-height="1.2" padding-top="8px">${escapeHtml(fields.title)}</mj-text>
-  </mj-column>
-</mj-section>
-
-${preheaderBlock}
-
-${heroBlock}`.trim();
-}
-
-function renderHeaderText() {
-  const date = new Date(fields.publishedAt);
-  const monthYear = date.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
-  const lines = [
-    `OWR NEWSLETTER, ${monthYear.toUpperCase()}`,
-    '',
-    fields.title,
-  ];
-  if (fields.preheader) lines.push('', fields.preheader);
-  if (fields.heroImagePath) {
-    lines.push('', `[Hero image: ${absUrl(fields.heroImagePath)}]`);
-  }
-  return lines.join('\n');
-}
 
 // ---- Plain-text walker ----
 
@@ -416,21 +366,34 @@ function renderTextEmbed(node) {
 }
 
 // --- Output ---
+//
+// Header (title, preheader, feature image) is NOT prepended to the MJML body.
+// Those live as separate fields on the Rails Newsletter model and are
+// rendered by the dedicated newsletter_mailer.html.mjml layout. The body
+// MJML is just the issue's content; the layout handles framing.
 
-const { mjml: bodyMjml, text: bodyText } = renderBody(fields.body);
-const headerMjml = renderHeader();
-const headerText = renderHeaderText();
-const mjmlBody = `${headerMjml}\n\n${bodyMjml}`;
-const textBody = `${headerText}\n\n${bodyText}`;
+const { mjml: mjmlBody, text: textBody } = renderBody(fields.body);
+
+// Sidecar mirrors every field on the Rails Newsletter form.
+// Camel and snake_case keys are both included so it's friendly to either
+// JS or Ruby paste targets.
+const featureImageUrl = fields.heroImagePath ? absUrl(fields.heroImagePath) : null;
+const webUrl = `${WEB_URL}/newsletter/${fields.slug}`;
 
 const sidecar = {
   slug: fields.slug,
+  title: fields.title,
   subject: fields.subject,
   preheader: fields.preheader ?? '',
   category: fields.category,
   region: fields.region ?? null,
+  published_at: fields.publishedAt,
+  web_url: webUrl,
+  feature_image_url: featureImageUrl,
+  // Camel-cased aliases for non-Rails consumers.
   publishedAt: fields.publishedAt,
-  webUrl: `${WEB_URL}/newsletter/${fields.slug}`,
+  webUrl,
+  featureImageUrl,
 };
 
 const outDir = resolve(here, 'out');
@@ -443,10 +406,12 @@ console.error(`Wrote out/${slug}.mjml (${mjmlBody.length} bytes)`);
 console.error(`Wrote out/${slug}.txt  (${textBody.length} bytes)`);
 console.error(`Wrote out/${slug}.json`);
 console.error('');
-console.error('Subject:    ' + sidecar.subject);
-console.error('Preheader:  ' + sidecar.preheader);
-console.error('Category:   ' + sidecar.category + (sidecar.region ? ` (region: ${sidecar.region})` : ''));
-console.error('Web URL:    ' + sidecar.webUrl);
+console.error('Form values to paste into Rails newsletter admin:');
+console.error('  Subject:           ' + sidecar.subject);
+console.error('  Preheader:         ' + sidecar.preheader);
+console.error('  Category:          ' + sidecar.category + (sidecar.region ? ` (region: ${sidecar.region})` : ''));
+console.error('  Web URL:           ' + sidecar.web_url);
+console.error('  Feature image URL: ' + (sidecar.feature_image_url ?? '(none)'));
 
 function die(msg) {
   console.error(msg);

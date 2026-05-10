@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 import RichTextBody from '../../components/newsletter/RichTextBody.astro';
+import Lightbox from '../../components/Lightbox.astro';
 import { getClient } from '../../lib/contentful';
 import type {
   NewsletterIssueSkeleton,
@@ -81,7 +82,7 @@ const monthYear = new Date(publishedAt).toLocaleDateString('en-GB', {
           <img
             src={heroImagePath}
             alt={title}
-            class="w-full sm:rounded-xl border border-gray-200 dark:border-gray-800"
+            class="doc-lightbox-img cursor-zoom-in w-full sm:rounded-xl border border-gray-200 dark:border-gray-800"
           />
         </figure>
       )}
@@ -104,5 +105,6 @@ const monthYear = new Date(publishedAt).toLocaleDateString('en-GB', {
     </article>
   </main>
 
+  <Lightbox />
   <Footer />
 </Layout>

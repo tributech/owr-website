@@ -179,6 +179,21 @@ Usage: `bg-owr-gold`, `text-owr-gold-dark`, `border-owr-red`, etc.
 
 ## Conventions
 
+### Writing Style — No Em-Dashes or En-Dashes (Unbreakable)
+
+**Never use em-dashes (`—`, U+2014) or en-dashes (`–`, U+2013) in any user-facing text.** This applies to:
+
+- All Contentful content (docArticle bodies, changelogEntry descriptions, titles, excerpts)
+- Astro page copy (landing, pricing, legal, 404)
+- Component strings, button labels, alt text, meta descriptions
+- Anything visible to a site visitor
+
+Use a regular hyphen with spaces (` - `), a comma, a colon, or parentheses instead. Pick whichever reads most naturally; do not silently swap one dash glyph for another.
+
+This is a hard rule. Do not introduce em/en-dashes "just this once" because the sentence flows better — rewrite the sentence.
+
+(Code, code comments, and internal docs like this CLAUDE.md or `docs/private/` notes are exempt.)
+
 ### Component Patterns
 - All components are `.astro` files (no React/Vue — keep it static)
 - Use TypeScript interfaces for props in component frontmatter
@@ -200,7 +215,23 @@ The nav renders an **anonymous state** by default (Sign In / Get Started). When 
 - Responsive: `sm:` (640px), `md:` (768px), `lg:` (1024px)
 
 ### Links
-- Internal navigation: relative paths (`/pricing`, `/#features`)
+
+**Trailing-slash convention: always use trailing slashes on internal links to this site.** Astro builds emit `dist/<page>/index.html` (directory format), the sitemap generates trailing-slash URLs, and Netlify 301-redirects no-slash → slash. Internal links must match the canonical form to avoid redirect chains that dilute SEO equity and confuse crawlers.
+
+- ✅ `href="/whatsnew/"`, `href="/newsletter/"`, `href="/pricing/"`
+- ✅ Dynamic: `` href={`/newsletter/${slug}/`} ``
+- ✅ Anchors on the same page: `href="/whatsnew/#${slug}"` (slash before the `#`)
+- ❌ `href="/whatsnew"` — triggers a 301 to `/whatsnew/`
+- Hash-only links (`/#features`) on the homepage are fine as-is (no path segment)
+
+This applies to:
+- All `<a href>` in components and pages
+- Absolute URLs embedded in attributes (share buttons, `og:url`, structured data)
+- Anywhere a path is built via template strings
+
+**Exception:** links to the Rails app (`${APP_URL}/...`) use no-slash — that's the Rails convention on `oldworldrankings.com`. Don't mix the two.
+
+Other link rules:
 - App links: Use `APP_URL` variable (`${APP_URL}/login`, `${APP_URL}/register`)
 - External links: `target="_blank" rel="noopener noreferrer"`
 - Scroll targets: `id="section-name"` + `scroll-mt-20` class

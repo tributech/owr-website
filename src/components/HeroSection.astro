@@ -1,14 +1,69 @@
 ---
 /**
- * Hero section with rotating battle backgrounds and global search.
- * Background images rotate client-side every 8 seconds.
+ * Hero section with a rotating, tabbed feature showcase over cinematic
+ * battle backgrounds. Background images cross-fade every 8s; the feature
+ * showcase auto-advances every 6s (pauses on hover/focus, disabled when
+ * the user prefers reduced motion). Search is kept but de-emphasised at
+ * the foot of the hero. Works without JS — the first scene renders
+ * statically.
  */
 import GlobalSearch from './GlobalSearch';
 
 const heroImages = Array.from({ length: 16 }, (_, i) => `/images/landing/image${i + 1}.jpg`);
+
+const scenes = [
+  {
+    key: 'hosting',
+    tab: 'Tournament Hosting',
+    eyebrow: 'For Tournament Organisers',
+    title: 'Run tournaments players love',
+    description:
+      'Registration, pairings, scoring, payments and a live battle board — everything you need to host a smooth event.',
+    image: '/images/for-tournament-organisers/for-tos-1.png',
+    imageAlt: 'OWR tournament organiser dashboard',
+    cta: { label: 'Host Your Tournament', href: '#hosting' },
+    isNew: true,
+  },
+  {
+    key: 'builder',
+    tab: 'Army Lists',
+    eyebrow: 'Battle Builder',
+    title: 'Build & validate army lists',
+    description:
+      'Construct legal lists, catch errors before the game, and submit straight to tournaments — synced across web, iOS and Android.',
+    image: '/images/battle-builder-desktop.png',
+    imageAlt: 'OWR Battle Builder army list editor',
+    cta: { label: 'Try the Battle Builder', href: '#builder' },
+    isNew: true,
+  },
+  {
+    key: 'players',
+    tab: 'Players & Rankings',
+    eyebrow: 'Rankings',
+    title: 'Find players & track rankings',
+    description:
+      'Search any player, follow your region, and watch global, regional and faction leaderboards update after every event.',
+    image: '/images/legacy-player-share.png',
+    imageAlt: 'OWR player ranking share card',
+    cta: { label: 'Explore Rankings', href: '#rankings' },
+    isNew: false,
+  },
+  {
+    key: 'mobile',
+    tab: 'Mobile App',
+    eyebrow: 'iOS & Android',
+    title: 'Take OWR anywhere',
+    description:
+      'Your lists, rankings and event updates in your pocket — the OWR companion app for iOS and Android.',
+    image: '/images/owr-ios-screenshot.png',
+    imageAlt: 'OWR mobile app on iPhone',
+    cta: { label: 'Get the App', href: '#mobile' },
+    isNew: false,
+  },
+];
 ---
 
-<section class="relative min-h-[60vh] sm:min-h-[70vh] flex items-center justify-center pt-16 pb-8 sm:pb-12">
+<section class="relative min-h-[92vh] flex items-center justify-center pt-20 pb-10 sm:pt-24 sm:pb-14">
   <!-- Background with overlay -->
   <div class="absolute inset-0 bg-black" id="hero-bg">
     {heroImages.map((src, i) => (
@@ -22,54 +77,114 @@ const heroImages = Array.from({ length: 16 }, (_, i) => `/images/landing/image${
         <img src={src} alt="" class="w-full h-full object-cover" loading={i === 0 ? 'eager' : 'lazy'} />
       </div>
     ))}
-    <div class="absolute inset-0 bg-black/20"></div>
+    <div class="absolute inset-0 bg-black/40"></div>
   </div>
 
   <!-- Content -->
-  <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-    <img
-      src="/images/owr_logo_white.png"
-      alt="Old World Rankings"
-      class="mx-auto mb-6 sm:mb-8 h-20 w-20 sm:h-32 sm:w-32"
-    />
-
-    <h1 class="text-3xl sm:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 text-balance">
-      The Complete Companion to The Old World
-    </h1>
-
-    <p class="text-base sm:text-xl text-white/80 mb-6 sm:mb-8">
-      Host, Find &amp; Play Events &middot; Create Army Lists &middot; Track Faction Meta &amp; Rankings
-    </p>
-
-    <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-8 sm:mb-12">
-      <a
-        href="#regions"
-        class="w-full sm:w-auto px-8 py-3 bg-owr-gold text-gray-900 font-semibold rounded-lg hover:bg-owr-gold-dark transition-colors text-center"
-      >
-        Find Your Region
-      </a>
-      <a
-        href="#hosting"
-        class="relative w-full sm:w-auto px-8 py-3 bg-transparent border border-white/50 text-white font-medium rounded-lg hover:bg-white/10 transition-colors text-center"
-      >
-        Host Your Tournament
-        <span class="absolute -top-2 -right-2 px-1.5 py-0.5 text-[10px] font-bold bg-green-500 text-white rounded-full leading-none">NEW</span>
-      </a>
-      <a
-        href="#builder"
-        class="relative w-full sm:w-auto px-8 py-3 bg-transparent border border-owr-gold text-owr-gold font-medium rounded-lg hover:bg-owr-gold/10 transition-colors text-center"
-      >
-        Try the Battle Builder
-        <span class="absolute -top-2 -right-2 px-1.5 py-0.5 text-[10px] font-bold bg-green-500 text-white rounded-full leading-none">NEW</span>
-      </a>
+  <div class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-8 sm:mb-10">
+      <img
+        src="/images/owr_logo_white.png"
+        alt="Old World Rankings"
+        class="mx-auto mb-4 sm:mb-6 h-16 w-16 sm:h-24 sm:w-24"
+      />
+      <h1 class="text-3xl sm:text-5xl lg:text-6xl font-bold text-white text-balance">
+        The Complete Companion to The Old World
+      </h1>
     </div>
 
-    <GlobalSearch client:load />
+    <!-- Feature showcase -->
+    <div id="hero-showcase">
+      <!-- Tabs -->
+      <div
+        class="flex flex-wrap items-center justify-center gap-1 sm:gap-2 mb-6 sm:mb-8"
+        role="tablist"
+        aria-label="OWR features"
+      >
+        {scenes.map((scene, i) => (
+          <button
+            type="button"
+            data-scene-tab
+            id={`hero-tab-${scene.key}`}
+            role="tab"
+            aria-controls={`hero-scene-${scene.key}`}
+            aria-selected={i === 0 ? 'true' : 'false'}
+            class:list={[
+              'px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold border-b-2 transition-colors whitespace-nowrap',
+              i === 0 ? 'text-owr-gold border-owr-gold' : 'text-white/60 border-transparent hover:text-white',
+            ]}
+          >
+            {scene.tab}
+          </button>
+        ))}
+      </div>
+
+      <!-- Stage -->
+      <div class="relative h-[560px] sm:h-[460px] lg:h-[420px]">
+        {scenes.map((scene, i) => (
+          <div
+            data-scene
+            id={`hero-scene-${scene.key}`}
+            role="tabpanel"
+            aria-labelledby={`hero-tab-${scene.key}`}
+            aria-hidden={i === 0 ? 'false' : 'true'}
+            class:list={[
+              'absolute inset-0 transition-opacity duration-700 flex flex-col lg:grid lg:grid-cols-2 items-center gap-6 lg:gap-12',
+              i === 0 ? 'opacity-100' : 'opacity-0 pointer-events-none',
+            ]}
+          >
+            <div class="order-2 lg:order-1 text-center lg:text-left max-w-xl mx-auto lg:mx-0">
+              <div class="flex items-center justify-center lg:justify-start gap-2 mb-3">
+                <span class="text-xs sm:text-sm font-semibold uppercase tracking-widest text-owr-gold">
+                  {scene.eyebrow}
+                </span>
+                {scene.isNew && (
+                  <span class="px-1.5 py-0.5 text-[10px] font-bold bg-green-500 text-white rounded-full leading-none">
+                    NEW
+                  </span>
+                )}
+              </div>
+              <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3 text-balance">
+                {scene.title}
+              </h2>
+              <p class="text-sm sm:text-base text-white/75 mb-6 leading-relaxed">
+                {scene.description}
+              </p>
+              <a
+                href={scene.cta.href}
+                class="inline-block px-7 py-3 bg-owr-gold text-gray-900 font-semibold rounded-lg hover:bg-owr-gold-dark transition-colors"
+              >
+                {scene.cta.label}
+              </a>
+            </div>
+
+            <div class="order-1 lg:order-2 w-full">
+              <div class="relative mx-auto max-w-sm sm:max-w-md lg:max-w-lg rounded-xl ring-1 ring-white/15 bg-white/5 backdrop-blur shadow-2xl overflow-hidden">
+                <img
+                  src={scene.image}
+                  alt={scene.imageAlt}
+                  loading="lazy"
+                  class="w-full h-[200px] sm:h-[300px] lg:h-[340px] object-contain p-2"
+                />
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- De-emphasised search -->
+    <div class="mt-8 sm:mt-10 max-w-md mx-auto opacity-90">
+      <p class="text-center text-xs text-white/50 mb-2">
+        Looking for someone? Search players &amp; tournaments
+      </p>
+      <GlobalSearch client:load />
+    </div>
   </div>
 </section>
 
 <script>
-  // ── Hero image rotation ───────────────────────────────────────────
+  // ── Hero background image rotation ────────────────────────────────
   const slides = document.querySelectorAll('.hero-slide');
   let current = 0;
   if (slides.length > 1) {
@@ -81,4 +196,60 @@ const heroImages = Array.from({ length: 16 }, (_, i) => `/images/landing/image${
       slides[current].classList.add('opacity-40');
     }, 8000);
   }
+
+  // ── Feature showcase rotation ─────────────────────────────────────
+  const sceneEls = Array.from(document.querySelectorAll<HTMLElement>('[data-scene]'));
+  const tabEls = Array.from(document.querySelectorAll<HTMLElement>('[data-scene-tab]'));
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let active = 0;
+  let timer: ReturnType<typeof setInterval> | undefined;
+
+  function show(i: number) {
+    if (sceneEls.length === 0) return;
+    active = (i + sceneEls.length) % sceneEls.length;
+    sceneEls.forEach((el, idx) => {
+      const on = idx === active;
+      el.classList.toggle('opacity-100', on);
+      el.classList.toggle('opacity-0', !on);
+      el.classList.toggle('pointer-events-none', !on);
+      el.setAttribute('aria-hidden', String(!on));
+    });
+    tabEls.forEach((el, idx) => {
+      const on = idx === active;
+      el.setAttribute('aria-selected', String(on));
+      el.classList.toggle('text-owr-gold', on);
+      el.classList.toggle('border-owr-gold', on);
+      el.classList.toggle('text-white/60', !on);
+      el.classList.toggle('border-transparent', !on);
+    });
+  }
+
+  function stop() {
+    if (timer) {
+      clearInterval(timer);
+      timer = undefined;
+    }
+  }
+
+  function start() {
+    if (reduceMotion || sceneEls.length < 2) return;
+    stop();
+    timer = setInterval(() => show(active + 1), 6000);
+  }
+
+  tabEls.forEach((el, idx) => {
+    el.addEventListener('click', () => {
+      show(idx);
+      start();
+    });
+  });
+
+  const showcase = document.getElementById('hero-showcase');
+  showcase?.addEventListener('mouseenter', stop);
+  showcase?.addEventListener('mouseleave', start);
+  showcase?.addEventListener('focusin', stop);
+  showcase?.addEventListener('focusout', start);
+
+  show(0);
+  start();
 </script>

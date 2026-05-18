@@ -38,3 +38,4 @@ docs/private/
 
 # Local-only operational tooling (Netlify Forms pulls, output JSON, tokens)
 .local/
+tmp

@@ -4,6 +4,7 @@ import {
 } from '@contentful/rich-text-html-renderer';
 import { BLOCKS, MARKS, INLINES, type Document } from '@contentful/rich-text-types';
 import type { Entry } from 'contentful';
+import { cfImageUrl } from './contentful';
 
 // Callout detection: blockquotes starting with emoji prefixes
 const CALLOUT_PREFIXES: Record<string, { type: string; icon: string; borderColor: string; bgColor: string; iconBg: string }> = {
@@ -92,20 +93,28 @@ const options: Options = {
       const height = fields?.file?.details?.image?.height || 600;
       const aspect = width / height;
       let sizeClass: string;
+      let renderWidth: number;
       if (aspect >= 1.8) {
         // Very wide (banners) — full width
         sizeClass = 'max-w-full';
+        renderWidth = 1600;
       } else if (aspect >= 1.2) {
         // Landscape — large but not full
         sizeClass = 'max-w-2xl';
+        renderWidth = 1400;
       } else if (aspect >= 0.7) {
         // Square-ish — medium
         sizeClass = 'max-w-sm';
+        renderWidth = 800;
       } else {
         // Portrait/tall — small
         sizeClass = 'max-w-xs';
+        renderWidth = 700;
       }
-      return `<figure class="doc-figure my-6 ${sizeClass} mx-auto"><img src="https:${url}" alt="${title}" loading="lazy" class="rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm w-full cursor-zoom-in doc-lightbox-img" />${description ? `<figcaption class="text-sm text-gray-500 mt-2 text-center">${description}</figcaption>` : ''}</figure>`;
+      // Cap the delivered image at ~2x its display size via the Contentful Image API,
+      // but never upscale past the original (that only adds bytes).
+      const src = cfImageUrl(url, { w: Math.min(renderWidth, width), q: 80, fm: 'webp' }) ?? `https:${url}`;
+      return `<figure class="doc-figure my-6 ${sizeClass} mx-auto"><img src="${src}" alt="${title}" loading="lazy" class="rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm w-full cursor-zoom-in doc-lightbox-img" />${description ? `<figcaption class="text-sm text-gray-500 mt-2 text-center">${description}</figcaption>` : ''}</figure>`;
     },
     [INLINES.HYPERLINK]: (node, next) =>
       `<a href="${node.data.uri}" class="text-gray-900 dark:text-owr-gold underline underline-offset-4 hover:text-owr-gold-dark transition-colors"${node.data.uri.startsWith('http') ? ' target="_blank" rel="noopener noreferrer"' : ''}>${next(node.content)}</a>`,

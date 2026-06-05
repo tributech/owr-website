@@ -1,0 +1,50 @@
+---
+/**
+ * TEMPORARY — John Blanche memorial banner for the homepage.
+ *
+ * A larger memorial band linking to the full tribute article.
+ * To remove: delete this component, its <TributeBanner /> usage in
+ * src/pages/index.astro, and public/images/tribute/john-blanche-feature.png.
+ */
+const articleUrl = '/insights/john-blanche-tribute/';
+---
+
+<section class="relative overflow-hidden bg-owr-black border-y border-owr-gold/25">
+  <!-- Soft glow accents -->
+  <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_25%_25%,rgba(255,215,0,0.08),transparent_55%)]"></div>
+
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+    <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+      <!-- Image -->
+      <a href={articleUrl} class="group block">
+        <img
+          src="/images/tribute/john-blanche-feature.png"
+          alt="John Blanche artwork, a sprawling siege of the Empire"
+          width="900"
+          loading="eager"
+          class="w-full rounded-lg ring-1 ring-owr-gold/30 shadow-2xl shadow-black/60 group-hover:ring-owr-gold/60 transition-[box-shadow,--tw-ring-color]"
+        />
+      </a>
+
+      <!-- Text -->
+      <div class="text-center md:text-left">
+        <div class="text-xs font-semibold uppercase tracking-[0.25em] text-owr-gold-dark mb-3">In Memoriam</div>
+        <h2 class="text-3xl md:text-4xl font-bold text-white">John Blanche</h2>
+        <p class="text-base md:text-lg text-owr-gold/80 font-medium mt-1">1948 - 2026</p>
+        <p class="text-sm md:text-base text-gray-400 max-w-xl mt-4 mx-auto md:mx-0">
+          The artist who gave the Old World and the grimdark their face. So much of what we remember
+          from those years came from his pencil, ink and paint.
+        </p>
+        <a
+          href={articleUrl}
+          class="inline-flex items-center gap-2 mt-6 px-6 py-3 bg-owr-gold hover:bg-owr-gold-dark text-gray-900 font-semibold text-sm rounded-lg transition-colors cursor-pointer"
+        >
+          Read our tribute
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

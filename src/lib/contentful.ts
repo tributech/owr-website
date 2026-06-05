@@ -24,3 +24,21 @@ export function getClient(): ContentfulClientApi<undefined> | null {
   });
   return _client;
 }
+
+/**
+ * Build a social-share-optimised image URL from a Contentful asset URL.
+ *
+ * Contentful's Image API resizes/reformats on the fly via query params, so we
+ * never want to hand a raw multi-MB original to OG/Twitter scrapers. WhatsApp,
+ * for example, rejects previews over ~600KB. Re-encoding to JPG at a capped
+ * width keeps social images small without touching the source asset.
+ *
+ * @param assetUrl A Contentful asset URL (may start with `//`). Non-Contentful
+ *                 URLs are returned normalised but untransformed.
+ */
+export function ogImageUrl(assetUrl: string | undefined | null): string | undefined {
+  if (!assetUrl) return undefined;
+  const url = assetUrl.startsWith('//') ? `https:${assetUrl}` : assetUrl;
+  if (!url.includes('images.ctfassets.net')) return url;
+  return `${url}?fm=jpg&w=1200&q=80`;
+}

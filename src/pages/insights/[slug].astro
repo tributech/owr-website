@@ -2,7 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
-import { getClient } from '../../lib/contentful';
+import { getClient, ogImageUrl } from '../../lib/contentful';
 import { renderRichText } from '../../lib/rich-text';
 import type { InsightArticleSkeleton, InsightArticleEntry } from '../../lib/contentful-types';
 import type { Document } from '@contentful/rich-text-types';
@@ -44,9 +44,9 @@ const authorAvatar = authorEntry?.fields?.avatar && 'fields' in authorEntry.fiel
   ? authorEntry.fields.avatar.fields?.file?.url : null;
 const authorProfileUrl = authorEntry?.fields?.profileUrl;
 
-// Resolve featured image for OG
+// Resolve featured image for OG (resized + re-encoded to keep social previews small)
 const ogImage = article.fields.featuredImage && 'fields' in article.fields.featuredImage
-  ? `https:${article.fields.featuredImage.fields?.file?.url}`
+  ? ogImageUrl(article.fields.featuredImage.fields?.file?.url)
   : undefined;
 
 // Render body for standard articles

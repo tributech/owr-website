@@ -15,22 +15,22 @@ const slides = [
   { id: 'close', label: 'Next Step' },
 ];
 
+// Avg engagement per visitor (minutes, GA4). Clean post-bot months only —
+// the old "monthly active users" series was inflated by CN/SG crawler traffic.
 const growth = [
-  { m: 'Oct', users: 13614 },
-  { m: 'Nov', users: 19400 },
-  { m: 'Dec', users: 30372 },
-  { m: 'Jan', users: 26510 },
-  { m: 'Feb', users: 45668 },
+  { m: 'Mar', val: 5.9 },
+  { m: 'Apr', val: 9.4 },
+  { m: 'May', val: 9.6 },
 ];
-const maxUsers = Math.max(...growth.map((g) => g.users));
+const maxUsers = Math.max(...growth.map((g) => g.val));
 
 const audienceRaw = [
-  { flag: '🇺🇸', name: 'United States', users: 3911 },
-  { flag: '🇬🇧', name: 'United Kingdom', users: 3118 },
-  { flag: '🇦🇺', name: 'Australia', users: 1506 },
-  { flag: '🇨🇦', name: 'Canada', users: 765 },
-  { flag: '🇮🇪', name: 'Ireland', users: 148 },
-  { flag: '🇳🇿', name: 'New Zealand', users: 113 },
+  { flag: '🇬🇧', name: 'United Kingdom', users: 2296 },
+  { flag: '🇺🇸', name: 'United States', users: 2079 },
+  { flag: '🇦🇺', name: 'Australia', users: 1453 },
+  { flag: '🇨🇦', name: 'Canada', users: 514 },
+  { flag: '🇳🇿', name: 'New Zealand', users: 215 },
+  { flag: '🇮🇪', name: 'Ireland', users: 140 },
 ];
 const audienceTotal = audienceRaw.reduce((acc, a) => acc + a.users, 0);
 const audience = audienceRaw.map((a) => ({
@@ -40,9 +40,9 @@ const audience = audienceRaw.map((a) => ({
 const maxPct = audience[0].pct;
 
 const playerStats = [
-  { big: '10,225', label: 'Players tracked globally', sub: 'Every competitive TOW player with a recorded result' },
-  { big: '2,011', label: 'Signed-up accounts', sub: '914 have claimed a tracked player profile' },
-  { big: '2.7×', label: 'Quarter-over-quarter signup growth', sub: 'Last 3 months vs the 3 before' },
+  { big: '11,375', label: 'Players tracked globally', sub: 'Every competitive TOW player with a recorded result' },
+  { big: '2,271', label: 'Signed-up accounts', sub: 'Free accounts claiming their tracked player profiles' },
+  { big: '+477', label: 'New accounts this quarter', sub: 'Steady quarter-on-quarter growth' },
 ];
 
 const placements = [
@@ -106,15 +106,15 @@ const pricing = [
 ];
 
 const trafficStats = [
-  { big: '24,464', label: 'Google organic clicks' },
-  { big: '256,486', label: 'Google impressions' },
-  { big: '500k+', label: 'Real-human pageviews' },
-  { big: '9.54%', label: 'Search CTR' },
+  { big: '11.8 min', label: 'Avg engagement / visitor' },
+  { big: '500k+', label: 'Pageviews / quarter' },
+  { big: '#1', label: 'Google for core “Old World” searches' },
+  { big: '24,000+', label: 'Google organic clicks / qtr' },
 ];
 
 const platformStats = [
-  { big: '1,721', label: 'Tournaments tracked' },
-  { big: '88,375', label: 'Games played' },
+  { big: '2,709', label: 'Tournaments tracked' },
+  { big: '88,375', label: 'Games tracked' },
   { big: '25', label: 'Regions worldwide' },
 ];
 ---
@@ -179,12 +179,12 @@ const platformStats = [
 
           <div class="stat-row-3">
             <a class="stat-card" href={`${APP_URL}/latest`} target="_blank" rel="noopener">
-              <div class="stat-big">1,721</div>
+              <div class="stat-big">2,709</div>
               <div class="stat-label">Tournaments tracked →</div>
             </a>
             <a class="stat-card" href={`${APP_URL}/global_rankings`} target="_blank" rel="noopener">
               <div class="stat-big">88,375</div>
-              <div class="stat-label">Games played →</div>
+              <div class="stat-label">Games tracked →</div>
             </a>
             <a class="stat-card" href="/#regions" target="_blank" rel="noopener">
               <div class="stat-big">25</div>
@@ -230,12 +230,13 @@ const platformStats = [
       <!-- ============ 3. TRAFFIC ============ -->
       <section class="slide" data-slide="2">
         <div class="slide-inner">
-          <div class="kicker">Traffic · over 3 months</div>
+          <div class="kicker">Traffic · last 90 days</div>
           <h2 class="title-xl">
-            <span class="gold">3.4× growth</span> in five months.
+            <span class="gold">~12 minutes</span> a visit.
           </h2>
           <p class="lead-tight">
-            Not a spike — a consistent upward slope as TOW takes share of the GW community.
+            This is an audience that dwells — players studying rankings, army lists and
+            event packs, not bouncing. Half a million pageviews a quarter, 60%+ engaged.
           </p>
 
           <div class="traffic-split">
@@ -249,18 +250,26 @@ const platformStats = [
             </div>
 
             <div class="chart-wrap">
-              <div class="chart-kicker">Monthly active users</div>
+              <div class="chart-kicker">Avg engagement per visitor (min)</div>
               <div class="chart-bars">
                 {growth.map((g) => (
                   <div class="chart-col">
-                    <div class="chart-val">{(g.users / 1000).toFixed(1)}k</div>
-                    <div class="chart-bar" style={`height: ${(g.users / maxUsers) * 100}%`}></div>
+                    <div class="chart-val">{g.val}</div>
+                    <div class="chart-bar" style={`height: ${(g.val / maxUsers) * 100}%`}></div>
                     <div class="chart-month">{g.m}</div>
                   </div>
                 ))}
               </div>
             </div>
           </div>
+
+          <p class="chart-note">
+            Through a quiet stretch for TOW, the audience got <span class="white-bold">stickier</span>:
+            over half of visits are now returning players, sessions deepened to ~7 minutes, and we hold the
+            <span class="white-bold">#1 Google result</span> for the searches that matter — "Old World lists",
+            "rankings", "army lists", "stats". A hardening core — ready to capture the next TOW wave from a
+            stronger base.
+          </p>
         </div>
       </section>
 
@@ -269,7 +278,7 @@ const platformStats = [
         <div class="slide-inner">
           <div class="kicker">Players &amp; audience</div>
           <h2 class="title-xl">
-            Real players. <span class="gold">Real growth.</span>
+            Real players. <span class="gold">Real engagement.</span>
           </h2>
 
           <div class="player-stats">
@@ -317,7 +326,7 @@ const platformStats = [
           </p>
 
           <div class="why-stats">
-            <div class="why-stat"><div class="why-big">3.4×</div><div class="why-label">User growth in 5 months</div></div>
+            <div class="why-stat"><div class="why-big">11.8 min</div><div class="why-label">Avg engagement per visit</div></div>
             <div class="why-stat"><div class="why-big">#1</div><div class="why-label">TOW rankings platform</div></div>
             <div class="why-stat"><div class="why-big">Low</div><div class="why-label">CPM today vs 12 months out</div></div>
           </div>
@@ -789,6 +798,13 @@ const platformStats = [
     }
     .gold { color: #FFD700; }
     .white-bold { color: #fff; font-weight: 700; }
+    .chart-note {
+      font-size: clamp(0.85rem, 1.05vw, 1rem);
+      color: #94a3b8;
+      line-height: 1.55;
+      max-width: 60rem;
+      margin: 1.5rem 0 0;
+    }
 
     /* ========== Cover specifics ========== */
     .cover-logo {

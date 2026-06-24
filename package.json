@@ -4,6 +4,8 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev --port 5091",
+    "check:dashes": "node tools/check-dashes.mjs",
+    "prebuild": "node tools/check-dashes.mjs",
     "build": "astro build && pagefind --site dist",
     "preview": "astro preview",
     "astro": "astro",

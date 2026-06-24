@@ -68,7 +68,7 @@ export async function getStaticPaths() {
     }
   }
 
-  // Skip articles whose category link is missing or unpublished — Contentful
+  // Skip articles whose category link is missing or unpublished - Contentful
   // returns the link without `fields` resolved, which would crash rendering.
   const renderableArticles = articles.filter((article) => {
     const category = article.fields.category as DocCategoryEntry | undefined;
@@ -126,7 +126,7 @@ const bodyHtml = renderRichText(article.fields.body as unknown as Document);
 ---
 
 <Layout
-  title={`${article.fields.title} — Help — Old World Rankings`}
+  title={`${article.fields.title} - Help - Old World Rankings`}
   description={article.fields.excerpt || `Help article: ${article.fields.title}`}
 >
   <Nav />

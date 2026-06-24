@@ -42,7 +42,7 @@
     // .owr-local.site in dev, .oldworldrankings.com in prod
     if (host.endsWith('owr-local.site')) return '.owr-local.site';
     if (host.endsWith('oldworldrankings.com')) return '.oldworldrankings.com';
-    return ''; // localhost fallback — no domain attr
+    return ''; // localhost fallback - no domain attr
   }
 
   function getConsent(): string | null {

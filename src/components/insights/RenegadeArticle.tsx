@@ -143,9 +143,9 @@ export default function RenegadeArticle() {
           </div>
           <div className="flex items-center gap-2">
             {[
-              { label: 'Bluesky', href: `https://bsky.app/intent/compose?text=${encodeURIComponent('The Renegade Effect — data on Legacy factions in competitive Old World\nhttps://www.oldworldrankings.com/insights/renegade-effect')}`, icon: 'M5.202 2.857C7.954 4.922 10.913 9.11 12 11.358c1.087-2.247 4.046-6.436 6.798-8.501C20.783 1.366 24 .213 24 3.883c0 .732-.42 6.156-.667 7.037-.856 3.061-3.978 3.842-6.755 3.37 4.854.826 6.089 3.562 3.422 6.299-5.065 5.196-7.28-1.304-7.847-2.97-.104-.305-.152-.448-.153-.327 0-.121-.05.022-.153.327-.568 1.666-2.782 8.166-7.847 2.97-2.667-2.737-1.432-5.473 3.422-6.3-2.777.473-5.899-.308-6.755-3.369C.42 10.04 0 4.615 0 3.883c0-3.67 3.217-2.517 5.202-1.026' },
+              { label: 'Bluesky', href: `https://bsky.app/intent/compose?text=${encodeURIComponent('The Renegade Effect - data on Legacy factions in competitive Old World\nhttps://www.oldworldrankings.com/insights/renegade-effect')}`, icon: 'M5.202 2.857C7.954 4.922 10.913 9.11 12 11.358c1.087-2.247 4.046-6.436 6.798-8.501C20.783 1.366 24 .213 24 3.883c0 .732-.42 6.156-.667 7.037-.856 3.061-3.978 3.842-6.755 3.37 4.854.826 6.089 3.562 3.422 6.299-5.065 5.196-7.28-1.304-7.847-2.97-.104-.305-.152-.448-.153-.327 0-.121-.05.022-.153.327-.568 1.666-2.782 8.166-7.847 2.97-2.667-2.737-1.432-5.473 3.422-6.3-2.777.473-5.899-.308-6.755-3.369C.42 10.04 0 4.615 0 3.883c0-3.67 3.217-2.517 5.202-1.026' },
               { label: 'Facebook', href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent('https://www.oldworldrankings.com/insights/renegade-effect')}`, icon: 'M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z' },
-              { label: 'Reddit', href: `https://reddit.com/submit?url=${encodeURIComponent('https://www.oldworldrankings.com/insights/renegade-effect')}&title=${encodeURIComponent('The Renegade Effect — 1,097 tournaments of Old World data')}`, icon: 'M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 0-.463.327.327 0 0 0-.462 0c-.545.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.231-.094z' },
+              { label: 'Reddit', href: `https://reddit.com/submit?url=${encodeURIComponent('https://www.oldworldrankings.com/insights/renegade-effect')}&title=${encodeURIComponent('The Renegade Effect - 1,097 tournaments of Old World data')}`, icon: 'M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 0-.463.327.327 0 0 0-.462 0c-.545.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.231-.094z' },
             ].map(s => (
               <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" title={`Share on ${s.label}`}
                 className="w-8 h-8 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors cursor-pointer">
@@ -153,7 +153,7 @@ export default function RenegadeArticle() {
               </a>
             ))}
             <CopyButton
-              text="The Renegade Effect — data on Legacy factions in competitive Old World&#10;https://www.oldworldrankings.com/insights/renegade-effect"
+              text="The Renegade Effect - data on Legacy factions in competitive Old World&#10;https://www.oldworldrankings.com/insights/renegade-effect"
               label="Copy for Discord"
               icon={<svg className="w-4 h-4 text-gray-600 dark:text-gray-400" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z" /></svg>}
             />
@@ -176,7 +176,7 @@ export default function RenegadeArticle() {
               <div className="relative pb-[56.25%]">
                 <iframe
                   src="https://www.youtube.com/embed/oSeSN0AP8no"
-                  title="The Renegade Effect — Old World Rankings"
+                  title="The Renegade Effect - Old World Rankings"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                   className="absolute inset-0 w-full h-full"
@@ -197,7 +197,7 @@ export default function RenegadeArticle() {
             <div className="relative pb-[56.25%]">
               <iframe
                 src="https://www.youtube.com/embed/oSeSN0AP8no"
-                title="The Renegade Effect — Old World Rankings"
+                title="The Renegade Effect - Old World Rankings"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
                 className="absolute inset-0 w-full h-full"
@@ -265,8 +265,8 @@ export default function RenegadeArticle() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
           <Stat label="Official-Only Events" value="657" detail="9,106 players" color="text-[#6b8acd]" />
           <Stat label="Renegade-Accepting" value="440" detail="6,550 players" color="text-[#c95c4c]" />
-          <Stat label="Legacy Share — Official" value="19.2%" detail="Expected: 41% (7/17 factions)" color="text-[#6b8acd]" />
-          <Stat label="Legacy Share — Renegade" value="26.8%" detail="Closer, but still under-represented" color="text-[#c95c4c]" />
+          <Stat label="Legacy Share - Official" value="19.2%" detail="Expected: 41% (7/17 factions)" color="text-[#6b8acd]" />
+          <Stat label="Legacy Share - Renegade" value="26.8%" detail="Closer, but still under-represented" color="text-[#c95c4c]" />
         </div>
         <ChartBox><AdoptionChart /></ChartBox>
       </Slide>
@@ -289,7 +289,7 @@ export default function RenegadeArticle() {
 
       {/* ══ SLIDE 4: FIRST LOOK ══ */}
       <Slide id="first-look">
-        <ChapterLabel num="Chapter II" title="First Look — All Legacy Factions" />
+        <ChapterLabel num="Chapter II" title="First Look - All Legacy Factions" />
         <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed max-w-3xl mb-6">
           Zooming into Grand Tournaments (5+ rounds), let&apos;s compare faction diversity and player share.
           The initial data is... interesting, but not as dramatic as we might expect.
@@ -300,7 +300,7 @@ export default function RenegadeArticle() {
         </div>
         <Callout color="blue" title="Initial Reading">
           Faction <em>diversity</em> is nearly identical: ~3.1 vs ~3.2 distinct Legacy factions per GT.
-          Player share differs by <strong>+3.4pp</strong> (23.4% vs 20.0%) — smaller than the +7.6pp gap across all events.
+          Player share differs by <strong>+3.4pp</strong> (23.4% vs 20.0%) - smaller than the +7.6pp gap across all events.
           That makes sense: GTs are more competitive, so players gravitate toward stronger lists. Legacy factions &mdash;
           even with renegade rules &mdash; lack the subfaction variety, expanded magic items, and updated options that core factions enjoy.
           But is there more to this story?
@@ -509,17 +509,17 @@ export default function RenegadeArticle() {
         </p>
 
         <div className="space-y-4 mb-6">
-          <Callout color="gold" title="More Legacy Players? — The Data Says Yes">
+          <Callout color="gold" title="More Legacy Players? - The Data Says Yes">
             Tournaments accepting renegade lists show <strong>+7.6pp higher Legacy player share</strong> across all formats (26.8% vs 19.2%).
             Zooming into non-VC Legacy factions at GTs, the gap is <strong>+6.0pp</strong> (18.2% vs 12.2%).
             The direction is consistent across every region and time period in our data.
           </Callout>
-          <Callout color="blue" title="Greater Diversity? — Not quite, but...">
+          <Callout color="blue" title="Greater Diversity? - Not quite, but...">
             The same factions appear regardless of ruleset. But more players are <strong>willing to bring them</strong>.
-            Community rules don&apos;t change which Legacy factions show up — they change how many people play them.
+            Community rules don&apos;t change which Legacy factions show up - they change how many people play them.
           </Callout>
-          <Callout color="purple" title="VC Distortion? — Absolutely">
-            Remove Vampire Counts and the effect <strong>doubles</strong>. VC are functionally core — the other six
+          <Callout color="purple" title="VC Distortion? - Absolutely">
+            Remove Vampire Counts and the effect <strong>doubles</strong>. VC are functionally core - the other six
             Legacy factions need community rules far more.
           </Callout>
         </div>
@@ -569,11 +569,11 @@ export default function RenegadeArticle() {
         <div className="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5 text-xs text-gray-500 leading-relaxed">
           <h3 className="text-xs font-semibold text-gray-600 uppercase tracking-wider mb-2">Methodology</h3>
           <ul className="space-y-1 list-disc pl-4">
-            <li><strong>Period:</strong> March 2025 – March 2026 (April 2026 excluded — incomplete).</li>
+            <li><strong>Period:</strong> March 2025 - March 2026 (April 2026 excluded - incomplete).</li>
             <li><strong>Official-only:</strong> every result uses a GW-published faction list. <strong>Renegade-accepting:</strong> at least one &ldquo;(Renegades)&rdquo; list present.</li>
             <li><strong>GT:</strong> 5+ rounds. <strong>Legacy factions:</strong> Chaos Dwarfs, Daemons of Chaos, Dark Elves, Lizardmen, Ogre Kingdoms, Skaven, Vampire Counts.</li>
             <li>Renegade subfactions collapsed to parent for diversity counts. Win rate = avg(wins/rounds) per player.</li>
-            <li>Data: Old World Rankings global database — <a href="https://oldworldrankings.com" className="text-owr-gold-dark hover:text-owr-gold">oldworldrankings.com</a>. Explore live faction data on our <a href="https://oldworldrankings.com/faction_stats" className="text-owr-gold-dark hover:text-owr-gold">Faction Stats</a> page.</li>
+            <li>Data: Old World Rankings global database - <a href="https://oldworldrankings.com" className="text-owr-gold-dark hover:text-owr-gold">oldworldrankings.com</a>. Explore live faction data on our <a href="https://oldworldrankings.com/faction_stats" className="text-owr-gold-dark hover:text-owr-gold">Faction Stats</a> page.</li>
           </ul>
         </div>
 

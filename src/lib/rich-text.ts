@@ -95,19 +95,19 @@ const options: Options = {
       let sizeClass: string;
       let renderWidth: number;
       if (aspect >= 1.8) {
-        // Very wide (banners) — full width
+        // Very wide (banners) - full width
         sizeClass = 'max-w-full';
         renderWidth = 1600;
       } else if (aspect >= 1.2) {
-        // Landscape — large but not full
+        // Landscape - large but not full
         sizeClass = 'max-w-2xl';
         renderWidth = 1400;
       } else if (aspect >= 0.7) {
-        // Square-ish — medium
+        // Square-ish - medium
         sizeClass = 'max-w-sm';
         renderWidth = 800;
       } else {
-        // Portrait/tall — small
+        // Portrait/tall - small
         sizeClass = 'max-w-xs';
         renderWidth = 700;
       }
@@ -131,7 +131,7 @@ function wrapConsecutiveFigures(html: string): string {
     /(<figure class="doc-figure[^>]*>[\s\S]*?<\/figure>\s*){2,}/g,
     (match) => {
       const figures = match.match(/<figure class="doc-figure[^>]*>[\s\S]*?<\/figure>/g) || [];
-      // Reset individual figure margins/max-width inside grids — grid handles sizing
+      // Reset individual figure margins/max-width inside grids - grid handles sizing
       const cleaned = figures.map(f =>
         f.replace(/class="doc-figure my-6 [^"]*mx-auto"/, 'class="doc-figure my-0"')
       ).join('\n');

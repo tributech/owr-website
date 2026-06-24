@@ -7,7 +7,7 @@ import { renderRichText } from '../../lib/rich-text';
 import type { InsightArticleSkeleton, InsightArticleEntry } from '../../lib/contentful-types';
 import type { Document } from '@contentful/rich-text-types';
 
-// Custom article components — Astro needs static imports for client:load hydration.
+// Custom article components - Astro needs static imports for client:load hydration.
 // Add new custom articles here with an import + slug match below.
 import RenegadeArticle from '../../components/insights/RenegadeArticle';
 
@@ -74,14 +74,14 @@ const discordCopyText = `${shareText}\n${shareUrl}`;
 ---
 
 <Layout
-  title={`${article.fields.title} — Old World Rankings`}
+  title={`${article.fields.title} - Old World Rankings`}
   description={article.fields.description}
   ogImage={ogImage}
 >
   <Nav transparent={false} />
 
   <main class="bg-white dark:bg-[#0a0c10]">
-    {/* Custom pages — add new slug matches here */}
+    {/* Custom pages - add new slug matches here */}
     {isCustom && slug === 'renegade-effect' && <RenegadeArticle client:load />}
 
     {!isCustom && (
@@ -173,7 +173,7 @@ const discordCopyText = `${shareText}\n${shareUrl}`;
           checkIcon?.classList.add('hidden');
         }, 1500);
       } catch {
-        // Clipboard API unavailable (e.g. insecure context) — silently no-op.
+        // Clipboard API unavailable (e.g. insecure context) - silently no-op.
       }
     });
   });

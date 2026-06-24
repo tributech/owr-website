@@ -36,8 +36,8 @@ const megaMenus = [
       { label: 'Features', href: '/#features', description: 'Everything OWR offers for players and tournament organisers', icon: Sparkles },
       { label: 'Battle Builder', href: `${APP_URL}/builder`, description: 'Build and manage your army lists with our list builder', icon: Hammer },
       { label: 'Battle Hub Scorer', href: '#', description: 'Live scoring and results for your tournament games', icon: Swords },
-      { label: 'Mobile App', href: '/#mobile', description: 'OWR in your pocket — manage lists and get live event updates', icon: Smartphone },
-      { label: 'Pricing', href: '/pricing', description: 'Free for players forever — Pro plans for tournament organisers', icon: CreditCard },
+      { label: 'Mobile App', href: '/#mobile', description: 'OWR in your pocket - manage lists and get live event updates', icon: Smartphone },
+      { label: 'Pricing', href: '/pricing', description: 'Free for players forever - Pro plans for tournament organisers', icon: CreditCard },
     ],
   },
   {
@@ -48,7 +48,7 @@ const megaMenus = [
       { label: 'Documentation', href: '/docs', description: 'Guides and help articles to get the most out of OWR', icon: BookOpen },
       { label: "What's New", href: '/whatsnew/', description: 'Latest updates, improvements and fixes to the platform', icon: Newspaper },
       { label: 'Old World Fanatics', href: 'https://www.youtube.com/@OldWorldFanatics', description: 'Our podcast and livestream for all things Old World', icon: Mic, external: true },
-      { label: 'Support', href: '/support', description: 'Get in touch — we\'re here to help', icon: Mail },
+      { label: 'Support', href: '/support', description: 'Get in touch - we\'re here to help', icon: Mail },
     ],
   },
 ];
@@ -112,7 +112,7 @@ mobileLinks.push(...directLinks);
               </span>
             </button>
 
-            <!-- Dropdown panel — CSS hover only -->
+            <!-- Dropdown panel - CSS hover only -->
             <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 absolute left-1/2 -translate-x-1/2 top-full pt-2 transition-all duration-150 z-50">
               <div class:list={[
                 'rounded-xl border shadow-xl p-2',
@@ -567,7 +567,7 @@ mobileLinks.push(...directLinks);
   // ── Nav personalisation ─────────────────────────────────────────
   async function personaliseNav() {
     const user = await apiFetch<LandingMe>('/api/v1/landing/me');
-    if (!user) return; // 401 or network error — stay anonymous
+    if (!user) return; // 401 or network error - stay anonymous
 
     // Desktop: swap anonymous → authenticated
     const anonEl = document.getElementById('nav-anonymous');

@@ -3,7 +3,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  /* OWR Brand — Warhammer-inspired palette */
+  /* OWR Brand - Warhammer-inspired palette */
   --color-owr-gold: #FFD700;
   --color-owr-gold-dark: #DAA520;
   --color-owr-red: #800000;

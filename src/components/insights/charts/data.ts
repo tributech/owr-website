@@ -1,4 +1,4 @@
-/** Static data for Renegade Effect article — Mar 2025 to Mar 2026 (excl April 2026) */
+/** Static data for Renegade Effect article - Mar 2025 to Mar 2026 (excl April 2026) */
 
 export const MONTHS = ['Mar 25','Apr 25','May 25','Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25','Dec 25','Jan 26','Feb 26','Mar 26'] as const;
 

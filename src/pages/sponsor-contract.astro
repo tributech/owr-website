@@ -2,9 +2,9 @@
 import Layout from '../layouts/Layout.astro';
 
 const tiers = [
-  { name: 'Regional Partner — Tier 1', regions: 'UK · US', price: '£50 / USD$60 per region / month' },
-  { name: 'Regional Partner — Tier 2', regions: 'AU · CA', price: 'AUD$50 / CAD$50 per region / month' },
-  { name: 'Regional Partner — Tier 3', regions: 'every other region — NZ · IE · EU · ZA · JP · etc.', price: '£25 / USD$30 per region / month' },
+  { name: 'Regional Partner - Tier 1', regions: 'UK · US', price: '£50 / USD$60 per region / month' },
+  { name: 'Regional Partner - Tier 2', regions: 'AU · CA', price: 'AUD$50 / CAD$50 per region / month' },
+  { name: 'Regional Partner - Tier 3', regions: 'every other region - NZ · IE · EU · ZA · JP · etc.', price: '£25 / USD$30 per region / month' },
   { name: 'Global Spotlight', regions: 'oldworldrankings.com homepage + global rankings', price: '£100 / USD$130 flat / month' },
   { name: 'Army Lists Feature', regions: 'inside every army-list detail modal, opened from any tournament page', price: '£150 / USD$190 flat / month' },
 ];
@@ -16,7 +16,7 @@ const regionFlags = [
   { flag: '🇨🇦', name: 'Canada', tier: 'Tier 2' },
   { flag: '🇳🇿', name: 'New Zealand', tier: 'Tier 3' },
   { flag: '🇮🇪', name: 'Ireland', tier: 'Tier 3' },
-  { flag: '🇪🇺', name: 'EU — non-UK/IE', tier: 'Tier 3' },
+  { flag: '🇪🇺', name: 'EU - non-UK/IE', tier: 'Tier 3' },
 ];
 
 const partyFields = [
@@ -36,7 +36,7 @@ const creativeSpec = [
   ['Colour space', 'sRGB'],
   ['Retina', 'Supply @2x if you can (1456 × 180 / 640 × 200)'],
   ['Background', 'Transparent PNG preferred for logo marks; solid OK'],
-  ['Animation', 'Static only — no GIFs, no video'],
+  ['Animation', 'Static only - no GIFs, no video'],
   ['Safe zone', 'Keep critical text ≥8px from edges'],
   ['Landing URL', 'One per ad size. Must be HTTPS.'],
 ];
@@ -54,7 +54,7 @@ const terms = [
 
 <Layout
   title="OWR Sponsor Agreement"
-  description="Sponsor agreement template for Old World Rankings — fill in, print to PDF, and return signed."
+  description="Sponsor agreement template for Old World Rankings - fill in, print to PDF, and return signed."
   noindex={true}
 >
   <button id="print-btn" class="print-btn" type="button" aria-label="Print or save as PDF">
@@ -95,14 +95,14 @@ const terms = [
 
     <section>
       <h2>2. Package Selected</h2>
-      <p>Tick the tier(s) purchased. Regional tiers price <strong>per region</strong> — buy one or several within a tier.</p>
+      <p>Tick the tier(s) purchased. Regional tiers price <strong>per region</strong> - buy one or several within a tier.</p>
 
       <ul class="check-list">
         {tiers.map((t) => (
           <li>
             <span class="check"></span>
             <div>
-              <strong>{t.name}</strong> ({t.regions}) — <span class="price">{t.price}</span>
+              <strong>{t.name}</strong> ({t.regions}) - <span class="price">{t.price}</span>
             </div>
           </li>
         ))}
@@ -124,11 +124,11 @@ const terms = [
       </ul>
 
       <h3>Term &amp; Discount</h3>
-      <p>Minimum term is <strong>3 months</strong> — no discount applies at the minimum. Longer upfront commitments earn a discount:</p>
+      <p>Minimum term is <strong>3 months</strong> - no discount applies at the minimum. Longer upfront commitments earn a discount:</p>
       <ul class="check-list">
-        <li><span class="check"></span><div>6 months upfront — <strong>15% off</strong></div></li>
-        <li><span class="check"></span><div>12 months upfront — <strong>20% off</strong> + footer logo in event emails</div></li>
-        <li><span class="check"></span><div>Affiliate link provided — <strong>additional 15% off</strong> any tier</div></li>
+        <li><span class="check"></span><div>6 months upfront - <strong>15% off</strong></div></li>
+        <li><span class="check"></span><div>12 months upfront - <strong>20% off</strong> + footer logo in event emails</div></li>
+        <li><span class="check"></span><div>Affiliate link provided - <strong>additional 15% off</strong> any tier</div></li>
       </ul>
 
       <table class="kv totals">
@@ -146,11 +146,11 @@ const terms = [
 
       <div class="ad-sizes">
         <div class="ad-size">
-          <h3>Desktop Leaderboard — 728 × 90</h3>
+          <h3>Desktop Leaderboard - 728 × 90</h3>
           <p>Shown on: homepage hero band, regional dashboard, global rankings, army lists index, army list detail modal.</p>
         </div>
         <div class="ad-size">
-          <h3>Mobile Banner — 320 × 100</h3>
+          <h3>Mobile Banner - 320 × 100</h3>
           <p>Shown on: mobile rankings, mobile army lists.</p>
         </div>
       </div>
@@ -164,7 +164,7 @@ const terms = [
         </tbody>
       </table>
 
-      <p class="callout"><strong>Max 3 sponsors per slot per region.</strong> OWR Pro members see an ad-free experience — ads shown only to free users.</p>
+      <p class="callout"><strong>Max 3 sponsors per slot per region.</strong> OWR Pro members see an ad-free experience - ads shown only to free users.</p>
 
       <h3>Creative swaps</h3>
       <p>One swap per calendar month at no charge. Additional swaps billed at AUD$25 each or comped at OWR's discretion.</p>
@@ -193,7 +193,7 @@ const terms = [
 
     <section class="payment-section">
       <h2>6. Payment</h2>
-      <p>OWR will send a payment link once §1 is filled in. Invoice from Tributech Pty Ltd. Payable in the currency listed against your tier in §2 — <strong>GBP / USD$</strong> for Tier 1, Tier 3, Global Spotlight and Army Lists Feature; <strong>AUD$ / CAD$</strong> for Tier 2. Card, PayPal and bank transfer accepted.</p>
+      <p>OWR will send a payment link once §1 is filled in. Invoice from Tributech Pty Ltd. Payable in the currency listed against your tier in §2 - <strong>GBP / USD$</strong> for Tier 1, Tier 3, Global Spotlight and Army Lists Feature; <strong>AUD$ / CAD$</strong> for Tier 2. Card, PayPal and bank transfer accepted.</p>
     </section>
 
     <section class="sign-section">

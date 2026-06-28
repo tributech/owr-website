@@ -3,7 +3,7 @@ import {
   Globe, Trophy, CalendarArrowUp, CalendarDays, ScrollText, Image, BarChart,
   Swords, Sparkles, Hammer, Smartphone, CreditCard,
   Map, BookOpen, Newspaper, Mic, Mail,
-  MessageCircleQuestion, Sun, Moon, Menu, X as CloseIcon,
+  CircleHelp, Sun, Moon, Menu, X as CloseIcon,
   ChevronDown, User, Settings, Info,
 } from '@lucide/astro';
 
@@ -195,14 +195,15 @@ mobileLinks.push(...directLinks);
           type="button"
           data-action="banshee-open"
           class:list={[
-            'hidden lg:flex items-center justify-center w-9 h-9 rounded-lg transition-colors cursor-pointer',
+            'hidden lg:flex items-center justify-center gap-1 h-9 px-3 rounded-lg transition-colors cursor-pointer',
             transparent
-              ? 'text-owr-gold hover:bg-white/10'
-              : 'text-owr-gold-dark dark:text-owr-gold hover:bg-gray-100 dark:hover:bg-gray-800',
+              ? 'text-owr-gold hover:text-white hover:bg-white/10'
+              : 'text-owr-gold-dark hover:text-gray-900 hover:bg-gray-100 dark:text-owr-gold dark:hover:text-white dark:hover:bg-gray-800',
           ]}
           aria-label="Open help chat"
         >
-          <MessageCircleQuestion size={20} strokeWidth={2} />
+          <CircleHelp size={20} strokeWidth={2} />
+          <span class="text-sm font-medium">Help</span>
         </button>
 
         <!-- Theme toggle -->
@@ -212,8 +213,8 @@ mobileLinks.push(...directLinks);
           class:list={[
             'hidden lg:flex items-center justify-center w-9 h-9 rounded-lg transition-colors cursor-pointer',
             transparent
-              ? 'text-owr-gold hover:bg-white/10'
-              : 'text-owr-gold-dark dark:text-owr-gold hover:bg-gray-100 dark:hover:bg-gray-800',
+              ? 'text-owr-gold hover:text-white hover:bg-white/10'
+              : 'text-owr-gold-dark hover:text-gray-900 hover:bg-gray-100 dark:text-owr-gold dark:hover:text-white dark:hover:bg-gray-800',
           ]}
           aria-label="Toggle theme"
         >

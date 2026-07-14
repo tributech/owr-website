@@ -1,68 +1,57 @@
 ---
 /**
- * Hero section with rotating battle backgrounds and global search.
+ * Branded hero with rotating battle backgrounds, the feature showcase,
+ * and global search. The photographic backdrop unifies the whole story.
  * Background images rotate client-side every 8 seconds.
  */
 import GlobalSearch from './GlobalSearch';
+import FeatureCarousel from './FeatureCarousel.astro';
 
 const heroImages = Array.from({ length: 16 }, (_, i) => `/images/landing/image${i + 1}.jpg`);
 ---
 
-<section class="relative min-h-[60vh] sm:min-h-[70vh] flex items-center justify-center pt-16 pb-8 sm:pb-12">
+<section class="relative overflow-hidden pt-18 pb-6 sm:pt-28 sm:pb-12">
   <!-- Background with overlay -->
   <div class="absolute inset-0 bg-black" id="hero-bg">
     {heroImages.map((src, i) => (
       <div
         class:list={[
           'hero-slide absolute inset-0 transition-opacity duration-1000',
-          i === 0 ? 'opacity-40' : 'opacity-0',
+          i === 0 ? 'opacity-50' : 'opacity-0',
         ]}
         data-index={i}
       >
         <img src={src} alt="" class="w-full h-full object-cover" loading={i === 0 ? 'eager' : 'lazy'} />
       </div>
     ))}
-    <div class="absolute inset-0 bg-black/20"></div>
+    <div class="absolute inset-0 bg-black/50"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-black/55 via-black/20 to-black/35"></div>
+    <div class="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-transparent to-gray-900/80"></div>
   </div>
 
-  <!-- Content -->
-  <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-    <img
-      src="/images/owr_logo_white.png"
-      alt="Old World Rankings"
-      class="mx-auto mb-6 sm:mb-8 h-20 w-20 sm:h-32 sm:w-32"
-    />
-
-    <h1 class="text-3xl sm:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 text-balance">
-      The Complete Companion to The Old World
-    </h1>
-
-    <p class="text-base sm:text-xl text-white/80 mb-6 sm:mb-8">
-      Host, Find &amp; Play Events &middot; Create Army Lists &middot; Track Faction Meta &amp; Rankings
-    </p>
-
-    <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-8 sm:mb-12">
-      <a
-        href="#regions"
-        class="w-full sm:w-auto px-8 py-3 bg-owr-gold text-gray-900 font-semibold rounded-lg hover:bg-owr-gold-dark transition-colors text-center"
-      >
-        Find Your Region
-      </a>
-      <a
-        href="#hosting"
-        class="relative w-full sm:w-auto px-8 py-3 bg-transparent border border-white/50 text-white font-medium rounded-lg hover:bg-white/10 transition-colors text-center"
-      >
-        Host Your Tournament
-        <span class="absolute -top-2 -right-2 px-1.5 py-0.5 text-[10px] font-bold bg-green-500 text-white rounded-full leading-none">NEW</span>
-      </a>
-      <a
-        href="#builder"
-        class="relative w-full sm:w-auto px-8 py-3 bg-transparent border border-owr-gold text-owr-gold font-medium rounded-lg hover:bg-owr-gold/10 transition-colors text-center"
-      >
-        Try the Battle Builder
-        <span class="absolute -top-2 -right-2 px-1.5 py-0.5 text-[10px] font-bold bg-green-500 text-white rounded-full leading-none">NEW</span>
-      </a>
+  <!-- Brand line -->
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-center lg:justify-start gap-3 sm:gap-4">
+      <!-- Hidden on mobile: the nav already shows the logo right above this. -->
+      <img
+        src="/images/owr_logo_white.png"
+        alt="Old World Rankings"
+        class="hidden sm:block sm:h-16 sm:w-16 flex-shrink-0"
+      />
+      <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-white text-balance text-center lg:text-left">
+        The Complete Companion to The Old World
+      </h1>
     </div>
+  </div>
+
+  <!-- Product story over the rotating army photography -->
+  <FeatureCarousel />
+
+  <!-- Platform tagline and search -->
+  <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center mt-2 sm:mt-4">
+    <p class="text-sm sm:text-lg lg:text-xl text-white/80 mb-5 sm:mb-6 text-balance">
+      Host, Find &amp; Play Events &middot; Create Army Lists &middot; Share Army Galleries &middot; Track Faction Meta &amp; Rankings
+    </p>
 
     <GlobalSearch client:load />
   </div>
@@ -74,11 +63,11 @@ const heroImages = Array.from({ length: 16 }, (_, i) => `/images/landing/image${
   let current = 0;
   if (slides.length > 1) {
     setInterval(() => {
-      slides[current].classList.remove('opacity-40');
+      slides[current].classList.remove('opacity-50');
       slides[current].classList.add('opacity-0');
       current = (current + 1) % slides.length;
       slides[current].classList.remove('opacity-0');
-      slides[current].classList.add('opacity-40');
+      slides[current].classList.add('opacity-50');
     }, 8000);
   }
 </script>

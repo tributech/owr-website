@@ -483,7 +483,7 @@ export default function RenegadeArticle() {
               <div className="text-xs font-semibold uppercase tracking-widest text-owr-gold-dark mb-1">OWR Pro</div>
               <p className="text-sm text-gray-600 dark:text-gray-400">
                 Going Pro supports the project and helps us produce more analysis like this &mdash; including parsing player packs at scale.
-                You also get deeper faction stats, matchup data, and AI Smart Convert.
+                You also get deeper faction stats, matchup data, and Digital Lists.
               </p>
             </div>
             <a
@@ -573,7 +573,7 @@ export default function RenegadeArticle() {
             <li><strong>Official-only:</strong> every result uses a GW-published faction list. <strong>Renegade-accepting:</strong> at least one &ldquo;(Renegades)&rdquo; list present.</li>
             <li><strong>GT:</strong> 5+ rounds. <strong>Legacy factions:</strong> Chaos Dwarfs, Daemons of Chaos, Dark Elves, Lizardmen, Ogre Kingdoms, Skaven, Vampire Counts.</li>
             <li>Renegade subfactions collapsed to parent for diversity counts. Win rate = avg(wins/rounds) per player.</li>
-            <li>Data: Old World Rankings global database - <a href="https://oldworldrankings.com" className="text-owr-gold-dark hover:text-owr-gold">oldworldrankings.com</a>. Explore live faction data on our <a href="https://oldworldrankings.com/faction_stats" className="text-owr-gold-dark hover:text-owr-gold">Faction Stats</a> page.</li>
+            <li>Data: Old World Rankings global database - <a href="https://oldworldrankings.com" className="text-owr-gold-dark hover:text-owr-gold">oldworldrankings.com</a>. Explore live faction data on our <a href="https://oldworldrankings.com/faction_stats/v2" className="text-owr-gold-dark hover:text-owr-gold">Faction Stats</a> page.</li>
           </ul>
         </div>
 

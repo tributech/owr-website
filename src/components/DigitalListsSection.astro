@@ -5,11 +5,14 @@ const highlights = [
   { text: '13,000+ lists already converted', detail: 'Every army list on OWR is converted automatically - browse, filter, and open any list in Battle Builder.' },
   { text: 'One-click Send to Battle Builder', detail: 'Find a list you like? Send it straight to Battle Builder to tweak, save, and take to your next game.' },
   { text: '100% Old World Builder compatible', detail: 'Download any converted list as an .owb.json file and import it into Old World Builder.' },
-  { text: 'New lists converted in real time', detail: 'As tournament lists are submitted, AI Smart Convert processes them instantly - no waiting.' },
+  { text: 'New lists converted in real time', detail: 'As tournament lists are submitted, we convert them instantly - no waiting.' },
 ];
 ---
 
-<section id="smart-convert" class="relative py-16 sm:py-24 overflow-hidden scroll-mt-20">
+<!-- Legacy anchor: links to #smart-convert predate the Digital Lists rename. -->
+<span id="smart-convert" class="block scroll-mt-20"></span>
+
+<section id="digital-lists" class="relative py-16 sm:py-24 overflow-hidden scroll-mt-20">
   <!-- Dark background -->
   <div class="absolute inset-0 bg-gray-900">
     <div class="absolute inset-0 opacity-5 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCI+CjxyZWN0IHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgZmlsbD0iIzAwMCIvPgo8cGF0aCBkPSJNMzYgMzRoLTJ2LTRoLTR2LTJoNHYtNGgydjRoNHYyaC00djR6IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuNCIvPgo8L3N2Zz4=')]"></div>
@@ -24,7 +27,7 @@ const highlights = [
           <path d="M18 12l.6 1.82L20.4 14.4l-1.8.58L18 16.8l-.6-1.82-1.8-.58 1.8-.58L18 12z"/>
           <path d="M7 14l.6 1.82L9.4 16.4l-1.8.58L7 18.8l-.6-1.82-1.8-.58 1.8-.58L7 14z"/>
         </svg>
-        AI Smart Convert
+        Digital Lists
       </span>
     </div>
 
@@ -34,7 +37,7 @@ const highlights = [
         <div class="relative w-full max-w-lg">
           <img
             src="/images/ai-convert-promo.webp"
-            alt="AI Smart Convert transforms plain-text army lists into fully interactive Battle Builder format"
+            alt="Digital Lists transforms plain-text army lists into fully interactive Battle Builder format"
             class="w-full"
             loading="lazy"
           />
@@ -64,7 +67,7 @@ const highlights = [
             <path d="M18 12l.6 1.82L20.4 14.4l-1.8.58L18 16.8l-.6-1.82-1.8-.58 1.8-.58L18 12z"/>
             <path d="M7 14l.6 1.82L9.4 16.4l-1.8.58L7 18.8l-.6-1.82-1.8-.58 1.8-.58L7 14z"/>
           </svg>
-          AI Smart Convert
+          Digital Lists
         </span>
         <a
           href={`${APP_URL}/army_lists`}
@@ -81,8 +84,8 @@ const highlights = [
           Say Goodbye to Text Lists
         </h2>
         <p class="text-white/70 mb-8">
-          No more copying text and manually entering lists. AI Smart Convert uses AI to turn every army list on OWR
-          into a fully interactive Battle Builder list - ready to tweak, share, and take to the table.
+          No more copying text and manually entering lists. Digital Lists uses AI to turn every army list on OWR
+          into a fully interactive Battle Builder list, ready to tweak, share, and take to the table.
         </p>
 
         <ul class="space-y-4 mb-8">
@@ -105,7 +108,7 @@ const highlights = [
         >
           Upgrade to Pro
         </a>
-        <p class="text-[11px] text-white/40 mt-3">* AI Smart Convert is a Pro feature.</p>
+        <p class="text-[11px] text-white/40 mt-3">* Digital Lists is a Pro feature.</p>
       </div>
     </div>
   </div>

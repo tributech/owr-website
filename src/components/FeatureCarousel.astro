@@ -1,0 +1,539 @@
+---
+/**
+ * Large rotating feature showcase inside the photographic hero.
+ * Each slide pairs a headline + CTAs with a big product image.
+ * Slide 0 is the default and is what most visitors will see.
+ */
+const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com';
+
+type Slide = {
+  id: string;
+  eyebrow: string;
+  badge?: string;
+  title: string;
+  description: string;
+  bullets: string[];
+  image: string;
+  imageAlt: string;
+  /**
+   * 'screen' = wide product shot, framed as a card
+   * 'phone'  = tall device shot, framed as a card
+   * 'float'  = transparent artwork that supplies its own framing
+   */
+  imageStyle: 'screen' | 'phone' | 'float';
+  /** Let the artwork run past its column and taller than the shared cap. */
+  imageLarge?: boolean;
+  primary: { label: string; href: string; external?: boolean };
+  secondary?: { label: string; href: string; external?: boolean };
+};
+
+const slides: Slide[] = [
+  {
+    id: 'faction-stats',
+    eyebrow: 'Faction Stats',
+    badge: 'NEW',
+    title: 'Every matchup, mapped.',
+    description:
+      'Faction versus faction win rates across every tournament we track, now down to the individual pairing.',
+    bullets: [
+      'Win-rate trends across every rule version',
+      'Faction tier list, S through F',
+      '95% confidence intervals and meta share',
+    ],
+    image: '/images/hero/faction-stats-v2.png',
+    imageAlt: 'Faction Stats matchup matrix showing faction versus faction win rates',
+    imageStyle: 'screen',
+    primary: { label: 'Explore Faction Stats', href: `${APP_URL}/faction_stats/v2`, external: true },
+    secondary: { label: 'Read the latest insights', href: '/insights/' },
+  },
+  {
+    id: 'battle-builder',
+    eyebrow: 'Battle Builder',
+    badge: 'NEW',
+    title: 'Build your army. Submit your list. Play.',
+    description:
+      'Pick your faction, add units, validate against the latest points, and send your list straight to your next event.',
+    bullets: [
+      'Real-time validation against current rules',
+      'Submit to tournaments without leaving the builder',
+      'Synced across web, iOS, and Android',
+    ],
+    image: '/images/battle-builder-desktop.png',
+    imageAlt: 'Battle Builder army list editor on desktop',
+    imageStyle: 'screen',
+    primary: { label: 'Open Battle Builder', href: `${APP_URL}/builder`, external: true },
+    secondary: { label: 'See how it works', href: '/#builder' },
+  },
+  {
+    id: 'hosting',
+    eyebrow: 'Tournament Hosting',
+    title: 'Why settle for clunky tournament hosting?',
+    description:
+      'No spreadsheets, no chasing payments, no manual pairings. Registration through to the final results screen, all in one place.',
+    bullets: [
+      'Take payments and manage attendees',
+      'Automatic pairings and live scoring',
+      'Battle board for the big screen at your venue',
+    ],
+    image: '/images/hero/host.png',
+    imageAlt: 'Tournament final results on the battle board alongside event registration on mobile',
+    imageStyle: 'float',
+    primary: { label: 'Host Your Tournament', href: `${APP_URL}/host`, external: true },
+    secondary: { label: 'What you get', href: '/#hosting' },
+  },
+  {
+    id: 'battle-hub',
+    eyebrow: 'Battle Hub',
+    badge: 'NEW',
+    title: 'Run your whole event from the table.',
+    description:
+      'The round timer, your pairing, and your scoresheet, all live on your phone. No paper, no hunting for the TO.',
+    bullets: [
+      'Live round clock and pairings as they drop',
+      'Enter victory points and soft scores at the table',
+      'Get notified the moment your list is approved',
+    ],
+    image: '/images/hero/battle-hub.png',
+    imageAlt: 'Battle Hub on mobile showing a live round timer, soft scoring, and victory point entry',
+    imageStyle: 'float',
+    primary: { label: 'Open Battle Hub', href: `${APP_URL}/my_events`, external: true },
+    secondary: { label: 'Get the mobile app', href: '/#mobile' },
+  },
+  {
+    id: 'digital-lists',
+    eyebrow: 'Digital Lists',
+    badge: 'NEW',
+    title: 'Wave goodbye to text lists.',
+    description:
+      'Paste a list from anywhere and we turn it into a validated, editable army list in seconds.',
+    bullets: [
+      'Works with pasted text, screenshots, and exports',
+      'Catches points and rules errors as it converts',
+      'Ready to submit the moment it lands',
+    ],
+    image: '/images/ai-convert-promo.webp',
+    imageAlt: 'A pasted text list being turned into a validated digital army list',
+    imageStyle: 'screen',
+    primary: { label: 'Digitise Your Lists', href: `${APP_URL}/army_lists`, external: true },
+    secondary: { label: 'See how it works', href: '/#digital-lists' },
+  },
+  {
+    id: 'galleries',
+    eyebrow: 'Army Galleries',
+    title: 'Find your inspiration.',
+    description:
+      'Show off the painting. Upload up to 20 photos of an army, tag the factions, and link it to the list you actually took to an event.',
+    bullets: [
+      'Up to 20 photos per gallery, drag to reorder',
+      'Five-star ratings on every photo',
+      'Filter by faction, region, player or rating',
+    ],
+    image: '/images/hero/galleries.png',
+    imageAlt: 'Army galleries browsing page on desktop and mobile, showing painted armies with star ratings',
+    imageStyle: 'float',
+    // A dense grid of small thumbnails - it needs to run wider than the column
+    // or the painted armies read as coloured noise.
+    imageLarge: true,
+    primary: { label: 'Browse Galleries', href: `${APP_URL}/galleries`, external: true },
+  },
+];
+---
+
+<section
+  id="feature-carousel"
+  class="relative overflow-hidden scroll-mt-20"
+  data-carousel
+  aria-roledescription="carousel"
+  aria-label="Featured Old World Rankings features"
+>
+  <!-- Subtle gold glow behind the artwork -->
+  <div
+    class="pointer-events-none absolute -right-32 top-1/2 h-[520px] w-[520px] -translate-y-1/2 rounded-full bg-owr-gold/10 blur-3xl"
+  >
+  </div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-10 lg:py-12 carousel-layout">
+    {/* Artwork stack - leads on mobile, sits right on desktop */}
+    <div class="carousel-art grid items-center justify-items-center">
+      {
+        slides.map((slide, i) => (
+          <div
+            class:list={[
+              'col-start-1 row-start-1 w-full flex justify-center transition-opacity duration-500',
+              i === 0 ? 'opacity-100' : 'pointer-events-none opacity-0',
+            ]}
+            data-slide={i}
+            aria-hidden={i === 0 ? 'false' : 'true'}
+          >
+            <img
+              src={slide.image}
+              alt={slide.imageAlt}
+              loading={i === 0 ? 'eager' : 'lazy'}
+              decoding="async"
+              data-large={slide.imageLarge ? '' : undefined}
+              class:list={[
+                slide.imageLarge && 'lg:!max-w-none lg:w-[128%]',
+                // Width is left to the intrinsic aspect ratio against a height
+                // cap, so the box always hugs the image. Forcing w-full plus a
+                // height cap would letterbox it and leave the rounded frame
+                // drawing a ghost border around empty space.
+                'w-auto max-w-full',
+                slide.imageStyle === 'phone' && 'rounded-xl shadow-2xl ring-1 ring-white/10',
+                slide.imageStyle === 'screen' && 'rounded-xl shadow-2xl ring-1 ring-white/10',
+                // Pre-composited artwork with its own transparent edges - a
+                // card frame around it would box in shapes that aren't square.
+                slide.imageStyle === 'float' && 'drop-shadow-2xl',
+              ]}
+            />
+          </div>
+        ))
+      }
+    </div>
+
+    {/* Copy stack */}
+    <div class="carousel-copy grid">
+      {
+        slides.map((slide, i) => (
+          <div
+            class:list={[
+              'col-start-1 row-start-1 transition-opacity duration-500',
+              i === 0 ? 'opacity-100' : 'pointer-events-none opacity-0',
+            ]}
+            data-slide={i}
+            id={`slide-${slide.id}`}
+            role="group"
+            aria-roledescription="slide"
+            aria-label={`${i + 1} of ${slides.length}: ${slide.eyebrow}`}
+            aria-hidden={i === 0 ? 'false' : 'true'}
+          >
+            <div class="flex items-center gap-2 mb-4">
+              <span class="text-xs sm:text-sm font-semibold uppercase tracking-[0.15em] text-owr-gold">
+                {slide.eyebrow}
+              </span>
+              {slide.badge && (
+                <span class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide bg-green-500 text-white rounded-full">
+                  {slide.badge}
+                </span>
+              )}
+            </div>
+
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 text-balance">
+              {slide.title}
+            </h2>
+
+            <p class="text-base sm:text-lg text-white/70 mb-6 max-w-xl">{slide.description}</p>
+
+            <ul class="space-y-2 mb-8">
+              {slide.bullets.map((bullet) => (
+                <li class="flex items-start gap-2.5 text-sm sm:text-base text-white/80">
+                  <svg
+                    class="w-4 h-4 mt-1 flex-shrink-0 text-owr-gold"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M16.704 5.29a1 1 0 010 1.42l-7.5 7.5a1 1 0 01-1.42 0l-3.5-3.5a1 1 0 111.42-1.42l2.79 2.79 6.79-6.79a1 1 0 011.42 0z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                  <span>{bullet}</span>
+                </li>
+              ))}
+            </ul>
+
+            <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
+              <a
+                href={slide.primary.href}
+                tabindex={i === 0 ? undefined : '-1'}
+                {...(slide.primary.external
+                  ? { target: '_blank', rel: 'noopener noreferrer' }
+                  : {})}
+                class="px-6 py-3 bg-owr-gold text-gray-900 font-semibold rounded-lg hover:bg-owr-gold-dark transition-colors text-center"
+              >
+                {slide.primary.label}
+              </a>
+              {slide.secondary && (
+                <a
+                  href={slide.secondary.href}
+                  tabindex={i === 0 ? undefined : '-1'}
+                  {...(slide.secondary.external
+                    ? { target: '_blank', rel: 'noopener noreferrer' }
+                    : {})}
+                  class="px-6 py-3 border border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-colors text-center"
+                >
+                  {slide.secondary.label}
+                </a>
+              )}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- Controls: between artwork and copy on mobile, under the copy on desktop -->
+    <div class="carousel-controls flex items-center justify-between gap-3 border-white/10">
+      <div class="flex flex-wrap items-center gap-1.5 sm:gap-2" role="tablist" aria-label="Choose a feature">
+        {
+          slides.map((slide, i) => (
+            <button
+              type="button"
+              data-dot={i}
+              role="tab"
+              aria-selected={i === 0 ? 'true' : 'false'}
+              aria-controls={`slide-${slide.id}`}
+              class="carousel-tab"
+            >
+              <span>{slide.eyebrow}</span>
+            </button>
+          ))
+        }
+      </div>
+
+      <div class="flex flex-shrink-0 items-center gap-1.5 sm:gap-2">
+        <button
+          type="button"
+          data-prev
+          aria-label="Previous feature"
+          class="p-1.5 sm:p-2 rounded-full border border-white/20 text-white/70 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+        >
+          <svg class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path
+              fill-rule="evenodd"
+              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+              clip-rule="evenodd"></path>
+          </svg>
+        </button>
+        <button
+          type="button"
+          data-next
+          aria-label="Next feature"
+          class="p-1.5 sm:p-2 rounded-full border border-white/20 text-white/70 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+        >
+          <svg class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path
+              fill-rule="evenodd"
+              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+              clip-rule="evenodd"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* On mobile the controls sit between the artwork and the copy, so you can
+     flick through features without scrolling past a screen of text each time.
+     On desktop they return to the bottom of the copy column, with the artwork
+     spanning both rows on the right. */
+  .carousel-layout {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .carousel-art {
+    order: 1;
+  }
+
+  .carousel-controls {
+    order: 2;
+    margin-top: 0.5rem;
+    padding-top: 0.625rem;
+    padding-bottom: 0.75rem;
+    border-top-width: 1px;
+  }
+
+  .carousel-copy {
+    order: 3;
+  }
+
+  /* The artwork stack is only as tall as its tallest slide, so an uncapped
+     image leaves the shorter slides floating in a huge empty box. A single
+     height cap keeps all six slides roughly the same size. Every image keeps
+     its natural aspect ratio, so the box never exceeds the picture. */
+  .carousel-art img {
+    max-height: 30rem;
+  }
+
+  /* Slides flagged imageLarge break the shared cap - they carry detail that
+     doesn't survive being shrunk to match the others. */
+  .carousel-art img[data-large] {
+    max-height: 38rem;
+  }
+
+  @media (width < 40rem) {
+    .carousel-art img,
+    .carousel-art img[data-large] {
+      max-height: 34vh;
+    }
+  }
+
+  @media (width >= 64rem) {
+    .carousel-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      /* Controls span the full width so the five labelled pills stay on one
+         row - confined to the copy column they wrap into a ragged block. */
+      grid-template-areas:
+        'copy art'
+        'controls controls';
+      column-gap: 2.5rem;
+      align-items: center;
+    }
+
+    .carousel-art {
+      grid-area: art;
+    }
+
+    .carousel-copy {
+      grid-area: copy;
+      align-self: center;
+    }
+
+    .carousel-controls {
+      grid-area: controls;
+      align-self: end;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      padding-bottom: 0;
+    }
+  }
+
+  @media (width >= 80rem) {
+    .carousel-layout {
+      column-gap: 3rem;
+    }
+  }
+
+  /* Named pills are unreadable at phone width - they wrap to three ragged
+     rows. Below sm the tabs collapse to dots and the label is left for
+     screen readers only. Selection is driven by aria-selected so the
+     script never has to know which breakpoint is active. */
+  .carousel-tab {
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: background-color 150ms, color 150ms, width 150ms;
+  }
+
+  @media (width < 40rem) {
+    .carousel-tab {
+      width: 0.5rem;
+      height: 0.5rem;
+      background-color: rgb(255 255 255 / 0.3);
+    }
+
+    .carousel-tab[aria-selected='true'] {
+      width: 1.5rem;
+      background-color: var(--color-owr-gold, #ffd700);
+    }
+
+    .carousel-tab span {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+  }
+
+  @media (width >= 40rem) {
+    .carousel-tab {
+      padding: 0.375rem 0.75rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: rgb(255 255 255 / 0.6);
+    }
+
+    .carousel-tab:hover {
+      color: #fff;
+      background-color: rgb(255 255 255 / 0.1);
+    }
+
+    .carousel-tab[aria-selected='true'] {
+      background-color: var(--color-owr-gold, #ffd700);
+      color: #111827;
+    }
+  }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-carousel]');
+  if (root) {
+    // Each slide index has two panels - one in the artwork stack, one in the
+    // copy stack - so the slide count comes from the tabs, not the panels.
+    const panels = Array.from(root.querySelectorAll<HTMLElement>('[data-slide]'));
+    const dots = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-dot]'));
+    const prev = root.querySelector<HTMLButtonElement>('[data-prev]');
+    const next = root.querySelector<HTMLButtonElement>('[data-next]');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const count = dots.length;
+
+    let current = 0;
+    let timer: ReturnType<typeof setInterval> | undefined;
+    // Cleared for good once the visitor picks a slide themselves.
+    let autoplay = !reduceMotion && count > 1;
+
+    const show = (index: number) => {
+      current = (index + count) % count;
+
+      panels.forEach((panel) => {
+        const active = Number(panel.dataset.slide) === current;
+        panel.classList.toggle('opacity-100', active);
+        panel.classList.toggle('opacity-0', !active);
+        panel.classList.toggle('pointer-events-none', !active);
+        panel.setAttribute('aria-hidden', active ? 'false' : 'true');
+        panel.querySelectorAll('a').forEach((link) => {
+          if (active) link.removeAttribute('tabindex');
+          else link.setAttribute('tabindex', '-1');
+        });
+      });
+
+      // Styling for both breakpoints hangs off aria-selected in the stylesheet.
+      dots.forEach((dot, i) => {
+        dot.setAttribute('aria-selected', i === current ? 'true' : 'false');
+      });
+    };
+
+    const pause = () => {
+      if (timer) clearInterval(timer);
+      timer = undefined;
+    };
+
+    const resume = () => {
+      if (!autoplay) return;
+      pause();
+      timer = setInterval(() => show(current + 1), 7000);
+    };
+
+    // Manual interaction stops the auto-rotation for good - once someone
+    // picks a feature, yanking it away from them is hostile.
+    const goTo = (index: number) => {
+      autoplay = false;
+      pause();
+      show(index);
+    };
+
+    dots.forEach((dot, i) => dot.addEventListener('click', () => goTo(i)));
+    prev?.addEventListener('click', () => goTo(current - 1));
+    next?.addEventListener('click', () => goTo(current + 1));
+
+    // Hover and focus pause without cancelling autoplay entirely.
+    root.addEventListener('mouseenter', pause);
+    root.addEventListener('mouseleave', resume);
+    root.addEventListener('focusin', pause);
+    root.addEventListener('focusout', (event) => {
+      if (!root.contains(event.relatedTarget as Node)) resume();
+    });
+
+    // Pause while the tab is hidden so we don't burn through slides unseen.
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) pause();
+      else resume();
+    });
+
+    resume();
+  }
+</script>

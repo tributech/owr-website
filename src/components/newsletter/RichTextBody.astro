@@ -10,6 +10,8 @@ import NewsletterImage from './NewsletterImage.astro';
 import SponsorCards from './SponsorCards.astro';
 import CtaHostTournament from './CtaHostTournament.astro';
 import ProCallout from './ProCallout.astro';
+import PhilippinesSpotlight from './PhilippinesSpotlight.astro';
+import TestimonialCallout from './TestimonialCallout.astro';
 import MobileTesterPreview from '../MobileTesterPreview.tsx';
 
 interface Props {
@@ -71,6 +73,8 @@ const renderables = (body.content ?? []).map(classifyNode);
     if (r.embedKind === 'sponsor-cards') return <SponsorCards />;
     if (r.embedKind === 'cta-host-tournament') return <CtaHostTournament />;
     if (r.embedKind === 'pro-callout') return <ProCallout />;
+    if (r.embedKind === 'region-spotlight-ph') return <PhilippinesSpotlight />;
+    if (r.embedKind === 'testimonial-owr') return <TestimonialCallout />;
     return null;
   })}
 </div>

@@ -229,6 +229,28 @@ ${cols}
 </mj-section>`;
   }
 
+  if (kind === 'region-spotlight-ph') {
+    const eventUrl = `${APP_URL}/ph/tournaments/b-i-a-brother-in-arms-cup-2026`;
+    const groundsUrl = `${WEB_URL}/newsletter/${slug}#around-the-grounds`;
+    return `<mj-section padding="16px 25px" background-color="#ffffff">
+  <mj-column background-color="#F9FAFB" border="1px solid #e5e7eb" border-radius="12px" padding="20px">
+    <mj-text font-size="12px" font-weight="700" letter-spacing="0.5px" text-transform="uppercase" color="#DAA520">New on the map</mj-text>
+    <mj-text font-size="16px" font-weight="700" color="#1C1C1C" padding-top="4px">The Philippines has its first hosted event on OWR</mj-text>
+    <mj-text font-size="14px" color="#444" line-height="1.55" padding-top="4px"><a href="${eventUrl}" style="${LINK_STYLE}">B.I.A. Brother In Arms Cup</a> runs 4 September in a 16-player, 3-round format. Old World events on OWR now span 24 regions. Mabuhay! &#127477;&#127469;
+    More event news in <a href="${groundsUrl}" style="${LINK_STYLE}">Around the grounds</a> below.</mj-text>
+  </mj-column>
+</mj-section>`;
+  }
+
+  if (kind === 'testimonial-owr') {
+    return `<mj-section padding="16px 25px" background-color="#ffffff">
+  <mj-column width="90%">
+    <mj-text font-size="12px" color="#888" padding-bottom="4px">A tournament organiser, in our Discord</mj-text>
+    <mj-text font-size="16px" color="#1C1C1C" background-color="#F3F4F6" border-radius="16px" padding="14px 18px" line-height="1.5">Software is a dream, I&#39;m never running an event without it ever again &#128514;</mj-text>
+  </mj-column>
+</mj-section>`;
+  }
+
   if (kind === 'pro-callout') {
     return `<mj-section padding="32px 25px 16px 25px" background-color="#ffffff">
   <mj-column background-color="#FFFAE5" border="1px solid #FFD700" border-radius="12px" padding="24px">
@@ -361,6 +383,8 @@ function renderTextEmbed(node) {
     if (f.kind === 'sponsor-cards') return '[Sponsors: Mighty Melee Games, UK Resin Prints]';
     if (f.kind === 'cta-host-tournament') return `Host a tournament: ${APP_URL}/host`;
     if (f.kind === 'pro-callout') return `Built by Pro supporters. ${APP_URL}/pricing`;
+    if (f.kind === 'region-spotlight-ph') return `New on the map: The Philippines has its first hosted event on OWR. B.I.A. Brother In Arms Cup runs 4 September, 16-player 3-round format. ${APP_URL}/ph/tournaments/b-i-a-brother-in-arms-cup-2026`;
+    if (f.kind === 'testimonial-owr') return `"Software is a dream, I'm never running an event without it ever again" - A tournament organiser, in our Discord`;
   }
   return null;
 }

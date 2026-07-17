@@ -10,9 +10,11 @@ import FeatureCarousel from './FeatureCarousel.astro';
 const heroImages = Array.from({ length: 16 }, (_, i) => `/images/landing/image${i + 1}.jpg`);
 ---
 
-<section class="relative overflow-hidden pt-18 pb-6 sm:pt-28 sm:pb-12">
-  <!-- Background with overlay -->
-  <div class="absolute inset-0 bg-black" id="hero-bg">
+<section class="relative pt-18 pb-6 sm:pt-28 sm:pb-12">
+  <!-- Background with overlay. overflow-hidden lives here, not on the section,
+       so the rotating slides and gradients stay clipped to the hero while the
+       search dropdown is free to overlay the stats strip below. -->
+  <div class="absolute inset-0 overflow-hidden bg-black" id="hero-bg">
     {heroImages.map((src, i) => (
       <div
         class:list={[

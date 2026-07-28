@@ -33,9 +33,9 @@ const highlights = [
     </div>
 
     <div class="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
-      <!-- Left: Images -->
-      <div class="flex flex-col items-center gap-8 mb-12 lg:mb-0 order-2 lg:order-1">
-        <div class="relative w-full max-w-lg">
+      <!-- Left: Image -->
+      <div class="flex flex-col items-center mb-12 lg:mb-0 order-2 lg:order-1">
+        <div class="relative w-full max-w-xl">
           <img
             src="/images/digital-lists-glossary.webp"
             alt="A text army list with underlined terms, a glossary popover explaining the Heartwood Pendant, and export options to open the list in Battle Builder"
@@ -45,17 +45,6 @@ const highlights = [
           <!-- Decorative glow -->
           <div class="absolute -top-8 -left-8 w-40 h-40 bg-owr-gold/10 rounded-full blur-3xl"></div>
           <div class="absolute -bottom-8 -right-8 w-32 h-32 bg-owr-gold/10 rounded-full blur-2xl"></div>
-        </div>
-        <!-- In-app actions screenshot (click to enlarge) -->
-        <div class="relative w-full max-w-sm">
-          <button type="button" class="rounded-xl overflow-hidden shadow-2xl border border-white/10 cursor-zoom-in block w-full" data-lightbox-trigger>
-            <img
-              src="/images/ai-convert-actions.png"
-              alt="Army list details with Pro actions: Copy List, Download .owb.json, and Send to Battle Builder"
-              class="w-full"
-              loading="lazy"
-            />
-          </button>
         </div>
       </div>
 
@@ -115,32 +104,3 @@ const highlights = [
     </div>
   </div>
 </section>
-
-<!-- Lightbox overlay -->
-<div id="smart-convert-lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm cursor-zoom-out p-4" role="dialog" aria-modal="true">
-  <img src="/images/ai-convert-actions.png" alt="Army list details with Pro actions" class="max-w-full max-h-full rounded-xl shadow-2xl" />
-</div>
-
-<script>
-  const trigger = document.querySelector('[data-lightbox-trigger]');
-  const lightbox = document.getElementById('smart-convert-lightbox');
-
-  if (trigger && lightbox) {
-    trigger.addEventListener('click', () => {
-      lightbox.classList.remove('hidden');
-      lightbox.classList.add('flex');
-    });
-
-    lightbox.addEventListener('click', () => {
-      lightbox.classList.add('hidden');
-      lightbox.classList.remove('flex');
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && !lightbox.classList.contains('hidden')) {
-        lightbox.classList.add('hidden');
-        lightbox.classList.remove('flex');
-      }
-    });
-  }
-</script>

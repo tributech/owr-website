@@ -236,6 +236,29 @@ Other link rules:
 - External links: `target="_blank" rel="noopener noreferrer"`
 - Scroll targets: `id="section-name"` + `scroll-mt-20` class
 
+### Newsletter UTM Tags
+
+`tools/newsletter/render.mjs` tags every newsletter link into a site we own. **Do not hand-write UTMs into Contentful** — the renderer knows the issue slug and the section, and hand-tagged links drift between issues.
+
+| Param | Value |
+|---|---|
+| `utm_source` | `newsletter` |
+| `utm_medium` | `email` |
+| `utm_campaign` | the issue slug (`july-2026`) |
+| `utm_content` | the enclosing heading slug, or the embed `kind` for CTAs |
+
+Left untagged on purpose: external hosts (YouTube, `help.oldworldrankings.com`), `/sponsor-ads/*/click` URLs (Rails tags those downstream via `AdServing::DestinationUrlBuilder`), and the sidecar `web_url` (a canonical URL - campaign params there would fragment the page's own analytics). A link already carrying `utm_source` is treated as a deliberate override and left alone.
+
+This is **not** the same scheme as the sponsor ad tagging in the Rails app, and shouldn't be merged with it: sponsor links point outward, where OWR is the source; these point inward, where the newsletter is.
+
+**Render with production URLs or the links go out broken and untagged** - the committed `.env` points `PUBLIC_APP_URL` at local dev:
+
+```bash
+PUBLIC_APP_URL=https://oldworldrankings.com pnpm newsletter:render <slug>
+```
+
+The renderer prints a warning if you forget.
+
 ## Contentful CMS Integration
 
 ### Overview
@@ -425,3 +448,23 @@ See `docs/project-plan.md` for the full implementation plan. Remaining work:
 - Static HTML = fast TTFB from Netlify CDN
 - Images lazy-loaded except hero first slide
 - Consider: sitemap.xml generation, structured data, OG images
+
+## Jira labels
+
+Tickets get logged across repo boundaries, so label by where the work lands, not by which repo you are in. Full standard: `/Users/colin/dev/tributech/owr-apps/project-management/JIRA-STANDARDS.md`.
+
+Every ticket = **exactly one `app:*`** + **0-2 `area:*`**. Never invent labels or duplicate the issue type (no `tech-debt`, `enhancement`, `bugfix`).
+
+**Component `app:*`** (this repo defaults to `app:website`):
+- `app:web` - Rails + Inertia/React main app (incl. Grape mobile API)
+- `app:battle-builder` - HammerHub Battle Builder
+- `app:mobile` - Capacitor app + native iOS/Android shells
+- `app:owb` - old-world-builder forks
+- `app:website` - Astro marketing sites (owr-website, hammerhub-website)
+- `app:infra` - Terraform, CI/CD, deploy, ops
+
+**Domain `area:*`** (0-2): `rankings` `tournaments` `hosting` `stats` `scoring` `data-sync` `payments` `notifications` `auth` `i18n` `performance` `security` `gallery` `teams` `clubs`
+
+**Meta**: `needs-triage` (auto-created / unreviewed), `40k` (40k-launch path), `community-request`, `blocked`, `player-report`.
+
+**Types**: `Epic` groups children; `Big Idea` = unshaped / no children; plus `Story` `Task` `Tech Debt` `Bug` `Data Task`. Priority defaults Medium; High only for next-up / 40k-launch.

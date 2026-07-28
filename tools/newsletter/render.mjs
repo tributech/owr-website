@@ -35,6 +35,10 @@ const TOKEN = env.CONTENTFUL_DELIVERY_TOKEN;
 const APP_URL = (env.PUBLIC_APP_URL ?? 'https://oldworldrankings.com').replace(/\/$/, '');
 const WEB_URL = (env.PUBLIC_WEB_URL ?? 'https://www.oldworldrankings.com').replace(/\/$/, '');
 
+// Store links stay untagged: external hosts, and Play attribution uses its own referrer param.
+const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.oldworldrankings.android';
+const APP_STORE_URL = 'https://apps.apple.com/app/id6757371153';
+
 if (!TOKEN) die('Missing CONTENTFUL_DELIVERY_TOKEN in .env.local');
 
 const slug = argv[2];
@@ -65,6 +69,59 @@ function absUrl(path) {
   return `${WEB_URL}${path.startsWith('/') ? '' : '/'}${path}`;
 }
 
+// ---- UTM tagging ----
+//
+// Every link out of the newsletter into a site we own gets tagged here rather
+// than by hand in Contentful, so an issue can't ship with links that are
+// missing, misspelled, or copy-pasted from last month's campaign.
+//
+//   utm_source=newsletter, utm_medium=email, utm_campaign=<issue slug>,
+//   utm_content=<section slug or embed kind>
+//
+// Note this is deliberately NOT the same scheme as AdServing::DestinationUrlBuilder
+// in the Rails app. That one tags links pointing outward to a sponsor's site,
+// where OWR is the source; these point inward, where the newsletter is.
+
+const UTM_SOURCE = 'newsletter';
+const UTM_MEDIUM = 'email';
+
+// Only hosts whose GA4 we own. Anything else (YouTube, the help centre) is
+// left untouched, since the params would just ride along unread.
+const TRACKED_HOSTS = new Set(['oldworldrankings.com', 'www.oldworldrankings.com']);
+
+// utm_content for links in the issue body, tracked as the block walker passes
+// each heading so a click can be traced back to the section it sat under.
+let currentSection = 'intro';
+
+function sectionSlug(s) {
+  return String(s).toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'body';
+}
+
+function withUtm(rawUrl, content) {
+  if (!rawUrl || rawUrl.startsWith('#')) return rawUrl;
+
+  let url;
+  try {
+    url = new URL(rawUrl, WEB_URL);
+  } catch {
+    return rawUrl;
+  }
+
+  if (!TRACKED_HOSTS.has(url.hostname)) return rawUrl;
+  // Sponsor click-throughs get their own UTMs from DestinationUrlBuilder when
+  // Rails redirects them. Tagging here would be discarded at best and skew the
+  // sponsor reports at worst.
+  if (url.pathname.startsWith('/sponsor-ads/')) return rawUrl;
+  // A hand-tagged link in Contentful is a deliberate override; leave it alone.
+  if (url.searchParams.has('utm_source')) return rawUrl;
+
+  url.searchParams.set('utm_source', UTM_SOURCE);
+  url.searchParams.set('utm_medium', UTM_MEDIUM);
+  url.searchParams.set('utm_campaign', slug);
+  if (content) url.searchParams.set('utm_content', content);
+  return url.toString();
+}
+
 function escapeHtml(s) {
   return String(s)
     .replace(/&/g, '&amp;')
@@ -93,7 +150,7 @@ function renderInline(node) {
     return text;
   }
   if (node.nodeType === 'hyperlink') {
-    const uri = node.data?.uri ?? '#';
+    const uri = withUtm(node.data?.uri ?? '#', currentSection);
     const inner = (node.content ?? []).map(renderInline).join('');
     return `<a href="${escapeHtml(uri)}" style="${LINK_STYLE}">${inner}</a>`;
   }
@@ -106,8 +163,11 @@ function inlineText(node) {
   if (node.nodeType === 'text') return node.value;
   if (node.nodeType === 'hyperlink') {
     const inner = (node.content ?? []).map(inlineText).join('');
-    const uri = node.data?.uri ?? '';
-    return uri && uri !== inner ? `${inner} (${uri})` : inner;
+    const raw = node.data?.uri ?? '';
+    // Tagged here too: an untagged text/plain click lands in GA4 as direct and
+    // quietly under-counts the issue.
+    const uri = withUtm(raw, currentSection);
+    return uri && raw !== inner ? `${inner} (${uri})` : inner;
   }
   if (Array.isArray(node.content)) return node.content.map(inlineText).join('');
   return '';
@@ -120,6 +180,7 @@ function renderBlock(node) {
     case 'paragraph':
       return mjText(node.content.map(renderInline).join(''));
     case 'heading-2':
+      currentSection = sectionSlug(node.content.map(inlineText).join(''));
       return mjText(node.content.map(renderInline).join(''), {
         fontSize: '22px', fontWeight: 'bold', paddingTop: '20px',
       });
@@ -197,6 +258,21 @@ function renderNewsletterEmbed(kind) {
 </mj-section>`;
   }
 
+  if (kind === 'store-badges') {
+    const play = absUrl('/images/store/google-play-badge.png');
+    const apple = absUrl('/images/store/app-store-badge.png');
+    return `<mj-section padding="8px 25px 20px 25px" background-color="#ffffff">
+  <mj-group>
+    <mj-column width="50%">
+      <mj-image src="${apple}" alt="Download on the App Store" href="${APP_STORE_URL}" width="150px" align="right" padding="8px" />
+    </mj-column>
+    <mj-column width="50%">
+      <mj-image src="${play}" alt="Get it on Google Play" href="${PLAY_STORE_URL}" width="169px" align="left" padding="8px" />
+    </mj-column>
+  </mj-group>
+</mj-section>`;
+  }
+
   if (kind === 'sponsor-cards') {
     const cards = [
       {
@@ -224,14 +300,14 @@ ${cols}
   if (kind === 'cta-host-tournament') {
     return `<mj-section padding="24px 25px" background-color="#ffffff">
   <mj-column>
-    <mj-button background-color="#FFD700" color="#1C1C1C" font-weight="700" border-radius="8px" href="${APP_URL}/host" padding="12px 0">Host a tournament &rarr;</mj-button>
+    <mj-button background-color="#FFD700" color="#1C1C1C" font-weight="700" border-radius="8px" href="${escapeHtml(withUtm(`${APP_URL}/host`, kind))}" padding="12px 0">Host a tournament &rarr;</mj-button>
   </mj-column>
 </mj-section>`;
   }
 
   if (kind === 'region-spotlight-ph') {
-    const eventUrl = `${APP_URL}/ph/tournaments/b-i-a-brother-in-arms-cup-2026`;
-    const groundsUrl = `${WEB_URL}/newsletter/${slug}#around-the-grounds`;
+    const eventUrl = escapeHtml(withUtm(`${APP_URL}/ph/tournaments/b-i-a-brother-in-arms-cup-2026`, kind));
+    const groundsUrl = escapeHtml(withUtm(`${WEB_URL}/newsletter/${slug}/#around-the-grounds`, kind));
     return `<mj-section padding="16px 25px" background-color="#ffffff">
   <mj-column background-color="#F9FAFB" border="1px solid #e5e7eb" border-radius="12px" padding="20px">
     <mj-text font-size="12px" font-weight="700" letter-spacing="0.5px" text-transform="uppercase" color="#DAA520">New on the map</mj-text>
@@ -255,10 +331,10 @@ ${cols}
     return `<mj-section padding="32px 25px 16px 25px" background-color="#ffffff">
   <mj-column background-color="#FFFAE5" border="1px solid #FFD700" border-radius="12px" padding="24px">
     <mj-text font-size="20px" font-weight="bold" color="#1C1C1C">Built by Pro supporters</mj-text>
-    <mj-text font-size="15px" color="#333" line-height="1.55">Team tournaments. The Battle Hub rebuild. Secondary scoring. Mobile beta. The OG image work. The sponsorship system. The handful of quality-of-life wins above. Every single thing in this newsletter got built because <a href="${APP_URL}/pricing" style="${LINK_STYLE}"><strong style="${STRONG_STYLE}">OWR Pro</strong></a> supporters are funding it.</mj-text>
+    <mj-text font-size="15px" color="#333" line-height="1.55">Team tournaments. The Battle Hub rebuild. Secondary scoring. Mobile beta. The OG image work. The sponsorship system. The handful of quality-of-life wins above. Every single thing in this newsletter got built because <a href="${escapeHtml(withUtm(`${APP_URL}/pricing`, kind))}" style="${LINK_STYLE}"><strong style="${STRONG_STYLE}">OWR Pro</strong></a> supporters are funding it.</mj-text>
     <mj-text font-size="15px" color="#333" line-height="1.55">Genuine thanks to everyone who jumped on early. You're the reason this is shipping at the pace it is, and the reason we can keep building.</mj-text>
     <mj-text font-size="13px" color="#666" line-height="1.55">If you've been on the fence, OWR Pro is the lever. Ad-free browsing, the full tournament hosting toolkit, and you're directly fuelling the next batch of work.</mj-text>
-    <mj-button background-color="#FFD700" color="#1C1C1C" font-weight="700" border-radius="8px" href="${APP_URL}/pricing" padding="12px 0">Become an OWR Pro supporter &rarr;</mj-button>
+    <mj-button background-color="#FFD700" color="#1C1C1C" font-weight="700" border-radius="8px" href="${escapeHtml(withUtm(`${APP_URL}/pricing`, kind))}" padding="12px 0">Become an OWR Pro supporter &rarr;</mj-button>
   </mj-column>
 </mj-section>`;
   }
@@ -314,7 +390,11 @@ function mjList(tag, items) {
 
 function renderBody(doc) {
   if (!doc?.content) return { mjml: '', text: '' };
+  // Two independent walks over the same doc, so the section cursor resets
+  // before each or the text pass would start wherever the MJML pass ended.
+  currentSection = 'intro';
   const mjmlChunks = doc.content.map(renderBlock).filter(Boolean);
+  currentSection = 'intro';
   const text = renderText(doc);
   return { mjml: mjmlChunks.join('\n\n'), text };
 }
@@ -334,8 +414,11 @@ function renderTextBlock(node) {
   switch (node.nodeType) {
     case 'paragraph':
       return node.content.map(inlineText).join('');
-    case 'heading-2':
-      return `## ${node.content.map(inlineText).join('')}`;
+    case 'heading-2': {
+      const heading = node.content.map(inlineText).join('');
+      currentSection = sectionSlug(heading);
+      return `## ${heading}`;
+    }
     case 'heading-3':
       return `### ${node.content.map(inlineText).join('')}`;
     case 'unordered-list':
@@ -380,10 +463,11 @@ function renderTextEmbed(node) {
   }
   if (ct === 'newsletterEmbed') {
     if (f.kind === 'mobile-beta-preview') return '[Mobile beta preview: iOS and Android screenshots]';
+    if (f.kind === 'store-badges') return `Get the OWR app - App Store: ${APP_STORE_URL} / Google Play: ${PLAY_STORE_URL}`;
     if (f.kind === 'sponsor-cards') return '[Sponsors: Mighty Melee Games, UK Resin Prints]';
-    if (f.kind === 'cta-host-tournament') return `Host a tournament: ${APP_URL}/host`;
-    if (f.kind === 'pro-callout') return `Built by Pro supporters. ${APP_URL}/pricing`;
-    if (f.kind === 'region-spotlight-ph') return `New on the map: The Philippines has its first hosted event on OWR. B.I.A. Brother In Arms Cup runs 4 September, 16-player 3-round format. ${APP_URL}/ph/tournaments/b-i-a-brother-in-arms-cup-2026`;
+    if (f.kind === 'cta-host-tournament') return `Host a tournament: ${withUtm(`${APP_URL}/host`, f.kind)}`;
+    if (f.kind === 'pro-callout') return `Built by Pro supporters. ${withUtm(`${APP_URL}/pricing`, f.kind)}`;
+    if (f.kind === 'region-spotlight-ph') return `New on the map: The Philippines has its first hosted event on OWR. B.I.A. Brother In Arms Cup runs 4 September, 16-player 3-round format. ${withUtm(`${APP_URL}/ph/tournaments/b-i-a-brother-in-arms-cup-2026`, f.kind)}`;
     if (f.kind === 'testimonial-owr') return `"Software is a dream, I'm never running an event without it ever again" - A tournament organiser, in our Discord`;
   }
   return null;
@@ -402,7 +486,10 @@ const { mjml: mjmlBody, text: textBody } = renderBody(fields.body);
 // Camel and snake_case keys are both included so it's friendly to either
 // JS or Ruby paste targets.
 const featureImageUrl = fields.heroImagePath ? absUrl(fields.heroImagePath) : null;
-const webUrl = `${WEB_URL}/newsletter/${fields.slug}`;
+// Canonical URL for the issue's web page. Deliberately untagged: it is the
+// og:url / "view in browser" target, and campaign params on a canonical URL
+// fragment the page's analytics.
+const webUrl = `${WEB_URL}/newsletter/${fields.slug}/`;
 
 const sidecar = {
   slug: fields.slug,
@@ -419,6 +506,27 @@ const sidecar = {
   webUrl,
   featureImageUrl,
 };
+
+// The committed .env points PUBLIC_APP_URL at local dev for the Astro site's
+// benefit, which is wrong for a newsletter: the output is a shipping artifact.
+// Dev URLs are unreachable from an inbox and fail the tracked-host check, so
+// they would go out both broken and untagged. Warn rather than fail, since a
+// local render is a legitimate way to eyeball layout.
+const untrackedBases = [...new Set([APP_URL, WEB_URL])].filter((base) => {
+  try {
+    return !TRACKED_HOSTS.has(new URL(base).hostname);
+  } catch {
+    return true;
+  }
+});
+if (untrackedBases.length) {
+  console.error('');
+  console.error(`WARNING: rendering against non-production URLs: ${untrackedBases.join(', ')}`);
+  console.error('  Links to these hosts are NOT UTM-tagged and must not be sent.');
+  console.error('  For a sendable render, override the base URLs:');
+  console.error(`    PUBLIC_APP_URL=https://oldworldrankings.com pnpm newsletter:render ${slug}`);
+  console.error('');
+}
 
 const outDir = resolve(here, 'out');
 await mkdir(outDir, { recursive: true });

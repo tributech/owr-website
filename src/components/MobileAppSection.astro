@@ -1,8 +1,9 @@
 ---
 const mobileFeatures = [
-  { title: 'Build & Submit Lists', description: 'Create army lists and submit them to your next event without leaving the app' },
-  { title: 'Sync Across All Devices', description: 'Your lists stay in sync across web, iOS, and Android - build on desktop, tweak on the go' },
-  { title: 'Push Notifications', description: 'Get notified about pairings, results, and tournament updates in real time' },
+  { title: 'Find & Enter Tournaments', description: 'Discover events near you, register your spot, and pay your entry without leaving the app' },
+  { title: 'Discover & Build Lists', description: 'Browse lists from real events for inspiration, then build and submit your own' },
+  { title: 'Play Your Rounds', description: 'Pairings, the round timer, and score entry at the table, with a call button so you are never hunting down the TO' },
+  { title: 'Push Notifications', description: 'Know the moment pairings drop, results land, or your list is approved' },
 ];
 ---
 
@@ -21,7 +22,7 @@ const mobileFeatures = [
             </div>
             <div class="relative w-full h-[calc(100%-1.5rem)] overflow-hidden">
               <img
-                src="/images/battle-builder-desktop.png"
+                src="/images/battle-builder-desktop.webp"
                 alt="OWR Battle Builder web app showing army list management with tournament submissions"
                 class="absolute bottom-0 right-0 w-[200%] max-w-none"
                 loading="lazy"
@@ -32,7 +33,7 @@ const mobileFeatures = [
           <div class="absolute -bottom-8 -left-2 sm:-left-8 w-32 sm:w-48 h-[260px] sm:h-[384px] bg-gray-900 rounded-[2rem] sm:rounded-[2.5rem] p-2 sm:p-2.5 shadow-2xl z-10">
             <div class="w-full h-full rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden">
               <img
-                src="/images/owr-ios-screenshot.png"
+                src="/images/owr-ios-screenshot.webp"
                 alt="OWR mobile app showing an army list with Characters and Core Units"
                 class="w-full h-full object-cover object-top"
                 loading="lazy"
@@ -52,12 +53,13 @@ const mobileFeatures = [
           OWR Pro
         </span>
         <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4">
-          Take OWR With You
+          Build Your List. Play Your Tournament.
         </h2>
         <p class="text-gray-500 dark:text-gray-400 mb-8">
-          Build your army list and submit it to your next event without leaving Battle Builder.
-          The OWR mobile app puts everything you need in your pocket - manage lists, check schedules,
-          and stay connected with your local scene.
+          The Warhammer: The Old World hobby in your pocket. Find your next event, register and pay
+          in the app, and browse thousands of tournament lists while you build your own. On game
+          day, run every round from your phone, from live pairings to the round clock to entering
+          your scores at the table.
         </p>
 
         <div class="space-y-6 mb-8">
@@ -76,23 +78,26 @@ const mobileFeatures = [
           ))}
         </div>
 
-        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-500/20 text-green-600 dark:text-green-400 text-sm font-medium mb-1">
-          Coming late July 2026 *
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-500/20 text-green-600 dark:text-green-400 text-sm font-medium mb-3">
+          Out now on iOS and Android
         </span>
-        <p class="text-xs text-gray-400 dark:text-gray-500 mb-3">* Estimated. We have lots on :)</p>
-        <div class="flex flex-wrap gap-4">
-          <span class="inline-flex items-center gap-2 px-4 py-2 bg-gray-300 text-gray-500 rounded-lg cursor-not-allowed dark:bg-gray-700 dark:text-gray-500">
-            <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z" />
-            </svg>
-            App Store
-          </span>
-          <span class="inline-flex items-center gap-2 px-4 py-2 bg-gray-300 text-gray-500 rounded-lg cursor-not-allowed dark:bg-gray-700 dark:text-gray-500">
-            <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.198l2.807 1.626a1 1 0 010 1.73l-2.808 1.626L15.206 12l2.492-2.491zM5.864 2.658L16.8 8.99l-2.302 2.302-8.634-8.634z" />
-            </svg>
-            Google Play
-          </span>
+        <div class="flex flex-wrap items-center gap-4">
+          <a
+            href="https://apps.apple.com/app/id6757371153"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="transition-opacity hover:opacity-80"
+          >
+            <img src="/images/store/app-store-badge.svg" alt="Download on the App Store" class="h-12 w-auto" loading="lazy" />
+          </a>
+          <a
+            href="https://play.google.com/store/apps/details?id=com.oldworldrankings.android"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="transition-opacity hover:opacity-80"
+          >
+            <img src="/images/store/google-play-badge.svg" alt="Get it on Google Play" class="h-12 w-auto" loading="lazy" />
+          </a>
         </div>
       </div>
     </div>

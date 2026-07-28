@@ -5,6 +5,8 @@
  * Slide 0 is the default and is what most visitors will see.
  */
 const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com';
+const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.oldworldrankings.android';
+const APP_STORE_URL = 'https://apps.apple.com/app/id6757371153';
 
 type Slide = {
   id: string;
@@ -26,11 +28,32 @@ type Slide = {
   /** Raise the height cap so a tall/square float image fills the art area,
    *  without the wide-image width override that imageLarge applies. */
   imageFill?: boolean;
-  primary: { label: string; href: string; external?: boolean };
+  /** Render the official App Store / Google Play badges as the primary CTAs. */
+  storeBadges?: boolean;
+  primary?: { label: string; href: string; external?: boolean };
   secondary?: { label: string; href: string; external?: boolean };
 };
 
 const slides: Slide[] = [
+  {
+    id: 'mobile-app',
+    eyebrow: 'Mobile App',
+    badge: 'OUT NOW',
+    title: 'OWR is now an app.',
+    description:
+      'Build lists, get pairings pushed to your phone, and score games at the table. Free on the App Store and Google Play.',
+    bullets: [
+      'Push notifications for pairings, results, and list approval',
+      'Build and submit army lists from your phone',
+      'Everything syncs with your OWR account on the web',
+    ],
+    image: '/images/hero/mobile-app.webp',
+    imageAlt: 'Three phones running the OWR app showing live pairings, tournament check-in, and army list building, with an army list approved push notification',
+    imageStyle: 'float',
+    imageLarge: true,
+    storeBadges: true,
+    secondary: { label: 'Learn more', href: '/#mobile' },
+  },
   {
     id: 'faction-stats',
     eyebrow: 'Faction Stats',
@@ -43,7 +66,7 @@ const slides: Slide[] = [
       'Faction tier list, S through F',
       '95% confidence intervals and meta share',
     ],
-    image: '/images/hero/faction-stats-v2.png',
+    image: '/images/hero/faction-stats-v2.webp',
     imageAlt: 'Faction Stats matchup matrix showing faction versus faction win rates',
     imageStyle: 'screen',
     primary: { label: 'Explore Faction Stats', href: `${APP_URL}/faction_stats/v2`, external: true },
@@ -80,7 +103,7 @@ const slides: Slide[] = [
       'Submit to tournaments without leaving the builder',
       'Synced across web, iOS, and Android',
     ],
-    image: '/images/battle-builder-desktop.png',
+    image: '/images/battle-builder-desktop.webp',
     imageAlt: 'Battle Builder army list editor on desktop',
     imageStyle: 'screen',
     primary: { label: 'Open Battle Builder', href: `${APP_URL}/builder`, external: true },
@@ -97,7 +120,7 @@ const slides: Slide[] = [
       'Automatic pairings and live scoring',
       'Battle board for the big screen at your venue',
     ],
-    image: '/images/hero/host.png',
+    image: '/images/hero/host.webp',
     imageAlt: 'Tournament final results on the battle board alongside event registration on mobile',
     imageStyle: 'float',
     primary: { label: 'Host Your Tournament', href: `${APP_URL}/host`, external: true },
@@ -115,7 +138,7 @@ const slides: Slide[] = [
       'Enter victory points and soft scores at the table',
       'Get notified the moment your list is approved',
     ],
-    image: '/images/hero/battle-hub.png',
+    image: '/images/hero/battle-hub.webp',
     imageAlt: 'Battle Hub on mobile showing a live round timer, soft scoring, and victory point entry',
     imageStyle: 'float',
     primary: { label: 'Open Battle Hub', href: `${APP_URL}/my_events`, external: true },
@@ -132,7 +155,7 @@ const slides: Slide[] = [
       'Five-star ratings on every photo',
       'Filter by faction, region, player or rating',
     ],
-    image: '/images/hero/galleries.png',
+    image: '/images/hero/galleries.webp',
     imageAlt: 'Army galleries browsing page on desktop and mobile, showing painted armies with star ratings',
     imageStyle: 'float',
     // A dense grid of small thumbnails - it needs to run wider than the column
@@ -248,17 +271,51 @@ const slides: Slide[] = [
               ))}
             </ul>
 
-            <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
-              <a
-                href={slide.primary.href}
-                tabindex={i === 0 ? undefined : '-1'}
-                {...(slide.primary.external
-                  ? { target: '_blank', rel: 'noopener noreferrer' }
-                  : {})}
-                class="px-6 py-3 bg-owr-gold text-gray-900 font-semibold rounded-lg hover:bg-owr-gold-dark transition-colors text-center"
-              >
-                {slide.primary.label}
-              </a>
+            <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+              {slide.storeBadges && (
+                <div class="flex items-center gap-3">
+                  <a
+                    href={APP_STORE_URL}
+                    tabindex={i === 0 ? undefined : '-1'}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="transition-opacity hover:opacity-80"
+                  >
+                    <img
+                      src="/images/store/app-store-badge.svg"
+                      alt="Download on the App Store"
+                      class="h-12 w-auto"
+                      loading={i === 0 ? 'eager' : 'lazy'}
+                    />
+                  </a>
+                  <a
+                    href={PLAY_STORE_URL}
+                    tabindex={i === 0 ? undefined : '-1'}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="transition-opacity hover:opacity-80"
+                  >
+                    <img
+                      src="/images/store/google-play-badge.svg"
+                      alt="Get it on Google Play"
+                      class="h-12 w-auto"
+                      loading={i === 0 ? 'eager' : 'lazy'}
+                    />
+                  </a>
+                </div>
+              )}
+              {slide.primary && (
+                <a
+                  href={slide.primary.href}
+                  tabindex={i === 0 ? undefined : '-1'}
+                  {...(slide.primary.external
+                    ? { target: '_blank', rel: 'noopener noreferrer' }
+                    : {})}
+                  class="px-6 py-3 bg-owr-gold text-gray-900 font-semibold rounded-lg hover:bg-owr-gold-dark transition-colors text-center"
+                >
+                  {slide.primary.label}
+                </a>
+              )}
               {slide.secondary && (
                 <a
                   href={slide.secondary.href}
@@ -266,7 +323,7 @@ const slides: Slide[] = [
                   {...(slide.secondary.external
                     ? { target: '_blank', rel: 'noopener noreferrer' }
                     : {})}
-                  class="px-6 py-3 border border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-colors text-center"
+                  class="inline-flex h-12 items-center justify-center whitespace-nowrap px-6 border border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-colors text-center"
                 >
                   {slide.secondary.label}
                 </a>

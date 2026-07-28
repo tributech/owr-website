@@ -53,6 +53,8 @@ const ogImageUrl = ogImagePath.startsWith('http')
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content={ogImageUrl} />
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site).href} />
+    <!-- iOS Safari smart app banner (shows nothing until the app is public on the App Store) -->
+    <meta name="apple-itunes-app" content="app-id=6757371153" />
 
     <!-- Favicon -->
     <link rel="icon" href="/favicon.ico" sizes="any" />

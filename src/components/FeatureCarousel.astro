@@ -23,6 +23,9 @@ type Slide = {
   imageStyle: 'screen' | 'phone' | 'float';
   /** Let the artwork run past its column and taller than the shared cap. */
   imageLarge?: boolean;
+  /** Raise the height cap so a tall/square float image fills the art area,
+   *  without the wide-image width override that imageLarge applies. */
+  imageFill?: boolean;
   primary: { label: string; href: string; external?: boolean };
   secondary?: { label: string; href: string; external?: boolean };
 };
@@ -45,6 +48,25 @@ const slides: Slide[] = [
     imageStyle: 'screen',
     primary: { label: 'Explore Faction Stats', href: `${APP_URL}/faction_stats/v2`, external: true },
     secondary: { label: 'Read the latest insights', href: '/insights/' },
+  },
+  {
+    id: 'digital-lists',
+    eyebrow: 'Digital Lists',
+    badge: 'NEW',
+    title: 'Research your next list.',
+    description:
+      'Browse thousands of tournament lists, tap any item, rule, or unit to see what it does, and open anything in Battle Builder to make it your own.',
+    bullets: [
+      'Thousands of real tournament lists to explore',
+      'Tap any term for the full rules, no rulebook needed',
+      'Open in Battle Builder to build from it',
+    ],
+    image: '/images/hero/digital-lists.webp',
+    imageAlt: 'A text army list with a glossary popover explaining the Heartwood Pendant arcane item, and an Open in Builder button',
+    imageStyle: 'float',
+    imageFill: true,
+    primary: { label: 'Browse Lists', href: `${APP_URL}/army_lists`, external: true },
+    secondary: { label: 'See how it works', href: '/#digital-lists' },
   },
   {
     id: 'battle-builder',
@@ -100,24 +122,6 @@ const slides: Slide[] = [
     secondary: { label: 'Get the mobile app', href: '/#mobile' },
   },
   {
-    id: 'digital-lists',
-    eyebrow: 'Digital Lists',
-    badge: 'NEW',
-    title: 'Research your next list.',
-    description:
-      'Browse thousands of tournament lists, tap any item, rule, or unit to see what it does, and open anything in Battle Builder to make it your own.',
-    bullets: [
-      'Thousands of real tournament lists to explore',
-      'Tap any term for the full rules, no rulebook needed',
-      'Open in Battle Builder to build from it',
-    ],
-    image: '/images/hero/digital-lists.webp',
-    imageAlt: 'A text army list with a glossary popover explaining the Heartwood Pendant arcane item, and an Open in Builder button',
-    imageStyle: 'float',
-    primary: { label: 'Browse Lists', href: `${APP_URL}/army_lists`, external: true },
-    secondary: { label: 'See how it works', href: '/#digital-lists' },
-  },
-  {
     id: 'galleries',
     eyebrow: 'Army Galleries',
     title: 'Find your inspiration.',
@@ -171,6 +175,7 @@ const slides: Slide[] = [
               loading={i === 0 ? 'eager' : 'lazy'}
               decoding="async"
               data-large={slide.imageLarge ? '' : undefined}
+              data-fill={slide.imageFill ? '' : undefined}
               class:list={[
                 slide.imageLarge && 'lg:!max-w-none lg:w-[128%]',
                 // Width is left to the intrinsic aspect ratio against a height
@@ -363,9 +368,16 @@ const slides: Slide[] = [
     max-height: 38rem;
   }
 
+  /* Tall/square float art hits the 30rem cap well short of the art column and
+     leaves dead space around it - a higher cap lets it fill the frame. */
+  .carousel-art img[data-fill] {
+    max-height: 38rem;
+  }
+
   @media (width < 40rem) {
     .carousel-art img,
-    .carousel-art img[data-large] {
+    .carousel-art img[data-large],
+    .carousel-art img[data-fill] {
       max-height: 34vh;
     }
   }

@@ -4,9 +4,11 @@ import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 import { getClient } from '../../lib/contentful';
 import type { InsightArticleSkeleton } from '../../lib/contentful-types';
-import { latestNewsletter, formatNewsletterDate } from '../../lib/newsletters';
+import { fetchNewsletters, formatNewsletterDate } from '../../lib/newsletters';
 
-const featuredNewsletter = await latestNewsletter();
+const newsletters = await fetchNewsletters();
+const featuredNewsletter = newsletters[0];
+const olderNewsletters = newsletters.slice(1);
 
 const client = getClient();
 
@@ -71,6 +73,26 @@ if (client) {
               </p>
             </div>
           </a>
+
+          {olderNewsletters.length > 0 && (
+            <ul class="mt-4 rounded-xl border border-gray-200 dark:border-gray-800 divide-y divide-gray-200 dark:divide-gray-800 overflow-hidden">
+              {olderNewsletters.map((n) => (
+                <li>
+                  <a
+                    href={`/newsletter/${n.slug}/`}
+                    class="flex items-baseline gap-3 px-4 py-3 hover:bg-gray-50 dark:hover:bg-white/[0.03] transition-colors"
+                  >
+                    <span class="w-28 flex-shrink-0 text-xs uppercase tracking-wider font-medium text-gray-500 dark:text-gray-400">
+                      {formatNewsletterDate(n.publishedAt)}
+                    </span>
+                    <span class="min-w-0 truncate text-sm font-semibold text-gray-900 dark:text-white group-hover:text-owr-gold-dark">
+                      {n.title}
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
         </section>
       )}
 

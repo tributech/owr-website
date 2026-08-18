@@ -21,6 +21,9 @@ export async function getStaticPaths() {
       content_type: 'newsletterIssue',
       order: ['-fields.publishedAt'],
       include: 3, // resolve embedded imageReference + newsletterEmbed entries inside body
+      // Note: astro dev caches getStaticPaths for the session, so Contentful
+      // edits only show after this file changes or the dev server restarts.
+      // (Saving this file nudges the re-fetch.)
     });
     issues = response.items;
   } catch {

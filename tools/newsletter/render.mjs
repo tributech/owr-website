@@ -234,13 +234,13 @@ function renderEmbed(node) {
   }
 
   if (ct === 'newsletterEmbed') {
-    return renderNewsletterEmbed(f.kind);
+    return renderNewsletterEmbed(f.kind, f);
   }
 
   return `<!-- unknown embed contentType: ${ct} -->`;
 }
 
-function renderNewsletterEmbed(kind) {
+function renderNewsletterEmbed(kind, fields = {}) {
   if (kind === 'mobile-beta-preview') {
     const ios = absUrl('/images/mobile/ios-tester-screen-1.png');
     const droid = absUrl('/images/mobile/android-tester-screen-1.png');
@@ -328,10 +328,13 @@ ${cols}
   }
 
   if (kind === 'pro-callout') {
+    // Per-issue lead-in (the list of things this issue shipped) comes from the
+    // entry's text field; the rest of the callout is evergreen.
+    const intro = fields.text ? `${escapeHtml(fields.text)} ` : '';
     return `<mj-section padding="32px 25px 16px 25px" background-color="#ffffff">
   <mj-column background-color="#FFFAE5" border="1px solid #FFD700" border-radius="12px" padding="24px">
     <mj-text font-size="20px" font-weight="bold" color="#1C1C1C">Built by Pro supporters</mj-text>
-    <mj-text font-size="15px" color="#333" line-height="1.55">Team tournaments. The Battle Hub rebuild. Secondary scoring. Mobile beta. The OG image work. The sponsorship system. The handful of quality-of-life wins above. Every single thing in this newsletter got built because <a href="${escapeHtml(withUtm(`${APP_URL}/pricing`, kind))}" style="${LINK_STYLE}"><strong style="${STRONG_STYLE}">OWR Pro</strong></a> supporters are funding it.</mj-text>
+    <mj-text font-size="15px" color="#333" line-height="1.55">${intro}Every single thing in this newsletter got built because <a href="${escapeHtml(withUtm(`${APP_URL}/pricing`, kind))}" style="${LINK_STYLE}"><strong style="${STRONG_STYLE}">OWR Pro</strong></a> supporters are funding it.</mj-text>
     <mj-text font-size="15px" color="#333" line-height="1.55">Genuine thanks to everyone who jumped on early. You're the reason this is shipping at the pace it is, and the reason we can keep building.</mj-text>
     <mj-text font-size="13px" color="#666" line-height="1.55">If you've been on the fence, OWR Pro is the lever. Ad-free browsing, the full tournament hosting toolkit, and you're directly fuelling the next batch of work.</mj-text>
     <mj-button background-color="#FFD700" color="#1C1C1C" font-weight="700" border-radius="8px" href="${escapeHtml(withUtm(`${APP_URL}/pricing`, kind))}" padding="12px 0">Become an OWR Pro supporter &rarr;</mj-button>
@@ -466,7 +469,7 @@ function renderTextEmbed(node) {
     if (f.kind === 'store-badges') return `Get the OWR app - App Store: ${APP_STORE_URL} / Google Play: ${PLAY_STORE_URL}`;
     if (f.kind === 'sponsor-cards') return '[Sponsors: Mighty Melee Games, UK Resin Prints]';
     if (f.kind === 'cta-host-tournament') return `Host a tournament: ${withUtm(`${APP_URL}/host`, f.kind)}`;
-    if (f.kind === 'pro-callout') return `Built by Pro supporters. ${withUtm(`${APP_URL}/pricing`, f.kind)}`;
+    if (f.kind === 'pro-callout') return `Built by Pro supporters. ${f.text ? `${f.text} ` : ''}Every single thing in this newsletter got built because OWR Pro supporters are funding it: ${withUtm(`${APP_URL}/pricing`, f.kind)}`;
     if (f.kind === 'region-spotlight-ph') return `New on the map: The Philippines has its first hosted event on OWR. B.I.A. Brother In Arms Cup runs 4 September, 16-player 3-round format. ${withUtm(`${APP_URL}/ph/tournaments/b-i-a-brother-in-arms-cup-2026`, f.kind)}`;
     if (f.kind === 'testimonial-owr') return `"Software is a dream, I'm never running an event without it ever again" - A tournament organiser, in our Discord`;
   }

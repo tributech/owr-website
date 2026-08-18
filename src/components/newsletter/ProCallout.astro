@@ -1,4 +1,11 @@
 ---
+interface Props {
+  // Per-issue lead-in (the list of things this issue shipped). The rest of the
+  // callout is evergreen. Comes from the newsletterEmbed entry's text field.
+  intro?: string;
+}
+
+const { intro } = Astro.props;
 const APP_URL = import.meta.env.PUBLIC_APP_URL ?? 'https://oldworldrankings.com';
 ---
 
@@ -7,7 +14,7 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL ?? 'https://oldworldrankings.com'
     Built by Pro supporters
   </h3>
   <p class="text-base text-gray-700 dark:text-gray-300 leading-relaxed">
-    Team tournaments. The Battle Hub rebuild. Secondary scoring. Mobile beta. The OG image work. The sponsorship system. The handful of quality-of-life wins above. Every single thing in this newsletter got built because <a href={`${APP_URL}/pricing`} class="text-owr-gold-dark hover:underline"><strong class="text-gray-900 dark:text-white">OWR Pro</strong></a> supporters are funding it.
+    {intro && <>{intro} </>}Every single thing in this newsletter got built because <a href={`${APP_URL}/pricing`} class="text-owr-gold-dark hover:underline"><strong class="text-gray-900 dark:text-white">OWR Pro</strong></a> supporters are funding it.
   </p>
   <p class="text-base text-gray-700 dark:text-gray-300 leading-relaxed mt-3">
     Genuine thanks to everyone who jumped on early. You're the reason this is shipping at the pace it is, and the reason we can keep building.

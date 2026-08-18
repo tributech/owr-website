@@ -109,6 +109,8 @@ export interface NewsletterEmbedSkeleton {
   contentTypeId: 'newsletterEmbed';
   fields: {
     kind: EntryFieldTypes.Symbol;
+    // Optional per-issue text (e.g. the pro-callout intro line).
+    text?: EntryFieldTypes.Text;
   };
 }
 

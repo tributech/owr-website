@@ -12,6 +12,7 @@ import CtaHostTournament from './CtaHostTournament.astro';
 import ProCallout from './ProCallout.astro';
 import PhilippinesSpotlight from './PhilippinesSpotlight.astro';
 import TestimonialCallout from './TestimonialCallout.astro';
+import StoreBadges from './StoreBadges.astro';
 import MobileTesterPreview from '../MobileTesterPreview.tsx';
 
 interface Props {
@@ -25,7 +26,7 @@ const { body } = Astro.props;
 type NodeRender =
   | { kind: 'html'; html: string }
   | { kind: 'image'; path: string; alt: string; caption?: string }
-  | { kind: 'embed'; embedKind: string };
+  | { kind: 'embed'; embedKind: string; text?: string };
 
 function classifyNode(node: any): NodeRender {
   if (node.nodeType === 'embedded-entry-block') {
@@ -42,7 +43,7 @@ function classifyNode(node: any): NodeRender {
       };
     }
     if (contentType === 'newsletterEmbed') {
-      return { kind: 'embed', embedKind: fields.kind ?? 'unknown' };
+      return { kind: 'embed', embedKind: fields.kind ?? 'unknown', text: fields.text };
     }
     // Fallback: render nothing for unknown embeds (logged below).
     console.warn('[RichTextBody] Unknown embed contentType:', contentType, target);
@@ -72,9 +73,10 @@ const renderables = (body.content ?? []).map(classifyNode);
     }
     if (r.embedKind === 'sponsor-cards') return <SponsorCards />;
     if (r.embedKind === 'cta-host-tournament') return <CtaHostTournament />;
-    if (r.embedKind === 'pro-callout') return <ProCallout />;
+    if (r.embedKind === 'pro-callout') return <ProCallout intro={r.text} />;
     if (r.embedKind === 'region-spotlight-ph') return <PhilippinesSpotlight />;
     if (r.embedKind === 'testimonial-owr') return <TestimonialCallout />;
+    if (r.embedKind === 'store-badges') return <StoreBadges />;
     return null;
   })}
 </div>

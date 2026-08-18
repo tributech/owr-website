@@ -1,0 +1,26 @@
+---
+// Render a `newsletterEmbed` entry of kind="store-badges": the official
+// App Store and Google Play badges linking to the OWR app listings.
+// The email renderer (tools/newsletter/render.mjs) has a matching block.
+const APP_STORE_URL = 'https://apps.apple.com/app/id6757371153';
+const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.oldworldrankings.android';
+---
+
+<div class="!my-8 flex flex-wrap items-center justify-center gap-4">
+  <a
+    href={APP_STORE_URL}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="transition-opacity hover:opacity-80"
+  >
+    <img src="/images/store/app-store-badge.svg" alt="Download on the App Store" class="h-12 w-auto" />
+  </a>
+  <a
+    href={PLAY_STORE_URL}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="transition-opacity hover:opacity-80"
+  >
+    <img src="/images/store/google-play-badge.svg" alt="Get it on Google Play" class="h-12 w-auto" />
+  </a>
+</div>

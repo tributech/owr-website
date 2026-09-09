@@ -35,11 +35,19 @@
   to = "/docs/:splat"
   status = 200
 
-# What's New
+# What's New now lives in the Rails app as Release Notes, which is the system
+# that actually gets updated. force = true so these win over any built page.
 [[redirects]]
   from = "/whatsnew"
-  to = "/whatsnew/"
-  status = 200
+  to = "https://oldworldrankings.com/release-notes"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/whatsnew/*"
+  to = "https://oldworldrankings.com/release-notes"
+  status = 301
+  force = true
 
 # API proxy to Rails backend for search, stats, etc.
 [[redirects]]

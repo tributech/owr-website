@@ -365,8 +365,8 @@ ${cols}
       : absUrl(src.replace(/\.mp4(\?.*)?$/i, '.jpg'));
     return `<mj-section padding="8px 25px 16px 25px" background-color="#ffffff">
   <mj-column>
-    <mj-image src="${escapeHtml(poster)}" alt="Watch the video" href="${escapeHtml(href)}" border-radius="12px" />
-    <mj-text align="center" font-size="13px" color="#666"><a href="${escapeHtml(href)}" style="${LINK_STYLE}">Watch the video</a></mj-text>
+    <mj-image src="${escapeHtml(poster)}" alt="Watch the video" href="${escapeHtml(href)}" border-radius="12px" padding-bottom="16px" />
+    <mj-button background-color="#FFD700" color="#1C1C1C" font-size="17px" font-weight="700" border-radius="8px" inner-padding="14px 30px" href="${escapeHtml(href)}" padding="0">&#9654;&nbsp; Watch the video</mj-button>
   </mj-column>
 </mj-section>`;
   }

@@ -5,6 +5,7 @@ import Footer from '../../components/Footer.astro';
 import RichTextBody from '../../components/newsletter/RichTextBody.astro';
 import VideoEmbed from '../../components/newsletter/VideoEmbed.astro';
 import Lightbox from '../../components/Lightbox.astro';
+import ShareRow from '../../components/ShareRow.astro';
 import { getClient } from '../../lib/contentful';
 import type {
   NewsletterIssueSkeleton,
@@ -78,6 +79,7 @@ const monthYear = new Date(publishedAt).toLocaleDateString('en-GB', {
         <p class="text-xs text-gray-500 dark:text-gray-500 mt-6">
           Published {formattedDate}
         </p>
+        <ShareRow path={`/newsletter/${issue.fields.slug}/`} title={title} class="mt-6" />
       </header>
 
       <!-- Hero: a video when the issue has one, otherwise the hero image.

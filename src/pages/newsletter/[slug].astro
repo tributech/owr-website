@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 import RichTextBody from '../../components/newsletter/RichTextBody.astro';
+import VideoEmbed from '../../components/newsletter/VideoEmbed.astro';
 import Lightbox from '../../components/Lightbox.astro';
 import { getClient } from '../../lib/contentful';
 import type {
@@ -41,7 +42,7 @@ interface Props {
 }
 
 const { issue } = Astro.props;
-const { title, preheader, publishedAt, heroImagePath, body } = issue.fields;
+const { title, preheader, publishedAt, heroImagePath, heroVideoUrl, body } = issue.fields as any;
 
 const formattedDate = new Date(publishedAt).toLocaleDateString('en-GB', {
   day: 'numeric',
@@ -66,7 +67,7 @@ const monthYear = new Date(publishedAt).toLocaleDateString('en-GB', {
         <p class="text-sm font-semibold tracking-widest uppercase text-owr-gold-dark dark:text-owr-gold mb-3">
           OWR Newsletter, {monthYear}
         </p>
-        <h1 class="text-3xl sm:text-5xl font-bold text-gray-900 dark:text-white leading-tight mb-4">
+        <h1 class="text-3xl sm:text-5xl font-bold text-gray-900 dark:text-white leading-tight mb-4 [text-wrap:balance]">
           {title}
         </h1>
         {preheader && (
@@ -79,8 +80,14 @@ const monthYear = new Date(publishedAt).toLocaleDateString('en-GB', {
         </p>
       </header>
 
-      <!-- Hero image -->
-      {heroImagePath && (
+      <!-- Hero: a video when the issue has one, otherwise the hero image.
+           heroImagePath stays set either way, since the email hero has to be
+           a still image. -->
+      {heroVideoUrl ? (
+        <div class="mb-12">
+          <VideoEmbed src={heroVideoUrl} />
+        </div>
+      ) : heroImagePath && (
         <figure class="mb-12 -mx-4 sm:mx-0">
           <img
             src={heroImagePath}

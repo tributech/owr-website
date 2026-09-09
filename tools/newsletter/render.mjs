@@ -32,6 +32,7 @@ for (const f of ['.env', '.env.local']) {
 
 const SPACE = env.CONTENTFUL_SPACE_ID ?? 'ry0ysk99xuno';
 const TOKEN = env.CONTENTFUL_DELIVERY_TOKEN;
+const PREVIEW_TOKEN = env.CONTENTFUL_PREVIEW_TOKEN;
 const APP_URL = (env.PUBLIC_APP_URL ?? 'https://oldworldrankings.com').replace(/\/$/, '');
 const WEB_URL = (env.PUBLIC_WEB_URL ?? 'https://www.oldworldrankings.com').replace(/\/$/, '');
 
@@ -41,16 +42,26 @@ const APP_STORE_URL = 'https://apps.apple.com/app/id6757371153';
 
 if (!TOKEN) die('Missing CONTENTFUL_DELIVERY_TOKEN in .env.local');
 
-const slug = argv[2];
-if (!slug) die('Usage: render.mjs <slug>');
+const args = argv.slice(2);
+const preview = args.includes('--preview');
+const slug = args.find((a) => !a.startsWith('--'));
+if (!slug) die('Usage: render.mjs <slug> [--preview]');
 
 // --- Fetch entry + resolved includes ---
+//
+// Published issues come from the Delivery API. Pass --preview to render an
+// unpublished draft instead (needs CONTENTFUL_PREVIEW_TOKEN), so an issue can
+// be proofed as email before it goes live.
 
-const apiUrl = new URL(`https://cdn.contentful.com/spaces/${SPACE}/environments/master/entries`);
+const host = preview ? 'preview.contentful.com' : 'cdn.contentful.com';
+const token = preview ? PREVIEW_TOKEN : TOKEN;
+if (!token) die(preview ? 'CONTENTFUL_PREVIEW_TOKEN is not set.' : 'CONTENTFUL_DELIVERY_TOKEN is not set.');
+
+const apiUrl = new URL(`https://${host}/spaces/${SPACE}/environments/master/entries`);
 apiUrl.searchParams.set('content_type', 'newsletterIssue');
 apiUrl.searchParams.set('fields.slug', slug);
 apiUrl.searchParams.set('include', '3');
-apiUrl.searchParams.set('access_token', TOKEN);
+apiUrl.searchParams.set('access_token', token);
 
 const data = await (await fetch(apiUrl)).json();
 const entry = data.items?.[0];
@@ -342,7 +353,41 @@ ${cols}
 </mj-section>`;
   }
 
+  if (kind === 'video') {
+    // Mail clients block video and iframes, so the email gets the poster image
+    // linking out: to YouTube when the text field is a YouTube URL, otherwise
+    // to the issue's web page where the mp4 plays inline.
+    const src = (fields.text ?? '').trim();
+    const yt = youtubeIdFrom(src);
+    const href = yt ? `https://www.youtube.com/watch?v=${yt}` : `${webUrl}#video`;
+    const poster = yt
+      ? `https://img.youtube.com/vi/${yt}/maxresdefault.jpg`
+      : absUrl(src.replace(/\.mp4(\?.*)?$/i, '.jpg'));
+    return `<mj-section padding="8px 25px 16px 25px" background-color="#ffffff">
+  <mj-column>
+    <mj-image src="${escapeHtml(poster)}" alt="Watch the video" href="${escapeHtml(href)}" border-radius="12px" />
+    <mj-text align="center" font-size="13px" color="#666"><a href="${escapeHtml(href)}" style="${LINK_STYLE}">Watch the video</a></mj-text>
+  </mj-column>
+</mj-section>`;
+  }
+
   return `<!-- unknown newsletterEmbed kind: ${kind} -->`;
+}
+
+function youtubeIdFrom(input) {
+  if (!input) return null;
+  if (/^[A-Za-z0-9_-]{11}$/.test(input)) return input;
+  try {
+    const u = new URL(input);
+    const host = u.hostname.replace(/^www\./, '');
+    if (host === 'youtu.be') return u.pathname.slice(1) || null;
+    if (host.endsWith('youtube.com') || host === 'youtube-nocookie.com') {
+      if (u.pathname === '/watch') return u.searchParams.get('v');
+      const m = u.pathname.match(/^\/(?:embed|shorts|live)\/([A-Za-z0-9_-]{11})/);
+      if (m) return m[1];
+    }
+  } catch {}
+  return null;
 }
 
 function renderTable(node) {
@@ -471,6 +516,7 @@ function renderTextEmbed(node) {
     if (f.kind === 'cta-host-tournament') return `Host a tournament: ${withUtm(`${APP_URL}/host`, f.kind)}`;
     if (f.kind === 'pro-callout') return `Built by Pro supporters. ${f.text ? `${f.text} ` : ''}Every single thing in this newsletter got built because OWR Pro supporters are funding it: ${withUtm(`${APP_URL}/pricing`, f.kind)}`;
     if (f.kind === 'region-spotlight-ph') return `New on the map: The Philippines has its first hosted event on OWR. B.I.A. Brother In Arms Cup runs 4 September, 16-player 3-round format. ${withUtm(`${APP_URL}/ph/tournaments/b-i-a-brother-in-arms-cup-2026`, f.kind)}`;
+    if (f.kind === 'video') { const yt = youtubeIdFrom((f.text ?? '').trim()); return `Watch the video: ${yt ? `https://www.youtube.com/watch?v=${yt}` : `${webUrl}#video`}`; }
     if (f.kind === 'testimonial-owr') return `"Software is a dream, I'm never running an event without it ever again" - A tournament organiser, in our Discord`;
   }
   return null;
@@ -483,7 +529,16 @@ function renderTextEmbed(node) {
 // rendered by the dedicated newsletter_mailer.html.mjml layout. The body
 // MJML is just the issue's content; the layout handles framing.
 
-const { mjml: mjmlBody, text: textBody } = renderBody(fields.body);
+let { mjml: mjmlBody, text: textBody } = renderBody(fields.body);
+
+// A hero video is web-only markup, so the email gets the same poster-and-link
+// block the inline video embed uses, prepended to the body.
+if (fields.heroVideoUrl) {
+  const heroVideo = renderNewsletterEmbed('video', { text: fields.heroVideoUrl });
+  const heroYt = youtubeIdFrom(fields.heroVideoUrl.trim());
+  mjmlBody = `${heroVideo}\n${mjmlBody}`;
+  textBody = `Watch the video: ${heroYt ? `https://www.youtube.com/watch?v=${heroYt}` : webUrl}\n\n${textBody}`;
+}
 
 // Sidecar mirrors every field on the Rails Newsletter form.
 // Camel and snake_case keys are both included so it's friendly to either

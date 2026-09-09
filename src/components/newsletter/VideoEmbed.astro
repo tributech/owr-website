@@ -1,0 +1,37 @@
+---
+// Video block for a newsletterEmbed of kind "video". The entry's text field
+// holds either a YouTube URL (watch, youtu.be, embed or shorts form, or a bare
+// id) or a site-relative mp4 path such as /videos/newsletter/foo.mp4.
+// Email rendering (tools/newsletter/render.mjs) turns the same entry into a
+// poster image that links out, since mail clients block video and iframes.
+import { youtubeId } from '../../lib/youtube';
+
+interface Props {
+  src?: string;
+}
+
+const { src } = Astro.props;
+const id = youtubeId(src);
+const mp4 = !id && src && /\.mp4(\?|$)/i.test(src.trim()) ? src.trim() : null;
+const poster = mp4 ? mp4.replace(/\.mp4(\?.*)?$/i, '.jpg') : null;
+---
+
+{id && (
+  <div id="video" class="my-8 overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800 bg-black aspect-video">
+    <iframe
+      class="h-full w-full"
+      src={`https://www.youtube-nocookie.com/embed/${id}?rel=0`}
+      title="Video"
+      loading="lazy"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen
+    ></iframe>
+  </div>
+)}
+{mp4 && (
+  <div id="video" class="my-8 overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800 bg-black aspect-video">
+    <video class="h-full w-full" controls preload="metadata" playsinline poster={poster}>
+      <source src={mp4} type="video/mp4" />
+    </video>
+  </div>
+)}

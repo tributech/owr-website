@@ -291,6 +291,10 @@ mobileLinks.push(...directLinks);
                   <span class="text-owr-gold/70"><User size={20} strokeWidth={1.75} /></span>
                   My Player Profile
                 </a>
+                <a href={`${APP_URL}/builder`} class="flex items-center gap-3 px-5 py-3 text-base text-gray-300 hover:bg-white/[0.06] hover:text-owr-gold transition-colors">
+                  <span class="text-owr-gold/70"><Hammer size={20} strokeWidth={1.75} /></span>
+                  Battle Builder
+                </a>
                 <a id="dropdown-events" href={`${APP_URL}/my_events`} class="flex items-center gap-3 px-5 py-3 text-base text-gray-300 hover:bg-white/[0.06] hover:text-owr-gold transition-colors">
                   <span class="text-owr-gold/70"><CalendarArrowUp size={20} strokeWidth={1.75} /></span>
                   My Events
@@ -483,6 +487,17 @@ mobileLinks.push(...directLinks);
           ]}
         >
           My Player Profile
+        </a>
+        <a
+          href={`${APP_URL}/builder`}
+          class:list={[
+            'block px-3 py-2.5 rounded-md text-sm font-medium transition-colors',
+            transparent
+              ? 'text-white/80 hover:text-white hover:bg-white/10'
+              : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800',
+          ]}
+        >
+          Battle Builder
         </a>
         <a
           href={`${APP_URL}/profile`}

@@ -2,8 +2,15 @@
 // Render a Contentful imageReference as a captioned figure.
 // Path is referenced as a relative path on the OWR website (or a full URL).
 //
+// Screenshots come in wildly different shapes: a wide desktop capture wants the
+// full column, a tall phone capture does not. We read the file's real
+// dimensions at build time and cap the display width by aspect ratio, so a
+// portrait UI shot sits centred at a readable size. Every image opens in the
+// shared lightbox, which is where the full-size pixels belong.
+//
 // When the email MJML renderer reads the same field, it prefixes paths with
 // PUBLIC_APP_URL to produce absolute URLs for the email client.
+import { publicImageSize } from '../../lib/imageSize';
 
 interface Props {
   path: string;
@@ -12,17 +19,32 @@ interface Props {
 }
 
 const { path, alt, caption } = Astro.props;
+
+const size = publicImageSize(path);
+const ratio = size ? size.width / size.height : null;
+
+// Portrait and squarish captures are capped hard; narrow landscape shots get a
+// middle size; anything genuinely wide keeps the full column.
+let maxWidth: string | undefined;
+if (ratio !== null) {
+  if (ratio < 0.9) maxWidth = '380px';
+  else if (ratio < 1.2) maxWidth = '460px';
+  else if (size!.width < 1000) maxWidth = '600px';
+}
 ---
 
-<figure class="my-6">
+<figure class="my-6" style={maxWidth ? `max-width:${maxWidth};margin-inline:auto;` : undefined}>
   <img
     src={path}
     alt={alt}
-    class="doc-lightbox-img cursor-zoom-in w-full rounded-lg border border-gray-200 dark:border-gray-800"
+    width={size?.width}
+    height={size?.height}
+    title="Click to enlarge"
+    class="doc-lightbox-img cursor-zoom-in w-full h-auto rounded-lg border border-gray-200 dark:border-gray-800"
     loading="lazy"
   />
   {caption && (
-    <figcaption class="text-xs text-gray-500 italic mt-2">
+    <figcaption class="text-xs text-gray-500 italic mt-2 text-center">
       {caption}
     </figcaption>
   )}

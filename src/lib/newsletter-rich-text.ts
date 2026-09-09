@@ -61,8 +61,10 @@ const options: Options = {
       const id = slugifyHeading(nodeText(_n));
       return `<h2 id="${id}" class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white !mt-12 !mb-4 scroll-mt-20">${next(_n.content)}</h2>`;
     },
-    [BLOCKS.HEADING_3]: (_n, next) =>
-      `<h3 class="text-xl font-bold text-gray-900 dark:text-white !mt-10 !mb-3">${next(_n.content)}</h3>`,
+    [BLOCKS.HEADING_3]: (_n, next) => {
+      const id = slugifyHeading(nodeText(_n));
+      return `<h3 id="${id}" class="text-xl font-bold text-gray-900 dark:text-white !mt-10 !mb-3 scroll-mt-20">${next(_n.content)}</h3>`;
+    },
     [BLOCKS.UL_LIST]: (_n, next) =>
       `<ul class="list-disc pl-6 space-y-2 my-4">${next(_n.content)}</ul>`,
     [BLOCKS.OL_LIST]: (_n, next) =>

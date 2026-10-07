@@ -77,8 +77,12 @@ async function renderPanel(region: LandingRegion | null) {
   $('panel-players-label')!.textContent = `Top in ${region.name}`;
   $('panel-players-list')!.replaceChildren(...data.top_players.map(playerRow));
   const allPlayers = $('panel-players-all') as HTMLAnchorElement;
-  allPlayers.href = data.top_players_scope === 'season' ? `${APP_URL}/${region.slug}/rankings` : `${APP_URL}/global_rankings`;
-  allPlayers.textContent = data.top_players_scope === 'season' ? `${region.name} rankings` : 'Global rankings';
+  const season = data.top_players_season;
+  allPlayers.href = season ? `${APP_URL}/${region.slug}/rankings` : `${APP_URL}/global_rankings`;
+  allPlayers.textContent = season ? `${region.name} Masters rankings` : 'Global rankings';
+  $('panel-players-caption')!.textContent = season
+    ? `Masters rankings · ${season.name}${season.current ? '' : ' final standings'}`
+    : `Players from ${region.name} in the global rankings`;
 }
 
 function renderPicker(regions: LandingRegion[], onPick: (r: LandingRegion) => void) {

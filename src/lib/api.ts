@@ -130,6 +130,7 @@ export interface RegionHome {
   upcoming_events: RegionEvent[];
   top_players: RegionTopPlayer[];
   top_players_scope: 'season' | 'global';
+  top_players_season: { name: string; current: boolean } | null;
 }
 
 export interface FeaturedGallery {

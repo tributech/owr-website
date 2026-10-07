@@ -1,0 +1,102 @@
+---
+import { Hammer, CalendarArrowUp, Landmark, Trophy, BarChart, ScrollText, Image, Smartphone } from '@lucide/astro';
+import GlobalSearch from '../GlobalSearch';
+import RegionBar from './RegionBar.astro';
+import RegionPanel from './RegionPanel.astro';
+import { APP_STORE_URL, PLAY_STORE_URL } from '../../lib/store-links';
+
+const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com';
+const heroImages = Array.from({ length: 16 }, (_, i) => `/images/landing/image${i + 1}.jpg`);
+
+const explore = [
+  { label: 'Rankings', href: `${APP_URL}/global_rankings`, icon: Trophy, color: 'text-owr-gold', id: 'explore-rankings' },
+  { label: 'Faction Stats', href: `${APP_URL}/faction_stats`, icon: BarChart, color: 'text-amber-400' },
+  { label: 'Army Lists', href: `${APP_URL}/army_lists`, icon: ScrollText, color: 'text-purple-400' },
+  { label: 'Galleries', href: `${APP_URL}/galleries`, icon: Image, color: 'text-pink-400' },
+];
+---
+
+<section class="relative bg-black pt-16">
+  <div class="absolute inset-0 overflow-hidden" aria-hidden="true">
+    {heroImages.map((src, i) => (
+      <img
+        src={src}
+        alt=""
+        class:list={['hero-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-1000', i === 0 ? 'opacity-30' : 'opacity-0']}
+        loading={i === 0 ? 'eager' : 'lazy'}
+      />
+    ))}
+    <div class="absolute inset-0 bg-black/40"></div>
+  </div>
+
+  <div class="relative">
+    <RegionBar />
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-10 pb-10 sm:pb-12 grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_380px] gap-8 lg:gap-10">
+      <div class="flex flex-col gap-4 sm:gap-5 min-w-0">
+        <h1 class="text-[28px] leading-[1.12] sm:text-5xl sm:leading-[1.08] font-extrabold tracking-tight text-white max-w-3xl">
+          Rankings, tournaments and army lists for the Old World.
+        </h1>
+
+        <GlobalSearch client:load className="max-w-2xl w-full" />
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 sm:gap-3 max-w-3xl">
+          <a href={`${APP_URL}/builder`} class="col-span-2 sm:col-span-1 flex items-center gap-3 rounded-xl px-4 py-3 sm:py-3.5 bg-owr-gold text-gray-900 hover:bg-owr-gold-dark transition-colors">
+            <Hammer size={24} strokeWidth={2} />
+            <span><span class="block font-extrabold text-base">Battle Builder</span><span class="block text-xs font-medium opacity-75">Build and submit a list</span></span>
+          </a>
+          <a id="cta-find" href={`${APP_URL}/upcoming`} class="flex items-center gap-3 rounded-xl px-3.5 sm:px-4 py-3 sm:py-3.5 bg-white/10 border border-white/15 hover:bg-white/[0.16] text-white transition-colors">
+            <span class="text-teal-400 shrink-0"><CalendarArrowUp size={24} strokeWidth={2} /></span>
+            <span class="min-w-0"><span class="block font-bold text-sm sm:text-base">Find an event</span><span id="cta-find-sub" class="block text-xs text-white/60 truncate">Near you</span></span>
+          </a>
+          <a id="cta-host" href={`${APP_URL}/host`} class="flex items-center gap-3 rounded-xl px-3.5 sm:px-4 py-3 sm:py-3.5 bg-white/10 border border-white/15 hover:bg-white/[0.16] text-white transition-colors">
+            <span class="text-purple-400 shrink-0"><Landmark size={24} strokeWidth={2} /></span>
+            <span class="min-w-0"><span class="block font-bold text-sm sm:text-base">Host an event</span><span class="block text-xs text-white/60 truncate">Pairings, scoring, payments</span></span>
+          </a>
+        </div>
+
+        <nav aria-label="Explore" class="flex items-center gap-2 sm:gap-6 overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
+          <span class="hidden sm:inline text-[13px] text-gray-400">Explore:</span>
+          {explore.map((item) => (
+            <a id={item.id} href={item.href} class="shrink-0 flex items-center gap-1.5 h-9 sm:h-auto px-3 sm:px-0 rounded-full sm:rounded-none bg-white/[0.08] sm:bg-transparent border border-white/[0.12] sm:border-0 text-[13px] sm:text-sm font-medium text-gray-300 hover:text-owr-gold transition-colors">
+              <span class:list={['hidden sm:inline', item.color]}><item.icon size={16} strokeWidth={2} /></span>
+              {item.label}
+            </a>
+          ))}
+        </nav>
+
+        <div class="max-w-3xl flex flex-wrap items-center gap-3 sm:gap-4 rounded-xl border border-green-500/35 bg-white/5 backdrop-blur px-3.5 sm:px-4 py-3">
+          <span class="text-green-500 shrink-0"><Smartphone size={24} strokeWidth={2} /></span>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2">
+              <span class="whitespace-nowrap font-bold text-sm sm:text-[15px] text-white">OWR is now an app</span>
+              <span class="shrink-0 whitespace-nowrap text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-green-500 text-green-950">OUT NOW</span>
+            </div>
+            <p class="text-xs sm:text-[13px] text-white/60 mt-0.5">Pairings and notifications pushed to your phone, with scenarios and scoring built in.</p>
+          </div>
+          <a id="app-install" href={APP_STORE_URL} class="sm:hidden h-9 flex items-center px-3.5 rounded-lg bg-green-500 text-green-950 font-bold text-[13px]">Install</a>
+          <div class="hidden sm:flex gap-2">
+            <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer"><img src="/images/store/app-store-badge.svg" alt="Download on the App Store" class="h-10 w-auto" /></a>
+            <a href={PLAY_STORE_URL} target="_blank" rel="noopener noreferrer"><img src="/images/store/google-play-badge.svg" alt="Get it on Google Play" class="h-10 w-auto" /></a>
+          </div>
+        </div>
+      </div>
+
+      <RegionPanel />
+    </div>
+  </div>
+</section>
+
+<script>
+  import '../../scripts/home-region';
+
+  const slides = document.querySelectorAll('.hero-slide');
+  let current = 0;
+  if (slides.length > 1) {
+    setInterval(() => {
+      slides[current].classList.replace('opacity-30', 'opacity-0');
+      current = (current + 1) % slides.length;
+      slides[current].classList.replace('opacity-0', 'opacity-30');
+    }, 8000);
+  }
+</script>

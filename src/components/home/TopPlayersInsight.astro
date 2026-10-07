@@ -1,0 +1,76 @@
+---
+const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com';
+---
+
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20 grid grid-cols-1 lg:grid-cols-2 gap-6">
+  <div class="rounded-xl border border-white/10 bg-white/5 p-5 sm:p-6">
+    <div class="flex items-center justify-between mb-3">
+      <h2 class="text-xl sm:text-2xl font-bold text-white">Top Ranked Players</h2>
+      <a href={`${APP_URL}/global_rankings`} class="text-sm font-medium text-white hover:text-owr-gold">View full rankings</a>
+    </div>
+    <div class="flex gap-2 mb-2" role="tablist" aria-label="Ranking type">
+      <button type="button" role="tab" aria-selected="true" data-rank-tab="offline" class="rank-tab h-8 px-3.5 rounded-full text-[13px] font-medium cursor-pointer bg-white text-gray-900">Global (Offline)</button>
+      <button type="button" role="tab" aria-selected="false" data-rank-tab="total" class="rank-tab h-8 px-3.5 rounded-full text-[13px] font-medium cursor-pointer bg-white/10 text-white">Global (All)</button>
+    </div>
+    <ul id="global-rankings-list" class="divide-y divide-white/10 border-t border-white/10">
+      {Array.from({ length: 5 }).map(() => (
+        <li class="flex items-center gap-4 py-3 animate-pulse"><div class="w-7 h-7 rounded-full bg-white/10"></div><div class="h-3.5 flex-1 bg-white/10 rounded"></div></li>
+      ))}
+    </ul>
+  </div>
+
+  <a href="/insights/renegade-effect/" class="group rounded-xl border border-white/10 bg-white/5 overflow-hidden flex flex-col hover:border-owr-gold/40 transition-colors">
+    <img src="/images/hero/faction-stats-v2.webp" alt="Faction matchup matrix" class="w-full h-48 sm:h-56 object-cover object-top" loading="lazy" />
+    <div class="p-5 sm:p-6 flex flex-col gap-2.5">
+      <div class="text-xs font-bold uppercase tracking-widest text-owr-gold">Featured insight</div>
+      <h2 class="text-xl sm:text-2xl font-bold text-white group-hover:text-owr-gold transition-colors">The Renegade Effect</h2>
+      <p class="text-[15px] leading-relaxed text-white/70">With Renegades v2.0 on the horizon, we dug into 13 months of data: 1,097 tournaments and 15,697 player results. Did v1.0 actually make a difference?</p>
+      <p class="text-[13px] text-gray-400">@gommo · 12 Apr 2026</p>
+    </div>
+  </a>
+</section>
+
+<script>
+  import { apiFetch, appUrl, type LandingRankings, type RankedPlayer } from '../../lib/api';
+  import { el } from '../../scripts/home-rows';
+  import { countryFlag } from '../../lib/country-flag';
+
+  const MEDALS: Record<number, string> = { 1: 'bg-owr-gold text-gray-900', 2: 'bg-owr-silver text-gray-900', 3: 'bg-owr-bronze text-white' };
+
+  function row(p: RankedPlayer, i: number) {
+    const li = el('li');
+    const a = el('a', 'flex items-center gap-4 py-3 px-1 group');
+    a.href = appUrl(p.url ?? (p.nickname ? `/@${p.nickname}` : `/players/${p.id}`));
+    const pos = i + 1;
+    a.append(
+      el('div', `w-7 h-7 shrink-0 rounded-full flex items-center justify-center text-[13px] font-bold ${MEDALS[pos] ?? 'bg-white/10 text-white'}`, String(pos)),
+      el('span', 'text-lg leading-none', countryFlag(p.region_code === 'XX' ? null : p.region_code)),
+      el('div', 'flex-1 font-semibold text-white truncate group-hover:text-owr-gold transition-colors', p.name),
+    );
+    const pts = el('div', 'text-right');
+    pts.append(el('div', 'font-bold text-white', Number(p.points).toFixed(1)), el('div', 'text-[11px] text-gray-400', 'points'));
+    a.append(pts);
+    li.append(a);
+    return li;
+  }
+
+  apiFetch<LandingRankings>('/api/v1/landing/rankings').then((data) => {
+    const list = document.getElementById('global-rankings-list');
+    if (!data || !list) return;
+    const draw = (type: 'offline' | 'total') => list.replaceChildren(...data[type].slice(0, 5).map(row));
+    draw('offline');
+    document.querySelectorAll<HTMLElement>('[data-rank-tab]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll<HTMLElement>('[data-rank-tab]').forEach((b) => {
+          const on = b === btn;
+          b.setAttribute('aria-selected', String(on));
+          b.classList.toggle('bg-white', on);
+          b.classList.toggle('text-gray-900', on);
+          b.classList.toggle('bg-white/10', !on);
+          b.classList.toggle('text-white', !on);
+        });
+        draw(btn.dataset.rankTab as 'offline' | 'total');
+      });
+    });
+  });
+</script>

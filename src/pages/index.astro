@@ -1,57 +1,20 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
-import HeroSection from '../components/HeroSection.astro';
-import StatsBar from '../components/StatsBar.astro';
-import RegionsSection from '../components/RegionsSection.astro';
-import RankingsSection from '../components/RankingsSection.astro';
-import FeaturesSection from '../components/FeaturesSection.astro';
-import ArmyBuilderSection from '../components/ArmyBuilderSection.astro';
-import DigitalListsSection from '../components/DigitalListsSection.astro';
-import TournamentHostingSection from '../components/TournamentHostingSection.astro';
-import PricingSection from '../components/PricingSection.astro';
-import MobileAppSection from '../components/MobileAppSection.astro';
+import HomeHero from '../components/home/HomeHero.astro';
+import TopPlayersInsight from '../components/home/TopPlayersInsight.astro';
+import FeaturedArmies from '../components/home/FeaturedArmies.astro';
+import HostingBand from '../components/home/HostingBand.astro';
 import Footer from '../components/Footer.astro';
-import FeaturedInsight from '../components/FeaturedInsight.astro';
-import TributeBanner from '../components/TributeBanner.astro';
 ---
 
 <Layout title="Old World Rankings - The Complete Companion to The Old World">
   <Nav transparent={true} />
-
-  <!-- Product showcase over the rotating battle background -->
-  <HeroSection />
-
-  <!-- Stats Bar -->
-  <StatsBar />
-
-  <!-- Featured Insight -->
-  <FeaturedInsight />
-
-  <!-- Mobile App -->
-  <MobileAppSection />
-
-  <!-- Regions -->
-  <RegionsSection />
-
-  <!-- Rankings -->
-  <RankingsSection />
-
-  <!-- Features -->
-  <FeaturesSection />
-
-  <!-- Digital Lists -->
-  <DigitalListsSection />
-
-  <!-- Battle Builder -->
-  <ArmyBuilderSection />
-
-  <!-- Tournament Hosting -->
-  <TournamentHostingSection />
-
-  <!-- Pricing -->
-  <PricingSection />
-
-  <!-- Footer -->
+  <main class="bg-gray-900 pb-16 sm:pb-20">
+    <HomeHero />
+    <TopPlayersInsight />
+    <FeaturedArmies />
+    <HostingBand />
+  </main>
   <Footer />
 </Layout>

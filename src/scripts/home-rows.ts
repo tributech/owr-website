@@ -36,10 +36,10 @@ export function eventRow(event: RegionEvent): HTMLLIElement {
   const a = el('a', 'flex items-center gap-3.5 py-2.5 group');
   a.href = appUrl(event.url);
 
-  const date = el('div', 'w-[50px] shrink-0 text-center rounded-lg bg-black/40 py-1.5');
+  const date = el('div', 'w-[50px] shrink-0 overflow-hidden rounded-lg text-center ring-1 ring-white/15');
   date.append(
-    el('div', 'text-[10px] font-bold text-owr-gold', MONTHS[start.m - 1]),
-    el('div', 'text-xl font-bold leading-tight text-white', String(start.d)),
+    el('div', 'bg-owr-gold-dark text-gray-950 text-[10px] font-extrabold tracking-wider py-0.5', MONTHS[start.m - 1]),
+    el('div', 'bg-white/10 text-white text-xl font-bold leading-none py-1.5', String(start.d)),
   );
 
   const body = el('div', 'min-w-0 flex-1');

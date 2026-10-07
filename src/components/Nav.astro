@@ -1,7 +1,7 @@
 ---
 import {
   Globe, Trophy, CalendarArrowUp, CalendarDays, ScrollText, Image, BarChart,
-  Swords, Sparkles, Hammer, Smartphone, CreditCard,
+  Sparkles, Hammer, Smartphone, CreditCard,
   Map, BookOpen, Newspaper, Mic, Mail,
   CircleHelp, Sun, Moon, Menu, X as CloseIcon,
   ChevronDown, User, Settings, Info, CalendarHeart,
@@ -14,53 +14,41 @@ const { transparent = false } = Astro.props;
 
 const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com';
 
+// Core features sit in the bar like the app; marketing and resources live under More.
+const coreLinks = [
+  { label: 'Rankings', href: `${APP_URL}/global_rankings` },
+  { label: 'Tournaments', href: `${APP_URL}/upcoming` },
+  { label: 'Battle Builder', href: `${APP_URL}/builder` },
+  { label: 'Army Lists', href: `${APP_URL}/army_lists` },
+  { label: 'Faction Stats', href: `${APP_URL}/faction_stats/v2` },
+  { label: 'Galleries', href: `${APP_URL}/galleries` },
+];
+
 const megaMenus = [
   {
-    label: 'Explore',
-    columns: 2,
-    items: [
-      { label: 'Regions', href: '/#regions', description: 'Find your local community and regional rankings', icon: Globe },
-      { label: 'Global Rankings', href: `${APP_URL}/global_rankings`, description: 'Player rankings across every region worldwide', icon: Trophy },
-      { label: 'Latest Results', href: `${APP_URL}/latest`, description: 'Recent tournament results and standings from around the world', icon: CalendarDays },
-      { label: 'Upcoming Events', href: `${APP_URL}/upcoming`, description: 'Find tournaments happening near you and register', icon: CalendarArrowUp },
-      { label: 'Army Lists', href: `${APP_URL}/army_lists`, description: 'Browse army lists from tournaments around the world', icon: ScrollText },
-      { label: 'Army Galleries', href: `${APP_URL}/galleries`, description: 'Painted army showcases and hobby inspiration', icon: Image },
-      { label: 'Faction Stats', href: `${APP_URL}/faction_stats/v2`, description: 'Win rates, matchups and meta trends for every faction', icon: BarChart },
-    ],
-  },
-  {
-    label: 'Product',
+    label: 'More',
     columns: 2,
     items: [
       { label: 'For Tournament Organisers', href: '/tournament-organisers', description: 'Run events with automated pairings, live boards and more', icon: Trophy },
       { label: 'Features', href: '/#features', description: 'Everything OWR offers for players and tournament organisers', icon: Sparkles },
-      { label: 'Battle Builder', href: `${APP_URL}/builder`, description: 'Build and manage your army lists with our list builder', icon: Hammer },
-      { label: 'Battle Hub Scorer', href: '#', description: 'Live scoring and results for your tournament games', icon: Swords },
-      { label: 'Mobile App', href: '/#mobile', description: 'OWR in your pocket - manage lists and get live event updates', icon: Smartphone },
-      { label: 'Pricing', href: '/pricing', description: 'Free for players forever - Pro plans for tournament organisers', icon: CreditCard },
-    ],
-  },
-  {
-    label: 'Resources',
-    columns: 1,
-    items: [
+      { label: 'Mobile App', href: '/#app', description: 'OWR in your pocket: pairings, notifications and scoring', icon: Smartphone },
+      { label: 'Latest Results', href: `${APP_URL}/latest`, description: 'Recent tournament results and standings from around the world', icon: CalendarDays },
+      { label: 'Pricing', href: '/pricing', description: 'Free for players forever, Pro plans for tournament organisers', icon: CreditCard },
+      { label: 'Insights', href: '/insights', description: 'Data-driven articles on the Old World meta', icon: Globe },
       { label: 'Roadmap', href: '/roadmap', description: 'See what we\'re building next and vote on upcoming features', icon: Map },
       { label: 'Documentation', href: '/docs', description: 'Guides and help articles to get the most out of OWR', icon: BookOpen },
       { label: "What's New", href: `${APP_URL}/release-notes`, description: 'Latest updates, improvements and fixes to the platform', icon: Newspaper },
       { label: 'Old World Fanatics', href: 'https://www.youtube.com/@OldWorldFanatics', description: 'Our podcast and livestream for all things Old World', icon: Mic, external: true },
-      { label: 'Support', href: '/support', description: 'Get in touch - we\'re here to help', icon: Mail },
+      { label: 'Support', href: '/support', description: 'Get in touch, we\'re here to help', icon: Mail },
+      { label: 'About', href: '/about', description: 'Who builds OWR and why', icon: Info },
     ],
   },
 ];
 
-const directLinks = [
-  { label: 'Insights', href: '/insights' },
-  { label: 'About', href: '/about' },
-];
+const directLinks = coreLinks;
 
 // Flat list for mobile menu
-const mobileLinks = megaMenus.flatMap(m => m.items.map(i => ({ label: i.label, href: i.href, action: i.action })));
-mobileLinks.push(...directLinks);
+const mobileLinks = [...coreLinks, ...megaMenus.flatMap(m => m.items.map(i => ({ label: i.label, href: i.href, action: i.action })))];
 ---
 
 <header
@@ -72,9 +60,9 @@ mobileLinks.push(...directLinks);
   ]}
 >
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex items-center justify-between h-16">
+    <div class="flex items-center justify-between gap-6 h-16">
       <!-- Logo -->
-      <a href="/" class="flex items-center gap-3">
+      <a href="/" class="flex items-center gap-3 shrink-0">
         <img
           src="/images/owr_logo_white.png"
           alt="Old World Rankings"
@@ -85,7 +73,7 @@ mobileLinks.push(...directLinks);
         />
         <span
           class:list={[
-            'font-semibold hidden sm:block',
+            'font-semibold whitespace-nowrap hidden sm:block',
             transparent ? 'text-white' : 'text-gray-900 dark:text-white',
           ]}
         >
@@ -95,6 +83,20 @@ mobileLinks.push(...directLinks);
 
       <!-- Desktop nav links (mega menu) -->
       <nav class="hidden lg:flex items-center gap-1">
+        {directLinks.map((link) => (
+          <a
+            href={link.href}
+            class:list={[
+              'px-2.5 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap',
+              transparent
+                ? 'text-white/70 hover:text-white hover:bg-white/10'
+                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800',
+            ]}
+          >
+            {link.label}
+          </a>
+        ))}
+
         {megaMenus.map((menu) => (
           <div class="group relative">
             <button
@@ -173,19 +175,6 @@ mobileLinks.push(...directLinks);
           </div>
         ))}
 
-        {directLinks.map((link) => (
-          <a
-            href={link.href}
-            class:list={[
-              'px-3 py-2 rounded-lg text-sm font-medium transition-colors',
-              transparent
-                ? 'text-white/70 hover:text-white hover:bg-white/10'
-                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800',
-            ]}
-          >
-            {link.label}
-          </a>
-        ))}
       </nav>
 
       <!-- Desktop right side -->
@@ -203,7 +192,7 @@ mobileLinks.push(...directLinks);
           aria-label="Open help chat"
         >
           <CircleHelp size={20} strokeWidth={2} />
-          <span class="text-sm font-medium">Help</span>
+          <span class="hidden 2xl:inline text-sm font-medium">Help</span>
         </button>
 
         <!-- Theme toggle -->

@@ -5,15 +5,17 @@ import HomeHero from '../components/home/HomeHero.astro';
 import TopPlayersInsight from '../components/home/TopPlayersInsight.astro';
 import FeaturedArmies from '../components/home/FeaturedArmies.astro';
 import HostingBand from '../components/home/HostingBand.astro';
+import FeatureCards from '../components/home/FeatureCards.astro';
 import Footer from '../components/Footer.astro';
 ---
 
 <Layout title="Old World Rankings - The Complete Companion to The Old World">
   <Nav transparent={true} />
-  <main class="bg-gray-900 pb-16 sm:pb-20">
+  <main class="bg-gray-50 dark:bg-gray-900 pb-16 sm:pb-20">
     <HomeHero />
     <TopPlayersInsight />
     <FeaturedArmies />
+    <FeatureCards />
     <HostingBand />
   </main>
   <Footer />

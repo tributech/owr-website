@@ -3,15 +3,15 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
 ---
 
 <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20">
-  <div class="rounded-xl border border-white/10 bg-white/5 overflow-hidden flex flex-col md:flex-row md:items-center">
+  <div class="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden flex flex-col md:flex-row md:items-center dark:border-white/10 dark:bg-white/5 dark:shadow-none">
     <img src="/images/hero/host.webp" alt="Battle board and final results on screen" class="w-full md:w-1/2 h-56 md:h-[300px] object-cover bg-black" loading="lazy" />
     <div class="md:w-1/2 p-6 sm:p-10 flex flex-col gap-3.5">
-      <div class="text-xs font-bold uppercase tracking-widest text-owr-gold">For tournament organizers</div>
-      <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Built so the TO can play too.</h2>
-      <p class="text-[15px] leading-relaxed text-white/70">Registration and payments, auto pairings, Battle Hub scoring and a live battle board. Free for small events.</p>
+      <div class="text-xs font-bold uppercase tracking-widest text-owr-gold-dark dark:text-owr-gold">For tournament organizers</div>
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white">Built so the TO can play too.</h2>
+      <p class="text-[15px] leading-relaxed text-gray-600 dark:text-white/70">Registration and payments, auto pairings, Battle Hub scoring and a live battle board. Free for small events.</p>
       <div class="flex flex-wrap gap-2.5">
         <a href={`${APP_URL}/host`} class="h-11 flex items-center px-5 rounded-lg bg-owr-gold hover:bg-owr-gold-dark text-gray-900 font-semibold text-sm transition-colors">Host an event</a>
-        <a href="/tournament-organisers/" class="h-11 flex items-center px-5 rounded-lg bg-white/10 hover:bg-white/15 text-white font-semibold text-sm transition-colors">What you get</a>
+        <a href="/tournament-organisers/" class="h-11 flex items-center px-5 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-900 dark:bg-white/10 dark:hover:bg-white/15 dark:text-white font-semibold text-sm transition-colors">What you get</a>
       </div>
     </div>
   </div>

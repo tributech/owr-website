@@ -23,10 +23,6 @@ function setTab(tab: 'events' | 'players') {
   document.querySelectorAll<HTMLElement>('[data-panel-tab]').forEach((btn) => {
     const active = btn.dataset.panelTab === tab;
     btn.setAttribute('aria-selected', String(active));
-    btn.classList.toggle('bg-white', active);
-    btn.classList.toggle('text-gray-900', active);
-    btn.classList.toggle('bg-white/10', !active);
-    btn.classList.toggle('text-white', !active);
   });
   $('panel-events')?.classList.toggle('hidden', tab !== 'events');
   $('panel-players')?.classList.toggle('hidden', tab !== 'players');

@@ -2,18 +2,18 @@
 const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com';
 ---
 
-<section id="featured-armies" class="mt-16 sm:mt-20 bg-gray-800 py-12 sm:py-14">
+<section id="featured-armies" class="mt-16 sm:mt-20 bg-gray-100 dark:bg-gray-800 py-12 sm:py-14">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-end justify-between mb-6">
       <div>
-        <h2 class="text-xl sm:text-3xl font-bold text-white mb-1">Featured Armies</h2>
-        <p class="text-gray-400">Top rated galleries</p>
+        <h2 class="text-xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-1">Featured Armies</h2>
+        <p class="text-gray-500 dark:text-gray-400">Top rated galleries</p>
       </div>
-      <a href={`${APP_URL}/galleries`} class="text-sm font-medium text-white hover:text-owr-gold">View all</a>
+      <a href={`${APP_URL}/galleries`} class="text-sm font-medium text-gray-900 hover:text-owr-gold-dark dark:text-white dark:hover:text-owr-gold">View all</a>
     </div>
     <ul id="featured-armies-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
       {Array.from({ length: 6 }).map(() => (
-        <li class="animate-pulse"><div class="aspect-[4/3] rounded-lg bg-white/10"></div><div class="h-3.5 bg-white/10 rounded mt-2 w-3/4"></div></li>
+        <li class="animate-pulse"><div class="aspect-[4/3] rounded-lg bg-gray-200 dark:bg-white/10"></div><div class="h-3.5 bg-gray-200 dark:bg-white/10 rounded mt-2 w-3/4"></div></li>
       ))}
     </ul>
   </div>
@@ -38,8 +38,8 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
       badge.append(el('span', 'text-owr-gold', '★'), document.createTextNode(Number(g.rating).toFixed(1)));
       frame.append(badge);
     }
-    a.append(frame, el('div', 'font-semibold text-[13px] text-white truncate group-hover:text-owr-gold transition-colors', g.title));
-    if (g.faction_name) a.append(el('div', 'text-xs text-gray-400 -mt-1 truncate', g.faction_name));
+    a.append(frame, el('div', 'font-semibold text-[13px] text-gray-900 dark:text-white truncate group-hover:text-owr-gold-dark dark:group-hover:text-owr-gold transition-colors', g.title));
+    if (g.faction_name) a.append(el('div', 'text-xs text-gray-500 dark:text-gray-400 -mt-1 truncate', g.faction_name));
     li.append(a);
     return li;
   }

@@ -3,10 +3,10 @@
 
 <aside class="rounded-xl border border-white/10 bg-gray-900/70 backdrop-blur p-5 flex flex-col">
   <div role="tablist" aria-label="Your region" class="flex gap-1.5 mb-2">
-    <button type="button" role="tab" aria-selected="true" data-panel-tab="events" class="panel-tab h-8 px-3.5 rounded-full text-[13px] font-medium cursor-pointer bg-white text-gray-900">
+    <button type="button" role="tab" aria-selected="true" data-panel-tab="events" class="panel-tab h-8 px-3.5 rounded-full text-[13px] font-medium cursor-pointer bg-white/10 text-white aria-selected:bg-white aria-selected:text-gray-900">
       Upcoming events
     </button>
-    <button type="button" role="tab" aria-selected="false" data-panel-tab="players" class="panel-tab h-8 px-3.5 rounded-full text-[13px] font-medium cursor-pointer bg-white/10 text-white">
+    <button type="button" role="tab" aria-selected="false" data-panel-tab="players" class="panel-tab h-8 px-3.5 rounded-full text-[13px] font-medium cursor-pointer bg-white/10 text-white aria-selected:bg-white aria-selected:text-gray-900">
       <span id="panel-players-label">Top players</span>
     </button>
   </div>
@@ -15,7 +15,7 @@
     <ul id="panel-events-list" class="divide-y divide-white/10 border-t border-white/10">
       {Array.from({ length: 5 }).map(() => (
         <li class="flex items-center gap-3.5 py-2.5 animate-pulse">
-          <div class="w-[50px] h-[46px] rounded-lg bg-white/10"></div>
+          <div class="w-[50px] h-[50px] rounded-lg bg-white/10"></div>
           <div class="flex-1 space-y-2"><div class="h-3.5 bg-white/10 rounded w-3/4"></div><div class="h-3 bg-white/10 rounded w-1/3"></div></div>
         </li>
       ))}

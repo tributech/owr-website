@@ -25,6 +25,23 @@ export async function apiFetch<T>(
   }
 }
 
+// Public endpoints go through Netlify's /api proxy so its CDN can cache them, and
+// skip cookies so one cached copy serves every visitor. Only /landing/me needs the session.
+const PUBLIC_API_BASE = import.meta.env.PROD ? '' : APP_URL;
+
+export async function publicApiFetch<T>(path: string): Promise<T | null> {
+  try {
+    const res = await fetch(`${PUBLIC_API_BASE}${path}`, {
+      credentials: 'omit',
+      headers: { Accept: 'application/json' },
+    });
+    if (!res.ok) return null;
+    return (await res.json()) as T;
+  } catch {
+    return null;
+  }
+}
+
 // ── Type definitions ────────────────────────────────────────────────
 
 export interface LandingMe {

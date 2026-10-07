@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef } from 'react';
-import { apiFetch, type SearchResults } from '../lib/api';
+import { publicApiFetch, type SearchResults } from '../lib/api';
 
 const DEBOUNCE_MS = 300;
 const MIN_QUERY_LENGTH = 2;
@@ -20,7 +20,7 @@ export function useSearch() {
     }
 
     timerRef.current = setTimeout(async () => {
-      const data = await apiFetch<SearchResults>(
+      const data = await publicApiFetch<SearchResults>(
         `/api/v1/search?q=${encodeURIComponent(trimmed)}`,
       );
       if (data) {

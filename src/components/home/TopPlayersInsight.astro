@@ -31,7 +31,7 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
 </section>
 
 <script>
-  import { apiFetch, appUrl, type LandingRankings, type RankedPlayer } from '../../lib/api';
+  import { publicApiFetch, appUrl, type LandingRankings, type RankedPlayer } from '../../lib/api';
   import { el } from '../../scripts/home-rows';
   import { countryFlag } from '../../lib/country-flag';
 
@@ -54,7 +54,7 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
     return li;
   }
 
-  apiFetch<LandingRankings>('/api/v1/landing/rankings').then((data) => {
+  publicApiFetch<LandingRankings>('/api/v1/landing/rankings').then((data) => {
     const list = document.getElementById('global-rankings-list');
     if (!data || !list) return;
     const draw = (type: 'offline' | 'total') => list.replaceChildren(...data[type].slice(0, 5).map(row));

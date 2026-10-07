@@ -20,7 +20,7 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
 </section>
 
 <script>
-  import { apiFetch, appUrl, type FeaturedGalleries, type FeaturedGallery } from '../../lib/api';
+  import { publicApiFetch, appUrl, type FeaturedGalleries, type FeaturedGallery } from '../../lib/api';
   import { el } from '../../scripts/home-rows';
 
   function card(g: FeaturedGallery) {
@@ -44,7 +44,7 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
     return li;
   }
 
-  apiFetch<FeaturedGalleries>('/api/v1/landing/galleries').then((data) => {
+  publicApiFetch<FeaturedGalleries>('/api/v1/landing/galleries').then((data) => {
     const grid = document.getElementById('featured-armies-grid');
     if (!grid) return;
     if (!data?.galleries.length) {

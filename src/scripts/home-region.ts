@@ -1,5 +1,5 @@
 import {
-  apiFetch,
+  publicApiFetch,
   APP_URL,
   type LandingMe,
   type LandingRegion,
@@ -56,7 +56,7 @@ async function renderPanel(region: LandingRegion | null) {
   $('panel-empty')?.classList.add('hidden');
   if (!region) return showEmpty('Choose your region to see upcoming events and top players near you.');
 
-  const data = await apiFetch<RegionHome>(`/api/v1/landing/region/${region.code.toLowerCase()}`);
+  const data = await publicApiFetch<RegionHome>(`/api/v1/landing/region/${region.code.toLowerCase()}`);
   if (!data) return showEmpty('Local events are unavailable right now.');
 
   setTab('events');
@@ -133,7 +133,7 @@ async function init() {
   if (install && store) install.href = store;
 
   const [regionsRes, user] = await Promise.all([
-    apiFetch<LandingRegionsResponse>('/api/v1/landing/regions'),
+    publicApiFetch<LandingRegionsResponse>('/api/v1/landing/regions'),
     waitForUser(),
   ]);
   const regions = regionsRes?.regions ?? [];

@@ -54,9 +54,9 @@ const cards = [
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
     {cards.map((card) => (
       <article class="group flex flex-col rounded-xl overflow-hidden border border-gray-200 bg-white shadow-sm dark:border-white/10 dark:bg-white/5 dark:shadow-none">
-        <div class="h-48 bg-gray-950 overflow-hidden">
+        <a href={card.cta?.href ?? '/#app'} class="block h-48 bg-gray-950 overflow-hidden cursor-pointer" tabindex="-1">
           <img src={card.image} alt={card.alt} class="w-full h-full object-cover object-top group-hover:scale-[1.03] transition-transform duration-500" loading="lazy" />
-        </div>
+        </a>
         <div class="flex flex-col gap-2.5 p-5 sm:p-6 flex-1">
           <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-owr-gold-dark dark:text-owr-gold">
             <card.icon size={16} strokeWidth={2} />{card.eyebrow}

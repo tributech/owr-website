@@ -110,7 +110,19 @@ function renderPicker(regions: LandingRegion[], onPick: (r: LandingRegion) => vo
 
 async function init() {
   const dialog = $('region-dialog') as HTMLDialogElement;
-  document.querySelectorAll('[data-region-open]').forEach((b) => b.addEventListener('click', () => dialog.showModal()));
+  // The region bar switches the homepage panel; "Find Local Scene" links go on to that region's dashboard.
+  let goToDashboard = false;
+  const openPicker = (dashboard: boolean) => {
+    goToDashboard = dashboard;
+    if (!dialog.open) dialog.showModal();
+  };
+  document.querySelectorAll('[data-region-open]').forEach((b) => b.addEventListener('click', () => openPicker(false)));
+  document.addEventListener('click', (e) => {
+    const link = (e.target as Element).closest?.('a[href="/#region"]');
+    if (!link) return;
+    e.preventDefault();
+    openPicker(true);
+  });
   $('region-dialog')?.querySelector('[data-region-close]')?.addEventListener('click', () => dialog.close());
   document.querySelectorAll<HTMLElement>('[data-panel-tab]').forEach((b) =>
     b.addEventListener('click', () => setTab(b.dataset.panelTab as 'events' | 'players')),
@@ -134,16 +146,19 @@ async function init() {
 
   renderPicker(regions, (r) => {
     saveRegionCode(r.code);
+    if (goToDashboard) {
+      location.href = `${APP_URL}/${r.slug}/dashboard`;
+      return;
+    }
     dialog.close();
     apply(r);
   });
 
   apply(resolveRegion(regions, user?.region_slug ?? null));
-  const openFromHash = () => {
-    if (location.hash === '#region' && !dialog.open) dialog.showModal();
-  };
-  window.addEventListener('hashchange', openFromHash);
-  openFromHash();
+  if (location.hash === '#region') {
+    history.replaceState(history.state, '', location.pathname + location.search);
+    openPicker(true);
+  }
 }
 
 init();

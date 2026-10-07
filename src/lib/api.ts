@@ -36,6 +36,7 @@ export interface LandingMe {
   region_name: string | null;
   region_slug: string | null;
   player_slug: string | null;
+  pro?: boolean;
 }
 
 export interface LandingStats {

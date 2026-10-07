@@ -178,7 +178,7 @@ The renderer prints a warning if you forget.
 
 ### Overview
 
-Content for `/docs` and `/whatsnew` is managed in Contentful (space `ry0ysk99xuno`, environment `master`). Pages fetch content at **build time** via the Contentful Delivery/Preview API — no client-side fetching.
+Help docs live in the Banshee help centre at https://help.oldworldrankings.com (old `/docs` URLs 301 there via `netlify.toml`). Content for insights and newsletters is managed in Contentful (space `ry0ysk99xuno`, environment `master`). Pages fetch content at **build time** via the Contentful Delivery/Preview API — no client-side fetching.
 
 - `src/lib/contentful.ts` — Client singleton. Returns `null` when env vars are missing (pages render empty state).
 - `src/lib/contentful-types.ts` — TypeScript skeletons for all content types.

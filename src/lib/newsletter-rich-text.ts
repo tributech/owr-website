@@ -1,6 +1,6 @@
 // Newsletter-specific rich-text renderer.
 //
-// Distinct from src/lib/rich-text.ts (which is tuned for /docs and /whatsnew
+// Distinct from src/lib/rich-text.ts (which is tuned for insights articles
 // styling). Newsletter prose has its own typography:
 //  - bold mark renders as a strong with the high-contrast prose color
 //  - code mark renders as a gold pill badge (used for status callouts like

@@ -24,16 +24,150 @@
   to = "/terms/"
   status = 200
 
-# Docs pages
+# Docs moved to the Banshee help centre. Old slugs map to their help articles.
+[[redirects]]
+  from = "/docs/communications"
+  to = "https://help.oldworldrankings.com/articles/communications"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/docs/communications/"
+  to = "https://help.oldworldrankings.com/articles/communications"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/docs/create-tournament"
+  to = "https://help.oldworldrankings.com/articles/create-a-tournament"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/docs/create-tournament/"
+  to = "https://help.oldworldrankings.com/articles/create-a-tournament"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/docs/faq-pairings-tiebreakers"
+  to = "https://help.oldworldrankings.com/articles/faq-pairings-tiebreakers-strength-of-schedule"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/docs/faq-pairings-tiebreakers/"
+  to = "https://help.oldworldrankings.com/articles/faq-pairings-tiebreakers-strength-of-schedule"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/docs/rounds"
+  to = "https://help.oldworldrankings.com/articles/rounds"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/docs/rounds/"
+  to = "https://help.oldworldrankings.com/articles/rounds"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/docs/scoring"
+  to = "https://help.oldworldrankings.com/articles/scoring-setup"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/docs/scoring/"
+  to = "https://help.oldworldrankings.com/articles/scoring-setup"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/docs/setting-up-stripe-payments"
+  to = "https://help.oldworldrankings.com/articles/setting-up-stripe-payments"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/docs/setting-up-stripe-payments/"
+  to = "https://help.oldworldrankings.com/articles/setting-up-stripe-payments"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/docs/tournament-attendees"
+  to = "https://help.oldworldrankings.com/articles/attendees"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/docs/tournament-attendees/"
+  to = "https://help.oldworldrankings.com/articles/attendees"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/docs/tournament-dates-payment"
+  to = "https://help.oldworldrankings.com/articles/dates-payment"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/docs/tournament-dates-payment/"
+  to = "https://help.oldworldrankings.com/articles/dates-payment"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/docs/tournament-documents"
+  to = "https://help.oldworldrankings.com/articles/documents"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/docs/tournament-documents/"
+  to = "https://help.oldworldrankings.com/articles/documents"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/docs/tournament-overview"
+  to = "https://help.oldworldrankings.com/articles/the-tournament-overview"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/docs/tournament-overview/"
+  to = "https://help.oldworldrankings.com/articles/the-tournament-overview"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/docs/tournament-staff"
+  to = "https://help.oldworldrankings.com/articles/staff"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/docs/tournament-staff/"
+  to = "https://help.oldworldrankings.com/articles/staff"
+  status = 301
+  force = true
+
 [[redirects]]
   from = "/docs"
-  to = "/docs/"
-  status = 200
+  to = "https://help.oldworldrankings.com/"
+  status = 301
+  force = true
 
 [[redirects]]
   from = "/docs/*"
-  to = "/docs/:splat"
-  status = 200
+  to = "https://help.oldworldrankings.com/"
+  status = 301
+  force = true
 
 # What's New now lives in the Rails app as Release Notes, which is the system
 # that actually gets updated. force = true so these win over any built page.

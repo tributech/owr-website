@@ -1,0 +1,41 @@
+---
+import { ChevronDown, Search, X as CloseIcon } from '@lucide/astro';
+---
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 sm:pt-5">
+  <div class="flex flex-wrap items-center gap-x-4 gap-y-2 rounded-xl border border-white/10 bg-gray-900/70 backdrop-blur px-3 py-2.5 sm:pl-4">
+    <span class="text-xs sm:text-sm font-semibold sm:font-normal text-gray-400 shrink-0">Your region</span>
+    <button
+      type="button"
+      data-region-open
+      aria-haspopup="dialog"
+      class="flex-1 sm:flex-none min-h-11 flex items-center gap-2.5 rounded-lg border border-white/20 bg-white/[0.08] hover:bg-white/[0.12] px-3 text-left text-white font-bold transition-colors cursor-pointer"
+    >
+      <span id="region-flag" class="text-xl leading-none" aria-hidden="true">🌐</span>
+      <span id="region-name" class="text-base sm:text-lg">Choose your region</span>
+      <span class="ml-auto sm:ml-2 text-gray-400"><ChevronDown size={16} strokeWidth={2} /></span>
+    </button>
+    <span id="region-meta" class="hidden sm:inline text-sm text-white/70"></span>
+  </div>
+</div>
+
+<dialog
+  id="region-dialog"
+  class="m-auto w-[min(560px,calc(100vw-2rem))] max-h-[80vh] rounded-xl border border-white/10 bg-gray-900 text-white p-0 backdrop:bg-black/70"
+  aria-labelledby="region-dialog-title"
+>
+  <div class="flex items-center justify-between px-5 py-4 border-b border-white/10">
+    <h2 id="region-dialog-title" class="text-lg font-bold">Choose your region</h2>
+    <button type="button" data-region-close class="p-2 -mr-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 cursor-pointer" aria-label="Close">
+      <CloseIcon size={20} strokeWidth={2} />
+    </button>
+  </div>
+  <div class="px-5 pt-4">
+    <label class="flex items-center gap-2 h-11 px-3 rounded-lg border border-white/15 bg-white/5">
+      <span class="text-gray-400"><Search size={16} strokeWidth={2} /></span>
+      <span class="sr-only">Filter regions</span>
+      <input id="region-filter" type="search" placeholder="Filter regions" class="flex-1 bg-transparent text-base text-white placeholder-white/40 outline-none" />
+    </label>
+  </div>
+  <ul id="region-list" class="grid grid-cols-1 sm:grid-cols-2 gap-1 p-3 overflow-y-auto max-h-[55vh]"></ul>
+</dialog>

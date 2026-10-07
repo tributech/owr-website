@@ -1,0 +1,81 @@
+---
+import { Hammer, ScrollText, BarChart, Swords, Image, Smartphone } from '@lucide/astro';
+import { APP_STORE_URL, PLAY_STORE_URL } from '../../lib/store-links';
+
+const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com';
+
+const cards = [
+  {
+    icon: Hammer, eyebrow: 'Battle Builder', title: 'Build your army. Submit your list. Play.',
+    body: 'Pick your faction, add units, validate against the latest points, and send your list straight to your next event.',
+    image: '/images/battle-builder-2026-desktop.webp', alt: 'Battle Builder army list editor with live points and validation',
+    cta: { label: 'Open Battle Builder', href: `${APP_URL}/builder` },
+  },
+  {
+    icon: ScrollText, eyebrow: 'Digital Lists', title: 'Research your next list.',
+    body: 'Browse thousands of tournament lists, tap any item, rule or unit to see what it does, and open anything in Battle Builder.',
+    image: '/images/hero/digital-lists.webp', alt: 'Army list with a rules popover for a magic item',
+    cta: { label: 'Browse lists', href: `${APP_URL}/army_lists` },
+  },
+  {
+    icon: BarChart, eyebrow: 'Faction Stats', title: 'Every matchup, mapped.',
+    body: 'Faction versus faction win rates across every tournament we track, with trends across rule versions and an S to F tier list.',
+    image: '/images/hero/faction-stats-v2.webp', alt: 'Faction matchup matrix of win rates',
+    cta: { label: 'Explore Faction Stats', href: `${APP_URL}/faction_stats/v2` },
+  },
+  {
+    icon: Swords, eyebrow: 'Battle Hub', title: 'Run your whole event from the table.',
+    body: 'Your pairing, the round timer and your scoresheet, live on your phone. No paper, no hunting for the TO.',
+    image: '/images/hero/battle-hub.webp', alt: 'Battle Hub showing a live pairing and score entry on mobile',
+    cta: { label: 'Find an event', href: `${APP_URL}/upcoming` },
+  },
+  {
+    icon: Image, eyebrow: 'Army Galleries', title: 'Find your inspiration.',
+    body: 'Show off the painting. Upload up to 20 photos of an army, tag the factions and link it to the list you took to an event.',
+    image: '/images/hero/galleries.webp', alt: 'Army gallery photos with ratings',
+    cta: { label: 'Browse galleries', href: `${APP_URL}/galleries` },
+  },
+  {
+    icon: Smartphone, eyebrow: 'Mobile App', title: 'OWR in your pocket.',
+    body: 'Pairings and notifications pushed to your phone, with scenarios and scoring built in. Free on iOS and Android.',
+    image: '/images/hero/mobile-app.webp', alt: 'Three phones running the OWR app',
+    stores: true,
+  },
+];
+---
+
+<section id="features" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-24 scroll-mt-20">
+  <div class="max-w-2xl mb-8 sm:mb-10">
+    <div class="text-xs font-bold uppercase tracking-widest text-owr-gold-dark dark:text-owr-gold mb-2">Everything in OWR</div>
+    <h2 class="text-2xl sm:text-4xl font-extrabold text-gray-900 dark:text-white">One home for your Old World hobby</h2>
+    <p class="mt-3 text-base sm:text-lg text-gray-600 dark:text-white/70">Build lists, find and play events, track the meta and show off your armies, on the web and in the app.</p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+    {cards.map((card) => (
+      <article class="group flex flex-col rounded-xl overflow-hidden border border-gray-200 bg-white shadow-sm dark:border-white/10 dark:bg-white/5 dark:shadow-none">
+        <a href={card.cta?.href ?? '/#app'} class="block h-48 bg-gray-950 overflow-hidden cursor-pointer" tabindex="-1">
+          <img src={card.image} alt={card.alt} class="w-full h-full object-cover object-top group-hover:scale-[1.03] transition-transform duration-500" loading="lazy" />
+        </a>
+        <div class="flex flex-col gap-2.5 p-5 sm:p-6 flex-1">
+          <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-owr-gold-dark dark:text-owr-gold">
+            <card.icon size={16} strokeWidth={2} />{card.eyebrow}
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">{card.title}</h3>
+          <p class="text-sm leading-relaxed text-gray-600 dark:text-white/70 flex-1">{card.body}</p>
+          {card.cta && (
+            <a href={card.cta.href} class="mt-1 inline-flex items-center gap-1 text-sm font-semibold text-gray-900 hover:text-owr-gold-dark dark:text-white dark:hover:text-owr-gold">
+              {card.cta.label} <span aria-hidden="true">→</span>
+            </a>
+          )}
+          {card.stores && (
+            <div class="mt-1 flex gap-2">
+              <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer"><img src="/images/store/app-store-badge.svg" alt="Download on the App Store" class="h-10 w-auto" /></a>
+              <a href={PLAY_STORE_URL} target="_blank" rel="noopener noreferrer"><img src="/images/store/google-play-badge.svg" alt="Get it on Google Play" class="h-10 w-auto" /></a>
+            </div>
+          )}
+        </div>
+      </article>
+    ))}
+  </div>
+</section>

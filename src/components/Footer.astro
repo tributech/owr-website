@@ -1,22 +1,26 @@
 ---
+import { APP_STORE_URL, PLAY_STORE_URL } from '../lib/store-links';
+
 const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com';
 const currentYear = new Date().getFullYear();
 
 const platformLinks = [
   { label: 'Rankings', href: `${APP_URL}/global_rankings` },
-  { label: 'Tournaments', href: '/#regions' },
+  { label: 'Tournaments', href: `${APP_URL}/upcoming` },
+  { label: 'Battle Builder', href: `${APP_URL}/builder` },
   { label: 'Army Lists', href: `${APP_URL}/army_lists` },
   { label: 'Galleries', href: `${APP_URL}/galleries` },
   { label: 'Pricing', href: '/pricing' },
 ];
 
 const communityLinks = [
-  { label: 'Find Local Scene', href: '/#regions' },
+  { label: 'Find Local Scene', href: '/#region' },
   { label: 'Discord', href: 'https://discord.gg/sdqTWHvYUG', external: true },
+  { label: 'Insights', href: '/insights/' },
 ];
 
 const resourceLinks = [
-  { label: 'Help & Docs', href: '/docs' },
+  { label: 'Help Centre', href: 'https://help.oldworldrankings.com', external: true },
   { label: "What's New", href: `${APP_URL}/release-notes` },
   { label: 'Newsletter', href: '/newsletter/' },
   { label: 'Roadmap', href: '/roadmap' },
@@ -34,11 +38,11 @@ const legalLinks = [
 ];
 ---
 
-<footer class="bg-gray-900 text-white">
+<footer class="bg-gray-900 text-white border-t border-gray-800">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-    <div class="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
+    <div class="grid grid-cols-2 md:grid-cols-6 gap-8 mb-12">
       <!-- Brand -->
-      <div class="col-span-2 md:col-span-1">
+      <div class="col-span-2">
         <a href="/" class="flex items-center gap-3 mb-4">
           <img src="/images/owr_logo_white.png" alt="Old World Rankings" class="w-10 h-10" />
           <span class="font-semibold text-white">OWR</span>
@@ -47,9 +51,9 @@ const legalLinks = [
           The complete companion for Warhammer: The Old World.
         </p>
         <p class="text-xs text-gray-500 mb-4">Powered by <a href="https://hammerhub.com" target="_blank" rel="noopener noreferrer" class="hover:text-gray-300 transition-colors">HammerHub</a></p>
-        <div class="flex flex-col items-start gap-2">
+        <div class="flex flex-wrap items-start gap-2">
           <a
-            href="https://apps.apple.com/app/id6757371153"
+            href={APP_STORE_URL}
             target="_blank"
             rel="noopener noreferrer"
             class="transition-opacity hover:opacity-80"
@@ -57,7 +61,7 @@ const legalLinks = [
             <img src="/images/store/app-store-badge.svg" alt="Download on the App Store" class="h-9 w-auto" loading="lazy" />
           </a>
           <a
-            href="https://play.google.com/store/apps/details?id=com.oldworldrankings.android"
+            href={PLAY_STORE_URL}
             target="_blank"
             rel="noopener noreferrer"
             class="transition-opacity hover:opacity-80"

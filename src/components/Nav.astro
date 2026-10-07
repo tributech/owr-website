@@ -1,10 +1,10 @@
 ---
 import {
   Globe, Trophy, CalendarArrowUp, CalendarDays, ScrollText, Image, BarChart,
-  Swords, Sparkles, Hammer, Smartphone, CreditCard,
+  Sparkles, Hammer, Smartphone, CreditCard,
   Map, BookOpen, Newspaper, Mic, Mail,
   CircleHelp, Sun, Moon, Menu, X as CloseIcon,
-  ChevronDown, User, Settings, Info,
+  ChevronDown, User, Settings, Info, CalendarHeart,
 } from '@lucide/astro';
 
 interface Props {
@@ -14,53 +14,41 @@ const { transparent = false } = Astro.props;
 
 const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com';
 
+// Core features sit in the bar like the app; marketing and resources live under More.
+const coreLinks = [
+  { label: 'Rankings', href: `${APP_URL}/global_rankings` },
+  { label: 'Tournaments', href: `${APP_URL}/upcoming` },
+  { label: 'Battle Builder', href: `${APP_URL}/builder` },
+  { label: 'Army Lists', href: `${APP_URL}/army_lists` },
+  { label: 'Faction Stats', href: `${APP_URL}/faction_stats/v2` },
+  { label: 'Galleries', href: `${APP_URL}/galleries` },
+];
+
 const megaMenus = [
   {
-    label: 'Explore',
-    columns: 2,
-    items: [
-      { label: 'Regions', href: '/#regions', description: 'Find your local community and regional rankings', icon: Globe },
-      { label: 'Global Rankings', href: `${APP_URL}/global_rankings`, description: 'Player rankings across every region worldwide', icon: Trophy },
-      { label: 'Latest Results', href: `${APP_URL}/latest`, description: 'Recent tournament results and standings from around the world', icon: CalendarDays },
-      { label: 'Upcoming Events', href: `${APP_URL}/upcoming`, description: 'Find tournaments happening near you and register', icon: CalendarArrowUp },
-      { label: 'Army Lists', href: `${APP_URL}/army_lists`, description: 'Browse army lists from tournaments around the world', icon: ScrollText },
-      { label: 'Army Galleries', href: `${APP_URL}/galleries`, description: 'Painted army showcases and hobby inspiration', icon: Image },
-      { label: 'Faction Stats', href: `${APP_URL}/faction_stats/v2`, description: 'Win rates, matchups and meta trends for every faction', icon: BarChart },
-    ],
-  },
-  {
-    label: 'Product',
+    label: 'More',
     columns: 2,
     items: [
       { label: 'For Tournament Organisers', href: '/tournament-organisers', description: 'Run events with automated pairings, live boards and more', icon: Trophy },
       { label: 'Features', href: '/#features', description: 'Everything OWR offers for players and tournament organisers', icon: Sparkles },
-      { label: 'Battle Builder', href: `${APP_URL}/builder`, description: 'Build and manage your army lists with our list builder', icon: Hammer },
-      { label: 'Battle Hub Scorer', href: '#', description: 'Live scoring and results for your tournament games', icon: Swords },
-      { label: 'Mobile App', href: '/#mobile', description: 'OWR in your pocket - manage lists and get live event updates', icon: Smartphone },
-      { label: 'Pricing', href: '/pricing', description: 'Free for players forever - Pro plans for tournament organisers', icon: CreditCard },
-    ],
-  },
-  {
-    label: 'Resources',
-    columns: 1,
-    items: [
+      { label: 'Mobile App', href: '/#app', description: 'OWR in your pocket: pairings, notifications and scoring', icon: Smartphone },
+      { label: 'Latest Results', href: `${APP_URL}/latest`, description: 'Recent tournament results and standings from around the world', icon: CalendarDays },
+      { label: 'Pricing', href: '/pricing', description: 'Free for players forever, Pro plans for tournament organisers', icon: CreditCard },
+      { label: 'Insights', href: '/insights', description: 'Data-driven articles on the Old World meta', icon: Globe },
       { label: 'Roadmap', href: '/roadmap', description: 'See what we\'re building next and vote on upcoming features', icon: Map },
-      { label: 'Documentation', href: '/docs', description: 'Guides and help articles to get the most out of OWR', icon: BookOpen },
+      { label: 'Help Centre', href: 'https://help.oldworldrankings.com', description: 'Guides and help articles to get the most out of OWR', icon: BookOpen, external: true },
       { label: "What's New", href: `${APP_URL}/release-notes`, description: 'Latest updates, improvements and fixes to the platform', icon: Newspaper },
       { label: 'Old World Fanatics', href: 'https://www.youtube.com/@OldWorldFanatics', description: 'Our podcast and livestream for all things Old World', icon: Mic, external: true },
-      { label: 'Support', href: '/support', description: 'Get in touch - we\'re here to help', icon: Mail },
+      { label: 'Support', href: '/support', description: 'Get in touch, we\'re here to help', icon: Mail },
+      { label: 'About', href: '/about', description: 'Who builds OWR and why', icon: Info },
     ],
   },
 ];
 
-const directLinks = [
-  { label: 'Insights', href: '/insights' },
-  { label: 'About', href: '/about' },
-];
+const directLinks = coreLinks;
 
 // Flat list for mobile menu
-const mobileLinks = megaMenus.flatMap(m => m.items.map(i => ({ label: i.label, href: i.href, action: i.action })));
-mobileLinks.push(...directLinks);
+const mobileLinks = [...coreLinks, ...megaMenus.flatMap(m => m.items.map(i => ({ label: i.label, href: i.href, action: i.action })))];
 ---
 
 <header
@@ -72,9 +60,9 @@ mobileLinks.push(...directLinks);
   ]}
 >
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex items-center justify-between h-16">
+    <div class="flex items-center justify-between gap-6 h-16">
       <!-- Logo -->
-      <a href="/" class="flex items-center gap-3">
+      <a href="/" class="flex items-center gap-3 shrink-0">
         <img
           src="/images/owr_logo_white.png"
           alt="Old World Rankings"
@@ -85,7 +73,7 @@ mobileLinks.push(...directLinks);
         />
         <span
           class:list={[
-            'font-semibold hidden sm:block',
+            'font-semibold whitespace-nowrap hidden sm:block',
             transparent ? 'text-white' : 'text-gray-900 dark:text-white',
           ]}
         >
@@ -95,6 +83,20 @@ mobileLinks.push(...directLinks);
 
       <!-- Desktop nav links (mega menu) -->
       <nav class="hidden lg:flex items-center gap-1">
+        {directLinks.map((link) => (
+          <a
+            href={link.href}
+            class:list={[
+              'px-2.5 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap',
+              transparent
+                ? 'text-white/70 hover:text-white hover:bg-white/10'
+                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800',
+            ]}
+          >
+            {link.label}
+          </a>
+        ))}
+
         {megaMenus.map((menu) => (
           <div class="group relative">
             <button
@@ -173,19 +175,6 @@ mobileLinks.push(...directLinks);
           </div>
         ))}
 
-        {directLinks.map((link) => (
-          <a
-            href={link.href}
-            class:list={[
-              'px-3 py-2 rounded-lg text-sm font-medium transition-colors',
-              transparent
-                ? 'text-white/70 hover:text-white hover:bg-white/10'
-                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800',
-            ]}
-          >
-            {link.label}
-          </a>
-        ))}
       </nav>
 
       <!-- Desktop right side -->
@@ -203,7 +192,7 @@ mobileLinks.push(...directLinks);
           aria-label="Open help chat"
         >
           <CircleHelp size={20} strokeWidth={2} />
-          <span class="text-sm font-medium">Help</span>
+          <span class="hidden 2xl:inline text-sm font-medium">Help</span>
         </button>
 
         <!-- Theme toggle -->
@@ -224,41 +213,25 @@ mobileLinks.push(...directLinks);
           <span id="theme-moon" class="hidden"><Moon size={20} strokeWidth={2} /></span>
         </button>
 
-        <!-- Anonymous state (default) -->
-        <div id="nav-anonymous" class="hidden lg:flex items-center gap-4">
+        <!-- Anonymous state (default): matches Rails ProfileDropdown signed-out button -->
+        <div id="nav-anonymous" class="hidden lg:flex items-center">
           <a
             href={`${APP_URL}/login`}
-            class:list={[
-              'text-sm font-medium transition-colors',
-              transparent
-                ? 'text-white/80 hover:text-white'
-                : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white',
-            ]}
+            class="inline-flex items-center h-10 px-4 py-2 rounded-md bg-owr-gold text-black text-sm font-semibold border-2 border-owr-gold/20 shadow-[0_0_10px_rgba(255,215,0,0.2)] hover:bg-owr-gold-dark transition-all duration-200"
           >
-            Sign In
-          </a>
-          <a
-            href={`${APP_URL}/register`}
-            class:list={[
-              'px-4 py-2 rounded-md text-sm font-medium transition-colors',
-              transparent
-                ? 'bg-white text-gray-900 hover:bg-gray-100'
-                : 'bg-gray-900 text-white hover:bg-gray-800',
-            ]}
-          >
-            Get Started
+            Login
           </a>
         </div>
 
         <!-- Authenticated state (hidden until JS personalises) -->
-        <div id="nav-authenticated" class="hidden items-center gap-3">
+        <div id="nav-authenticated" class="hidden items-center gap-4">
           <!-- Dashboard pill button -->
           <a
             id="nav-dashboard-btn"
             href={`${APP_URL}/dashboard`}
-            class="flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-900 text-white text-sm font-medium hover:bg-gray-800 transition-colors"
+            class="flex items-center gap-2 px-4 py-2 rounded-md bg-owr-gold text-black hover:bg-owr-gold-dark transition-colors"
           >
-            <span id="nav-region-flag" class="text-base" aria-hidden="true"></span>
+            <span id="nav-region-flag" class="text-xl leading-none" aria-hidden="true"></span>
             Dashboard
           </a>
 
@@ -267,48 +240,47 @@ mobileLinks.push(...directLinks);
             <button
               id="nav-avatar-btn"
               type="button"
-              class="flex items-center justify-center w-10 h-10 rounded-full ring-2 ring-owr-gold text-sm font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-owr-gold bg-gray-200 text-gray-700 overflow-hidden cursor-pointer"
+              class="relative flex items-center justify-center h-10 w-10 p-0 rounded-full border-2 border-owr-gold overflow-hidden text-white hover:shadow-[0_0_15px_rgba(255,215,0,0.3)] transition-all duration-200 cursor-pointer"
               aria-label="User menu"
               aria-expanded="false"
             >
               <!-- Filled by JS: avatar image or initial letter -->
             </button>
 
-            <!-- Dropdown (dark theme matching Rails) -->
+            <!-- Dropdown: mirrors Rails layouts/ProfileDropdown.tsx -->
             <div
               id="user-dropdown"
-              class="hidden absolute right-0 mt-2 w-64 bg-owr-black rounded-xl shadow-2xl border border-owr-gold/30 overflow-hidden z-50"
+              role="menu"
+              class="hidden absolute right-0 mt-2 w-64 rounded-md border border-owr-gold/30 bg-owr-black p-1 shadow-[0_0_20px_rgba(255,215,0,0.1)] z-50"
             >
-              <!-- User header -->
-              <div class="px-5 py-4 border-b border-owr-gold/20 bg-black/40">
-                <p id="dropdown-name" class="text-base font-semibold text-owr-gold"></p>
-                <p id="dropdown-email" class="text-sm text-gray-400 mt-0.5"></p>
+              <div class="px-2 py-1.5 border-b border-owr-gold/20 bg-black/40">
+                <div class="flex flex-col space-y-1.5 p-2">
+                  <p id="dropdown-name" class="text-base font-medium text-owr-gold"></p>
+                  <p id="dropdown-email" class="text-sm text-owr-silver"></p>
+                </div>
               </div>
-
-              <!-- Menu items -->
-              <div class="py-1">
-                <a id="dropdown-profile" href={`${APP_URL}/profile`} class="flex items-center gap-3 px-5 py-3 text-base text-gray-300 hover:bg-white/[0.06] hover:text-owr-gold transition-colors">
-                  <span class="text-owr-gold/70"><User size={20} strokeWidth={1.75} /></span>
-                  My Player Profile
+              <div>
+                <a id="dropdown-profile" href={`${APP_URL}/profile`} role="menuitem" class="flex items-center gap-2 rounded-sm px-2 py-3 text-owr-silver hover:bg-owr-red-dark/30 hover:text-owr-gold transition-colors">
+                  <span class="mr-2 text-owr-gold"><User size={16} strokeWidth={2} /></span>
+                  <span class="text-base">My Player Profile</span>
                 </a>
-                <a href={`${APP_URL}/builder`} class="flex items-center gap-3 px-5 py-3 text-base text-gray-300 hover:bg-white/[0.06] hover:text-owr-gold transition-colors">
-                  <span class="text-owr-gold/70"><Hammer size={20} strokeWidth={1.75} /></span>
-                  Battle Builder
+                <a href={`${APP_URL}/builder`} role="menuitem" class="flex items-center gap-2 rounded-sm px-2 py-3 text-owr-silver hover:bg-owr-red-dark/30 hover:text-owr-gold transition-colors">
+                  <span class="mr-2 text-owr-gold"><Hammer size={16} strokeWidth={2} /></span>
+                  <span class="text-base">Battle Builder</span>
                 </a>
-                <a id="dropdown-events" href={`${APP_URL}/my_events`} class="flex items-center gap-3 px-5 py-3 text-base text-gray-300 hover:bg-white/[0.06] hover:text-owr-gold transition-colors">
-                  <span class="text-owr-gold/70"><CalendarArrowUp size={20} strokeWidth={1.75} /></span>
-                  My Events
+                <a id="dropdown-events" href={`${APP_URL}/my_events`} role="menuitem" class="flex items-center gap-2 rounded-sm px-2 py-3 text-owr-silver hover:bg-owr-red-dark/30 hover:text-owr-gold transition-colors">
+                  <span class="mr-2 text-owr-gold"><CalendarHeart size={16} strokeWidth={2} /></span>
+                  <span class="text-base">My Events</span>
                 </a>
-                <a href={`${APP_URL}/profile`} class="flex items-center gap-3 px-5 py-3 text-base text-gray-300 hover:bg-white/[0.06] hover:text-owr-gold transition-colors">
-                  <span class="text-owr-gold/70"><Settings size={20} strokeWidth={1.75} /></span>
-                  Profile Settings
+                <a href={`${APP_URL}/profile`} role="menuitem" class="flex items-center gap-2 rounded-sm px-2 py-3 text-owr-silver hover:bg-owr-red-dark/30 hover:text-owr-gold transition-colors">
+                  <span class="mr-2 text-owr-gold"><Settings size={16} strokeWidth={2} /></span>
+                  <span class="text-base">Profile Settings</span>
                 </a>
-                <a href={`${APP_URL}/release-notes`} class="flex items-center gap-3 px-5 py-3 text-base text-gray-300 hover:bg-white/[0.06] hover:text-owr-gold transition-colors">
-                  <span class="text-owr-gold/70"><Info size={20} strokeWidth={1.75} /></span>
-                  What's new on OWR?
+                <a href={`${APP_URL}/release-notes`} role="menuitem" class="flex items-center gap-2 rounded-sm px-2 py-3 text-owr-silver hover:bg-owr-red-dark/30 hover:text-owr-gold transition-colors">
+                  <span class="mr-2 text-owr-gold"><Info size={16} strokeWidth={2} /></span>
+                  <span class="text-base">What's new on OWR?</span>
                 </a>
               </div>
-
             </div>
           </div>
         </div>
@@ -580,6 +552,22 @@ mobileLinks.push(...directLinks);
     }
   });
 
+  // Mirrors react-avatar (initials, colour) as used by Rails UserAvatar.
+  const AVATAR_COLORS = ['#A62A21', '#7e3794', '#0B51C1', '#3A6024', '#A81563', '#B3003C'];
+  function avatarColor(value: string): string {
+    if (!value) return 'transparent';
+    const codes = [...value].map((ch) => ch.charCodeAt(0));
+    const m = AVATAR_COLORS.length;
+    const a = (codes.length % (m - 1)) + 1;
+    const c = codes.reduce((x, y) => x + y) % m;
+    let random = codes[0] % m;
+    for (let i = 0; i < codes.length; i++) random = (a * random + c) % m;
+    return AVATAR_COLORS[random];
+  }
+  function initialsFor(name: string): string {
+    return name.split(/\s+/).filter(Boolean).map((w) => w[0]).slice(0, 2).join('').toUpperCase() || '?';
+  }
+
   // ── Nav personalisation ─────────────────────────────────────────
   async function personaliseNav() {
     const user = await apiFetch<LandingMe>('/api/v1/landing/me');
@@ -598,7 +586,10 @@ mobileLinks.push(...directLinks);
       if (user.avatar_url) {
         btn.innerHTML = `<img src="${user.avatar_url}" alt="" class="w-10 h-10 rounded-full object-cover" />`;
       } else {
-        btn.textContent = (user.full_name || '?')[0].toUpperCase();
+        const name = user.full_name || '';
+        btn.textContent = initialsFor(name);
+        btn.style.backgroundColor = avatarColor(name);
+        btn.style.fontSize = '16px';
       }
     }
 

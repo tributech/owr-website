@@ -45,10 +45,10 @@ const proFeatures = [
 
       <!-- Billing toggle -->
       <div class="inline-flex items-center bg-white/10 rounded-full p-1">
-        <button type="button" data-interval="monthly" class="px-5 py-2 text-sm font-medium rounded-full transition-colors bg-white text-gray-900">
+        <button type="button" data-interval="monthly" class="px-5 py-2 text-sm font-medium rounded-full transition-colors text-white/60 hover:text-white">
           Monthly
         </button>
-        <button type="button" data-interval="yearly" class="px-5 py-2 text-sm font-medium rounded-full transition-colors text-white/60 hover:text-white">
+        <button type="button" data-interval="yearly" class="px-5 py-2 text-sm font-medium rounded-full transition-colors bg-white text-gray-900">
           Yearly <span class="text-[10px] px-1.5 py-0.5 rounded-full bg-green-500/20 text-green-400 font-semibold ml-1">Save ~17%</span>
         </button>
       </div>
@@ -91,9 +91,9 @@ const proFeatures = [
         <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">OWR Pro</h3>
         <p class="text-gray-500 dark:text-gray-400 mb-6">For tournament organizers &amp; power users</p>
         <p class="text-3xl font-bold text-gray-900 dark:text-white mb-1">
-          <span data-pro-price>$6.99</span><span class="text-lg font-normal text-gray-500 dark:text-gray-400" data-pro-suffix> USD/month</span>
+          <span data-pro-price>$5.83</span><span class="text-lg font-normal text-gray-500 dark:text-gray-400" data-pro-suffix> USD/month</span>
         </p>
-        <p class="text-xs text-gray-400 dark:text-gray-500 mb-4" data-billing-note>Billed monthly. <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-green-100 text-green-800 text-[10px] font-medium">Introductory pricing</span></p>
+        <p class="text-xs text-gray-400 dark:text-gray-500 mb-4" data-billing-note>Billed yearly (2 months free). <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-green-100 text-green-800 text-[10px] font-medium">Introductory pricing</span></p>
         <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Everything in Free, plus:</p>
         <ul class="space-y-3 flex-grow">
           {proFeatures.map((feature) => (
@@ -133,7 +133,7 @@ const proFeatures = [
 <script>
   import { detectCurrency, priceForCurrency, type BillingInterval } from '../lib/pricing';
 
-  let currentInterval: BillingInterval = 'monthly';
+  let currentInterval: BillingInterval = 'yearly';
 
   function updatePricing() {
     const user = window.__owrUser;

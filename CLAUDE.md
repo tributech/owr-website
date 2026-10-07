@@ -22,15 +22,13 @@ src/
 ├── components/          # Astro components (.astro files)
 │   ├── Nav.astro        # Fixed header with mobile menu + user personalisation
 │   ├── Footer.astro     # Site footer
-│   ├── HeroSection.astro        # Hero with rotating backgrounds + search
-│   ├── StatsBar.astro           # Live platform stats (API-driven)
-│   ├── RegionsSection.astro     # Region grid (API-driven)
-│   ├── FeaturesSection.astro    # Feature cards grid
-│   ├── TournamentHostingSection.astro  # TO benefits
-│   ├── PricingSection.astro     # Free/Pro comparison
-│   └── MobileAppSection.astro   # Mobile app promo
+│   ├── home/            # Homepage sections (region bar + picker, hero, region panel, top players, armies, hosting)
+│   ├── GlobalSearch.tsx # Search island (players + tournaments)
+│   └── PricingSection.astro     # Free/Pro comparison (tournament-organisers page)
 ├── lib/
 │   ├── api.ts           # Shared API client + TypeScript types
+│   ├── region.ts        # Visitor region: saved choice > signed-in user > owr_geo cookie
+│   ├── store-links.ts   # App Store / Google Play URLs (single source)
 │   ├── contentful.ts    # Contentful SDK client (returns null if unconfigured)
 │   ├── contentful-types.ts  # TypeScript skeletons for Contentful content types
 │   └── rich-text.ts     # Rich text → HTML renderer with OWR Tailwind classes
@@ -99,113 +97,31 @@ Dynamic data (stats, regions, search, user state) is fetched **client-side** fro
 
 All API calls use `apiFetch<T>(path)` which prepends `APP_URL`, sets `credentials: 'include'` + `Accept: application/json`, and returns `T | null` (catches all errors gracefully).
 
-In development, fetches go directly to `https://owr-local.site:5100/api/v1/...`. In production, consider Netlify proxy redirects:
+In development, fetches go directly to `https://owr-local.site:5100/api/v1/...`. In production, public calls go through the Netlify proxy in `netlify.toml`:
 ```
-/api/* → https://oldworldrankings.com/api/:splat
+/api/* → https://oldworldrankings.onrender.com/api/:splat
 ```
+Proxy to the Render origin, never the apex: Netlify can route a proxy to `oldworldrankings.com` back into this site and answer with a 301 to `www`, which it then caches for a year.
 
 **Active Rails API endpoints (Grape, `/api/v1/`):**
-- `GET /api/v1/landing/stats` — player_count, tournament_count, army_list_count, region_count (public, cached)
-- `GET /api/v1/landing/regions` — region list with slug, country_flag, player_count, has_masters (public, cached). Response wrapped in `{ regions: [...] }`
-- `GET /api/v1/landing/me` — full_name, avatar_url, region_flag, region_name, region_slug (authenticated, 401 if anonymous)
-- `GET /api/v1/search?q=...` — global search returning `{ players: [...], tournaments: [...] }` (public)
+- `GET /api/v1/landing/stats`: player_count, tournament_count, army_list_count, region_count (public, cached)
+- `GET /api/v1/landing/regions`: `{ regions: [...] }` with slug, country_flag, country_codes, player_count, tournament_count, has_masters (public, cached)
+- `GET /api/v1/landing/region/:code`: region summary, `upcoming_events` (next 5, `live` flag), `top_players` (5) and `top_players_scope` (`season` or `global`) (public, cached)
+- `GET /api/v1/landing/galleries`: `{ galleries: [...] }` top 6 with title, faction_name, image_url, rating, url (public, cached)
+- `GET /api/v1/landing/rankings`: global top 5 offline/total (+ factions), with display names and profile `url` (public, cached)
+- `GET /api/v1/landing/me`: full_name, email, avatar_url, region_flag, region_name, region_slug, player_slug (authenticated, 401 if anonymous)
+- `GET /api/v1/search?q=...`: `{ players: [...], tournaments: [...] }` (public)
 
-**Pending additions to `/api/v1/landing/me`:**
-- `email` — user's email (shown under name in nav dropdown)
-- `player_slug` — for "My Player Profile" link (to construct `/players/:slug` URL)
+Event dates from the API are calendar days in the event's zone: format them from the `YYYY-MM-DD` parts, never `new Date(string)`.
 
-Public endpoints should include `Cache-Control` headers.
-
-### Environment Variables
-
-| Variable | Purpose | Required |
-|----------|---------|----------|
-| `PUBLIC_APP_URL` | Rails app URL (default: `https://oldworldrankings.com`) | No |
-| `PUBLIC_UMAMI_WEBSITE_ID` | Umami analytics website ID | No |
-| `PUBLIC_GA_ID` | Google Analytics ID | No |
-| `CONTENTFUL_SPACE_ID` | Contentful space (`ry0ysk99xuno`) | Yes (for docs/changelog) |
-| `CONTENTFUL_DELIVERY_TOKEN` | Contentful Delivery API token | Yes (for production builds) |
-| `CONTENTFUL_PREVIEW_TOKEN` | Contentful Preview API token | No (used in dev for draft content) |
-
-Prefix with `PUBLIC_` for client-side access in Astro. Contentful vars are **server-side only** (no `PUBLIC_` prefix) — used at build time. Configure in Netlify dashboard for production.
-
-### Local Development Setup
-
-Both apps run behind Caddy for HTTPS so cookies and OAuth work across subdomains.
-
-| Service | External URL (HTTPS) | Internal port |
-|---------|---------------------|---------------|
-| Rails app | `https://owr-local.site:5100` | `localhost:5101` |
-| Astro (this site) | `https://www.owr-local.site:5090` | `localhost:5091` |
-| Cookie domain | `.owr-local.site` | — |
-
-DNS is managed in Namecheap — `@` and `www` A records point to `127.0.0.1`.
-Caddy and Rails processes are started from the **Rails repo** via `Procfile.dev`. Start Astro separately with `pnpm dev` in this repo.
-
-## Theme & Design System
-
-### Colors (defined in `src/styles/global.css` via `@theme`)
-
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `owr-gold` | #FFD700 | Primary accent, badges, CTAs |
-| `owr-gold-dark` | #DAA520 | Gold hover states |
-| `owr-red` | #800000 | Sidebar accent (app) |
-| `owr-black` | #1C1C1C | Deep backgrounds |
-| `owr-silver` | #C0C0C0 | Secondary accent |
-| `owr-bronze` | #B87333 | Tertiary accent |
-
-Usage: `bg-owr-gold`, `text-owr-gold-dark`, `border-owr-red`, etc.
-
-### Typography
-- **Primary font:** Montserrat (400, 500, 600, 700, 800) — loaded via Google Fonts
-- Access via `font-sans` (set in @theme)
-
-### Design Patterns
-- **Sections:** Alternate light/dark backgrounds for visual rhythm
-- **Light sections:** `bg-white` or `bg-gray-50`
-- **Dark sections:** `bg-gray-900` with pattern overlays
-- **Section spacing:** `py-16 sm:py-24`
-- **Content containers:** `max-w-7xl mx-auto px-4 sm:px-6 lg:px-8`
-- **Cards:** `rounded-xl border border-gray-200 bg-gray-50 hover:border-gray-400`
-- **Buttons:** Primary = `bg-gray-900 text-white`, Gold CTA = `bg-owr-gold text-gray-900 font-semibold hover:bg-owr-gold-dark`, Secondary = `border border-gray-300`
-- **Badges:** `rounded-full bg-owr-gold text-gray-900 text-xs font-semibold`
-- **Fixed nav:** `backdrop-blur-md` with transparent option for hero overlay
-
-### Assets
-- Logo: `/public/images/owr_logo_white.png` (white logo, invert for light backgrounds)
-- SVG logo: `/public/images/owr-logo-white.svg`
-- Hero backgrounds: `/public/images/landing/image1.jpg` through `image16.jpg`
-
-## Conventions
-
-### Writing Style — No Em-Dashes or En-Dashes (Unbreakable)
-
-**Never use em-dashes (`—`, U+2014) or en-dashes (`–`, U+2013) in any user-facing text.** This applies to:
-
-- All Contentful content (docArticle bodies, changelogEntry descriptions, titles, excerpts)
-- Astro page copy (landing, pricing, legal, 404)
-- Component strings, button labels, alt text, meta descriptions
-- Anything visible to a site visitor
-
-Use a regular hyphen with spaces (` - `), a comma, a colon, or parentheses instead. Pick whichever reads most naturally; do not silently swap one dash glyph for another.
-
-This is a hard rule. Do not introduce em/en-dashes "just this once" because the sentence flows better — rewrite the sentence.
-
-(Code, code comments, and internal docs like this CLAUDE.md or `docs/private/` notes are exempt.)
-
-### Component Patterns
-- All components are `.astro` files (no React/Vue — keep it static)
-- Use TypeScript interfaces for props in component frontmatter
 - Client-side interactivity via module `<script>` tags importing from `../lib/api`
 - API data fetched client-side (progressive enhancement — page works without API)
 - Use `class:list` for conditional classes
 
 ### Nav Personalisation
-The nav renders an **anonymous state** by default (Sign In / Get Started). When JS runs, it calls `/api/v1/landing/me` — if authenticated, it swaps to:
-- **Desktop:** Dark "Dashboard" pill button (with region flag) + avatar with gold ring + dropdown menu
-- **Mobile:** Dashboard, Profile, Settings, Log out links in the hamburger menu
-- **Dropdown:** Dark theme (`bg-owr-black`, `border-owr-gold/30`, gold text) matching the Rails app's user menu — includes My Player Profile, My Events, Profile Settings, What's new on OWR?, Log out
+The top right must match the Rails app exactly (`StaticPageLayout.tsx` + `layouts/ProfileDropdown.tsx`). Signed out: one gold "Login" button with the gold glow. When JS runs it calls `/api/v1/landing/me`; if authenticated it swaps to:
+- **Desktop:** gold "<flag> Dashboard" button (`rounded-md`, black text) + 40px avatar with a 2px gold border (initials fallback uses react-avatar's colour algorithm, as Rails does)
+- **Dropdown:** `bg-owr-black`, `border-owr-gold/30`, gold glow; name in gold, email in silver; items My Player Profile, Battle Builder, My Events, Profile Settings, What's new on OWR? with 16px gold Lucide icons and a dark red hover. Log out is not on www yet (Rails signs out via `DELETE /logout` with CSRF)
 - If the API returns 401 or fails, the anonymous state stays (no visible change)
 
 ### Styling
@@ -263,7 +179,7 @@ The renderer prints a warning if you forget.
 
 ### Overview
 
-Content for `/docs` and `/whatsnew` is managed in Contentful (space `ry0ysk99xuno`, environment `master`). Pages fetch content at **build time** via the Contentful Delivery/Preview API — no client-side fetching.
+Help docs live in the Banshee help centre at https://help.oldworldrankings.com (old `/docs` URLs 301 there via `netlify.toml`). Content for insights and newsletters is managed in Contentful (space `ry0ysk99xuno`, environment `master`). Pages fetch content at **build time** via the Contentful Delivery/Preview API — no client-side fetching.
 
 - `src/lib/contentful.ts` — Client singleton. Returns `null` when env vars are missing (pages render empty state).
 - `src/lib/contentful-types.ts` — TypeScript skeletons for all content types.

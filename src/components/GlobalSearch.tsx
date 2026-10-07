@@ -42,7 +42,7 @@ function TournamentResult({ tournament, isActive }: { tournament: SearchTourname
   );
 }
 
-export default function GlobalSearch() {
+export default function GlobalSearch({ className = 'max-w-xl mx-auto' }: { className?: string }) {
   const { results, isOpen, search, close } = useSearch();
   const [activeIndex, setActiveIndex] = useState(-1);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -89,7 +89,7 @@ export default function GlobalSearch() {
   }
 
   return (
-    <div className="max-w-xl mx-auto" ref={wrapperRef}>
+    <div className={className} ref={wrapperRef}>
       <div className="relative">
         <svg
           className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-[#FFD700] pointer-events-none z-10"

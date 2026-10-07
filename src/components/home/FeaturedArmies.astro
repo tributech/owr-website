@@ -1,0 +1,56 @@
+---
+const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com';
+---
+
+<section id="featured-armies" class="mt-16 sm:mt-20 bg-gray-100 dark:bg-gray-800 py-12 sm:py-14">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-end justify-between mb-6">
+      <div>
+        <h2 class="text-xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-1">Featured Armies</h2>
+        <p class="text-gray-500 dark:text-gray-400">Top rated galleries</p>
+      </div>
+      <a href={`${APP_URL}/galleries`} class="text-sm font-medium text-gray-900 hover:text-owr-gold-dark dark:text-white dark:hover:text-owr-gold">View all</a>
+    </div>
+    <ul id="featured-armies-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+      {Array.from({ length: 6 }).map(() => (
+        <li class="animate-pulse"><div class="aspect-[4/3] rounded-lg bg-gray-200 dark:bg-white/10"></div><div class="h-3.5 bg-gray-200 dark:bg-white/10 rounded mt-2 w-3/4"></div></li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<script>
+  import { publicApiFetch, appUrl, type FeaturedGalleries, type FeaturedGallery } from '../../lib/api';
+  import { el } from '../../scripts/home-rows';
+
+  function card(g: FeaturedGallery) {
+    const li = el('li');
+    const a = el('a', 'flex flex-col gap-2 group');
+    a.href = appUrl(g.url);
+    const frame = el('div', 'relative aspect-[4/3] rounded-lg overflow-hidden bg-gray-900');
+    const img = el('img', 'w-full h-full object-cover group-hover:scale-105 transition-transform duration-300');
+    img.src = appUrl(g.image_url);
+    img.alt = g.title;
+    img.loading = 'lazy';
+    frame.append(img);
+    if (g.rating) {
+      const badge = el('div', 'absolute left-1.5 top-1.5 flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-black/70 text-[11px] font-semibold text-white');
+      badge.append(el('span', 'text-owr-gold', '★'), document.createTextNode(Number(g.rating).toFixed(1)));
+      frame.append(badge);
+    }
+    a.append(frame, el('div', 'font-semibold text-[13px] text-gray-900 dark:text-white truncate group-hover:text-owr-gold-dark dark:group-hover:text-owr-gold transition-colors', g.title));
+    if (g.faction_name) a.append(el('div', 'text-xs text-gray-500 dark:text-gray-400 -mt-1 truncate', g.faction_name));
+    li.append(a);
+    return li;
+  }
+
+  publicApiFetch<FeaturedGalleries>('/api/v1/landing/galleries').then((data) => {
+    const grid = document.getElementById('featured-armies-grid');
+    if (!grid) return;
+    if (!data?.galleries.length) {
+      document.getElementById('featured-armies')?.classList.add('hidden');
+      return;
+    }
+    grid.replaceChildren(...data.galleries.slice(0, 6).map(card));
+  });
+</script>

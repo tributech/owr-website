@@ -25,6 +25,23 @@ export async function apiFetch<T>(
   }
 }
 
+// Public endpoints go through Netlify's /api proxy so its CDN can cache them, and
+// skip cookies so one cached copy serves every visitor. Only /landing/me needs the session.
+const PUBLIC_API_BASE = import.meta.env.PROD ? '' : APP_URL;
+
+export async function publicApiFetch<T>(path: string): Promise<T | null> {
+  try {
+    const res = await fetch(`${PUBLIC_API_BASE}${path}`, {
+      credentials: 'omit',
+      headers: { Accept: 'application/json' },
+    });
+    if (!res.ok) return null;
+    return (await res.json()) as T;
+  } catch {
+    return null;
+  }
+}
+
 // ── Type definitions ────────────────────────────────────────────────
 
 export interface LandingMe {
@@ -36,6 +53,7 @@ export interface LandingMe {
   region_name: string | null;
   region_slug: string | null;
   player_slug: string | null;
+  pro?: boolean;
 }
 
 export interface LandingStats {
@@ -54,6 +72,7 @@ export interface LandingRegion {
   tournament_count: number;
   current_season: string | null;
   has_masters?: boolean;
+  country_codes?: string[];
 }
 
 export interface LandingRegionsResponse {
@@ -84,6 +103,7 @@ export interface SearchResults {
 export interface RankedPlayer {
   id: string;
   name: string;
+  url?: string;
   nickname?: string;
   region_code: string;
   rank: number;
@@ -101,4 +121,49 @@ export interface LandingRankings {
   offline: RankedPlayer[];
   total: RankedPlayer[];
   factions: FactionRanking[];
+}
+
+export interface RegionEvent {
+  id: string;
+  name: string;
+  slug: string;
+  url: string;
+  start_date: string;
+  end_date: string | null;
+  city: string | null;
+  live: boolean;
+}
+
+export interface RegionTopPlayer {
+  id: string;
+  name: string;
+  url: string;
+  rank: number;
+  global_rank: number | null;
+  points: string;
+}
+
+export interface RegionHome {
+  region: Pick<LandingRegion, 'code' | 'slug' | 'name' | 'country_flag' | 'player_count' | 'tournament_count' | 'has_masters'>;
+  upcoming_events: RegionEvent[];
+  top_players: RegionTopPlayer[];
+  top_players_scope: 'season' | 'global';
+  top_players_season: { name: string; current: boolean } | null;
+}
+
+export interface FeaturedGallery {
+  id: string;
+  title: string;
+  faction_name: string | null;
+  image_url: string;
+  rating: number | null;
+  url: string;
+}
+
+export interface FeaturedGalleries {
+  galleries: FeaturedGallery[];
+}
+
+export function appUrl(path: string): string {
+  return /^https?:/.test(path) ? path : `${APP_URL}${path}`;
 }

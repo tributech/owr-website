@@ -57,10 +57,10 @@ const proFeatures = [
 
         <!-- Billing toggle -->
         <div class="inline-flex items-center bg-gray-100 dark:bg-gray-800 rounded-full p-1">
-          <button type="button" data-interval="monthly" class="px-5 py-2 text-sm font-medium rounded-full transition-colors bg-gray-900 text-white dark:bg-white dark:text-gray-900">
+          <button type="button" data-interval="monthly" class="px-5 py-2 text-sm font-medium rounded-full transition-colors text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
             Monthly
           </button>
-          <button type="button" data-interval="yearly" class="px-5 py-2 text-sm font-medium rounded-full transition-colors text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+          <button type="button" data-interval="yearly" class="px-5 py-2 text-sm font-medium rounded-full transition-colors bg-gray-900 text-white dark:bg-white dark:text-gray-900">
             Yearly <span class="text-[10px] px-1.5 py-0.5 rounded-full bg-green-100 text-green-800 font-semibold ml-1">Save ~17%</span>
           </button>
         </div>
@@ -104,9 +104,9 @@ const proFeatures = [
           <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Pro</h2>
           <p class="text-gray-500 dark:text-gray-400 mb-6">For organizers &amp; power users</p>
           <p class="text-4xl font-bold text-gray-900 dark:text-white mb-1">
-            <span data-pro-price>$6.99</span><span class="text-lg font-normal text-gray-500 dark:text-gray-400" data-pro-suffix> USD/month</span>
+            <span data-pro-price>$5.83</span><span class="text-lg font-normal text-gray-500 dark:text-gray-400" data-pro-suffix> USD/month</span>
           </p>
-          <p class="text-xs text-gray-400 dark:text-gray-500 mb-6" data-billing-note>Billed monthly. <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-green-100 text-green-800 text-[10px] font-medium">Introductory pricing</span></p>
+          <p class="text-xs text-gray-400 dark:text-gray-500 mb-6" data-billing-note>Billed yearly (2 months free). <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-green-100 text-green-800 text-[10px] font-medium">Introductory pricing</span></p>
           <ul class="space-y-4 flex-grow">
             {proFeatures.map((f) => (
               <li class:list={["flex items-center gap-3", f.isNew ? "text-gray-900 dark:text-white font-semibold" : "text-gray-700 dark:text-gray-300"]}>
@@ -142,7 +142,7 @@ const proFeatures = [
   <script>
     import { detectCurrency, priceForCurrency, type BillingInterval } from '../lib/pricing';
 
-    let currentInterval: BillingInterval = 'monthly';
+    let currentInterval: BillingInterval = 'yearly';
 
     function updatePricing() {
       const user = window.__owrUser;

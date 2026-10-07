@@ -183,10 +183,10 @@
   status = 301
   force = true
 
-# API proxy to Rails backend for search, stats, etc.
+# Render origin, not the apex: Netlify can route an apex proxy back into this site and 301 it to www.
 [[redirects]]
   from = "/api/*"
-  to = "https://oldworldrankings.com/api/:splat"
+  to = "https://oldworldrankings.onrender.com/api/:splat"
   status = 200
   force = true
 

@@ -97,10 +97,11 @@ Dynamic data (stats, regions, search, user state) is fetched **client-side** fro
 
 All API calls use `apiFetch<T>(path)` which prepends `APP_URL`, sets `credentials: 'include'` + `Accept: application/json`, and returns `T | null` (catches all errors gracefully).
 
-In development, fetches go directly to `https://owr-local.site:5100/api/v1/...`. In production, consider Netlify proxy redirects:
+In development, fetches go directly to `https://owr-local.site:5100/api/v1/...`. In production, public calls go through the Netlify proxy in `netlify.toml`:
 ```
-/api/* → https://oldworldrankings.com/api/:splat
+/api/* → https://oldworldrankings.onrender.com/api/:splat
 ```
+Proxy to the Render origin, never the apex: Netlify can route a proxy to `oldworldrankings.com` back into this site and answer with a 301 to `www`, which it then caches for a year.
 
 **Active Rails API endpoints (Grape, `/api/v1/`):**
 - `GET /api/v1/landing/stats`: player_count, tournament_count, army_list_count, region_count (public, cached)

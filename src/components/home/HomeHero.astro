@@ -1,5 +1,5 @@
 ---
-import { Hammer, CalendarArrowUp, Landmark, Medal, Trophy, BarChart, ScrollText, Image, Smartphone } from '@lucide/astro';
+import { ArrowRight, Compass, Hammer, CalendarArrowUp, Landmark, Medal, Trophy, BarChart, ScrollText, Image, Smartphone } from '@lucide/astro';
 import GlobalSearch from '../GlobalSearch';
 import RegionBar from './RegionBar.astro';
 import RegionPanel from './RegionPanel.astro';
@@ -38,6 +38,12 @@ const explore = [
         <h1 class="text-[28px] leading-[1.12] sm:text-5xl sm:leading-[1.08] font-extrabold tracking-tight text-white max-w-3xl">
           Rankings, tournaments and army lists for the Old World.
         </h1>
+
+        <a href="/getting-started/" class="-mt-1 sm:-mt-2 self-start inline-flex items-center gap-2 text-sm sm:text-[15px] font-semibold text-owr-gold hover:text-white transition-colors">
+          <Compass size={18} strokeWidth={2} />
+          New to The Old World? Start here
+          <ArrowRight size={16} strokeWidth={2.25} />
+        </a>
 
         <GlobalSearch client:load className="max-w-2xl w-full" />
 

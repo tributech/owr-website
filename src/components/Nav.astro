@@ -5,6 +5,7 @@ import {
   Map, BookOpen, Newspaper, Mic, Mail,
   CircleHelp, Sun, Moon, Menu, X as CloseIcon,
   ChevronDown, User, Settings, Info, CalendarHeart,
+  Compass,
 } from '@lucide/astro';
 
 interface Props {
@@ -29,6 +30,7 @@ const megaMenus = [
     label: 'More',
     columns: 2,
     items: [
+      { label: 'Getting Started', href: '/getting-started/', description: 'New to The Old World? Your step-by-step guide to starting out', icon: Compass },
       { label: 'For Tournament Organisers', href: '/tournament-organisers', description: 'Run events with automated pairings, live boards and more', icon: Trophy },
       { label: 'Features', href: '/#features', description: 'Everything OWR offers for players and tournament organisers', icon: Sparkles },
       { label: 'Mobile App', href: '/#app', description: 'OWR in your pocket: pairings, notifications and scoring', icon: Smartphone },

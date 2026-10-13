@@ -1,5 +1,7 @@
 ---
-import { ChevronDown, Search, X as CloseIcon } from '@lucide/astro';
+import { ArrowRight, House, ChevronDown, Medal, Search, X as CloseIcon } from '@lucide/astro';
+
+const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com';
 ---
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 sm:pt-5">
@@ -16,6 +18,24 @@ import { ChevronDown, Search, X as CloseIcon } from '@lucide/astro';
       <span class="ml-auto sm:ml-2 text-gray-400"><ChevronDown size={16} strokeWidth={2} /></span>
     </button>
     <span id="region-meta" class="hidden sm:inline text-sm text-white/70"></span>
+    <div class="w-full lg:w-auto lg:ml-auto flex gap-2">
+      <a
+        id="region-results"
+        href={`${APP_URL}/latest`}
+        class="flex-1 lg:flex-none min-h-11 flex items-center justify-center gap-2 rounded-lg border border-white/20 bg-white/[0.08] hover:bg-white/[0.12] px-3.5 text-sm font-semibold text-white transition-colors"
+      >
+        <span class="text-owr-gold"><Medal size={16} strokeWidth={2} /></span>
+        Latest results
+      </a>
+      <a
+        id="region-go"
+        href={`${APP_URL}/dashboard`}
+        class="flex-1 lg:flex-none min-w-0 min-h-11 flex items-center justify-center gap-2 rounded-lg bg-owr-gold hover:bg-owr-gold-dark px-3.5 text-sm font-bold text-gray-900 transition-colors"
+      >
+        <span id="region-go-label" class="truncate">Go to region</span>
+        <span class="shrink-0"><ArrowRight size={16} strokeWidth={2.5} /></span>
+      </a>
+    </div>
   </div>
 </div>
 
@@ -25,7 +45,10 @@ import { ChevronDown, Search, X as CloseIcon } from '@lucide/astro';
   aria-labelledby="region-dialog-title"
 >
   <div class="flex items-center justify-between px-5 py-4 border-b border-white/10">
-    <h2 id="region-dialog-title" class="text-lg font-bold">Choose your region</h2>
+    <div>
+      <h2 id="region-dialog-title" class="text-lg font-bold">Choose your region</h2>
+      <p class="text-xs text-gray-400 mt-0.5">Pick one to open it, or use <span class="inline-block align-middle"><House size={12} strokeWidth={2} /></span> to show it on this page</p>
+    </div>
     <button type="button" data-region-close class="p-2 -mr-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 cursor-pointer" aria-label="Close">
       <CloseIcon size={20} strokeWidth={2} />
     </button>

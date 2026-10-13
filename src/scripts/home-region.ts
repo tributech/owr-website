@@ -43,7 +43,6 @@ function renderBar(region: LandingRegion | null) {
   const go = $('region-go') as HTMLAnchorElement;
   go.href = region ? regionDashboard(region) : `${APP_URL}/dashboard`;
   $('region-go-name')!.textContent = region ? `Go to ${region.name}` : 'Go to region';
-  $('region-go-flag')!.textContent = region?.country_flag ?? '';
   const results = $('region-results') as HTMLAnchorElement;
   results.href = region ? `${APP_URL}/${region.slug}/tournaments/latest` : `${APP_URL}/latest`;
 }

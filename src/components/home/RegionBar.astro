@@ -4,37 +4,37 @@ import { ArrowRight, House, ChevronDown, Medal, Search, X as CloseIcon } from '@
 const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com';
 ---
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 sm:pt-5">
-  <div class="flex flex-wrap items-center gap-x-3 sm:gap-x-4 gap-y-2 rounded-xl border border-white/10 bg-gray-900/70 backdrop-blur px-2.5 sm:px-3 py-2 sm:py-2.5 sm:pl-4">
-    <span class="text-xs sm:text-sm font-semibold sm:font-normal text-gray-400 shrink-0">Your region</span>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-3 sm:pt-5">
+  <div class="flex sm:flex-wrap items-center gap-1.5 sm:gap-x-4 sm:gap-y-2 rounded-xl border border-white/10 bg-gray-900/70 backdrop-blur p-1.5 sm:px-3 sm:py-2.5 sm:pl-4">
+    <span class="hidden sm:inline text-sm text-gray-400 shrink-0">Your region</span>
     <button
       type="button"
       data-region-open
       aria-haspopup="dialog"
-      class="flex-1 sm:flex-none min-h-10 sm:min-h-11 flex items-center gap-2 sm:gap-2.5 rounded-lg border border-white/20 bg-white/[0.08] hover:bg-white/[0.12] px-3 text-left text-white font-bold transition-colors cursor-pointer"
+      aria-label="Change your region"
+      class="flex-1 sm:flex-none min-w-0 min-h-10 sm:min-h-11 flex items-center gap-2 sm:gap-2.5 rounded-lg border border-white/20 bg-white/[0.08] hover:bg-white/[0.12] px-2.5 sm:px-3 text-left text-white font-bold transition-colors cursor-pointer"
     >
-      <span id="region-flag" class="text-lg sm:text-xl leading-none" aria-hidden="true">🌐</span>
-      <span id="region-name" class="text-[15px] sm:text-lg">Choose your region</span>
-      <span class="ml-auto sm:ml-2 text-gray-400"><ChevronDown size={16} strokeWidth={2} /></span>
+      <span id="region-flag" class="shrink-0 text-lg sm:text-xl leading-none" aria-hidden="true">🌐</span>
+      <span id="region-name" class="truncate text-sm sm:text-lg">Choose your region</span>
+      <span class="shrink-0 ml-auto sm:ml-2 text-gray-400"><ChevronDown size={16} strokeWidth={2} /></span>
     </button>
     <span id="region-meta" class="hidden sm:inline text-sm text-white/70"></span>
-    <div class="w-full lg:w-auto lg:ml-auto flex gap-2">
+    <div class="shrink-0 sm:w-full lg:w-auto lg:ml-auto flex gap-1.5 sm:gap-2">
       <a
         id="region-results"
         href={`${APP_URL}/latest`}
-        class="shrink-0 sm:flex-1 lg:flex-none min-h-10 sm:min-h-11 flex items-center justify-center gap-1.5 sm:gap-2 rounded-lg border border-white/20 bg-white/[0.08] hover:bg-white/[0.12] px-3 sm:px-3.5 text-[13px] sm:text-sm font-semibold text-white transition-colors"
+        class="sm:flex-1 lg:flex-none min-h-10 sm:min-h-11 flex items-center justify-center gap-1.5 sm:gap-2 rounded-lg border border-white/20 bg-white/[0.08] hover:bg-white/[0.12] px-2.5 sm:px-3.5 text-[13px] sm:text-sm font-semibold text-white transition-colors"
       >
-        <span class="text-owr-gold"><Medal size={15} strokeWidth={2} /></span>
-        Latest results
+        <span class="hidden sm:inline text-owr-gold"><Medal size={15} strokeWidth={2} /></span>
+        <span class="sm:hidden">Results</span><span class="hidden sm:inline">Latest results</span>
       </a>
       <a
         id="region-go"
         href={`${APP_URL}/dashboard`}
-        class="flex-1 lg:flex-none min-w-0 min-h-10 sm:min-h-11 flex items-center justify-center gap-1.5 sm:gap-2 rounded-lg bg-owr-gold hover:bg-owr-gold-dark px-3 sm:px-3.5 text-[13px] sm:text-sm font-bold text-gray-900 transition-colors"
+        class="sm:flex-1 lg:flex-none min-h-10 sm:min-h-11 flex items-center justify-center gap-1 sm:gap-2 rounded-lg bg-owr-gold hover:bg-owr-gold-dark px-2.5 sm:px-3.5 text-[13px] sm:text-sm font-bold text-gray-900 transition-colors"
       >
-        <span id="region-go-flag" class="sm:hidden text-base leading-none" aria-hidden="true"></span>
-        <span id="region-go-label" class="truncate"><span class="sm:hidden">Dashboard</span><span id="region-go-name" class="hidden sm:inline">Go to region</span></span>
-        <span class="shrink-0"><ArrowRight size={15} strokeWidth={2.5} /></span>
+        <span class="sm:hidden">Dashboard</span><span id="region-go-name" class="hidden sm:inline">Go to region</span>
+        <span class="hidden sm:inline shrink-0"><ArrowRight size={15} strokeWidth={2.5} /></span>
       </a>
     </div>
   </div>

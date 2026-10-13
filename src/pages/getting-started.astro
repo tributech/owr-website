@@ -1,0 +1,239 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { ArrowRight, BookOpen, Dices, Hammer, MapPin, Shield, Swords, Trophy } from '@lucide/astro';
+import { APP_STORE_URL, PLAY_STORE_URL } from '../lib/store-links';
+
+const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com';
+
+type Link = { label: string; href: string; external?: boolean };
+type Step = {
+  id: string;
+  title: string;
+  kicker: string;
+  icon: typeof Swords;
+  body: string[];
+  links: Link[];
+  image?: { src: string; alt: string };
+  soon?: { title: string; body: string };
+};
+
+const steps: Step[] = [
+  {
+    id: 'the-game',
+    kicker: 'Discover',
+    title: 'Meet The Old World',
+    icon: BookOpen,
+    body: [
+      "Warhammer: The Old World is Games Workshop's rank-and-flank battle game, set in the world of Warhammer Fantasy before the End Times. Blocks of infantry, thundering cavalry, war machines and monsters clash in big, tactical battles that usually take an afternoon.",
+      "You'll need the rulebook, an army book for your faction, and some models. A friendly local store or club is the best place to try a game before you buy.",
+    ],
+    links: [
+      { label: 'Warhammer Community', href: 'https://www.warhammer-community.com/', external: true },
+      { label: 'Old World Fanatics podcast', href: 'https://www.youtube.com/@OldWorldFanatics', external: true },
+    ],
+    image: { src: '/images/landing/image5.jpg', alt: 'Old World armies clashing on the tabletop' },
+  },
+  {
+    id: 'army',
+    kicker: 'Choose',
+    title: 'Pick an army you love',
+    icon: Shield,
+    body: [
+      "Start with the models that excite you. Every faction can win, and you'll be painting them for a long time. Browse community galleries for inspiration, and see how each faction is performing on the tabletop.",
+    ],
+    links: [
+      { label: 'Galleries', href: `${APP_URL}/galleries` },
+      { label: 'Faction stats', href: `${APP_URL}/faction_stats/v2` },
+    ],
+    image: { src: '/images/hero/galleries.webp', alt: 'Painted Old World armies in OWR galleries' },
+  },
+  {
+    id: 'build',
+    kicker: 'Build',
+    title: 'Write your first list',
+    icon: Hammer,
+    body: [
+      "Battle Builder is a free army builder that checks the rules as you go, with points, magic items and special rules a tap away. Save your lists, share them with friends and submit them straight to events.",
+      "Not sure what to take? Browse army lists from real tournaments and see what players are bringing.",
+    ],
+    links: [
+      { label: 'Open Battle Builder', href: `${APP_URL}/builder` },
+      { label: 'Tournament army lists', href: `${APP_URL}/army_lists` },
+    ],
+    image: { src: '/images/battle-builder-2026-desktop.webp', alt: 'Battle Builder on desktop' },
+  },
+  {
+    id: 'play',
+    kicker: 'Learn',
+    title: 'Play your first games',
+    icon: Dices,
+    body: [
+      "Start small. A 1,000 point game against a friend is a great way to learn the core rules before moving up to a full 2,000 points.",
+    ],
+    links: [
+      { label: 'Old World Fanatics on YouTube', href: 'https://www.youtube.com/@OldWorldFanatics', external: true },
+    ],
+    soon: {
+      title: 'Battle Hub Scorer',
+      body: 'Score any game turn by turn on your phone: both lists side by side, kills, objectives and a history of every game you play.',
+    },
+    image: { src: '/images/hero/battle-hub.webp', alt: 'Preview of the Battle Hub scorer' },
+  },
+  {
+    id: 'local',
+    kicker: 'Connect',
+    title: 'Find your local scene',
+    icon: MapPin,
+    body: [
+      "Every region on OWR has its own home: upcoming events, local rankings and the players near you. Friendly one-day events are the best way to meet people.",
+    ],
+    links: [
+      { label: 'Your region', href: `${APP_URL}/dashboard` },
+      { label: 'Upcoming events', href: `${APP_URL}/upcoming` },
+    ],
+    soon: {
+      title: 'Clubs',
+      body: 'Find a club near you, see who plays there, and join its events and leagues.',
+    },
+  },
+  {
+    id: 'event',
+    kicker: 'Compete',
+    title: 'Play your first event',
+    icon: Swords,
+    body: [
+      "Register on OWR, submit your list from Battle Builder, and the app handles the rest on the day: pairings, tables and results pushed to your phone.",
+      "Every result counts towards the rankings, and your games build up on your player profile.",
+    ],
+    links: [
+      { label: 'Find an event', href: `${APP_URL}/upcoming` },
+      { label: 'Latest results', href: `${APP_URL}/latest` },
+    ],
+    image: { src: '/images/owr-app-composite.webp', alt: 'The OWR app showing pairings and results' },
+  },
+  {
+    id: 'rankings',
+    kicker: 'Climb',
+    title: 'Climb the rankings',
+    icon: Trophy,
+    body: [
+      "Global rankings track every player, and many regions run a Masters season with an invitational final at the end. See where you stand and who is on the rise.",
+    ],
+    links: [
+      { label: 'Global rankings', href: `${APP_URL}/global_rankings` },
+    ],
+  },
+];
+
+const linkClass = 'inline-flex items-center gap-1.5 h-10 px-3.5 rounded-lg text-sm font-semibold transition-colors';
+---
+
+<Layout
+  title="Getting Started - Old World Rankings"
+  description="New to Warhammer: The Old World? Learn the game, pick an army, build a list and find people to play with: a step-by-step guide to starting out."
+>
+  <Nav transparent={true} />
+
+  <main class="bg-gray-50 dark:bg-gray-900">
+    <section class="relative bg-black pt-28 pb-16 sm:pt-36 sm:pb-24 overflow-hidden">
+      <img src="/images/landing/image3.jpg" alt="" class="absolute inset-0 w-full h-full object-cover opacity-30" aria-hidden="true" />
+      <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-black/50 to-black/80"></div>
+      <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <span class="inline-flex items-center px-3 py-1 rounded-full bg-owr-gold/15 text-owr-gold text-sm font-semibold mb-5">Getting started</span>
+        <h1 class="text-[32px] leading-[1.1] sm:text-5xl font-extrabold tracking-tight text-white mb-5">
+          New to The Old World?<br class="hidden sm:block" /> Start here.
+        </h1>
+        <p class="text-base sm:text-lg text-gray-300 max-w-2xl mx-auto">
+          From your first army to your first tournament: what the game is, where to learn it, and how Old World Rankings helps at every step.
+        </p>
+        <nav aria-label="Steps" class="mt-8 flex flex-wrap justify-center gap-2">
+          {steps.map((s, i) => (
+            <a href={`#${s.id}`} class="h-9 flex items-center gap-1.5 px-3 rounded-full bg-white/10 border border-white/15 text-[13px] font-medium text-white hover:bg-white/20 transition-colors">
+              <span class="text-owr-gold font-bold">{i + 1}</span>{s.kicker}
+            </a>
+          ))}
+        </nav>
+      </div>
+    </section>
+
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16 pb-16 sm:pb-24">
+      <ol class="relative">
+        {steps.map((s, i) => (
+          <li id={s.id} class="relative scroll-mt-24 pl-14 sm:pl-20 pb-14 sm:pb-20 last:pb-0">
+            {i < steps.length - 1 && (
+              <span class="absolute left-[19px] sm:left-[27px] top-12 sm:top-16 bottom-0 w-0.5 bg-gradient-to-b from-owr-gold/70 to-owr-gold/10" aria-hidden="true"></span>
+            )}
+            <span class="absolute left-0 top-0 w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-owr-gold text-gray-900 flex items-center justify-center shadow-[0_0_24px_rgba(234,179,8,0.35)]">
+              <s.icon size={20} strokeWidth={2.25} />
+            </span>
+
+            <div class:list={['grid gap-6 sm:gap-8 items-start', s.image && 'lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]']}>
+              <div>
+                <p class="text-xs font-bold uppercase tracking-wider text-owr-gold-dark dark:text-owr-gold mb-1.5 pt-1 sm:pt-2">Step {i + 1} · {s.kicker}</p>
+                <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-4">{s.title}</h2>
+                <div class="space-y-3 text-gray-600 dark:text-gray-400 leading-relaxed">
+                  {s.body.map((p) => <p>{p}</p>)}
+                </div>
+
+                {s.soon && (
+                  <div class="mt-5 rounded-xl border border-dashed border-owr-gold/50 bg-owr-gold/5 p-4">
+                    <div class="flex items-center gap-2 mb-1">
+                      <span class="font-bold text-gray-900 dark:text-white">{s.soon.title}</span>
+                      <span class="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-owr-gold text-gray-900">COMING SOON</span>
+                    </div>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">{s.soon.body}</p>
+                  </div>
+                )}
+
+                <div class="mt-5 flex flex-wrap gap-2">
+                  {s.links.map((l, j) => (
+                    <a
+                      href={l.href}
+                      {...(l.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                      class:list={[
+                        linkClass,
+                        j === 0
+                          ? 'bg-gray-900 text-white hover:bg-gray-700 dark:bg-owr-gold dark:text-gray-900 dark:hover:bg-owr-gold-dark'
+                          : 'border border-gray-300 text-gray-800 hover:bg-gray-100 dark:border-white/20 dark:text-white dark:hover:bg-white/10',
+                      ]}
+                    >
+                      {l.label}
+                      <ArrowRight size={15} strokeWidth={2.25} />
+                    </a>
+                  ))}
+                </div>
+              </div>
+
+              {s.image && (
+                <img
+                  src={s.image.src}
+                  alt={s.image.alt}
+                  loading="lazy"
+                  class="w-full rounded-xl border border-gray-200 dark:border-white/10 shadow-lg"
+                />
+              )}
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+      <div class="rounded-2xl bg-gray-900 dark:bg-black border border-white/10 px-6 py-10 sm:px-12 sm:py-12 text-center">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white mb-3">Ready to join in?</h2>
+        <p class="text-gray-400 max-w-xl mx-auto mb-7">A free account gets you Battle Builder, event registration and your own player profile.</p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+          <a href={`${APP_URL}/register`} class="w-full sm:w-auto px-7 h-12 flex items-center justify-center rounded-lg bg-owr-gold text-gray-900 font-bold hover:bg-owr-gold-dark transition-colors">Create a free account</a>
+          <a href="/tournament-organisers/" class="w-full sm:w-auto px-7 h-12 flex items-center justify-center rounded-lg border border-white/25 text-white font-semibold hover:bg-white/10 transition-colors">Running a club or event?</a>
+        </div>
+        <div class="mt-8 flex justify-center gap-2">
+          <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer"><img src="/images/store/app-store-badge.svg" alt="Download on the App Store" class="h-10 w-auto" /></a>
+          <a href={PLAY_STORE_URL} target="_blank" rel="noopener noreferrer"><img src="/images/store/google-play-badge.svg" alt="Get it on Google Play" class="h-10 w-auto" /></a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

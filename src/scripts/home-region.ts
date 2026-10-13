@@ -42,7 +42,8 @@ function renderBar(region: LandingRegion | null) {
     : 'Pick a region to see local events and rankings';
   const go = $('region-go') as HTMLAnchorElement;
   go.href = region ? regionDashboard(region) : `${APP_URL}/dashboard`;
-  $('region-go-label')!.textContent = region ? `Go to ${region.name}` : 'Go to region';
+  $('region-go-name')!.textContent = region ? `Go to ${region.name}` : 'Go to region';
+  $('region-go-flag')!.textContent = region?.country_flag ?? '';
   const results = $('region-results') as HTMLAnchorElement;
   results.href = region ? `${APP_URL}/${region.slug}/tournaments/latest` : `${APP_URL}/latest`;
 }

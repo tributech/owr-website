@@ -44,6 +44,8 @@ function renderBar(region: LandingRegion | null) {
   go.href = region ? regionDashboard(region) : `${APP_URL}/dashboard`;
   $('region-go-name')!.textContent = region ? `Go to ${region.name}` : 'Go to region';
   const results = $('region-results') as HTMLAnchorElement;
+  // Results matter over the weekend: show Saturday to Tuesday, hide mid-week.
+  if ([6, 0, 1, 2].includes(new Date().getDay())) results.classList.replace('hidden', 'flex');
   results.href = region ? `${APP_URL}/${region.slug}/tournaments/latest` : `${APP_URL}/latest`;
 }
 

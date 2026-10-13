@@ -37,6 +37,7 @@ const regionDashboard = (region: LandingRegion) => `${APP_URL}/${region.slug}/da
 function renderBar(region: LandingRegion | null) {
   $('region-flag')!.textContent = region?.country_flag ?? '🌐';
   $('region-name')!.textContent = region?.name ?? 'Choose your region';
+  document.querySelector('[data-region-open]')?.setAttribute('aria-label', region ? `Change region, currently ${region.name}` : 'Choose your region');
   $('region-meta')!.textContent = region
     ? `${region.player_count.toLocaleString()} players · ${region.tournament_count.toLocaleString()} tournaments`
     : 'Pick a region to see local events and rankings';

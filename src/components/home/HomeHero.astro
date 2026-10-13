@@ -1,5 +1,5 @@
 ---
-import { Hammer, CalendarArrowUp, Landmark, Trophy, BarChart, ScrollText, Image, Smartphone } from '@lucide/astro';
+import { Hammer, CalendarArrowUp, Landmark, Medal, Trophy, BarChart, ScrollText, Image, Smartphone } from '@lucide/astro';
 import GlobalSearch from '../GlobalSearch';
 import RegionBar from './RegionBar.astro';
 import RegionPanel from './RegionPanel.astro';
@@ -9,6 +9,7 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
 const heroImages = Array.from({ length: 16 }, (_, i) => `/images/landing/image${i + 1}.jpg`);
 
 const explore = [
+  { label: 'Latest Results', href: `${APP_URL}/latest`, icon: Medal, color: 'text-teal-400', id: 'explore-results' },
   { label: 'Rankings', href: `${APP_URL}/global_rankings`, icon: Trophy, color: 'text-owr-gold', id: 'explore-rankings' },
   { label: 'Faction Stats', href: `${APP_URL}/faction_stats/v2`, icon: BarChart, color: 'text-amber-400' },
   { label: 'Army Lists', href: `${APP_URL}/army_lists`, icon: ScrollText, color: 'text-purple-400' },

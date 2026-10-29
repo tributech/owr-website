@@ -1,0 +1,23 @@
+---
+// A large boxed announcement. The newsletterEmbed text field holds three lines:
+// title, body, and an optional "label|href" link (href may be a #anchor on the issue).
+interface Props {
+  text?: string;
+}
+
+const [title = '', body = '', link = ''] = (Astro.props.text ?? '').split('\n').map((l) => l.trim());
+const [label, href] = link.split('|').map((s) => s?.trim());
+---
+
+<aside class="!my-10 p-6 sm:p-8 rounded-xl border-2 border-owr-gold bg-owr-gold/10 dark:bg-owr-gold/15">
+  <p class="text-xs font-bold uppercase tracking-[0.2em] text-owr-gold-dark !m-0">Announcement</p>
+  <h3 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white !mt-2 !mb-3">{title}</h3>
+  {body && <p class="text-lg text-gray-800 dark:text-gray-200 leading-relaxed !m-0">{body}</p>}
+  {label && href && (
+    <p class="!mt-6 !mb-0">
+      <a href={href} class="inline-block bg-owr-gold text-gray-900 font-semibold px-6 py-3 rounded-lg hover:bg-owr-gold-dark transition">
+        {label} &rarr;
+      </a>
+    </p>
+  )}
+</aside>

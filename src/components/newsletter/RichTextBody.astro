@@ -14,6 +14,7 @@ import PhilippinesSpotlight from './PhilippinesSpotlight.astro';
 import TestimonialCallout from './TestimonialCallout.astro';
 import StoreBadges from './StoreBadges.astro';
 import VideoEmbed from './VideoEmbed.astro';
+import Announcement from './Announcement.astro';
 import MobileTesterPreview from '../MobileTesterPreview.tsx';
 
 interface Props {
@@ -79,6 +80,7 @@ const renderables = (body.content ?? []).map(classifyNode);
     if (r.embedKind === 'testimonial-owr') return <TestimonialCallout />;
     if (r.embedKind === 'store-badges') return <StoreBadges />;
     if (r.embedKind === 'video') return <VideoEmbed src={r.text} />;
+    if (r.embedKind === 'announcement') return <Announcement text={r.text} />;
     return null;
   })}
 </div>

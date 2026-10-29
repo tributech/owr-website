@@ -5,6 +5,13 @@ import RegionBar from './RegionBar.astro';
 import RegionPanel from './RegionPanel.astro';
 import { APP_STORE_URL, PLAY_STORE_URL } from '../../lib/store-links';
 
+interface Props {
+  // Sits under the Battle Scorer takeover, which clears the fixed nav itself and
+  // carries the store badges, so the app strip is left out.
+  belowTakeover?: boolean;
+}
+
+const { belowTakeover = false } = Astro.props;
 const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com';
 const heroImages = Array.from({ length: 16 }, (_, i) => `/images/landing/image${i + 1}.jpg`);
 
@@ -17,7 +24,7 @@ const explore = [
 ];
 ---
 
-<section class="relative bg-black pt-16">
+<section id="home-main" class:list={['relative bg-black scroll-mt-16', !belowTakeover && 'pt-16']}>
   <div class="absolute inset-0 overflow-hidden" aria-hidden="true">
     {heroImages.map((src, i) => (
       <img
@@ -66,7 +73,7 @@ const explore = [
           ))}
         </nav>
 
-        <div id="app" class="scroll-mt-24 max-w-3xl flex flex-wrap items-center gap-3 sm:gap-4 rounded-xl border border-green-500/35 bg-white/5 backdrop-blur px-3.5 sm:px-4 py-3">
+        {!belowTakeover && <div id="app" class="scroll-mt-24 max-w-3xl flex flex-wrap items-center gap-3 sm:gap-4 rounded-xl border border-green-500/35 bg-white/5 backdrop-blur px-3.5 sm:px-4 py-3">
           <span class="text-green-500 shrink-0"><Smartphone size={24} strokeWidth={2} /></span>
           <div class="flex-1 min-w-0">
             <div class="flex items-center gap-2">
@@ -80,7 +87,7 @@ const explore = [
             <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer"><img src="/images/store/app-store-badge.svg" alt="Download on the App Store" class="h-10 w-auto" /></a>
             <a href={PLAY_STORE_URL} target="_blank" rel="noopener noreferrer"><img src="/images/store/google-play-badge.svg" alt="Get it on Google Play" class="h-10 w-auto" /></a>
           </div>
-        </div>
+        </div>}
       </div>
 
       <RegionPanel />

@@ -4,7 +4,7 @@ import {
   Sparkles, Hammer, Smartphone, CreditCard,
   Map, BookOpen, Newspaper, Mic, Mail,
   CircleHelp, Sun, Moon, Menu, X as CloseIcon,
-  ChevronDown, User, Settings, Info, CalendarHeart,
+  ChevronDown, User, Settings, Info, CalendarHeart, Swords,
 } from '@lucide/astro';
 
 interface Props {
@@ -30,6 +30,7 @@ const megaMenus = [
     columns: 2,
     items: [
       { label: 'For Tournament Organisers', href: '/tournament-organisers', description: 'Run events with automated pairings, live boards and more', icon: Trophy },
+      { label: 'Battle Scorer', href: '/battle-scorer/', description: 'Score any game turn by turn, with VP added up for you', icon: Swords },
       { label: 'Features', href: '/#features', description: 'Everything OWR offers for players and tournament organisers', icon: Sparkles },
       { label: 'Mobile App', href: '/#app', description: 'OWR in your pocket: pairings, notifications and scoring', icon: Smartphone },
       { label: 'Latest Results', href: `${APP_URL}/latest`, description: 'Recent tournament results and standings from around the world', icon: CalendarDays },

@@ -148,11 +148,20 @@ const STRONG_STYLE = 'color: #1C1C1C; font-weight: 700;';
 const LINK_STYLE = 'color: #DAA520; text-decoration: underline;';
 const BADGE_STYLE = 'display: inline-block; background-color: #FFD700; color: #1C1C1C; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 9999px; text-transform: uppercase; letter-spacing: 0.5px; margin: 0 4px;';
 
+// App bottom-nav tabs: a code mark naming one renders as the tab's icon plus the
+// bold name. Keep in step with APP_TABS in src/lib/newsletter-rich-text.ts.
+const APP_TABS = {
+  Play: '/images/newsletter/oct-2026-play-tab.png',
+};
+
 function renderInline(node) {
   if (node.nodeType === 'text') {
     let text = escapeHtml(node.value);
     const marks = (node.marks ?? []).map((m) => m.type);
     if (marks.includes('code')) {
+      if (APP_TABS[node.value]) {
+        return `<strong style="${STRONG_STYLE} white-space: nowrap;"><img src="${WEB_URL}${APP_TABS[node.value]}" alt="" width="20" height="20" style="display: inline-block; width: 20px; height: 20px; border: 0; vertical-align: -4px; margin-right: 4px;" />${text}</strong>`;
+      }
       return `<span style="${BADGE_STYLE}">${text}</span>`;
     }
     if (marks.includes('bold')) text = `<strong style="${STRONG_STYLE}">${text}</strong>`;
@@ -338,6 +347,24 @@ ${cols}
 </mj-section>`;
   }
 
+  if (kind === 'announcement') {
+    // text = title, body, optional "label|href" (a #anchor resolves to the issue's web page)
+    const [title = '', body = '', link = ''] = (fields.text ?? '').split('\n').map((l) => l.trim());
+    const [label, href] = link.split('|').map((s) => s?.trim());
+    const url = href?.startsWith('#') ? `${WEB_URL}/newsletter/${slug}/${href}` : href;
+    const button = label && url
+      ? `<mj-button background-color="#FFD700" color="#1C1C1C" font-weight="700" border-radius="8px" href="${escapeHtml(withUtm(url, kind))}" padding="12px 0">${escapeHtml(label)} &rarr;</mj-button>`
+      : '';
+    return `<mj-section padding="24px 25px" background-color="#ffffff">
+  <mj-column background-color="#FFF3C4" border="2px solid #FFD700" border-radius="12px" padding="24px">
+    <mj-text font-size="12px" font-weight="bold" letter-spacing="2px" color="#B8860B">ANNOUNCEMENT</mj-text>
+    <mj-text font-size="24px" font-weight="bold" color="#1C1C1C" line-height="1.3">${escapeHtml(title)}</mj-text>
+    <mj-text font-size="17px" color="#333" line-height="1.55">${escapeHtml(body)}</mj-text>
+    ${button}
+  </mj-column>
+</mj-section>`;
+  }
+
   if (kind === 'pro-callout') {
     // Per-issue lead-in (the list of things this issue shipped) comes from the
     // entry's text field; the rest of the callout is evergreen.
@@ -514,6 +541,7 @@ function renderTextEmbed(node) {
     if (f.kind === 'store-badges') return `Get the OWR app - App Store: ${APP_STORE_URL} / Google Play: ${PLAY_STORE_URL}`;
     if (f.kind === 'sponsor-cards') return '[Sponsors: Mighty Melee Games, UK Resin Prints]';
     if (f.kind === 'cta-host-tournament') return `Host a tournament: ${withUtm(`${APP_URL}/host`, f.kind)}`;
+    if (f.kind === 'announcement') { const [t = '', b = '', l = ''] = (f.text ?? '').split('\n'); const h = l.split('|')[1]?.trim(); return `ANNOUNCEMENT: ${t.trim()}\n${b.trim()}${h ? `\n${h.startsWith('#') ? `${WEB_URL}/newsletter/${slug}/${h}` : h}` : ''}`; }
     if (f.kind === 'pro-callout') return `Built by Pro supporters. ${f.text ? `${f.text} ` : ''}Every single thing in this newsletter got built because OWR Pro supporters are funding it: ${withUtm(`${APP_URL}/pricing`, f.kind)}`;
     if (f.kind === 'region-spotlight-ph') return `New on the map: The Philippines has its first hosted event on OWR. B.I.A. Brother In Arms Cup runs 4 September, 16-player 3-round format. ${withUtm(`${APP_URL}/ph/tournaments/b-i-a-brother-in-arms-cup-2026`, f.kind)}`;
     if (f.kind === 'video') { const yt = youtubeIdFrom((f.text ?? '').trim()); return `Watch the video: ${yt ? `https://www.youtube.com/watch?v=${yt}` : `${webUrl}#video`}`; }

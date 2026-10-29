@@ -4,7 +4,8 @@
 // styling). Newsletter prose has its own typography:
 //  - bold mark renders as a strong with the high-contrast prose color
 //  - code mark renders as a gold pill badge (used for status callouts like
-//    "33 of 30 spots filled")
+//    "33 of 30 spots filled"), unless its text names an app tab in APP_TABS,
+//    which renders as that tab's icon plus the bold name
 //  - links use the OWR gold-dark accent
 //
 // Top-level embedded-entry-blocks are NOT rendered here. The Astro page
@@ -45,6 +46,12 @@ const BADGE =
   'inline-block px-2 py-0.5 text-xs font-bold uppercase tracking-wide rounded-full bg-owr-gold text-gray-900 align-middle mx-1';
 const LINK = 'text-owr-gold-dark hover:underline';
 
+// App bottom-nav tabs, drawn as they look in the app so readers can find them.
+// Keep in step with APP_TABS in tools/newsletter/render.mjs.
+export const APP_TABS: Record<string, string> = {
+  Play: '/images/newsletter/oct-2026-play-tab.png',
+};
+
 const options: Options = {
   renderMark: {
     [MARKS.BOLD]: (text) =>
@@ -52,7 +59,9 @@ const options: Options = {
     [MARKS.ITALIC]: (text) => `<em>${text}</em>`,
     [MARKS.UNDERLINE]: (text) => `<u>${text}</u>`,
     [MARKS.CODE]: (text) =>
-      `<span class="${BADGE}">${text}</span>`,
+      APP_TABS[text]
+        ? `<strong class="${STRONG} whitespace-nowrap"><img src="${APP_TABS[text]}" alt="" width="20" height="20" class="inline-block !my-0 !ml-0 !mr-1 align-[-4px] rounded-[5px]" />${text}</strong>`
+        : `<span class="${BADGE}">${text}</span>`,
   },
   renderNode: {
     [BLOCKS.PARAGRAPH]: (_n, next) =>

@@ -24,6 +24,19 @@
   to = "/terms/"
   status = 200
 
+# /app has never been a page here; send it to the app download links on the home page.
+[[redirects]]
+  from = "/app"
+  to = "/#app"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/app/"
+  to = "/#app"
+  status = 301
+  force = true
+
 # Docs moved to the Banshee help centre. Old slugs map to their help articles.
 [[redirects]]
   from = "/docs/communications"

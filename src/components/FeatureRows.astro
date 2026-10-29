@@ -1,0 +1,71 @@
+---
+// Feature rows in the For Tournament Organisers style: pill, heading, paragraph
+// and tick list beside a screenshot, alternating background and image side.
+// Phone captures sit in a slim phone frame; set wide for tablet or desktop shots.
+// A point is [bold lead, rest]; link adds a help-centre or page link under the list.
+export interface FeatureSection {
+  pill: string;
+  title: string;
+  body: string;
+  points: [string, string][];
+  image: string;
+  alt: string;
+  wide?: boolean;
+  link?: { label: string; href: string };
+}
+
+interface Props {
+  sections: FeatureSection[];
+}
+
+const { sections } = Astro.props;
+---
+
+{sections.map((s, i) => {
+  const imageLeft = i % 2 === 1;
+  return (
+    <section class:list={['py-16 sm:py-24 scroll-mt-20', imageLeft ? 'bg-white dark:bg-gray-900' : 'bg-gray-50 dark:bg-gray-800']}>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
+          <div class:list={['mb-12 lg:mb-0', imageLeft && 'lg:order-2']}>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-owr-gold/10 text-owr-gold-dark dark:text-owr-gold text-sm font-medium mb-4">
+              {s.pill}
+            </span>
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4">
+              {s.title}
+            </h2>
+            <p class="text-gray-600 dark:text-gray-400 leading-relaxed mb-6">
+              {s.body}
+            </p>
+            <ul class="space-y-3">
+              {s.points.map(([lead, rest]) => (
+                <li class="flex items-start gap-3 text-gray-700 dark:text-gray-300">
+                  <svg class="h-5 w-5 text-owr-gold-dark dark:text-owr-gold shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                  </svg>
+                  <span><strong class="font-semibold">{lead}</strong>, {rest}</span>
+                </li>
+              ))}
+            </ul>
+            {s.link && (
+              <a href={s.link.href} target={s.link.href.startsWith('http') ? '_blank' : undefined} rel={s.link.href.startsWith('http') ? 'noopener noreferrer' : undefined} class="inline-block mt-6 font-semibold text-owr-gold-dark dark:text-owr-gold hover:underline">
+                {s.link.label} &rarr;
+              </a>
+            )}
+          </div>
+          {s.wide ? (
+            <div class:list={['rounded-xl overflow-hidden shadow-lg border border-gray-200 dark:border-gray-700', imageLeft && 'lg:order-1']}>
+              <img src={s.image} alt={s.alt} class="w-full h-auto" loading="lazy" />
+            </div>
+          ) : (
+            <div class:list={['flex justify-center', imageLeft && 'lg:order-1']}>
+              <div class="w-full max-w-[300px] rounded-[2rem] overflow-hidden shadow-lg border-[6px] border-gray-900 dark:border-gray-700 bg-black">
+                <img src={s.image} alt={s.alt} width="660" height="1434" class="w-full h-auto" loading="lazy" />
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+})}

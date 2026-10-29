@@ -12,7 +12,7 @@ const moreHref = '/battle-scorer/';
 const jumps = [
   { label: 'Battle Builder', href: `${APP_URL}/builder`, icon: Hammer, color: 'text-owr-gold' },
   { label: 'Find an event', href: `${APP_URL}/upcoming`, icon: CalendarArrowUp, color: 'text-teal-400' },
-  { label: 'Host an event', href: `${APP_URL}/host`, icon: Landmark, color: 'text-purple-400' },
+  { label: 'Host an event', href: '/tournament-organisers/', icon: Landmark, color: 'text-purple-400' },
   { label: 'Rankings', href: `${APP_URL}/global_rankings`, icon: Trophy, color: 'text-amber-400' },
   { label: 'Your region', href: '#home-main', icon: MapPin, color: 'text-sky-400' },
 ];
@@ -46,12 +46,12 @@ const points = [
       </ul>
       <div class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
         <a href={startHref} class="h-12 flex items-center gap-2 px-6 rounded-lg bg-owr-gold hover:bg-owr-gold-dark text-gray-900 font-extrabold text-lg shadow-[0_0_30px_-6px_rgba(255,215,0,0.6)] transition-colors">Start a game <ArrowRight size={18} strokeWidth={2.5} /></a>
-        <a href={moreHref} class="font-semibold text-white/80 hover:text-owr-gold underline underline-offset-4">See what it does</a>
+        <a href={moreHref} class="font-semibold text-white/80 hover:text-owr-gold underline underline-offset-4">Learn more</a>
       </div>
       <div id="app" class="mt-7 flex items-center gap-3 scroll-mt-24">
         <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer"><img src="/images/store/app-store-badge.svg" alt="Download on the App Store" class="h-10 w-auto" /></a>
         <a href={PLAY_STORE_URL} target="_blank" rel="noopener noreferrer"><img src="/images/store/google-play-badge.svg" alt="Get it on Google Play" class="h-10 w-auto" /></a>
-        <span class="hidden sm:inline text-xs text-white/50">or on the web</span>
+        <a href="/app/" class="text-xs font-semibold text-white/60 hover:text-owr-gold underline underline-offset-4">More about the app</a>
       </div>
     </div>
 

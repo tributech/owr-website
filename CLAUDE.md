@@ -175,6 +175,31 @@ PUBLIC_APP_URL=https://oldworldrankings.com pnpm newsletter:render <slug>
 
 The renderer prints a warning if you forget.
 
+## App Screenshots on Marketing Pages
+
+Pages like `/battle-scorer/` and `/app/` show real app captures only: no drawn UI mock-ups, no Warhammer logos.
+
+**Source captures** are in the owr-marketing repo, `assets/store-screenshots/raw/<device>/NN-name.png` (devices: `iphone`, `ipad`, `ipad-portrait`, `android-phone`, `android-tablet`; names `01-play`, `02-scorer`, `03-spells`, `04-tools`, `05-final`, `06-report`, `07-builder`, `08-lists`, `09-events`, `10-hub`, `11-rankings`). They are full-resolution, unframed, with the device status bar. The same folder's `run_all.py` / `frame.py` turn them into the captioned App Store and Play Store sets in `framed/`; the website uses the raw files, not the framed ones.
+
+**Convert to webp** into `public/images/<page>/` with ImageMagick, sized for how big they render:
+
+```bash
+R=../owr-marketing/assets/store-screenshots/raw   # or the absolute path
+magick $R/iphone/02-scorer.png -resize 720x  -quality 86 public/images/battle-scorer/hero-iphone-scorer.webp  # hero phone
+magick $R/ipad/02-scorer.png   -resize 1500x -quality 84 public/images/battle-scorer/hero-ipad-scorer-sharp.webp  # hero tablet
+magick $R/iphone/07-builder.png -resize 600x -quality 82 public/images/battle-scorer/strip-builder.webp  # small strip shots
+```
+
+That gives 25 to 100 KB per image. Set real `width`/`height` attributes on the `<img>`, `fetchpriority="high"` above the fold and `loading="lazy"` below it. The device "frame" is just CSS (rounded corners plus a thick `border-gray-700`), not an image. See the hero and strip in `src/pages/battle-scorer.astro`.
+
+**Check the page at desktop and phone width, light and dark.** Run the dev server on a spare port if 5091 is taken (`pnpm astro dev --port 5097 --host 127.0.0.1`), then:
+
+```bash
+uvx --with playwright python tools/page-shots/shoot.py http://127.0.0.1:5097/battle-scorer/ <out-dir> [sections]
+```
+
+It writes `desktop-light.png`, `desktop-dark.png`, `phone-light.png` and `phone-dark.png`, cropped to the first `sections` sections of `<main>` (default 2), with the cookie banner and dev toolbar hidden. Look at them before opening the PR, and put them in the PR or an artifact for review. Stop the dev server by its PID afterwards (`lsof -tiTCP:5097 -sTCP:LISTEN`); `pkill` is blocked on Colin's machine.
+
 ## Contentful CMS Integration
 
 ### Overview

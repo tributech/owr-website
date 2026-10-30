@@ -15,6 +15,25 @@ const highlights = [
   { title: 'Battle Board', description: 'Live pairings and timer on a big screen', icon: 'M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5' },
 ];
 
+// Painted armies from public OWR galleries, credited by army and the owner's region only.
+const galleryPhotos = [
+  { src: '/images/for-tournament-organisers/gallery/army-1.webp', credit: 'Daemons of Chaos: Player, United States' },
+  { src: '/images/for-tournament-organisers/gallery/army-2.webp', credit: 'Chracian Warhost: Player, Australia' },
+  { src: '/images/for-tournament-organisers/gallery/army-3.webp', credit: 'Warriors of Chaos: Player, Canada' },
+  { src: '/images/for-tournament-organisers/gallery/army-4.webp', credit: 'Daemons of Chaos: Player, Canada' },
+  { src: '/images/for-tournament-organisers/gallery/army-5.webp', credit: 'Chracian Warhost: Player, Australia' },
+];
+
+// Pro is extra for TOs who want more; hosting itself is free. Taken from the Pro list on /pricing.
+const proExtras = [
+  { title: 'Tournament Pack AI Assist', description: 'Upload your player pack and your event details are filled in for you.' },
+  { title: 'Email Communication', description: 'Email your attendees from OWR, and their replies come back to you.' },
+  { title: 'Private Tournaments', description: 'Run an event that is only for the players you invite.' },
+  { title: 'Presale Dates', description: 'Give some players a window to register before everyone else.' },
+  { title: 'Bulk Army List Download', description: 'Download every list for your event in one go.' },
+  { title: 'Priority Support', description: 'Your questions go to the front of the queue.' },
+];
+
 const lifecycleSteps = [
   { number: '1', label: 'Create' },
   { number: '2', label: 'Setup' },
@@ -93,7 +112,7 @@ const sections: FeatureSection[] = [
 ];
 
 const extraFeatures = [
-  { title: 'Email Your Players', description: 'Send emails to your attendees, and their replies come back to you.', href: `${HELP}communications` },
+  { title: 'Check-in on the Day', description: 'Check players in, add late arrivals and drop no-shows.', href: `${HELP}game-day-checking-players-in` },
   { title: 'Scoring Your Way', description: 'Matched Play, 20-0 or Win-Loss-Draw, with soft scores and votes.', href: `${HELP}scoring-setup` },
   { title: 'Scenarios per Round', description: 'Give each round its scenario, deployment map and notes.', href: `${HELP}rounds` },
   { title: 'Co-organisers', description: 'Share the dashboard with your co-TOs and add a ringer.', href: `${HELP}staff` },
@@ -111,16 +130,29 @@ const quotes = [
 
 <Layout
   title="Host Your Event - Old World Rankings"
-  description="Host your Warhammer: The Old World event on OWR: registrations and payments, custom comps checked in Battle Builder, Swiss pairings, the Battle Hub, Battle Scorer results and a live Battle Board."
+  description="Host your Warhammer: The Old World event on OWR for free: registrations and payments, custom comps checked in Battle Builder, Swiss pairings, the Battle Hub, Battle Scorer results and a live Battle Board."
 >
   <Nav />
 
   <main>
     <!-- HERO - Dark bg with crosshatch pattern -->
     <section class="relative pt-32 pb-20 sm:pt-40 sm:pb-28 overflow-hidden">
-      <div class="absolute inset-0 bg-gray-900">
-        <div class="absolute inset-0 opacity-5 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImEiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+PHBhdGggZD0iTTAgMGw0MCA0ME00MCAwTDAgNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2EpIi8+PC9zdmc+')]"></div>
+      <!-- Gallery photos crossfading behind a dark, lightly blurred wash so the heading reads in both themes -->
+      <div class="absolute inset-0 bg-gray-900 overflow-hidden" aria-hidden="true">
+        {galleryPhotos.map((photo, i) => (
+          <img
+            src={photo.src}
+            alt=""
+            class:list={['gallery-slide absolute inset-0 w-full h-full object-cover scale-105 blur-[2px] transition-opacity duration-[1500ms]', i === 0 ? 'opacity-100' : 'opacity-0']}
+            loading={i === 0 ? 'eager' : 'lazy'}
+          />
+        ))}
+        <div class="absolute inset-0 bg-gray-900/70"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-gray-900/50 via-transparent to-gray-900"></div>
       </div>
+      <p class="absolute bottom-3 right-4 z-10 text-[11px] text-white/50">
+        From OWR galleries. <span id="gallery-credit">{galleryPhotos[0].credit}</span>
+      </p>
       <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-white text-sm font-medium mb-6">
           For Tournament Organisers
@@ -128,21 +160,16 @@ const quotes = [
         <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6 max-w-3xl mx-auto">
           Host Your Event on OWR
         </h1>
-        <p class="text-lg text-gray-400 max-w-2xl mx-auto mb-10">
+        <p class="text-lg text-gray-300 max-w-2xl mx-auto mb-4">
           Registrations, list checks, pairings, results and a big screen for the venue, all in one place. You run the day, OWR does the admin.
         </p>
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+        <p class="text-lg font-semibold text-owr-gold mb-10">Hosting on OWR is free.</p>
+        <div class="flex justify-center mb-16">
           <a
             href={`${APP_URL}/host`}
-            class="px-8 py-3 bg-owr-gold text-gray-900 font-semibold rounded-lg hover:bg-owr-gold-dark transition-colors text-center"
+            class="px-10 py-4 bg-owr-gold text-gray-900 font-semibold rounded-lg hover:bg-owr-gold-dark transition-colors text-center text-lg"
           >
-            Host an Event
-          </a>
-          <a
-            href="/pricing/"
-            class="px-8 py-3 border border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-colors text-center"
-          >
-            See Pricing
+            Host Your Event
           </a>
         </div>
 
@@ -220,6 +247,35 @@ const quotes = [
       </div>
     </section>
 
+    <!-- PRO EXTRAS - gray-50 bg -->
+    <section class="py-16 sm:py-24 bg-gray-50 dark:bg-gray-800 scroll-mt-20">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4">
+            Want More? See What Pro Adds
+          </h2>
+          <p class="text-gray-500 dark:text-gray-400 max-w-xl mx-auto">
+            Everything above comes with hosting, which is free. OWR Pro adds a few extras for TOs who want them.
+          </p>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {proExtras.map((extra) => (
+            <div class="p-6 rounded-xl border border-gray-200 bg-white dark:bg-gray-900 dark:border-gray-700">
+              <h3 class="font-semibold text-gray-900 dark:text-white mb-2">{extra.title}</h3>
+              <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">{extra.description}</p>
+            </div>
+          ))}
+        </div>
+
+        <div class="text-center mt-10">
+          <a href="/pricing/" class="inline-block px-8 py-3 border border-gray-300 dark:border-white/30 text-gray-900 dark:text-white font-medium rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 transition-colors">
+            See OWR Pro
+          </a>
+        </div>
+      </div>
+    </section>
+
     <!-- FINAL CTA - Dark bg -->
     <section class="relative py-20 sm:py-28 overflow-hidden">
       <div class="absolute inset-0 bg-gray-900">
@@ -230,13 +286,13 @@ const quotes = [
           Ready to Run Your Next Event?
         </h2>
         <p class="text-lg text-gray-400 mb-10 max-w-xl mx-auto">
-          Create your event in a few minutes, set it up at your own pace, and publish it when you're ready.
+          Hosting is free. Create your event in a few minutes, set it up at your own pace, and publish it when you're ready.
         </p>
         <a
           href={`${APP_URL}/host`}
           class="inline-block px-10 py-4 bg-owr-gold text-gray-900 font-semibold rounded-lg hover:bg-owr-gold-dark transition-colors text-lg"
         >
-          Host an Event
+          Host Your Event
         </a>
       </div>
     </section>
@@ -245,3 +301,19 @@ const quotes = [
   <Footer />
 
 </Layout>
+
+<script>
+  // Crossfade the hero gallery photos with their credit; hold the first one for anyone who prefers less motion.
+  const credits = ['Daemons of Chaos: Player, United States','Chracian Warhost: Player, Australia','Warriors of Chaos: Player, Canada','Daemons of Chaos: Player, Canada','Chracian Warhost: Player, Australia'];
+  const credit = document.getElementById('gallery-credit');
+  const slides = document.querySelectorAll('.gallery-slide');
+  if (slides.length > 1 && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    let current = 0;
+    setInterval(() => {
+      slides[current].classList.replace('opacity-100', 'opacity-0');
+      current = (current + 1) % slides.length;
+      slides[current].classList.replace('opacity-0', 'opacity-100');
+      if (credit) credit.textContent = credits[current];
+    }, 6000);
+  }
+</script>

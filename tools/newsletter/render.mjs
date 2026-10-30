@@ -213,7 +213,7 @@ function renderBlock(node) {
     case 'ordered-list':
       return mjList('ol', node.content);
     case 'hr':
-      return mjSection(`<mj-divider border-color="#e5e7eb" border-width="1px" padding="12px 25px" />`);
+      return mjSection(`<mj-divider border-color="#e5e7eb" border-width="1px" padding="12px 0" />`);
     case 'blockquote':
       return mjText(
         `<div style="border-left: 3px solid #DAA520; padding: 4px 14px; color: #555; font-style: italic;">${
@@ -432,6 +432,17 @@ function renderTable(node) {
   return `<table style="width:100%; border-collapse: collapse; border: 1px solid #e5e7eb;">${rows}</table>`;
 }
 
+// Side gutters. Sections carry the only side padding; mj-text and mj-image
+// would otherwise add MJML's default 25px on each side on top of it, which
+// put body text about 50px in from the email's edge.
+const GUTTER = '14px';
+
+function tightenGutters(mjml) {
+  return mjml
+    .replace(/<mj-section padding="([^"]*)"/g, (_, p) => `<mj-section padding="${p.replace(/\b25px\b/g, GUTTER)}"`)
+    .replace(/<mj-(text|image)\b(?![^>]*\spadding(?:-left|-right)?=")/g, '<mj-$1 padding-left="0" padding-right="0"');
+}
+
 function mjText(html, opts = {}) {
   const attrs = [];
   if (opts.fontSize) attrs.push(`font-size="${opts.fontSize}"`);
@@ -616,6 +627,7 @@ if (untrackedBases.length) {
 
 const outDir = resolve(here, 'out');
 await mkdir(outDir, { recursive: true });
+mjmlBody = tightenGutters(mjmlBody);
 await writeFile(resolve(outDir, `${slug}.mjml`), mjmlBody);
 await writeFile(resolve(outDir, `${slug}.txt`), textBody);
 await writeFile(resolve(outDir, `${slug}.json`), JSON.stringify(sidecar, null, 2));

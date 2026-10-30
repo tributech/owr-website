@@ -8,6 +8,8 @@ import { APP_STORE_URL, PLAY_STORE_URL } from '../lib/store-links';
 
 const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com';
 
+const heroScreens = ['events', 'play', 'scorer', 'hub', 'lists', 'play'].map((n) => `/images/app/iphone-${n}.webp`);
+
 const highlights = [
   { title: 'Play', description: 'Your events and games in one tab', icon: 'M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z' },
   { title: 'Battle Builder', description: 'Build and check your lists', icon: 'M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z' },
@@ -115,10 +117,16 @@ const quotes = [
   <Nav />
 
   <main>
-    <!-- HERO - Dark bg with crosshatch pattern -->
+    <!-- HERO - a tilted row of real app screens, faded and darkened behind the heading -->
     <section class="relative pt-32 pb-20 sm:pt-40 sm:pb-28 overflow-hidden">
-      <div class="absolute inset-0 bg-gray-900">
-        <div class="absolute inset-0 opacity-5 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImEiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+PHBhdGggZD0iTTAgMGw0MCA0ME00MCAwTDAgNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2EpIi8+PC9zdmc+')]"></div>
+      <div class="absolute inset-0 bg-gray-900 overflow-hidden" aria-hidden="true">
+        <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-12 flex gap-6 opacity-80">
+          {heroScreens.map((src) => (
+            <img src={src} alt="" class="w-48 sm:w-60 shrink-0 rounded-[2rem] border-4 border-gray-800" />
+          ))}
+        </div>
+        <div class="absolute inset-0 bg-gray-900/60"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-gray-900/60 via-gray-900/30 to-gray-900"></div>
       </div>
       <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-white text-sm font-medium mb-6">
@@ -160,7 +168,6 @@ const quotes = [
     <!-- FINAL CTA - Dark bg, download links -->
     <section id="download" class="relative py-20 sm:py-28 overflow-hidden scroll-mt-16">
       <div class="absolute inset-0 bg-gray-900 border-t border-white/10">
-        <div class="absolute inset-0 opacity-5 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImEiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+PHBhdGggZD0iTTAgMGw0MCA0ME00MCAwTDAgNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2EpIi8+PC9zdmc+')]"></div>
       </div>
       <div class="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-6">

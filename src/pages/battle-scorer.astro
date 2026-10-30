@@ -16,11 +16,12 @@ const quotes = [
   { quote: "The app was useful in that I could go to the table numbered, check I've got the right opponent, and introduce myself.", credit: "Player, The Dodgy Dealer's Gambit Part 1" },
 ];
 
-const highlights = [
-  { title: 'Both Armies', description: 'Your list and theirs, turn by turn', icon: 'M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z' },
-  { title: 'Spells & Tables', description: 'Casting odds, miscasts and more', icon: 'M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z' },
-  { title: 'VP Added Up', description: 'Units and objectives, every turn', icon: 'M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008Zm0 2.25h.008v.008H8.25V13.5Zm0 2.25h.008v.008H8.25v-.008Zm0 2.25h.008v.008H8.25V18Zm2.498-6.75h.007v.008h-.007v-.008Zm0 2.25h.007v.008h-.007V13.5Zm0 2.25h.007v.008h-.007v-.008Zm0 2.25h.007v.008h-.007V18Zm2.504-6.75h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V13.5Zm0 2.25h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V18Zm2.498-6.75h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V13.5ZM8.25 6h7.5v2.25h-7.5V6ZM12 2.25c-1.892 0-3.758.11-5.593.322C5.307 2.7 4.5 3.65 4.5 4.757V19.5a2.25 2.25 0 0 0 2.25 2.25h10.5a2.25 2.25 0 0 0 2.25-2.25V4.757c0-1.108-.806-2.057-1.907-2.185A48.507 48.507 0 0 0 12 2.25Z' },
-  { title: 'Battle Report', description: 'The whole game, turn by turn', icon: 'M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z' },
+// Real iPhone captures for the strip under the hero.
+const strip = [
+  { image: '/images/battle-scorer/strip-builder.webp', caption: 'Build your list in Battle Builder, then play it.', alt: 'Battle Builder on iPhone: a Vampire Counts list with characters, their kit and points' },
+  { image: '/images/battle-scorer/strip-tools.webp', caption: 'Quick lookups like template hits, mid-game.', alt: 'The template hits tool: 5 files by 4 ranks under a 3 inch blast, 2 hit and 14 partially' },
+  { image: '/images/battle-scorer/strip-final.webp', caption: 'The final score, every VP accounted for.', alt: 'The final score screen: units destroyed for both sides and the common objectives, a victory by 699 VP' },
+  { image: '/images/battle-scorer/strip-report.webp', caption: 'A battle report with your own table photos.', alt: 'The battle report: round by round scores with photos taken at the table' },
 ];
 
 const gameSteps = [
@@ -124,48 +125,75 @@ const sections = [
   <Nav />
 
   <main>
-    <!-- HERO - a real iPad Battle Scorer capture, faded and darkened behind the heading -->
-    <section class="relative pt-32 pb-20 sm:pt-40 sm:pb-28 overflow-hidden">
-      <div class="absolute inset-0 bg-gray-900 overflow-hidden" aria-hidden="true">
-        <img src="/images/battle-scorer/hero-ipad-scorer.webp" alt="" class="absolute inset-0 w-full h-full object-cover object-top opacity-70 scale-110 -rotate-2" />
-        <div class="absolute inset-0 bg-gray-900/65"></div>
-        <div class="absolute inset-0 bg-gradient-to-b from-gray-900/60 via-gray-900/30 to-gray-900"></div>
-      </div>
-      <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-white text-sm font-medium mb-6">
-          The Battle Scorer
-        </span>
-        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6 max-w-3xl mx-auto">
-          Score Your Games of The Old World, Turn by Turn
-        </h1>
-        <p class="text-lg text-gray-400 max-w-2xl mx-auto mb-10">
-          Pick your list and your opponent's, and the Battle Scorer runs the game with you. Use it for any game: a Tuesday night at the club, a game at home, or a round at an event.
-        </p>
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-          <a
-            href={startHref}
-            class="px-8 py-3 bg-owr-gold text-gray-900 font-semibold rounded-lg hover:bg-owr-gold-dark transition-colors text-center"
-          >
-            Start a Game
-          </a>
-          <a
-            href="#download"
-            class="px-8 py-3 border border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-colors text-center"
-          >
-            Get the App
-          </a>
+    <!-- HERO - copy on the left, real iPhone and iPad Battle Scorer captures on the right -->
+    <section class="relative pt-24 pb-14 sm:pt-36 sm:pb-24 overflow-hidden bg-gray-900">
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_75%_40%,rgba(255,215,0,0.12),transparent_60%)]" aria-hidden="true"></div>
+      <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 lg:grid lg:grid-cols-12 lg:gap-12 items-center">
+        <div class="lg:col-span-5 text-center lg:text-left mb-10 lg:mb-0">
+          <span class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-white text-sm font-medium mb-6">
+            The Battle Scorer
+          </span>
+          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6">
+            Score Your Games of The Old World, Turn by Turn
+          </h1>
+          <p class="text-base sm:text-lg text-gray-300 mb-6 sm:mb-8 max-w-xl mx-auto lg:mx-0">
+            Pick both lists and play. VP, objectives, spells and the rules tables are all there as you go. On the web, iPhone, iPad and Android.
+          </p>
+          <div class="flex flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4">
+            <a
+              href={startHref}
+              class="flex-1 sm:flex-none px-6 sm:px-8 py-3 bg-owr-gold text-gray-900 font-semibold rounded-lg hover:bg-owr-gold-dark transition-colors text-center"
+            >
+              Start a game
+            </a>
+            <a
+              href="/app/"
+              class="flex-1 sm:flex-none px-6 sm:px-8 py-3 border border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-colors text-center"
+            >
+              Get the app
+            </a>
+          </div>
         </div>
 
-        <!-- Highlight cards -->
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto">
-          {highlights.map((h) => (
-            <div class="p-4 rounded-xl bg-white/5 border border-white/10 text-left">
-              <svg class="h-6 w-6 text-owr-gold mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d={h.icon} />
-              </svg>
-              <h3 class="text-sm font-semibold text-white mb-1">{h.title}</h3>
-              <p class="text-xs text-gray-400">{h.description}</p>
-            </div>
+        <div class="lg:col-span-7">
+          <div class="relative mx-auto max-w-2xl pt-[6%] pb-[16%] pl-[16%] sm:pl-[20%]">
+            <img
+              src="/images/battle-scorer/hero-ipad-scorer-sharp.webp"
+              alt="The Battle Scorer on iPad: tools down the side, both armies side by side, the score at the top and the Movement phase button at the bottom"
+              width="1500" height="1125"
+              fetchpriority="high"
+              class="w-full h-auto rounded-2xl border-[6px] border-gray-700 shadow-2xl shadow-black/60"
+            />
+            <img
+              src="/images/battle-scorer/hero-iphone-scorer.webp"
+              alt="The Battle Scorer on iPhone in round 5: the running score, a Destroyed group with the Skaven Chieftain and Clanrats, and the Movement phase button"
+              width="720" height="1564"
+              fetchpriority="high"
+              class="absolute left-0 bottom-0 w-[34%] sm:w-[31%] h-auto rounded-[1.6rem] sm:rounded-[2rem] border-[5px] sm:border-[6px] border-gray-700 shadow-2xl shadow-black/70"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREENS STRIP - more real captures, one line each -->
+    <section class="py-16 sm:py-20 bg-gray-50 dark:bg-gray-800">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-10 text-center">
+          From Your List to the Final Score
+        </h2>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+          {strip.map((shot) => (
+            <figure>
+              <img
+                src={shot.image}
+                alt={shot.alt}
+                width="600" height="1304"
+                loading="lazy"
+                class="w-full h-auto rounded-[1.4rem] border-4 border-gray-800 dark:border-gray-700 shadow-lg"
+              />
+              <figcaption class="mt-3 text-sm text-gray-600 dark:text-gray-400 text-center">{shot.caption}</figcaption>
+            </figure>
           ))}
         </div>
       </div>

@@ -1,0 +1,190 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import Testimonials from '../components/Testimonials.astro';
+import FeatureRows, { type FeatureSection } from '../components/FeatureRows.astro';
+import { APP_STORE_URL, PLAY_STORE_URL } from '../lib/store-links';
+
+const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com';
+
+const heroScreens = ['events', 'play', 'scorer', 'hub', 'lists', 'play'].map((n) => `/images/app/iphone-${n}.webp`);
+
+const highlights = [
+  { title: 'Play', description: 'Your events and games in one tab', icon: 'M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z' },
+  { title: 'Battle Builder', description: 'Build and check your lists', icon: 'M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z' },
+  { title: 'Events', description: 'Find, register, get your pairings', icon: 'M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5' },
+  { title: 'Battle Scorer', description: 'Score any game turn by turn', icon: 'M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z' },
+];
+
+// Every image is a real capture from the app.
+const sections: FeatureSection[] = [
+  {
+    pill: 'Play',
+    title: 'Everything You\'re Playing, in One Tab',
+    body: 'The Play tab is where your games live. Your events and their status are there, and the tile at the top takes you to your round on event day, or starts or resumes a Battle Scorer game any other time.',
+    points: [
+      ['Live and upcoming events', 'with your list and registration status'],
+      ['Score your round', 'straight from the top of the tab'],
+    ],
+    image: '/images/app/iphone-play.webp',
+    alt: 'The Play tab with a Score your round tile, and live events with check-in and list status',
+  },
+  {
+    pill: 'Events',
+    title: 'Find an Event and Sign Up',
+    body: 'Browse upcoming events in your region, see the format, rounds, points and spots left, and register from your phone.',
+    points: [
+      ['Everything on one page', 'details, attendees and rounds'],
+      ['Submit your list', 'from Battle Builder when the TO asks for it'],
+    ],
+    image: '/images/app/iphone-events.webp',
+    alt: 'An upcoming event with its date, venue, format, rounds, entry and points, and a Register button',
+  },
+  {
+    pill: 'Battle Hub',
+    title: 'The Battle Hub on Event Day',
+    body: 'Your pairing, table and opponent for each round, with the round timer running. Enter your result when you finish, or call the TO to your table if you need a ruling.',
+    points: [
+      ['Pairings pushed to your phone', 'as soon as the TO posts them'],
+      ['Results and the score breakdown', 'for every round'],
+    ],
+    image: '/images/app/iphone-hub.webp',
+    alt: 'The Battle Hub in round 3 with the round timer, the match result and the score breakdown',
+  },
+  {
+    pill: 'Battle Scorer',
+    title: 'Score Any Game Turn by Turn',
+    body: 'Pick your list and your opponent\'s, and the Battle Scorer runs the game with you: both armies, spells, the rules tables, and VP and objectives added up as you go.',
+    points: [
+      ['Any game', 'at the club, at home or at an event'],
+      ['At OWR events', 'the result goes straight to the TO'],
+    ],
+    image: '/images/app/iphone-scorer.webp',
+    alt: 'The Battle Scorer mid-game with both scores at the top and units marked with their VP',
+    link: { label: 'See what the Battle Scorer does', href: '/battle-scorer/' },
+  },
+  {
+    pill: 'Battle Builder',
+    title: 'Build Your Lists Anywhere',
+    body: 'Build army lists with every unit, option and magic item, checked as you go. Your lists are there on your phone, tablet and the web.',
+    points: [
+      ['Full unit profiles and special rules', 'right in the list'],
+      ['Points and limits checked', 'while you build'],
+    ],
+    image: '/images/app/ipad-builder.webp',
+    alt: 'Battle Builder on iPad with an army list, a unit profile, special rules and the points totals',
+    wide: true,
+  },
+  {
+    pill: 'Army Lists',
+    title: 'See What\'s Winning',
+    body: 'Browse the lists people took to events around the world, with their results, and open any of them to see exactly what was in it.',
+    points: [
+      ['Top lists by army', 'with the event and record'],
+      ['Ideas for your next list', 'from real results'],
+    ],
+    image: '/images/app/iphone-lists.webp',
+    alt: 'Top Army Lists with each list\'s army, player, event and record',
+  },
+  {
+    pill: 'Tablets',
+    title: 'Built for iPad and Android Tablets',
+    body: 'On a tablet the app uses the extra room, in landscape or portrait: two columns in Play, both armies side by side in the Battle Scorer, and your match beside the round controls in the Battle Hub.',
+    points: [
+      ['iPhone, iPad and Android', 'phones and tablets'],
+      ['And the web', 'everything works in your browser too'],
+    ],
+    image: '/images/app/ipad-play.webp',
+    alt: 'The Play tab on iPad with live events in two columns',
+    wide: true,
+  },
+];
+
+// From owr-marketing testimonials.json (q008, q027, q028); used_in records website:/app.
+const quotes = [
+  { quote: 'I think the app is awesome and ran smoothly. Loved getting the updates per round.', credit: 'Player, The Old World Cup' },
+  { quote: "I'd use it every tournament over the paper version.", credit: 'Player, OWR pairings alpha test' },
+  { quote: 'Also loved the email notifications and pairing details throughout the tournament. That is an awesome addition.', credit: 'Player, OWR pairings alpha test' },
+];
+---
+
+<Layout
+  title="The OWR App - Old World Rankings"
+  description="The Old World Rankings app for iPhone, iPad and Android: your events and pairings, the Battle Hub, the Battle Scorer, Battle Builder and army lists. Also on the web."
+  ogImage="/images/newsletter/oct-2026-video-poster.jpg"
+>
+  <Nav />
+
+  <main>
+    <!-- HERO - a tilted row of real app screens, faded and darkened behind the heading -->
+    <section class="relative pt-32 pb-20 sm:pt-40 sm:pb-28 overflow-hidden">
+      <div class="absolute inset-0 bg-gray-900 overflow-hidden" aria-hidden="true">
+        <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-12 flex gap-6 opacity-80">
+          {heroScreens.map((src) => (
+            <img src={src} alt="" class="w-48 sm:w-60 shrink-0 rounded-[2rem] border-4 border-gray-800" />
+          ))}
+        </div>
+        <div class="absolute inset-0 bg-gray-900/60"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-gray-900/60 via-gray-900/30 to-gray-900"></div>
+      </div>
+      <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-white text-sm font-medium mb-6">
+          The OWR App
+        </span>
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6 max-w-3xl mx-auto">
+          Old World Rankings on iPhone, iPad and Android
+        </h1>
+        <p class="text-lg text-gray-400 max-w-2xl mx-auto mb-10">
+          Your events, pairings and results, the Battle Scorer, Battle Builder and army lists, all in one app. Prefer a browser? It all works on the web too.
+        </p>
+        <div class="flex flex-wrap items-center justify-center gap-3 mb-6">
+          <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer"><img src="/images/store/app-store-badge.svg" alt="Download on the App Store" class="h-12 w-auto" /></a>
+          <a href={PLAY_STORE_URL} target="_blank" rel="noopener noreferrer"><img src="/images/store/google-play-badge.svg" alt="Get it on Google Play" class="h-12 w-auto" /></a>
+        </div>
+        <p class="text-sm text-gray-400 mb-16">
+          Or <a href={APP_URL} class="text-owr-gold hover:underline font-semibold">use it on the web</a>
+        </p>
+
+        <!-- Highlight cards -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto">
+          {highlights.map((h) => (
+            <div class="p-4 rounded-xl bg-white/5 border border-white/10 text-left">
+              <svg class="h-6 w-6 text-owr-gold mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d={h.icon} />
+              </svg>
+              <h3 class="text-sm font-semibold text-white mb-1">{h.title}</h3>
+              <p class="text-xs text-gray-400">{h.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <FeatureRows sections={sections} />
+
+    <Testimonials quotes={quotes} />
+
+    <!-- FINAL CTA - Dark bg, download links -->
+    <section id="download" class="relative py-20 sm:py-28 overflow-hidden scroll-mt-16">
+      <div class="absolute inset-0 bg-gray-900 border-t border-white/10">
+      </div>
+      <div class="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-6">
+          Get the App
+        </h2>
+        <p class="text-lg text-gray-400 mb-10 max-w-xl mx-auto">
+          On the App Store for iPhone and iPad, and on Google Play for Android phones and tablets.
+        </p>
+        <div class="flex flex-wrap items-center justify-center gap-3">
+          <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer"><img src="/images/store/app-store-badge.svg" alt="Download on the App Store" class="h-12 w-auto" /></a>
+          <a href={PLAY_STORE_URL} target="_blank" rel="noopener noreferrer"><img src="/images/store/google-play-badge.svg" alt="Get it on Google Play" class="h-12 w-auto" /></a>
+        </div>
+        <a href={APP_URL} class="inline-block mt-8 text-white/80 hover:text-owr-gold font-semibold underline underline-offset-4">Or use it on the web</a>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+
+</Layout>

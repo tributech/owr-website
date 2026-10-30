@@ -1,0 +1,235 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import Testimonials from '../components/Testimonials.astro';
+import FeatureRows from '../components/FeatureRows.astro';
+import { APP_STORE_URL, PLAY_STORE_URL } from '../lib/store-links';
+
+const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com';
+const startHref = `${APP_URL}/builder/games`;
+
+// From owr-marketing testimonials.json (q001 public version, q006, q016); used_in records website:/battle-scorer.
+const quotes = [
+  { quote: "Easily the best experience as a player for a hosting app. Don't see a point in ever using [the other app] again.", credit: 'Player, Square Based Open Toronto 2026' },
+  { quote: "You've created an awesome product, I hope it becomes standard for tournaments.", credit: 'Player, Legacies of War III' },
+  { quote: "The app was useful in that I could go to the table numbered, check I've got the right opponent, and introduce myself.", credit: "Player, The Dodgy Dealer's Gambit Part 1" },
+];
+
+const highlights = [
+  { title: 'Both Armies', description: 'Your list and theirs, turn by turn', icon: 'M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z' },
+  { title: 'Spells & Tables', description: 'Casting odds, miscasts and more', icon: 'M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z' },
+  { title: 'VP Added Up', description: 'Units and objectives, every turn', icon: 'M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008Zm0 2.25h.008v.008H8.25V13.5Zm0 2.25h.008v.008H8.25v-.008Zm0 2.25h.008v.008H8.25V18Zm2.498-6.75h.007v.008h-.007v-.008Zm0 2.25h.007v.008h-.007V13.5Zm0 2.25h.007v.008h-.007v-.008Zm0 2.25h.007v.008h-.007V18Zm2.504-6.75h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V13.5Zm0 2.25h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V18Zm2.498-6.75h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V13.5ZM8.25 6h7.5v2.25h-7.5V6ZM12 2.25c-1.892 0-3.758.11-5.593.322C5.307 2.7 4.5 3.65 4.5 4.757V19.5a2.25 2.25 0 0 0 2.25 2.25h10.5a2.25 2.25 0 0 0 2.25-2.25V4.757c0-1.108-.806-2.057-1.907-2.185A48.507 48.507 0 0 0 12 2.25Z' },
+  { title: 'Battle Report', description: 'The whole game, turn by turn', icon: 'M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z' },
+];
+
+const gameSteps = [
+  { number: '1', label: 'Pick lists' },
+  { number: '2', label: 'Pre-game' },
+  { number: '3', label: 'Play' },
+  { number: '4', label: 'Report' },
+];
+
+// Every image is a real capture from the app.
+const sections = [
+  {
+    pill: 'Turn by turn',
+    title: 'Both Armies, Turn by Turn',
+    body: "Both lists are there for the whole game. When a unit dies, flees or drops below half, tap Score and the Victory Points go to the right side straight away. On a phone you tap between your army and your opponent's, and the running score sits at the top.",
+    points: [
+      ['You are blue, they are orange', 'everywhere, so a score in the wrong column stands out'],
+      ['Every unit folded down', 'to what you need mid-game'],
+      ['End Turn has undo', 'for when you tap the wrong thing'],
+    ],
+    image: '/images/battle-scorer/both-armies.webp',
+    alt: 'The Battle Scorer in round 5: both scores at the top, and units marked dead with their Victory Points',
+  },
+  {
+    pill: 'Spells',
+    title: 'Your Spells, by Caster or by Phase',
+    body: "Every known spell for both sides, with its casting value, range and full text. Sort them by the wizard casting them, or by phase, so in the Shooting phase you're only looking at shooting spells.",
+    points: [
+      ['Your wizards and theirs', 'one tap apart'],
+      ['Spells sorted out in the pre-game', 'so they are ready on turn one'],
+    ],
+    image: '/images/battle-scorer/spells-by-phase.webp',
+    alt: 'The spells panel sorted by phase, showing Strategy, Shooting and Combat spells with casting value and range',
+  },
+  {
+    pill: 'Rules tables',
+    title: "The Tables You'd Dig Through a Book For",
+    body: "The rules you always end up looking for mid-game are a tap away, worked out for your units and your wizards.",
+    points: [
+      ['Casting odds', "each wizard's chance to cast every spell, and to miscast"],
+      ['Miscast and Gaze of the Gods', 'roll for you and show the result'],
+      ['Template hits', 'how many models a 3" or 5" blast catches'],
+      ['Break tests, to hit and to wound', 'without the maths'],
+    ],
+    image: '/images/battle-scorer/rules-tables.webp',
+    alt: 'The tools panel: to hit, to wound, break test, casting odds, template hits and the core tables including Miscast',
+  },
+  {
+    pill: 'Victory Points',
+    title: 'VP and Objectives Added Up for You',
+    body: 'Scenario and battle objectives score when they should: at the end of a round, after a player turn, or at the end of the game. The end-of-turn sheet walks you through each one before you move on, so nothing gets missed.',
+    points: [
+      ['Baggage trains, markers, The King is Dead', 'and the rest of the scenario objectives'],
+      ['Secret objectives', 'stay hidden until the end, then count'],
+    ],
+    image: '/images/battle-scorer/objectives.webp',
+    alt: 'Objectives for round 5 with Victory Points added for The King is Dead, Control the Christmas Tree and markers held',
+  },
+  {
+    pill: 'Battle report',
+    title: 'A Battle Report at the End',
+    body: "When the game's done you get every scoring line for both sides, then a battle report of the whole game, turn by turn. Take photos as you go and they're in there too.",
+    points: [
+      ['Every turn', 'with what scored and who scored it'],
+      ['Share it', "from your phone's share sheet"],
+    ],
+    image: '/images/battle-scorer/battle-report.webp',
+    alt: 'The battle report: a victory by 1525 VP, then round 1 with each turn and its scoring lines',
+  },
+  {
+    pill: 'iPad',
+    title: 'Two Columns on iPad',
+    body: 'On an iPad or Android tablet both armies sit side by side, with the tools and spells in a panel down the side. The pre-game, the end-of-turn sheet and the battle report all spread out to use the room.',
+    points: [
+      ['Both armies on one screen', 'no switching'],
+      ['Landscape or portrait', 'whichever way the tablet sits'],
+    ],
+    image: '/images/battle-scorer/ipad-two-column.webp',
+    alt: 'The Battle Scorer on iPad with the tools panel on the left and both armies side by side',
+    wide: true,
+  },
+  {
+    pill: 'At OWR events',
+    title: 'Straight to the TO at OWR Events',
+    body: "At an event run on OWR, open your round in the Battle Hub and play it in the Battle Scorer. The scenario and both lists come with it, and when you finish, the result and its full breakdown go straight to the TO.",
+    points: [
+      ['Nothing to type in again', 'the score is already there'],
+      ['The full breakdown', 'so the TO can see where every point came from'],
+    ],
+    image: '/images/battle-scorer/battle-hub.webp',
+    alt: 'The Battle Hub after the game: result in, with the score breakdown sent to the event',
+  },
+];
+---
+
+<Layout
+  title="Battle Scorer - Old World Rankings"
+  description="Score any game of The Old World turn by turn: both armies, spells, casting odds and the rules tables, Victory Points and objectives added up for you, and a battle report at the end. On the web, iPhone, iPad and Android."
+  ogImage="/images/newsletter/oct-2026-video-poster.jpg"
+>
+  <Nav />
+
+  <main>
+    <!-- HERO - a real iPad Battle Scorer capture, faded and darkened behind the heading -->
+    <section class="relative pt-32 pb-20 sm:pt-40 sm:pb-28 overflow-hidden">
+      <div class="absolute inset-0 bg-gray-900 overflow-hidden" aria-hidden="true">
+        <img src="/images/battle-scorer/hero-ipad-scorer.webp" alt="" class="absolute inset-0 w-full h-full object-cover object-top opacity-70 scale-110 -rotate-2" />
+        <div class="absolute inset-0 bg-gray-900/65"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-gray-900/60 via-gray-900/30 to-gray-900"></div>
+      </div>
+      <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-white text-sm font-medium mb-6">
+          The Battle Scorer
+        </span>
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6 max-w-3xl mx-auto">
+          Score Your Games of The Old World, Turn by Turn
+        </h1>
+        <p class="text-lg text-gray-400 max-w-2xl mx-auto mb-10">
+          Pick your list and your opponent's, and the Battle Scorer runs the game with you. Use it for any game: a Tuesday night at the club, a game at home, or a round at an event.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+          <a
+            href={startHref}
+            class="px-8 py-3 bg-owr-gold text-gray-900 font-semibold rounded-lg hover:bg-owr-gold-dark transition-colors text-center"
+          >
+            Start a Game
+          </a>
+          <a
+            href="#download"
+            class="px-8 py-3 border border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-colors text-center"
+          >
+            Get the App
+          </a>
+        </div>
+
+        <!-- Highlight cards -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto">
+          {highlights.map((h) => (
+            <div class="p-4 rounded-xl bg-white/5 border border-white/10 text-left">
+              <svg class="h-6 w-6 text-owr-gold mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d={h.icon} />
+              </svg>
+              <h3 class="text-sm font-semibold text-white mb-1">{h.title}</h3>
+              <p class="text-xs text-gray-400">{h.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- GAME PROGRESS BAR -->
+    <section class="py-16 sm:py-20 bg-white dark:bg-gray-900">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4">
+            From Deployment to the Final Score
+          </h2>
+          <p class="text-gray-500 dark:text-gray-400 max-w-xl mx-auto">
+            The pre-game walks you through it in order: rounds and the optional chess clock, the scenario and its deployment map, spells for both sides, and who goes first.
+          </p>
+        </div>
+
+        <div class="flex items-center justify-between max-w-xs sm:max-w-2xl mx-auto px-2 sm:px-0">
+          {gameSteps.map((step, i) => (
+            <div class="flex items-center flex-1 last:flex-none">
+              <div class="flex flex-col items-center">
+                <div class="w-10 h-10 rounded-full bg-owr-gold text-gray-900 font-bold text-sm flex items-center justify-center shrink-0">
+                  {step.number}
+                </div>
+                <span class="text-xs font-medium text-gray-600 dark:text-gray-400 mt-2 whitespace-nowrap">{step.label}</span>
+              </div>
+              {i < gameSteps.length - 1 && (
+                <div class="flex-1 h-0.5 bg-owr-gold/30 mx-2 sm:mx-4 mb-6 min-w-4"></div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <FeatureRows sections={sections} />
+
+    <Testimonials quotes={quotes} />
+
+    <!-- FINAL CTA - Dark bg, download links -->
+    <section id="download" class="relative py-20 sm:py-28 overflow-hidden scroll-mt-16">
+      <div class="absolute inset-0 bg-gray-900">
+      </div>
+      <div class="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-6">
+          Ready for Your Next Game?
+        </h2>
+        <p class="text-lg text-gray-400 mb-10 max-w-xl mx-auto">
+          The Battle Scorer is on the web, and in the OWR app on iPhone, iPad and Android.
+        </p>
+        <a
+          href={startHref}
+          class="inline-block px-10 py-4 bg-owr-gold text-gray-900 font-semibold rounded-lg hover:bg-owr-gold-dark transition-colors text-lg"
+        >
+          Start a Game on the Web
+        </a>
+        <div class="mt-8 flex items-center justify-center gap-3">
+          <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer"><img src="/images/store/app-store-badge.svg" alt="Download on the App Store" class="h-12 w-auto" /></a>
+          <a href={PLAY_STORE_URL} target="_blank" rel="noopener noreferrer"><img src="/images/store/google-play-badge.svg" alt="Get it on Google Play" class="h-12 w-auto" /></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+
+</Layout>

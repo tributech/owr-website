@@ -4,7 +4,7 @@ import {
   Sparkles, Hammer, Smartphone, CreditCard,
   Map, BookOpen, Newspaper, Mic, Mail,
   CircleHelp, Sun, Moon, Menu, X as CloseIcon,
-  ChevronDown, User, Settings, Info, CalendarHeart,
+  ChevronDown, User, Settings, Info, CalendarHeart, Swords,
 } from '@lucide/astro';
 
 interface Props {
@@ -28,19 +28,30 @@ const megaMenus = [
   {
     label: 'More',
     columns: 2,
-    items: [
-      { label: 'For Tournament Organisers', href: '/tournament-organisers', description: 'Run events with automated pairings, live boards and more', icon: Trophy },
-      { label: 'Features', href: '/#features', description: 'Everything OWR offers for players and tournament organisers', icon: Sparkles },
-      { label: 'Mobile App', href: '/#app', description: 'OWR in your pocket: pairings, notifications and scoring', icon: Smartphone },
-      { label: 'Latest Results', href: `${APP_URL}/latest`, description: 'Recent tournament results and standings from around the world', icon: CalendarDays },
-      { label: 'Pricing', href: '/pricing', description: 'Free for players forever, Pro plans for tournament organisers', icon: CreditCard },
-      { label: 'Insights', href: '/insights', description: 'Data-driven articles on the Old World meta', icon: Globe },
-      { label: 'Roadmap', href: '/roadmap', description: 'See what we\'re building next and vote on upcoming features', icon: Map },
-      { label: 'Help Centre', href: 'https://help.oldworldrankings.com', description: 'Guides and help articles to get the most out of OWR', icon: BookOpen, external: true },
-      { label: "What's New", href: `${APP_URL}/release-notes`, description: 'Latest updates, improvements and fixes to the platform', icon: Newspaper },
-      { label: 'Old World Fanatics', href: 'https://www.youtube.com/@OldWorldFanatics', description: 'Our podcast and livestream for all things Old World', icon: Mic, external: true },
-      { label: 'Support', href: '/support', description: 'Get in touch, we\'re here to help', icon: Mail },
-      { label: 'About', href: '/about', description: 'Who builds OWR and why', icon: Info },
+    // Product and new features first, then resources under a divider.
+    sections: [
+      {
+        items: [
+          { label: 'Battle Scorer', href: '/battle-scorer/', description: 'Score any game turn by turn, with VP added up for you', icon: Swords },
+          { label: 'Mobile App', href: '/app/', description: 'OWR on iPhone, iPad and Android: pairings, scoring and lists', icon: Smartphone },
+          { label: 'For Tournament Organisers', href: '/tournament-organisers/', description: 'Registrations, list checks, pairings and the Battle Board', icon: Trophy },
+          { label: 'Features', href: '/#features', description: 'Everything OWR offers for players and tournament organisers', icon: Sparkles },
+          { label: 'Pricing', href: '/pricing/', description: 'OWR Pro plans for players and tournament organisers', icon: CreditCard },
+        ],
+      },
+      {
+        label: 'Resources',
+        items: [
+          { label: 'Latest Results', href: `${APP_URL}/latest`, description: 'Recent tournament results and standings from around the world', icon: CalendarDays },
+          { label: 'Insights', href: '/insights/', description: 'Data-driven articles on the Old World meta', icon: Globe },
+          { label: "What's New", href: `${APP_URL}/release-notes`, description: 'Latest updates, improvements and fixes to the platform', icon: Newspaper },
+          { label: 'Roadmap', href: '/roadmap/', description: 'See what we\'re building next and vote on upcoming features', icon: Map },
+          { label: 'Help Centre', href: 'https://help.oldworldrankings.com', description: 'Guides and help articles to get the most out of OWR', icon: BookOpen, external: true },
+          { label: 'Old World Fanatics', href: 'https://www.youtube.com/@OldWorldFanatics', description: 'Our podcast and livestream for all things Old World', icon: Mic, external: true },
+          { label: 'Support', href: '/support/', description: 'Get in touch, we\'re here to help', icon: Mail },
+          { label: 'About', href: '/about/', description: 'Who builds OWR and why', icon: Info },
+        ],
+      },
     ],
   },
 ];
@@ -48,7 +59,7 @@ const megaMenus = [
 const directLinks = coreLinks;
 
 // Flat list for mobile menu
-const mobileLinks = [...coreLinks, ...megaMenus.flatMap(m => m.items.map(i => ({ label: i.label, href: i.href, action: i.action })))];
+const mobileLinks = [...coreLinks, ...megaMenus.flatMap(m => m.sections.flatMap(sec => sec.items.map(i => ({ label: i.label, href: i.href, action: i.action }))))];
 ---
 
 <header
@@ -123,10 +134,19 @@ const mobileLinks = [...coreLinks, ...megaMenus.flatMap(m => m.items.map(i => ({
                   ? 'bg-gray-900/95 border-white/10 backdrop-blur-xl'
                   : 'bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700',
               ]}>
+                {menu.sections.map((section, si) => (
+                <>
+                {si > 0 && (
+                  <div class:list={['mx-3 mt-2 mb-1 border-t pt-3', transparent ? 'border-white/10' : 'border-gray-200 dark:border-gray-700']}>
+                    {section.label && (
+                      <p class:list={['text-[11px] font-semibold uppercase tracking-wider', transparent ? 'text-white/40' : 'text-gray-400 dark:text-gray-500']}>{section.label}</p>
+                    )}
+                  </div>
+                )}
                 <div class:list={[
                   menu.columns === 2 ? 'grid grid-cols-2 gap-0.5' : '',
                 ]}>
-                  {menu.items.map((item) => {
+                  {section.items.map((item) => {
                     const Icon = item.icon;
                     return (
                     <a
@@ -170,6 +190,8 @@ const mobileLinks = [...coreLinks, ...megaMenus.flatMap(m => m.items.map(i => ({
                     );
                   })}
                 </div>
+                </>
+                ))}
               </div>
             </div>
           </div>
@@ -326,12 +348,22 @@ const mobileLinks = [...coreLinks, ...megaMenus.flatMap(m => m.items.map(i => ({
           ]}>
             {menu.label}
           </p>
-          {menu.items.map((item) => {
+          {menu.sections.map((section, si) => (
+          <>
+          {si > 0 && (
+            <div class:list={['mx-3 mt-2 mb-1 border-t pt-2', transparent ? 'border-white/10' : 'border-gray-200 dark:border-gray-700']}>
+              {section.label && (
+                <p class:list={['text-xs font-semibold uppercase tracking-wider', transparent ? 'text-white/40' : 'text-gray-400 dark:text-gray-500']}>{section.label}</p>
+              )}
+            </div>
+          )}
+          {section.items.map((item) => {
             const Icon = item.icon;
             return (
             <a
               href={item.href}
               {...((item as any).action ? { 'data-action': (item as any).action } : {})}
+              {...((item as any).external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
               class:list={[
                 'flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors',
                 transparent
@@ -349,6 +381,8 @@ const mobileLinks = [...coreLinks, ...megaMenus.flatMap(m => m.items.map(i => ({
             </a>
             );
           })}
+          </>
+          ))}
         </div>
       ))}
 

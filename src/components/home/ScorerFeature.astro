@@ -1,12 +1,18 @@
 ---
 // Temporary Battle Scorer launch takeover: replaces the top of the home page,
 // with looping device clips. The usual hero follows it.
-import { ArrowRight, ChevronDown, Hammer, CalendarArrowUp, Landmark, Trophy, MapPin } from '@lucide/astro';
+import { ArrowRight, ChevronDown, Hammer, CalendarArrowUp, Landmark, Trophy, MapPin, Play, X } from '@lucide/astro';
 import { APP_STORE_URL, PLAY_STORE_URL } from '../../lib/store-links';
+import { youtubeId } from '../../lib/youtube';
 
 const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com';
 const startHref = `${APP_URL}/builder/games`;
 const moreHref = '/battle-scorer/';
+
+// The Battle Scorer promo on YouTube, played with sound in a lightbox. Leave
+// empty and the "Watch the video" button is not rendered.
+const VIDEO_URL = 'https://youtu.be/7tAwrBRUemg';
+const videoId = youtubeId(VIDEO_URL);
 
 // Quick routes out of the takeover for people who came for the usual home page.
 const jumps = [
@@ -38,7 +44,7 @@ const points = [
       </span>
       <h2 class="mt-4 text-5xl sm:text-6xl xl:text-7xl font-extrabold tracking-tight leading-[0.95]">The Battle Scorer</h2>
       <p class="mt-4 text-xl sm:text-2xl font-bold text-owr-gold">Playing The Old World will never be the same.</p>
-      <p class="mt-4 text-base sm:text-lg text-white/70 max-w-xl">Score any game on your phone, tablet or the web. A pick-up game at your club, practice at home, or a round at an event.</p>
+      <p class="mt-4 text-base sm:text-lg text-white/70 max-w-xl">Score any game on your phone, tablet or the web. A pick-up game at your club, practice at home, or a round at an event. <a href={moreHref} class="font-semibold text-white/90 hover:text-owr-gold underline underline-offset-4">Learn more</a></p>
       <ul class="hidden sm:block mt-6 space-y-2.5">
         {points.map((p) => (
           <li class="flex gap-3 text-white/90"><span class="mt-2 size-1.5 shrink-0 rotate-45 bg-owr-gold"></span>{p}</li>
@@ -46,7 +52,12 @@ const points = [
       </ul>
       <div class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
         <a href={startHref} class="h-12 flex items-center gap-2 px-6 rounded-lg bg-owr-gold hover:bg-owr-gold-dark text-gray-900 font-extrabold text-lg shadow-[0_0_30px_-6px_rgba(255,215,0,0.6)] transition-colors">Start a game <ArrowRight size={18} strokeWidth={2.5} /></a>
-        <a href={moreHref} class="font-semibold text-white/80 hover:text-owr-gold underline underline-offset-4">Learn more</a>
+        {videoId && (
+          <a id="scorer-watch" href={`https://www.youtube.com/watch?v=${videoId}`} data-video-id={videoId} target="_blank" rel="noopener noreferrer" class="group flex items-center gap-2.5 font-semibold text-white hover:text-owr-gold transition-colors">
+            <span class="size-10 flex items-center justify-center rounded-full border-2 border-white/70 group-hover:border-owr-gold transition-colors"><Play size={16} strokeWidth={2.5} class="ml-0.5 fill-current" /></span>
+            Watch the video
+          </a>
+        )}
       </div>
       <div id="app" class="mt-7 flex items-center gap-3 scroll-mt-24">
         <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer"><img src="/images/store/app-store-badge.svg" alt="Download on the App Store" class="h-10 w-auto" /></a>
@@ -81,6 +92,42 @@ const points = [
     </div>
   </div>
 </section>
+
+{videoId && (
+  <dialog id="scorer-video" aria-label="Battle Scorer video" class="m-auto w-[min(92vw,1100px)] max-w-none bg-transparent p-0 backdrop:bg-black/85 backdrop:backdrop-blur-sm">
+    <div class="flex justify-end mb-2">
+      <button type="button" data-close class="size-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white" aria-label="Close video"><X size={22} strokeWidth={2.5} /></button>
+    </div>
+    <div data-frame class="aspect-video w-full overflow-hidden rounded-xl bg-black shadow-[0_30px_80px_rgba(0,0,0,0.8)]"></div>
+  </dialog>
+)}
+
+<script>
+  // "Watch the video" opens the YouTube promo with sound in a lightbox. The
+  // iframe is only created on open and removed on close, so nothing loads from
+  // YouTube until someone asks for it, and closing stops playback. Without JS
+  // the button is a plain link to YouTube.
+  const watch = document.getElementById('scorer-watch') as HTMLAnchorElement | null;
+  const dialog = document.getElementById('scorer-video') as HTMLDialogElement | null;
+  const frame = dialog?.querySelector<HTMLElement>('[data-frame]');
+  if (watch && dialog && frame && typeof dialog.showModal === 'function') {
+    watch.addEventListener('click', (e) => {
+      e.preventDefault();
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube-nocookie.com/embed/${watch.dataset.videoId}?autoplay=1&rel=0&playsinline=1`;
+      iframe.title = 'Battle Scorer video';
+      iframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+      iframe.allowFullscreen = true;
+      iframe.className = 'w-full h-full';
+      frame.replaceChildren(iframe);
+      dialog.showModal();
+    });
+    dialog.querySelector('[data-close]')?.addEventListener('click', () => dialog.close());
+    // A click on the backdrop lands on the dialog itself.
+    dialog.addEventListener('click', (e) => { if (e.target === dialog) dialog.close(); });
+    dialog.addEventListener('close', () => frame.replaceChildren());
+  }
+</script>
 
 <script>
   // Hold the device clips on their first frame for anyone who prefers less motion.

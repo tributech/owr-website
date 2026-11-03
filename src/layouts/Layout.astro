@@ -1,6 +1,7 @@
 ---
 import CookieConsent from '../components/CookieConsent.astro';
 import BansheeWidget from '../components/BansheeWidget.astro';
+import { BLACK_FRIDAY } from '../lib/promo';
 
 interface Props {
   title: string;
@@ -36,6 +37,20 @@ const ogImageUrl = ogImagePath.startsWith('http')
         document.documentElement.classList.add(theme);
       })();
     </script>
+    <script is:inline define:vars={{ promo: BLACK_FRIDAY }}>
+      (function() {
+        var forced = new URLSearchParams(location.search).get('promo');
+        var now = new Date();
+        var live = now >= new Date(promo.start + 'T00:00:00') && now < new Date(promo.end + 'T00:00:00');
+        if (forced === 'bf' || (live && forced !== 'off')) document.documentElement.dataset.promo = 'bf';
+        try { if (localStorage.getItem('owr-bf-closed')) document.documentElement.dataset.bfClosed = ''; } catch (e) {}
+        document.addEventListener('click', function(e) {
+          if (!e.target.closest || !e.target.closest('[data-bf-close]')) return;
+          try { localStorage.setItem('owr-bf-closed', '1'); } catch (err) {}
+          document.documentElement.dataset.bfClosed = '';
+        });
+      })();
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
     <meta name="description" content={description} />
@@ -66,7 +81,7 @@ const ogImageUrl = ogImagePath.startsWith('http')
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Permanent+Marker&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Permanent+Marker&display=swap"
       rel="stylesheet"
     />
 

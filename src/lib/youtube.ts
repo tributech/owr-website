@@ -1,3 +1,5 @@
+export const SCORER_VIDEO_URL = 'https://youtu.be/7tAwrBRUemg';
+
 // Pull an 11-character YouTube video id out of any of the usual URL shapes,
 // or accept a bare id. Returns null when nothing usable is found.
 export function youtubeId(input?: string | null): string | null {

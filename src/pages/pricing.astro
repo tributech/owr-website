@@ -42,9 +42,22 @@ const proFeatures = [
   title="Pricing - Old World Rankings"
   description="Everything you need to compete. Upgrade to Pro to unlock the full experience."
 >
-  <Nav />
+  <Nav promoStrip={false} />
 
-  <main class="pt-24 pb-16">
+  <main class="pt-16 pb-16">
+    <div data-promo-only>
+      <div class="relative bg-owr-gold text-black overflow-hidden">
+        <div class="absolute inset-0 bg-[repeating-linear-gradient(-45deg,rgba(0,0,0,0.07)_0_16px,transparent_16px_32px)]" aria-hidden="true"></div>
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 flex flex-col md:flex-row md:items-center gap-3 md:gap-8">
+          <p class="text-6xl sm:text-7xl font-black uppercase leading-[0.85] tracking-tighter">Black Friday</p>
+          <div class="md:border-l-4 md:border-black md:pl-8">
+            <p class="text-2xl sm:text-4xl font-black uppercase leading-none">6 months free</p>
+            <p class="mt-2 text-base sm:text-lg font-bold">on Pro yearly. Our new yearly price, launching this Black Friday (all month).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pt-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Header -->
       <div class="text-center mb-16">
@@ -61,7 +74,7 @@ const proFeatures = [
             Monthly
           </button>
           <button type="button" data-interval="yearly" class="px-5 py-2 text-sm font-medium rounded-full transition-colors bg-gray-900 text-white dark:bg-white dark:text-gray-900">
-            Yearly <span class="text-[10px] px-1.5 py-0.5 rounded-full bg-green-100 text-green-800 font-semibold ml-1">Save ~17%</span>
+            Yearly <span class="text-[10px] px-1.5 py-0.5 rounded-full bg-green-100 text-green-800 font-semibold ml-1">Save 50%</span>
           </button>
         </div>
       </div>
@@ -98,15 +111,15 @@ const proFeatures = [
         <div class="p-8 rounded-2xl border-2 border-owr-gold bg-white dark:bg-gray-800 relative flex flex-col">
           <div class="absolute -top-3 left-1/2 -translate-x-1/2">
             <span class="px-4 py-1 rounded-full bg-owr-gold text-gray-900 text-sm font-semibold">
-              RECOMMENDED
+              <span data-promo-hide>RECOMMENDED</span><span data-promo-only>BLACK FRIDAY</span>
             </span>
           </div>
           <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Pro</h2>
           <p class="text-gray-500 dark:text-gray-400 mb-6">For organizers &amp; power users</p>
           <p class="text-4xl font-bold text-gray-900 dark:text-white mb-1">
-            <span data-pro-price>$5.83</span><span class="text-lg font-normal text-gray-500 dark:text-gray-400" data-pro-suffix> USD/month</span>
+            <span data-pro-price>$3.50</span><span class="text-lg font-normal text-gray-500 dark:text-gray-400" data-pro-suffix> USD/month</span>
           </p>
-          <p class="text-xs text-gray-400 dark:text-gray-500 mb-6" data-billing-note>Billed yearly (2 months free). <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-green-100 text-green-800 text-[10px] font-medium">Introductory pricing</span></p>
+          <p class="text-xs text-gray-400 dark:text-gray-500 mb-6" data-billing-note><span data-note-text>Billed yearly (6 months free).</span><span data-promo-only><span data-was-wrap> <s data-was></s></span></span></p>
           <ul class="space-y-4 flex-grow">
             {proFeatures.map((f) => (
               <li class:list={["flex items-center gap-3", f.isNew ? "text-gray-900 dark:text-white font-semibold" : "text-gray-700 dark:text-gray-300"]}>
@@ -135,12 +148,13 @@ const proFeatures = [
       </div>
 
     </div>
+    </div>
   </main>
 
   <Footer />
 
   <script>
-    import { detectCurrency, priceForCurrency, type BillingInterval } from '../lib/pricing';
+    import { detectCurrency, priceForCurrency, yearTotals, type BillingInterval } from '../lib/pricing';
 
     let currentInterval: BillingInterval = 'yearly';
 
@@ -157,10 +171,11 @@ const proFeatures = [
       if (suffixEl) suffixEl.textContent = ` ${price.suffix}`;
       if (freeSuffixEl) freeSuffixEl.textContent = ` ${price.suffix}`;
       if (billingNote) {
-        const noteText = currentInterval === 'yearly'
-          ? 'Billed yearly (2 months free).'
-          : 'Billed monthly.';
-        billingNote.innerHTML = `${noteText} <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-green-100 text-green-800 text-[10px] font-medium">Introductory pricing</span>`;
+        const yearly = currentInterval === 'yearly';
+        const totals = yearTotals(currency);
+        billingNote.querySelector('[data-note-text]')?.replaceChildren(yearly ? `Billed yearly at ${totals.total} (6 months free).` : 'Billed monthly.');
+        billingNote.querySelector('[data-was]')?.replaceChildren(`Was ${totals.was}`);
+        billingNote.querySelector<HTMLElement>('[data-was-wrap]')?.toggleAttribute('hidden', !yearly);
       }
     }
 

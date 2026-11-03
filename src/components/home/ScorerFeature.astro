@@ -3,16 +3,13 @@
 // with looping device clips. The usual hero follows it.
 import { ArrowRight, ChevronDown, Hammer, CalendarArrowUp, Landmark, Trophy, MapPin, Play, X } from '@lucide/astro';
 import { APP_STORE_URL, PLAY_STORE_URL } from '../../lib/store-links';
-import { youtubeId } from '../../lib/youtube';
+import { SCORER_VIDEO_URL, youtubeId } from '../../lib/youtube';
 
 const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com';
 const startHref = `${APP_URL}/builder/games`;
 const moreHref = '/battle-scorer/';
 
-// The Battle Scorer promo on YouTube, played with sound in a lightbox. Leave
-// empty and the "Watch the video" button is not rendered.
-const VIDEO_URL = 'https://youtu.be/7tAwrBRUemg';
-const videoId = youtubeId(VIDEO_URL);
+const videoId = youtubeId(SCORER_VIDEO_URL);
 
 // Quick routes out of the takeover for people who came for the usual home page.
 const jumps = [
@@ -53,7 +50,7 @@ const points = [
       <div class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
         <a href={startHref} class="h-12 flex items-center gap-2 px-6 rounded-lg bg-owr-gold hover:bg-owr-gold-dark text-gray-900 font-extrabold text-lg shadow-[0_0_30px_-6px_rgba(255,215,0,0.6)] transition-colors">Start a game <ArrowRight size={18} strokeWidth={2.5} /></a>
         {videoId && (
-          <a id="scorer-watch" href={`https://www.youtube.com/watch?v=${videoId}`} data-video-id={videoId} target="_blank" rel="noopener noreferrer" class="group flex items-center gap-2.5 font-semibold text-white hover:text-owr-gold transition-colors">
+          <a data-scorer-watch href={`https://www.youtube.com/watch?v=${videoId}`} data-video-id={videoId} target="_blank" rel="noopener noreferrer" class="group flex items-center gap-2.5 font-semibold text-white hover:text-owr-gold transition-colors">
             <span class="size-10 flex items-center justify-center rounded-full border-2 border-white/70 group-hover:border-owr-gold transition-colors"><Play size={16} strokeWidth={2.5} class="ml-0.5 fill-current" /></span>
             Watch the video
           </a>
@@ -107,11 +104,12 @@ const points = [
   // iframe is only created on open and removed on close, so nothing loads from
   // YouTube until someone asks for it, and closing stops playback. Without JS
   // the button is a plain link to YouTube.
-  const watch = document.getElementById('scorer-watch') as HTMLAnchorElement | null;
   const dialog = document.getElementById('scorer-video') as HTMLDialogElement | null;
   const frame = dialog?.querySelector<HTMLElement>('[data-frame]');
-  if (watch && dialog && frame && typeof dialog.showModal === 'function') {
-    watch.addEventListener('click', (e) => {
+  if (dialog && frame && typeof dialog.showModal === 'function') {
+    // Out of any hidden takeover wrapper, so both takeovers can open it.
+    document.body.append(dialog);
+    document.querySelectorAll<HTMLAnchorElement>('[data-scorer-watch]').forEach((watch) => watch.addEventListener('click', (e) => {
       e.preventDefault();
       const iframe = document.createElement('iframe');
       iframe.src = `https://www.youtube-nocookie.com/embed/${watch.dataset.videoId}?autoplay=1&rel=0&playsinline=1`;
@@ -121,7 +119,7 @@ const points = [
       iframe.className = 'w-full h-full';
       frame.replaceChildren(iframe);
       dialog.showModal();
-    });
+    }));
     dialog.querySelector('[data-close]')?.addEventListener('click', () => dialog.close());
     // A click on the backdrop lands on the dialog itself.
     dialog.addEventListener('click', (e) => { if (e.target === dialog) dialog.close(); });

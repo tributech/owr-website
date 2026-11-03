@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import HomeHero from '../components/home/HomeHero.astro';
 import ScorerFeature from '../components/home/ScorerFeature.astro';
+import BlackFridayTakeover from '../components/home/BlackFridayTakeover.astro';
 import TopPlayersInsight from '../components/home/TopPlayersInsight.astro';
 import FeaturedArmies from '../components/home/FeaturedArmies.astro';
 import HostingBand from '../components/home/HostingBand.astro';
@@ -12,9 +13,10 @@ import Footer from '../components/Footer.astro';
 ---
 
 <Layout title="Old World Rankings - The Complete Companion to The Old World">
-  <Nav transparent={true} />
+  <Nav transparent={true} promoStrip={false} />
   <main class="bg-gray-50 dark:bg-gray-900 pb-16 sm:pb-20">
-    <ScorerFeature />
+    <div data-promo-only data-bf-takeover><BlackFridayTakeover /></div>
+    <div data-promo-hide data-bf-fallback><ScorerFeature /></div>
     <HomeHero belowTakeover />
     <TopPlayersInsight />
     <FeaturedArmies />

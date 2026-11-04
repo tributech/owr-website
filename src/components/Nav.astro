@@ -9,8 +9,9 @@ import {
 
 interface Props {
   transparent?: boolean;
+  promoStrip?: boolean;
 }
-const { transparent = false } = Astro.props;
+const { transparent = false, promoStrip = true } = Astro.props;
 
 const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com';
 
@@ -70,6 +71,20 @@ const mobileLinks = [...coreLinks, ...megaMenus.flatMap(m => m.sections.flatMap(
       : 'bg-white/80 border-gray-200 dark:bg-gray-900/80 dark:border-gray-700',
   ]}
 >
+  {promoStrip && (
+    <div data-promo-only data-promo-strip>
+      <div class="relative">
+        <a href="/pricing/" class="h-12 flex items-center justify-center gap-3 px-12 bg-owr-gold hover:bg-owr-gold-dark text-gray-900 text-sm sm:text-base transition-colors">
+          <span class="shrink-0 rounded bg-black text-owr-gold px-2 py-0.5 font-black uppercase tracking-wide">Black Friday</span>
+          <span class="font-extrabold uppercase truncate"><span class="hidden sm:inline">Pro yearly: </span>6 months free</span>
+          <span class="font-extrabold underline underline-offset-4 shrink-0">See pricing</span>
+        </a>
+        <button type="button" data-bf-close aria-label="Hide the Black Friday offer" class="absolute right-1 top-1/2 -translate-y-1/2 size-10 flex items-center justify-center rounded-full text-gray-900 hover:bg-black/10 cursor-pointer transition-colors">
+          <CloseIcon size={20} strokeWidth={2.5} />
+        </button>
+      </div>
+    </div>
+  )}
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between gap-6 h-16">
       <!-- Logo -->

@@ -99,3 +99,12 @@ body {
 .callout .callout-content p:last-child {
   margin-bottom: 0;
 }
+
+/* Promo pieces: the head script in Layout.astro sets html[data-promo] inside the window. */
+[data-promo-only] { display: none; }
+html[data-promo='bf'] [data-promo-only] { display: contents; }
+html[data-promo='bf'] [data-promo-hide] { display: none; }
+html[data-promo='bf'][data-bf-closed] [data-bf-takeover] { display: none; }
+html[data-promo='bf'][data-bf-closed] [data-bf-fallback] { display: contents; }
+html[data-promo='bf'][data-bf-closed] [data-promo-strip] { display: none; }
+html[data-promo='bf']:not([data-bf-closed]) body:has([data-promo-strip]) { padding-top: 3rem; }

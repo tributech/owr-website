@@ -10,18 +10,20 @@ interface PriceEntry {
   symbol: string;
   monthly: string;
   yearly: string;
+  yearTotal: string;
+  wasYearTotal: string;
   currency: string;
 }
 
 const PRICES: Record<string, PriceEntry> = {
-  USD: { symbol: '$', monthly: '6.99', yearly: '5.83', currency: 'USD' },
-  AUD: { symbol: 'A$', monthly: '9.99', yearly: '8.33', currency: 'AUD' },
-  EUR: { symbol: '€', monthly: '5.99', yearly: '4.99', currency: 'EUR' },
-  GBP: { symbol: '£', monthly: '5.49', yearly: '4.58', currency: 'GBP' },
-  NZD: { symbol: 'NZ$', monthly: '11.99', yearly: '9.99', currency: 'NZD' },
-  SGD: { symbol: 'S$', monthly: '8.99', yearly: '7.49', currency: 'SGD' },
-  CAD: { symbol: 'C$', monthly: '9.99', yearly: '8.33', currency: 'CAD' },
-  JPY: { symbol: '¥', monthly: '1100', yearly: '917', currency: 'JPY' },
+  USD: { symbol: '$', monthly: '6.99', yearly: '3.50', yearTotal: '41.99', wasYearTotal: '70.00', currency: 'USD' },
+  AUD: { symbol: 'A$', monthly: '9.99', yearly: '5.00', yearTotal: '59.99', wasYearTotal: '99.90', currency: 'AUD' },
+  EUR: { symbol: '€', monthly: '5.99', yearly: '3.00', yearTotal: '35.99', wasYearTotal: '59.90', currency: 'EUR' },
+  GBP: { symbol: '£', monthly: '5.49', yearly: '2.75', yearTotal: '32.99', wasYearTotal: '54.90', currency: 'GBP' },
+  NZD: { symbol: 'NZ$', monthly: '11.99', yearly: '6.00', yearTotal: '71.99', wasYearTotal: '119.90', currency: 'NZD' },
+  SGD: { symbol: 'S$', monthly: '8.99', yearly: '4.50', yearTotal: '53.99', wasYearTotal: '89.90', currency: 'SGD' },
+  CAD: { symbol: 'C$', monthly: '9.99', yearly: '5.00', yearTotal: '59.99', wasYearTotal: '99.90', currency: 'CAD' },
+  JPY: { symbol: '¥', monthly: '1100', yearly: '550', yearTotal: '6,600', wasYearTotal: '11,000', currency: 'JPY' },
 };
 
 const DEFAULT_CURRENCY = 'USD';
@@ -61,6 +63,17 @@ const TZ_TO_CURRENCY: Record<string, string> = {
   'Europe/Ljubljana': 'EUR', 'Europe/Malta': 'EUR', 'Europe/Nicosia': 'EUR',
   'Europe/Luxembourg': 'EUR', 'Europe/Zagreb': 'EUR',
 };
+
+export function yearTotals(currency: string): { total: string; was: string; monthlyForYear: string } {
+  const entry = PRICES[currency] || PRICES[DEFAULT_CURRENCY];
+  const decimals = entry.currency === 'JPY' ? 0 : 2;
+  const monthlyForYear = (Number(entry.monthly) * 12).toLocaleString('en', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+  return {
+    total: `${entry.symbol}${entry.yearTotal}`,
+    was: `${entry.symbol}${entry.wasYearTotal}`,
+    monthlyForYear: `${entry.symbol}${monthlyForYear}`,
+  };
+}
 
 export function priceForCurrency(currency: string, interval: BillingInterval = 'monthly'): PriceInfo {
   const entry = PRICES[currency] || PRICES[DEFAULT_CURRENCY];

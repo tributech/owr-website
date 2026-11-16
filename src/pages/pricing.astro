@@ -23,18 +23,18 @@ const freeFeatures: Feature[] = [
 const proFeatures: Feature[] = [
   { label: 'Everything in Free' },
   { label: 'Cloud Sync & Unit Library', note: 'Your lists, games and saved units on every device', href: `${APP_URL}/builder`, isHot: true },
-  { label: 'Battle Scorer Game History', note: 'Keep every game you score, not just the one in play', href: '/battle-scorer/', isNew: true },
-  { label: 'Game Notes & Photos', note: 'Notes, photos and voice notes during a game', href: '/battle-scorer/', isNew: true },
-  { label: 'Who Has It?', note: 'Find every unit in your list that has a given item or rule', href: `${APP_URL}/builder`, isNew: true },
+  { label: 'Battle Scorer Game History', note: 'Keep every game you score, not just the one in play', href: '/battle-scorer/', isHot: true },
+  { label: 'Game Notes & Photos', note: 'Notes, photos and voice notes during a game', href: '/battle-scorer/', isHot: true },
+  { label: 'Who Has It?', note: 'Find every unit in your list that has a given item or rule', href: `${APP_URL}/builder`, isHot: true },
   { label: 'Unlimited Army List Glossary', note: 'Look up terms on every army list, as often as you like', isNew: true },
   { label: 'List Branching', note: 'Try changes side by side, then keep the version you want', href: `${APP_URL}/builder`, isNew: true },
   { label: 'Matchup Ratings', note: 'Mark each list as a good, even or bad matchup', href: `${APP_URL}/builder`, isNew: true },
   { label: 'Digital Lists', note: 'Open any OWR army list in the Battle Builder', isNew: true },
-  { label: 'Early Army List Access', note: 'See event lists before the event finishes', isHot: true },
+  { label: 'Early Army List Access', note: 'See event lists before the event finishes' },
   { label: 'Advanced Army Filters', note: 'Filter army lists by more than faction' },
   { label: 'Notifications', note: 'Follows, alerts and the weekly meta' },
   { label: 'Ad-Free', note: 'No ads anywhere on OWR' },
-  { label: 'Tournament Pack AI Assist', note: 'Set up your event from its pack', href: '/tournament-organisers/', isHot: true },
+  { label: 'Tournament Pack AI Assist', note: 'Set up your event from its pack', href: '/tournament-organisers/' },
   { label: 'Comp Builder', note: 'Build and import comp packs for your events', href: '/tournament-organisers/' },
   { label: 'Live Round Draw', note: 'Reveal round 1 pairings live on the Battle Board', href: '/tournament-organisers/' },
   { label: 'Email Communication', note: 'Email attendees and request list resubmissions', href: '/tournament-organisers/' },
@@ -144,7 +144,7 @@ const proFeatures: Feature[] = [
                   {f.note && <span class="block text-xs font-normal text-gray-500 dark:text-gray-400">{f.note}</span>}
                 </span>
                 {f.isNew && <span class="text-[10px] px-1.5 py-0.5 rounded-full bg-owr-gold text-gray-900 font-semibold">NEW</span>}
-                {f.isHot && <span class="text-[10px] px-1.5 py-0.5 rounded-full bg-owr-gold text-gray-900 font-semibold">HOT</span>}
+                {f.isHot && <span class="text-[10px] px-1.5 py-0.5 rounded-full bg-owr-gold text-gray-900 font-semibold">🔥 HOT</span>}
               </li>
             ))}
             <li class="flex items-center gap-3 text-gray-700 dark:text-gray-300 pt-3 border-t border-gray-200 dark:border-gray-700">

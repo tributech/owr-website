@@ -5,43 +5,46 @@ import Footer from '../components/Footer.astro';
 
 const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com';
 
-const freeFeatures = [
-  { label: 'Tournament hosting', isNew: true },
-  { label: 'Battle Builder & Battle Scorer', isNew: true },
-  { label: 'View rankings & stats' },
-  { label: 'Browse army lists' },
-  { label: 'Register for tournaments' },
-  { label: 'Play in tournaments' },
-  { label: 'Faction statistics' },
-  { label: 'Faction leaderboards' },
+type Feature = { label: string; note?: string; href?: string; isNew?: boolean; isHot?: boolean };
+
+const freeFeatures: Feature[] = [
+  { label: 'Battle Scorer', note: 'Score both armies turn by turn, one saved game at a time', href: '/battle-scorer/', isNew: true },
+  { label: 'Battle Builder', note: 'Build, check and submit your army lists', href: `${APP_URL}/builder`, isNew: true },
+  { label: 'Tournament hosting', note: 'Registrations, list checks, pairings and results', href: '/tournament-organisers/', isNew: true },
+  { label: 'Army List Glossary', note: 'Look up terms on 5 army lists a week' },
+  { label: 'Rankings & stats', note: 'Global and regional rankings for every player' },
+  { label: 'Browse army lists', note: 'Lists from past events once they are published' },
+  { label: 'Register for tournaments', note: 'Find events and sign up on OWR' },
+  { label: 'Play in tournaments', note: 'Pairings and results in the Battle Hub on the day' },
+  { label: 'Faction statistics', note: 'Win rates and trends for every faction' },
+  { label: 'Faction leaderboards', note: 'The top players for each faction' },
   { label: 'Community features' },
 ];
 
-const proFeatures: { label: string; note?: string; isNew?: boolean; isHot?: boolean }[] = [
+const proFeatures: Feature[] = [
   { label: 'Everything in Free' },
-  { label: 'Cloud Sync & Unit Library', isHot: true },
-  { label: 'Battle Hub Scorer', isHot: true },
-  { label: 'Battle Scorer Game History', isNew: true },
-  { label: 'Game Notes & Photos', isNew: true },
-  { label: 'Who Has It?', note: 'Find every unit in your list that has a given item or rule', isNew: true },
-  { label: 'Army List Glossary', isNew: true },
-  { label: 'List Branching', isNew: true },
-  { label: 'Matchup Ratings', isNew: true },
-  { label: 'Digital Lists', isNew: true },
-  { label: 'Early Army List Access', isHot: true },
-  { label: 'Advanced Army Filters' },
-  { label: 'Notifications' },
-  { label: 'Ad-Free' },
-  { label: 'Tournament Pack AI Assist', isHot: true },
-  { label: 'Comp Builder' },
-  { label: 'Live Round Draw' },
-  { label: 'Email Communication' },
-  { label: 'Bulk Army List Download' },
-  { label: 'Private Tournaments' },
-  { label: 'Presale Dates' },
-  { label: 'Advanced Stats' },
-  { label: 'Profile Customization' },
-  { label: 'Priority Support' },
+  { label: 'Cloud Sync & Unit Library', note: 'Your lists, games and saved units on every device', href: `${APP_URL}/builder`, isHot: true },
+  { label: 'Battle Scorer Game History', note: 'Keep every game you score, not just the one in play', href: '/battle-scorer/', isNew: true },
+  { label: 'Game Notes & Photos', note: 'Notes, photos and voice notes during a game', href: '/battle-scorer/', isNew: true },
+  { label: 'Who Has It?', note: 'Find every unit in your list that has a given item or rule', href: `${APP_URL}/builder`, isNew: true },
+  { label: 'Unlimited Army List Glossary', note: 'Look up terms on every army list, as often as you like', isNew: true },
+  { label: 'List Branching', note: 'Try changes side by side, then keep the version you want', href: `${APP_URL}/builder`, isNew: true },
+  { label: 'Matchup Ratings', note: 'Mark each list as a good, even or bad matchup', href: `${APP_URL}/builder`, isNew: true },
+  { label: 'Digital Lists', note: 'Open any OWR army list in the Battle Builder, points and options broken down', isNew: true },
+  { label: 'Early Army List Access', note: 'See event lists before the event finishes', isHot: true },
+  { label: 'Advanced Army Filters', note: 'Filter army lists by more than faction' },
+  { label: 'Notifications', note: 'Follows, alerts and the weekly meta' },
+  { label: 'Ad-Free', note: 'No ads anywhere on OWR' },
+  { label: 'Tournament Pack AI Assist', note: 'Set up your event from its pack', href: '/tournament-organisers/', isHot: true },
+  { label: 'Comp Builder', note: 'Build and import comp packs for your events', href: '/tournament-organisers/' },
+  { label: 'Live Round Draw', note: 'Reveal round 1 pairings live on the Battle Board', href: '/tournament-organisers/' },
+  { label: 'Email Communication', note: 'Email attendees and request list resubmissions', href: '/tournament-organisers/' },
+  { label: 'Bulk Army List Download', note: "Every list for your event in one PDF", href: '/tournament-organisers/' },
+  { label: 'Private Tournaments', note: 'Coming soon', href: '/tournament-organisers/' },
+  { label: 'Presale Dates', note: 'Coming soon', href: '/tournament-organisers/' },
+  { label: 'Advanced Stats', note: 'Coming soon' },
+  { label: 'Profile Customization', note: 'Coming soon' },
+  { label: 'Priority Support', note: 'Your questions answered first' },
 ];
 
 ---
@@ -98,11 +101,14 @@ const proFeatures: { label: string; note?: string; isNew?: boolean; isHot?: bool
           </p>
           <ul class="space-y-4 flex-grow">
             {freeFeatures.map((f) => (
-              <li class="flex items-center gap-3 text-gray-700 dark:text-gray-300">
-                <svg class="h-5 w-5 text-green-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <li class="flex items-start gap-3 text-gray-700 dark:text-gray-300">
+                <svg class="h-5 w-5 mt-0.5 text-green-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
-                {f.label}
+                <span>
+                  {f.href ? <a href={f.href} class="underline decoration-dotted underline-offset-4 hover:decoration-solid">{f.label}</a> : f.label}
+                  {f.note && <span class="block text-xs text-gray-500 dark:text-gray-400">{f.note}</span>}
+                </span>
                 {f.isNew && <span class="text-[10px] px-1.5 py-0.5 rounded-full bg-green-500 text-white font-semibold">NEW</span>}
               </li>
             ))}
@@ -130,11 +136,14 @@ const proFeatures: { label: string; note?: string; isNew?: boolean; isHot?: bool
           <p class="text-xs text-gray-400 dark:text-gray-500 mb-6" data-billing-note><span data-note-text>Billed yearly (6 months free).</span><span data-promo-only><span data-was-wrap> <s data-was></s></span></span></p>
           <ul class="space-y-4 flex-grow">
             {proFeatures.map((f) => (
-              <li class:list={["flex items-center gap-3", f.isNew ? "text-gray-900 dark:text-white font-semibold" : "text-gray-700 dark:text-gray-300"]}>
-                <svg class:list={["h-5 w-5 shrink-0", f.isNew ? "text-owr-gold" : "text-owr-gold-dark dark:text-owr-gold"]} fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <li class:list={["flex items-start gap-3", f.isNew ? "text-gray-900 dark:text-white font-semibold" : "text-gray-700 dark:text-gray-300"]}>
+                <svg class:list={["h-5 w-5 mt-0.5 shrink-0", f.isNew ? "text-owr-gold" : "text-owr-gold-dark dark:text-owr-gold"]} fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
-                <span>{f.label}{f.note && <span class="block text-xs font-normal text-gray-500 dark:text-gray-400">{f.note}</span>}</span>
+                <span>
+                  {f.href ? <a href={f.href} class="underline decoration-dotted underline-offset-4 hover:decoration-solid">{f.label}</a> : f.label}
+                  {f.note && <span class="block text-xs font-normal text-gray-500 dark:text-gray-400">{f.note}</span>}
+                </span>
                 {f.isNew && <span class="text-[10px] px-1.5 py-0.5 rounded-full bg-owr-gold text-gray-900 font-semibold">NEW</span>}
                 {f.isHot && <span class="text-[10px] px-1.5 py-0.5 rounded-full bg-owr-gold text-gray-900 font-semibold">HOT</span>}
               </li>

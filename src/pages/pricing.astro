@@ -7,7 +7,7 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
 
 const freeFeatures = [
   { label: 'Tournament hosting', isNew: true },
-  { label: 'Battle Builder', isNew: true },
+  { label: 'Battle Builder & Battle Scorer', isNew: true },
   { label: 'View rankings & stats' },
   { label: 'Browse army lists' },
   { label: 'Register for tournaments' },
@@ -17,22 +17,30 @@ const freeFeatures = [
   { label: 'Community features' },
 ];
 
-const proFeatures = [
+const proFeatures: { label: string; note?: string; isNew?: boolean; isHot?: boolean }[] = [
   { label: 'Everything in Free' },
-  { label: 'Digital Lists', isNew: true },
-  { label: 'Army Builder Sync', isHot: true },
-  { label: 'Early Army List Access', isHot: true },
+  { label: 'Cloud Sync & Unit Library', isHot: true },
   { label: 'Battle Hub Scorer', isHot: true },
-  { label: 'Tournament Pack AI Assist', isHot: true },
-  { label: 'Private Tournaments' },
-  { label: 'Presale Dates' },
+  { label: 'Battle Scorer Game History', isNew: true },
+  { label: 'Game Notes & Photos', isNew: true },
+  { label: 'Who Has It?', note: 'Find every unit in your list that has a given item or rule', isNew: true },
+  { label: 'Army List Glossary', isNew: true },
+  { label: 'List Branching', isNew: true },
+  { label: 'Matchup Ratings', isNew: true },
+  { label: 'Digital Lists', isNew: true },
+  { label: 'Early Army List Access', isHot: true },
   { label: 'Advanced Army Filters' },
-  { label: 'Advanced Stats' },
-  { label: 'Profile Customization' },
   { label: 'Notifications' },
   { label: 'Ad-Free' },
-  { label: 'Bulk Army List Download' },
+  { label: 'Tournament Pack AI Assist', isHot: true },
+  { label: 'Comp Builder' },
+  { label: 'Live Round Draw' },
   { label: 'Email Communication' },
+  { label: 'Bulk Army List Download' },
+  { label: 'Private Tournaments' },
+  { label: 'Presale Dates' },
+  { label: 'Advanced Stats' },
+  { label: 'Profile Customization' },
   { label: 'Priority Support' },
 ];
 
@@ -126,7 +134,7 @@ const proFeatures = [
                 <svg class:list={["h-5 w-5 shrink-0", f.isNew ? "text-owr-gold" : "text-owr-gold-dark dark:text-owr-gold"]} fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
-                <span>{f.label}</span>
+                <span>{f.label}{f.note && <span class="block text-xs font-normal text-gray-500 dark:text-gray-400">{f.note}</span>}</span>
                 {f.isNew && <span class="text-[10px] px-1.5 py-0.5 rounded-full bg-owr-gold text-gray-900 font-semibold">NEW</span>}
                 {f.isHot && <span class="text-[10px] px-1.5 py-0.5 rounded-full bg-owr-gold text-gray-900 font-semibold">HOT</span>}
               </li>

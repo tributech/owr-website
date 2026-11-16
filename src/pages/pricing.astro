@@ -8,16 +8,15 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || 'https://oldworldrankings.com'
 type Feature = { label: string; note?: string; href?: string; isNew?: boolean; isHot?: boolean };
 
 const freeFeatures: Feature[] = [
-  { label: 'Battle Scorer', note: 'Score both armies turn by turn, one saved game at a time', href: '/battle-scorer/', isNew: true },
   { label: 'Battle Builder', note: 'Build, check and submit your army lists', href: `${APP_URL}/builder`, isNew: true },
+  { label: 'Battle Scorer', note: 'Score both armies turn by turn, one saved game at a time', href: '/battle-scorer/', isNew: true },
   { label: 'Tournament hosting', note: 'Registrations, list checks, pairings and results', href: '/tournament-organisers/', isNew: true },
+  { label: 'Region and global rankings', note: 'Where every player stands, in your region and worldwide', href: `${APP_URL}/global_rankings` },
+  { label: 'Faction stats', note: 'Win rates, trends and leaderboards for every faction', href: `${APP_URL}/faction_stats/v2` },
+  { label: 'Galleries', note: 'Painted armies and photos from events', href: `${APP_URL}/galleries` },
   { label: 'Army List Glossary', note: 'Look up terms on 5 army lists a week' },
-  { label: 'Rankings & stats', note: 'Global and regional rankings for every player' },
   { label: 'Browse army lists', note: 'Lists from past events once they are published' },
-  { label: 'Register for tournaments', note: 'Find events and sign up on OWR' },
   { label: 'Play in tournaments', note: 'Pairings and results in the Battle Hub on the day' },
-  { label: 'Faction statistics', note: 'Win rates and trends for every faction' },
-  { label: 'Faction leaderboards', note: 'The top players for each faction' },
   { label: 'Community features' },
 ];
 
